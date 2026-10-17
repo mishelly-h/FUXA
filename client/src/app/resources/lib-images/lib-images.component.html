@@ -13,9 +13,7 @@
 
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                @for (let
-                     item of grpImages.items; track let
-                     item) {
+                @for (item of grpImages.items; track item) {
 <div
                      (click)="onSelect(item.path)"
                      class="lib-image-item"

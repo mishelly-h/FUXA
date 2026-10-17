@@ -74,7 +74,7 @@
         
 }
         
-        @if (withPosition(item.action)) {
+        @if (withPosition($any(item.action))) {
 <div class="table mt8">
             <div class="my-form-field lbk">
                 <span>{{'general-x' | translate}}</span>
@@ -113,7 +113,7 @@
         </div>
     </div>
 }
-    @if (destinationWithHideClose(item.action)) {
+    @if (destinationWithHideClose($any(item.action))) {
 <div class="my-form-field lbk ml10 tac" style="max-width: 60px; vertical-align: top;">
         <span>{{'gauges.property-event-destination-hide-close' | translate}}</span>
         <mat-slide-toggle color="primary" [(ngModel)]="item.actoptions.hideClose"></mat-slide-toggle>
@@ -204,7 +204,7 @@
                 <input numberOnly [(ngModel)]="item.actoptions.scale" type="number" style="width: 60px">
             </div>
 }
-            @if (withPosition(item.action)) {
+            @if (withPosition($any(item.action))) {
 <div class="block mt5">
                 <div class="my-form-field">
                     <span>{{'general-x' | translate}}</span>
