@@ -22,17 +22,21 @@
                             <div class="my-form-field" style="width: 120px;">
                                 <span>{{'slider.property-orientation' | translate}}</span>
                                 <mat-select [(value)]="options.orientation" (selectionChange)="setSliderOptions()">
-                                    <mat-option *ngFor="let ev of orientationType | enumToArray" [value]="ev.key">
+                                    @for (ev of orientationType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                         {{ ev.value }}
                                     </mat-option>
+}
                                 </mat-select>
                             </div>
                             <div class="my-form-field" style="width: 120px;margin-left: 20px;">
                                 <span>{{'slider.property-direction' | translate}}</span>
                                 <mat-select [(value)]="options.direction" (selectionChange)="setSliderOptions()">
-                                    <mat-option *ngFor="let ev of directionType | enumToArray" [value]="ev.key">
+                                    @for (ev of directionType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                         {{ ev.value }}
                                     </mat-option>
+}
                                 </mat-select>
                             </div>
                         </div>
@@ -40,9 +44,11 @@
                             <div class="my-form-field" style="width:163px">
                                 <span>{{'slider.property-font' | translate}}</span>
                                 <mat-select [(value)]="options.fontFamily" (selectionChange)="onChangeOptions('fontFamily',  $event.value)">
-                                    <mat-option *ngFor="let font of fonts" [style.fontFamily]="font" [value]="font">
+                                    @for (font of fonts; track font) {
+<mat-option [style.fontFamily]="font" [value]="font">
                                         {{font}}
                                     </mat-option>
+}
                                 </mat-select>
                             </div>
                         </div>
@@ -156,9 +162,11 @@
                             <div class="my-form-field" style="width: 80px;">
                                 <span>{{'slider.property-tooltip' | translate}}</span>
                                 <mat-select [(value)]="options.tooltip.type" (selectionChange)="onChangeOptions('tooltipType', options.tooltip.type)">
-                                    <mat-option *ngFor="let ev of tooltipType | enumToArray" [value]="ev.key">
+                                    @for (ev of tooltipType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                         {{ ev.value }}
                                     </mat-option>
+}
                                 </mat-select>
                             </div>
                             <div class="my-form-field slider-field color-field" style="padding-left: 17px">

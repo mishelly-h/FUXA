@@ -2,7 +2,8 @@
     <h1 mat-dialog-title class="dialog-title" mat-dialog-draggable>{{'tags.ids-config-title' | translate}}</h1>
     <mat-icon (click)="onCancelClick()" class="dialog-close-btn">clear</mat-icon>
     <div mat-dialog-content class="content">
-        <div *ngFor="let tagIdRef of data.tagsIds" class="tag-Id-ref">
+        @for (tagIdRef of data.tagsIds; track tagIdRef) {
+<div class="tag-Id-ref">
             <flex-variable [data]="data" 
                            [variableId]="tagIdRef.srcId" 
                            [withStaticValue]="false" 
@@ -17,6 +18,7 @@
                            [withBitmask]="false">
             </flex-variable>
         </div>
+}
     </div>
     <div mat-dialog-actions class="dialog-action">
         <button mat-raised-button (click)="onCancelClick()">{{'dlg.cancel' | translate}}</button>

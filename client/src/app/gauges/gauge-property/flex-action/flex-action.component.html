@@ -1,18 +1,25 @@
-<div *ngFor="let item of actions; index as i" class="item">
+@for (item of actions; track item; let i = $index) {
+<div class="item">
     <flex-variable class="item-head" [data]="data" (onchange)="setVariable(i, $event)" [variableId]="item.variableId" [withStaticValue]="false"
     [withBitmask]="withBitmask && !isMoveByTags(item)" [bitmask]="item.bitmask">
     </flex-variable>
     <div class="action-content">
-        <div *ngIf="slideView && !isMoveByTags(item)" class="item-range">
+        @if (slideView && !isMoveByTags(item)) {
+<div class="item-range">
             <range-number [range]="item.range"></range-number>
         </div>
-        <div *ngIf="slideView && isMoveByTags(item)" class="item-range item-range-placeholder"></div>
+}
+        @if (slideView && isMoveByTags(item)) {
+<div class="item-range item-range-placeholder"></div>
+}
         <div class="my-form-field" style="width: 278px;">
             <span>{{'gauges.property-action-type' | translate}}</span>
             <mat-select [(value)]="item.type" (selectionChange)="onCheckActionType(item.type, item)">
-                <mat-option *ngFor="let ev of actionsSupported | enumToArray" [value]="ev.key">
+                @for (ev of actionsSupported | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                     {{ ev.value }}
                 </mat-option>
+}
             </mat-select>
         </div>
         <div class="item-remove">
@@ -20,8 +27,10 @@
                 <mat-icon>clear</mat-icon>
             </button>
         </div>
-        <div [ngSwitch]="item.type">
-            <div *ngSwitchCase="actionBlink" class="action-params">
+        <div>
+@switch (item.type) {
+            @case (actionBlink) {
+<div class="action-params">
                 <div class="my-form-field">
                     <span>{{'gauges.property-input-color' | translate}}</span>
                     <input [(colorPicker)]="item.options.fillA" [value]="item.options.fillA" [style.background]="item.options.fillA" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true"
@@ -51,9 +60,13 @@
                         style="width:70px;" [cpPosition]="'auto'" [cpAlphaChannel]="'always'" [cpOutputFormat]="'hex'"/>
                 </div>
             </div>
-        </div>
-        <div [ngSwitch]="item.type">
-            <div *ngSwitchCase="actionRotate" class="action-params">
+}
+        }
+</div>
+        <div>
+@switch (item.type) {
+            @case (actionRotate) {
+<div class="action-params">
                 <div class="my-form-field" style="padding-right: 10px;">
                     <span>{{'gauges.property-action-minAngle' | translate}}</span>
                     <input numberOnly [(ngModel)]="item.options.minAngle" type="number" style="width: 70px">
@@ -63,7 +76,9 @@
                     <input numberOnly [(ngModel)]="item.options.maxAngle" type="number" style="width: 70px">
                 </div>
             </div>
-            <div *ngSwitchCase="actionMove" class="action-params">
+}
+            @case (actionMove) {
+<div class="action-params">
                 <div class="my-form-field mr10">
                     <span>{{'gauges.property-action-toX' | translate}}</span>
                     <input numberOnly [(ngModel)]="item.options.toX" type="number" style="width: 70px">
@@ -77,7 +92,9 @@
                     <input numberOnly [(ngModel)]="item.options.duration" type="number" style="width: 70px">
                 </div>
             </div>
-            <div *ngSwitchCase="actionMoveByTags" class="action-params move-by-tags">
+}
+            @case (actionMoveByTags) {
+<div class="action-params move-by-tags">
                 <div class="my-form-field mr10">
                     <span>{{'gauges.property-action-axis' | translate}}</span>
                     <mat-select [(value)]="item.options.axis" style="width: 80px">
@@ -106,12 +123,17 @@
                     <input numberOnly [(ngModel)]="item.options.duration" type="number" style="width: 70px">
                 </div>
             </div>
-            <div *ngSwitchCase="actionLoadImage" class="action-params">
+}
+            @case (actionLoadImage) {
+<div class="action-params">
                 <div class="my-form-field">
                     <span>{{'gauges.property-action-image-url' | translate}}</span>
                     <input [(ngModel)]="item.options.url" type="text" style="width: 420px">
                 </div>
             </div>
-        </div>
+}
+        }
+</div>
     </div>
 </div>
+}

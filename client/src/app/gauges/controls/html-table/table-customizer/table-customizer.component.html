@@ -3,7 +3,8 @@
     <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
     <div mat-dialog-content>
         <mat-table #table [dataSource]="dataSource" matSort class="customer-table" style="min-width: 900px; height: 500px; display: block; overflow: auto;">
-            <ng-container *ngFor="let column of displayedColumns; index as i" [matColumnDef]="column">
+            @for (column of displayedColumns; track column; let i = $index) {
+<ng-container [matColumnDef]="column">
                 <mat-header-cell *matHeaderCellDef>
                     <div class="data-table-cell">
                         <span style="display: block; font-size: 12px;">{{getColumnType(i)}} </span>
@@ -32,7 +33,8 @@
                     </mat-menu>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" >
-                    <mat-cell *ngIf="i === 0" class="data-table-edit-row">
+                    @if (i === 0) {
+<mat-cell class="data-table-edit-row">
                         <button mat-icon-button [matMenuTriggerFor]="rowMenu" (click)="$event.stopPropagation()" class="row-options">
                             <mat-icon>more_vert</mat-icon>
                         </button>
@@ -51,6 +53,7 @@
                             </button>
                         </mat-menu>
                     </mat-cell>
+}
                     <div class="data-table-cell">
                         <span style="display: block; font-size: 12px;">{{getCellType(element[column])}} </span>
                         <span style="display: block;">{{getCellSetting(element[column])}} </span>
@@ -60,6 +63,7 @@
                     </button>
                 </mat-cell>
             </ng-container>
+}
             <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="data-table-header"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;">
             </mat-row>
@@ -69,11 +73,13 @@
                 <mat-icon>add_circle_outline</mat-icon>
             </button>
         </div>
-        <div *ngIf="data.type === tableType.data" class="toolbox-row">
+        @if (data.type === tableType.data) {
+<div class="toolbox-row">
             <button mat-icon-button (click)="onAddRow()" matTooltip="{{'table.customize-row-add' | translate}}">
                 <mat-icon>add_circle_outline</mat-icon>
             </button>
         </div>
+}
     </div>
     <div mat-dialog-actions class="dialog-action">
         <button mat-raised-button (click)="onNoClick()" cdkFocusInitial>{{'dlg.cancel' | translate}}</button>

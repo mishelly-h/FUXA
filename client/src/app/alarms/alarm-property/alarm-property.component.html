@@ -1,10 +1,13 @@
 <div style="position: relative;">
     <h1 mat-dialog-title class="dialog-title" mat-dialog-draggable>{{'alarm.property-title' | translate}}</h1>
     <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
-    <div mat-dialog-content *ngIf="data.editmode < 0">
+    @if (data.editmode < 0) {
+<div mat-dialog-content>
         {{'msg.alarm-remove' | translate}} '{{data.alarm.name}}' ?
     </div>
-    <div mat-dialog-content *ngIf="data.editmode >= 0">
+}
+    @if (data.editmode >= 0) {
+<div mat-dialog-content>
         <div style="display: block;width: 680px; padding-bottom: 20px;">
             <div style="display: block;">
                 <flex-auth [name]="data.alarm.name" [permission]="property.permission" [permissionRoles]="property.permissionRoles" #flexauth></flex-auth>
@@ -14,10 +17,14 @@
             </div>
         </div>
         <mat-autocomplete #textAuto="matAutocomplete">
-            <mat-option *ngFor="let option of existtexts" [value]="option">{{option}}</mat-option>
+            @for (option of existtexts; track option) {
+<mat-option [value]="option">{{option}}</mat-option>
+}
         </mat-autocomplete>
         <mat-autocomplete #groupAuto="matAutocomplete">
-            <mat-option *ngFor="let option of existgroups" [value]="option">{{option}}</mat-option>
+            @for (option of existgroups; track option) {
+<mat-option [value]="option">{{option}}</mat-option>
+}
         </mat-autocomplete>
         <mat-tab-group style="width: 100%;min-height: 320px;">
             <mat-tab label="{{'alarm.property-highhigh' | translate}}">
@@ -30,9 +37,11 @@
                         <div class="my-form-field" style="margin-bottom: 10px; float:right">
                             <span>{{'alarm.property-ackmode' | translate}}</span>
                             <mat-select [(value)]="data.alarm.highhigh.ackmode" style="width: 323px">
-                                <mat-option *ngFor="let ev of ackMode | enumToArray" [value]="ev.key">
+                                @for (ev of ackMode | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                     {{ ev.value }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                     </div>
@@ -79,9 +88,11 @@
                         <div class="my-form-field" style="margin-bottom: 10px; float:right">
                             <span>{{'alarm.property-ackmode' | translate}}</span>
                             <mat-select [(value)]="data.alarm.high.ackmode" style="width: 323px">
-                                <mat-option *ngFor="let ev of ackMode | enumToArray" [value]="ev.key">
+                                @for (ev of ackMode | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                     {{ ev.value }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                     </div>
@@ -128,9 +139,11 @@
                         <div class="my-form-field" style="margin-bottom: 10px; float:right">
                             <span>{{'alarm.property-ackmode' | translate}}</span>
                             <mat-select [(value)]="data.alarm.low.ackmode" style="width: 323px">
-                                <mat-option *ngFor="let ev of ackMode | enumToArray" [value]="ev.key">
+                                @for (ev of ackMode | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                     {{ ev.value }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                     </div>
@@ -177,9 +190,11 @@
                         <div class="my-form-field" style="margin-bottom: 10px; float:right">
                             <span>{{'alarm.property-ackmode' | translate}}</span>
                             <mat-select [(value)]="data.alarm.info.ackmode" style="width: 323px">
-                                <mat-option *ngFor="let ev of ackMode | enumToArray" [value]="ev.key">
+                                @for (ev of ackMode | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                     {{ ev.value }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                     </div>
@@ -230,7 +245,8 @@
                         </div>
                     </div>
                     <div style="max-height: 210px; overflow: auto; width:100%">
-                        <div *ngFor="let item of data.alarm.actions.values; index as i" class="action-item">
+                        @for (item of data.alarm.actions.values; track item; let i = $index) {
+<div class="action-item">
                             <div style="display: inline-table;;margin-bottom: 10px;">
                                 <div class="my-form-field" style="display: inline-block;padding-right: 13px;">
                                     <span>{{'alarm.property-checkdelay' | translate}}</span>
@@ -248,34 +264,47 @@
                                 <div class="my-form-field" style="width: 150px;">
                                     <span>{{'alarm.property-action-type' | translate}}</span>
                                     <mat-select [(value)]="item.type">
-                                        <mat-option *ngFor="let ev of actionsType | enumToArray" [value]="ev.key">
+                                        @for (ev of actionsType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                             {{ ev.value }}
                                         </mat-option>
+}
                                     </mat-select>
                                 </div>
-                                <div class="inbk" *ngIf="item.type === actionSetValue">
+                                @if (item.type === actionSetValue) {
+<div class="inbk">
                                     <div class="my-form-field ml20">
                                         <span>{{'alarm.property-action-value' | translate}}</span>
                                         <input [(ngModel)]="item.actparam" type="text" style="width: 260px">
                                     </div>
                                 </div>
-                                <div class="inbk" *ngIf="item.type === actionPopup || item.type === actionSetView">
+}
+                                @if (item.type === actionPopup || item.type === actionSetView) {
+<div class="inbk">
                                     <div class="my-form-field ml20" style="width: 260px;">
                                         <span>{{'alarm.property-action-destination' | translate}}</span>
                                         <mat-select [(value)]="item.actparam">
-                                            <mat-option *ngFor="let v of data.views; index as i" [value]="v.id">{{v.name}}</mat-option>
+                                            @for (v of data.views; track v; let i = $index) {
+<mat-option [value]="v.id">{{v.name}}</mat-option>
+}
                                         </mat-select>
                                     </div>
                                 </div>
-                                <div class="inbk" *ngIf="item.type === actionRunScript">
+}
+                                @if (item.type === actionRunScript) {
+<div class="inbk">
                                     <div class="my-form-field ml20" style="width: 260px;">
                                         <span>{{'gauges.property-event-script' | translate}}</span>
                                         <mat-select [(value)]="item.actparam" (selectionChange)="onScriptChanged($event.value, item)">
-                                            <mat-option *ngFor="let script of scripts" [value]="script.id">{{script.name}}</mat-option>
+                                            @for (script of scripts; track script) {
+<mat-option [value]="script.id">{{script.name}}</mat-option>
+}
                                         </mat-select>
                                     </div>
                                 </div>
-                                <div class="inbk" *ngIf="item.type === actionToastMessage">
+}
+                                @if (item.type === actionToastMessage) {
+<div class="inbk">
                                     <div class="my-form-field ml20">
                                         <span>{{'alarm.property-action-toastMessage' | translate}}</span>
                                         <input [(ngModel)]="item.actparam" type="text" style="width: 260px">
@@ -290,50 +319,67 @@
                                         </mat-select>
                                     </div>
                                 </div>
+}
                                 <div style="float:right">
                                     <button mat-icon-button (click)="onAlarmAction(i)">
                                         <mat-icon>clear</mat-icon>
                                     </button>
                                 </div>
                             </div>
-                            <div class="block mt5" *ngIf="item.type === actionSetValue">
+                            @if (item.type === actionSetValue) {
+<div class="block mt5">
                                 <div style="display: block;padding-left: 25px;">
                                     <flex-variable style="display: block" [data]="data" (onchange)="setActionVariable(item, $event)" [variableId]="item.variableId"
                                         [withStaticValue]="false"></flex-variable>
                                 </div>
                             </div>
-                            <div class="block mt5" *ngIf="item.type === actionRunScript">
-                                <div *ngFor="let scriptParam of item.actoptions['params']; index as i" class="ml10 mt5">
+}
+                            @if (item.type === actionRunScript) {
+<div class="block mt5">
+                                @for (scriptParam of item.actoptions['params']; track scriptParam; let i = $index) {
+<div class="ml10 mt5">
                                     <div class="my-form-field">
                                         <span>{{'gauges.property-event-script-param-name' | translate}}</span>
                                         <input [(ngModel)]="scriptParam.name" type="text" style="width: 160px" readonly [disabled]="true">
                                     </div>
                                     <div style="margin-left: 10px; display: inline-block;">
-                                        <div class="my-form-field" *ngIf="scriptParam.type === 'value'">
+                                        @if (scriptParam.type === 'value') {
+<div class="my-form-field">
                                             <span>{{'gauges.property-event-script-param-value' | translate}}</span>
                                             <input [(ngModel)]="scriptParam.value" type="text" style="width: 260px">
                                         </div>
-                                        <div class="my-form-field" *ngIf="scriptParam.type === 'tagid'">
+}
+                                        @if (scriptParam.type === 'tagid') {
+<div class="my-form-field">
                                             <flex-variable style="display: block" (onchange)="setScriptParam(scriptParam, $event)" [data]="data" [variableId]="scriptParam.value"
                                                 [withStaticValue]="false"></flex-variable>
                                         </div>
+}
                                     </div>
                                 </div>
+}
                             </div>
+}
                         </div>
+}
                     </div>
                 </div>
             </mat-tab>
         </mat-tab-group>
         <div class="mb10" style="height: 20px;">
-            <div class="message-error" *ngIf="errorExist">
+            @if (errorExist) {
+<div class="message-error">
                 <span>{{'msg.alarmproperty-error-exist' | translate}}</span>
             </div>
-            <div class="message-error" *ngIf="errorMissingValue">
+}
+            @if (errorMissingValue) {
+<div class="message-error">
                 <span>{{'msg.alarmproperty-missing-value' | translate}}</span>
             </div>
+}
         </div>
     </div>
+}
     <div mat-dialog-actions class="dialog-action">
         <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>
         <button mat-raised-button color="primary" (click)="onOkClick()" cdkFocusInitial>{{'dlg.ok' | translate}}</button>

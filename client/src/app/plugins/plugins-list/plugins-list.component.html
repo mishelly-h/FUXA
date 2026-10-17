@@ -9,8 +9,10 @@
             <div class="intro-title">{{'dlg.plugins-info' | translate}}</div>
         </div>
 
-        <div class="cards-grid" *ngIf="plugins.length; else emptyState">
-            <mat-card *ngFor="let plugin of plugins"
+        @if (plugins.length) {
+<div class="cards-grid">
+            @for (plugin of plugins; track plugin) {
+<mat-card
                       class="plugin-card"
                       [ngClass]="{
                         'is-installed': isInstalled(plugin),
@@ -43,11 +45,15 @@
                     </div>
                 </div>
 
-                <div class="card-status" *ngIf="plugin.status">{{ plugin.status }}</div>
+                @if (plugin.status) {
+<div class="card-status">{{ plugin.status }}</div>
+}
 
                 <div class="card-actions">
                     <div class="action-spinner">
-                        <mat-spinner *ngIf="plugin.working" diameter="20"></mat-spinner>
+                        @if (plugin.working) {
+<mat-spinner diameter="20"></mat-spinner>
+}
                     </div>
 
                     <button mat-stroked-button
@@ -68,13 +74,17 @@
                     </button>
                 </div>
             </mat-card>
+}
         </div>
+} @else {
 
-        <ng-template #emptyState>
             <div class="empty-state">
                 <mat-icon>extension_off</mat-icon>
                 <span>No plugins available</span>
             </div>
-        </ng-template>
+        
+}
+
+        
     </div>
 </div>

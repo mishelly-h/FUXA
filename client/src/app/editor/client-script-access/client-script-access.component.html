@@ -6,11 +6,13 @@
     <div mat-dialog-content class="dialog-content">
         <div class="info">{{'client.script-access-info' | translate}}</div>
         <div class="function-list">
-            <div class="function-item" *ngFor="let fn of scriptFunctions">
+            @for (fn of scriptFunctions; track fn) {
+<div class="function-item">
                 <mat-slide-toggle color="primary" [(ngModel)]="fn.enabled">
                     <code>{{ fn.name }}</code> <span matTooltip="{{fn.tooltip | translate}}">{{ fn.tooltip | translate }}</span>
                 </mat-slide-toggle>
             </div>
+}
         </div>
     </div>
     <div mat-dialog-actions class="dialog-action">

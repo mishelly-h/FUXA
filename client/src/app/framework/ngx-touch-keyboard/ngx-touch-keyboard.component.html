@@ -1,17 +1,18 @@
 <div dir="ltr" class="touch-keyboard" [ngClass]="'layout-' + layoutName">
-  <div *ngIf="fullScreen" class="content">
+  @if (fullScreen) {
+<div class="content">
     <span>
       {{ current }}
     </span>
   </div>
-  <ng-container
-    *ngFor="
-      let row of locale.layouts[layoutMode + '_' + layoutName];
-      let rowIndex = index
-    "
-  >
+}
+  @for (
+      row of locale.layouts[layoutMode + '_' + layoutName]; track 
+      row; let rowIndex = $index) {
+
     <div class="touch-keyboard-row">
-      <ng-container *ngFor="let key of row; let keyIndex = index">
+      @for (key of row; track key; let keyIndex = $index) {
+
         <button
           [name]="key"
           [dir]="locale.dir"
@@ -25,7 +26,9 @@
           (pointercancel)="handleButtonMouseUp(key, $event)"
           [innerHtml]="getButtonDisplayName(key)"
         ></button>
-      </ng-container>
+      
+}
     </div>
-  </ng-container>
+  
+}
 </div>

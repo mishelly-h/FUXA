@@ -47,9 +47,13 @@
                             <mat-icon>add_circle_outline</mat-icon>
                         </button>
                         <mat-menu #devicesMenu [overlapTrigger]="false">
-                            <ng-container *ngFor="let device of devices">
-                                <button *ngIf="isDeviceTagEditable(device.type)" mat-menu-item (click)="onAddDeviceTag(device)">{{ device.name }}</button>
-                            </ng-container>
+                            @for (device of devices; track device) {
+
+                                @if (isDeviceTagEditable(device.type)) {
+<button mat-menu-item (click)="onAddDeviceTag(device)">{{ device.name }}</button>
+}
+                            
+}
                         </mat-menu>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element" style="padding-right: 0px;">

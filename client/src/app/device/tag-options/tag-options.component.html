@@ -32,35 +32,46 @@
         <div class="my-form-field item-block mt10">
             <span>{{'device.tag-uns-path' | translate}}</span>
             <input formControlName="unsPath" type="text">
-            <span *ngIf="formGroup.controls.unsPath.errors?.unsPathExists" class="form-input-error">
+            @if (formGroup.controls.unsPath.errors?.unsPathExists) {
+<span class="form-input-error">
                 {{'msg.device-tag-exist' | translate}}
             </span>
+}
         </div>
-        <div *ngIf="!isFuxaServerTag()">
+        @if (!isFuxaServerTag()) {
+<div>
             <div class="my-form-field item-block mt10">
                 <span>{{'device.tag-scale' | translate}}</span>
                 <mat-select formControlName="scaleMode">
-                    <mat-option *ngFor="let ev of scaleModeType | enumToArray"
+                    @for (ev of scaleModeType | enumToArray; track ev) {
+<mat-option
                                 [attr.title]="(ev.value + '-tooltip') | translate"
                                 [value]="ev.key">
                         {{ ev.value | translate }}
                     </mat-option>
+}
                 </mat-select>
             </div>
-            <ng-container [ngSwitch]="formGroup.controls.scaleMode.value">
-                <ng-container *ngSwitchCase="'convertDateTime'">
+            
+@switch (formGroup.controls.scaleMode.value) {
+                @case ('convertDateTime') {
+
                     <div class="my-form-field item-block mt5">
                         <span>{{'device.tag-convert-datetime-format' | translate}}</span>
                         <input formControlName="dateTimeFormat">
                     </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'convertTickTime'">
+                
+}
+                @case ('convertTickTime') {
+
                     <div class="my-form-field item-block mt5">
                         <span>{{'device.tag-convert-ticktime-format' | translate}}</span>
                         <input formControlName="dateTimeFormat">
                     </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'linear'">
+                
+}
+                @case ('linear') {
+
                     <div class="block mt5">
                         <div class="my-form-field">
                             <span>{{'device.tag-raw-low' | translate}}</span>
@@ -81,8 +92,10 @@
                             <input formControlName="scaledHigh" type="number" style="width:140px">
                         </div>
                     </div>
-                </ng-container>
-                <ng-container *ngSwitchCase="'expression'">
+                
+}
+                @case ('expression') {
+
                     <div class="my-form-field item-block mt5">
                         <span>{{'device.tag-scale-read-expression' | translate}}</span>
                         <input formControlName="scaleReadExpression">
@@ -91,49 +104,64 @@
                         <span>{{'device.tag-scale-write-expression' | translate}}</span>
                         <input formControlName="scaleWriteExpression">
                     </div>
-                </ng-container>
-            </ng-container>
+                
+}
+            }
+
             <div class="my-form-field item-block mt10">
                 <span>{{'device.tag-scale-read-script' | translate}}</span>
                 <mat-select formControlName="scaleReadFunction"
                             matTooltip="{{'device.tag-scale-read-script-tooltip' | translate}}">
                     <mat-option (click)="formGroup.controls.scaleReadFunction.reset()"></mat-option>
-                    <mat-option *ngFor="let script of scripts; index as i" [value]="script.id">{{script.name}}</mat-option>
+                    @for (script of scripts; track script; let i = $index) {
+<mat-option [value]="script.id">{{script.name}}</mat-option>
+}
                 </mat-select>
             </div>
-            <div *ngIf="configedReadParams[formGroup.value.scaleReadFunction]?.length > 0"
+            @if (configedReadParams[formGroup.value.scaleReadFunction]?.length > 0) {
+<div
                     class="my-form-field block mt5 ml15">
                 <span>{{'device.tag-scale-read-script-params' | translate}}</span>
                 <div matTooltip="{{'device.tag-scale-script-params-tooltip' | translate}}">
-                    <div *ngFor="let item of configedReadParams[formGroup.value.scaleReadFunction]"
+                    @for (item of configedReadParams[formGroup.value.scaleReadFunction]; track item) {
+<div
                             class="item-param mt5">
                         <input [value]="item.name" matTooltip="item.name" type="text" readonly [disabled]="true">
                         <input [(ngModel)]="item.value" class="ml5"
                                 [ngModelOptions]="{standalone: true}">
                     </div>
+}
                 </div>
             </div>
+}
             <div class="my-form-field item-block mt10">
                 <span>{{'device.tag-scale-write-script' | translate}}</span>
                 <mat-select formControlName="scaleWriteFunction"
                             matTooltip="{{'device.tag-scale-write-script-tooltip' | translate}}">
                     <mat-option (click)="formGroup.controls.scaleWriteFunction.reset()"></mat-option>
-                    <mat-option *ngFor="let script of scripts; index as i" [value]="script.id">{{script.name}}</mat-option>
+                    @for (script of scripts; track script; let i = $index) {
+<mat-option [value]="script.id">{{script.name}}</mat-option>
+}
                 </mat-select>
             </div>
-            <div *ngIf="configedWriteParams[formGroup.value.scaleWriteFunction]?.length > 0"
+            @if (configedWriteParams[formGroup.value.scaleWriteFunction]?.length > 0) {
+<div
                     class="my-form-field block mt5 ml15">
                 <span>{{'device.tag-scale-write-script-params' | translate}}</span>
                 <div matTooltip="{{'device.tag-scale-script-params-tooltip' | translate}}">
-                    <div *ngFor="let item of configedWriteParams[formGroup.value.scaleWriteFunction]"
+                    @for (item of configedWriteParams[formGroup.value.scaleWriteFunction]; track item) {
+<div
                             class="item-param mt5">
                         <input [value]="item.name" matTooltip="item.name" type="text" readonly [disabled]="true">
                         <input [(ngModel)]="item.value" class="ml5"
                                 [ngModelOptions]="{standalone: true}">
                     </div>
+}
                 </div>
             </div>
+}
         </div>
+}
     </div>
     <div mat-dialog-actions class="dialog-action">
         <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>

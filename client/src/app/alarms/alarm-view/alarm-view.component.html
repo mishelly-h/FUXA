@@ -1,10 +1,14 @@
 <div class="header-panel">
-    <div *ngIf="showType === alarmShowType.alarms">
+    @if (showType === alarmShowType.alarms) {
+<div>
         {{'alarms.view-title' | translate}}
     </div>
-    <div *ngIf="showType === alarmShowType.history">
+}
+    @if (showType === alarmShowType.history) {
+<div>
         {{'alarms.history-title' | translate}}
     </div>
+}
 </div>
 <div class="work-panel" [ngStyle]="{'height': (!showInContainer && (fullview || currentShowMode === 'expand')) ? 'calc(100% - 83px)' : 'calc(100% - 37px)'}">
     <div class="table-container">
@@ -44,9 +48,11 @@
                     </button>
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [style.color]="element.color">
-                    <button mat-icon-button (click)="onAckAlarm(element)" *ngIf="element.toack >= 0" [disabled]="element.toack === 0" class="remove">
+                    @if (element.toack >= 0) {
+<button mat-icon-button (click)="onAckAlarm(element)" [disabled]="element.toack === 0" class="remove">
                         <mat-icon>check_circle_outline</mat-icon>
                     </button>
+}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="userack">
@@ -55,7 +61,8 @@
             </ng-container>
             <ng-container matColumnDef="history">
                 <mat-header-cell *matHeaderCellDef [style.flex]="(showInContainer) ? '0 0 10px' : '0 0 120px'">
-                    <div class="header-tools" *ngIf="!fullview || showInContainer">
+                    @if (!fullview || showInContainer) {
+<div class="header-tools">
                         <button mat-icon-button [matMenuTriggerFor]="optionsgMenu" class="header-tools-options">
                             <mat-icon>more_vert</mat-icon>
                         </button>
@@ -63,18 +70,25 @@
                             <button mat-menu-item (click)="onShowAlarms()" style="font-size: 14px;">{{'alarms.show-current' | translate}}</button>
                             <button mat-menu-item (click)="picker.open()" style="font-size: 14px;">{{'alarms.show-history' | translate}}</button>
                         </mat-menu>
-                        <div style="display: inline-block;padding-left: unset;" *ngIf="!showInContainer">
-                            <button mat-icon-button (click)="$event.stopPropagation();onShowMode('expand')" *ngIf="currentShowMode === 'collapse'" class="header-tools-options">
+                        @if (!showInContainer) {
+<div style="display: inline-block;padding-left: unset;">
+                            @if (currentShowMode === 'collapse') {
+<button mat-icon-button (click)="$event.stopPropagation();onShowMode('expand')" class="header-tools-options">
                                 <mat-icon>fullscreen</mat-icon>
                             </button>
-                            <button mat-icon-button (click)="$event.stopPropagation();onShowMode('collapse')" *ngIf="currentShowMode === 'expand'" class="header-tools-options">
+}
+                            @if (currentShowMode === 'expand') {
+<button mat-icon-button (click)="$event.stopPropagation();onShowMode('collapse')" class="header-tools-options">
                                 <mat-icon>fullscreen_exit</mat-icon>
                             </button>
+}
                             <button mat-icon-button (click)="onClose();$event.stopPropagation()" class="header-tools-options">
                                 <mat-icon>clear</mat-icon>
                             </button>
                         </div>
+}
                     </div>
+}
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" [style.color]="element.color" [style.flex]="(showInContainer) ? '0 0 10px' : '0 0 120px'"></mat-cell>
             </ng-container>
@@ -83,9 +97,11 @@
         </mat-table>
     </div>
     <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="table-pagination"></mat-paginator>
-    <div *ngIf="alarmsLoading" class="spinner-overlay">
+    @if (alarmsLoading) {
+<div class="spinner-overlay">
         <mat-spinner style="margin: auto" diameter="40" class="spinner"></mat-spinner>
     </div>
+}
     <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker" style="display: none;">
         <input matStartDate formControlName="startDate">
         <input matEndDate formControlName="endDate">
