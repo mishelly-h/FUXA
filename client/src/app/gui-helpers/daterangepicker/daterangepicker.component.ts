@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
 import {
     Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef
 } from '@angular/core';

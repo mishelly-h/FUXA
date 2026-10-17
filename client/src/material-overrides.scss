@@ -78,7 +78,7 @@
 }
 
 .mat-mdc-tab:not(.mdc-tab--stacked) {
-  --mdc-secondary-navigation-tab-container-height: 32px;
+  --mat-tab-container-height: 32px;
   height: 32px;
   min-height: 32px;
 }
@@ -94,7 +94,7 @@
 }
 
 .cdk-overlay-container .mat-mdc-select-panel {
-  --mdc-list-list-item-one-line-height: var(--select-option-height);
+  --mat-list-list-item-one-line-height: var(--select-option-height);
   padding-top: 0;
   padding-bottom: 0;
 }
@@ -129,8 +129,8 @@
 /* Base icon-button size + ripple/touch area */
 button.mat-mdc-icon-button,
 a.mat-mdc-icon-button {
-  --mdc-icon-button-size: 30px;               /* button size var */
-  --mdc-icon-button-state-layer-size: 30px;   /* ripple/hover layer */
+  --mat-icon-button-size: 30px;               /* button size var */
+  --mat-icon-button-state-layer-size: 30px;   /* ripple/hover layer */
   width: 30px;
   height: 30px;
   padding: 0;

@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, Inject } from '@angular/core';
-import { DOCUMENT, Location } from '@angular/common';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, Inject, DOCUMENT } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, Subscription, combineLatest, fromEvent, map, merge, of, startWith, switchMap, takeUntil, timer } from 'rxjs';

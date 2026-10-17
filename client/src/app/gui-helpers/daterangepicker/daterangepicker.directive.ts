@@ -1,5 +1,4 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
-/* eslint @angular-eslint/no-host-metadata-property: off */
 import {
   Directive,
   ViewContainerRef,
