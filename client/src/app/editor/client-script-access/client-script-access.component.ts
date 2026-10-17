@@ -7,7 +7,8 @@ import { ClientAccess } from '../../_models/client-access';
 @Component({
     selector: 'app-client-script-access',
     templateUrl: './client-script-access.component.html',
-    styleUrls: ['./client-script-access.component.scss']
+    styleUrls: ['./client-script-access.component.scss'],
+    standalone: false
 })
 export class ClientScriptAccessComponent implements OnInit {
 

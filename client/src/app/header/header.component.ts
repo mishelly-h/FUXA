@@ -23,7 +23,8 @@ const saveFromEditorRouteKey = ['/device', '/messages', '/language', '/users', '
 @Component({
     selector: 'app-header',
     templateUrl: 'header.component.html',
-    styleUrls: ['header.component.scss']
+    styleUrls: ['header.component.scss'],
+    standalone: false
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
 
@@ -236,6 +237,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 @Component({
     selector: 'dialog-info',
     templateUrl: 'info.dialog.html',
+    standalone: false
 })
 export class DialogInfo {
     constructor(

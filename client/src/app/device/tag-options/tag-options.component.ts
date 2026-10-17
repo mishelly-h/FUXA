@@ -14,7 +14,8 @@ class ScriptAndParam extends ScriptParam {
     selector: 'app-tag-options',
     templateUrl: './tag-options.component.html',
     styleUrls: ['./tag-options.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TagOptionsComponent implements OnInit, OnDestroy {
 

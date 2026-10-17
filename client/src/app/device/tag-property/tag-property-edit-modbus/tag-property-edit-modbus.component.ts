@@ -8,7 +8,8 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
     selector: 'app-tag-property-edit-modbus',
     templateUrl: './tag-property-edit-modbus.component.html',
-    styleUrls: ['./tag-property-edit-modbus.component.scss']
+    styleUrls: ['./tag-property-edit-modbus.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditModbusComponent implements OnInit, OnDestroy {
     @Output() result = new EventEmitter<any>();

@@ -4,7 +4,8 @@ import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from
 @Component({
     selector: 'app-confirm-dialog',
     templateUrl: './confirm-dialog.component.html',
-    styleUrls: ['./confirm-dialog.component.css']
+    styleUrls: ['./confirm-dialog.component.css'],
+    standalone: false
 })
 export class ConfirmDialogComponent {
 

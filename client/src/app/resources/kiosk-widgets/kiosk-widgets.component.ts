@@ -10,7 +10,8 @@ import { ToastNotifierService } from '../../_services/toast-notifier.service';
 @Component({
     selector: 'app-kiosk-widgets',
     templateUrl: './kiosk-widgets.component.html',
-    styleUrls: ['./kiosk-widgets.component.scss']
+    styleUrls: ['./kiosk-widgets.component.scss'],
+    standalone: false
 })
 export class KioskWidgetsComponent implements OnInit {
 

@@ -8,7 +8,8 @@ import { ProjectService } from '../../../_services/project.service';
 @Component({
     selector: 'flex-actions-standalone',
     templateUrl: './flex-actions-standalone.component.html',
-    styleUrls: ['./flex-actions-standalone.component.scss']
+    styleUrls: ['./flex-actions-standalone.component.scss'],
+    standalone: false
 })
 export class FlexActionsStandaloneComponent implements OnInit {
 

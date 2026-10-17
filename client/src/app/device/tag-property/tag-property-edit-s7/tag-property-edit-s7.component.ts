@@ -7,7 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-tag-property-edit-s7',
     templateUrl: './tag-property-edit-s7.component.html',
-    styleUrls: ['./tag-property-edit-s7.component.scss']
+    styleUrls: ['./tag-property-edit-s7.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditS7Component implements OnInit {
 

@@ -14,7 +14,8 @@ import { FlexEventComponent } from '../../../gauge-property/flex-event/flex-even
 @Component({
     selector: 'app-html-switch-property',
     templateUrl: './html-switch-property.component.html',
-    styleUrls: ['./html-switch-property.component.scss']
+    styleUrls: ['./html-switch-property.component.scss'],
+    standalone: false
 })
 export class HtmlSwitchPropertyComponent implements OnInit, AfterViewInit {
 

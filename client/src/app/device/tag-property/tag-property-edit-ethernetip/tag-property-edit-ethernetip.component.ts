@@ -8,7 +8,8 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-tag-property-edit-ethernetip',
     templateUrl: './tag-property-edit-ethernetip.component.html',
-    styleUrls: ['./tag-property-edit-ethernetip.component.scss']
+    styleUrls: ['./tag-property-edit-ethernetip.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditEthernetipComponent implements OnInit, OnDestroy {
     @Output() result = new EventEmitter<any>();

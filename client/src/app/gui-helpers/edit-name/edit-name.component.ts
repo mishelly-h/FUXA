@@ -4,7 +4,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
     selector: 'app-edit-name',
     templateUrl: './edit-name.component.html',
-    styleUrls: ['./edit-name.component.css']
+    styleUrls: ['./edit-name.component.css'],
+    standalone: false
 })
 export class EditNameComponent {
     error = '';

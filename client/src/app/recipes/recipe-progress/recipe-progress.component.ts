@@ -8,7 +8,8 @@ import { RecipeProgressEvent, RecipeCompleteEvent } from '../../_models/recipe';
 @Component({
     selector: 'app-recipe-progress',
     templateUrl: './recipe-progress.component.html',
-    styleUrls: ['./recipe-progress.component.css']
+    styleUrls: ['./recipe-progress.component.css'],
+    standalone: false
 })
 export class RecipeProgressComponent implements OnInit, OnDestroy {
     progressEntries: { entryId: string; tagName: string; status: string; error?: string }[] = [];

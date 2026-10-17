@@ -7,7 +7,8 @@ import { ProjectService } from '../../_services/project.service';
 @Component({
     selector: 'app-language-type-property',
     templateUrl: './language-type-property.component.html',
-    styleUrls: ['./language-type-property.component.scss']
+    styleUrls: ['./language-type-property.component.scss'],
+    standalone: false
 })
 export class LanguageTypePropertyComponent implements OnInit {
 

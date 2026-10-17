@@ -12,7 +12,8 @@ declare var SVG: any;
 @Component({
     selector: 'gauge-proc-eng',
     templateUrl: './proc-eng.component.html',
-    styleUrls: ['./proc-eng.component.css']
+    styleUrls: ['./proc-eng.component.css'],
+    standalone: false
 })
 export class ProcEngComponent extends GaugeBaseComponent {
 

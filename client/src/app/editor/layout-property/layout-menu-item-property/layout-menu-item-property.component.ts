@@ -14,7 +14,8 @@ import { Utils } from '../../../_helpers/utils';
 @Component({
     selector: 'app-layout-menu-item-property',
     templateUrl: './layout-menu-item-property.component.html',
-    styleUrls: ['./layout-menu-item-property.component.scss']
+    styleUrls: ['./layout-menu-item-property.component.scss'],
+    standalone: false
 })
 export class LayoutMenuItemPropertyComponent implements AfterViewInit, OnDestroy {
     selected = [];
