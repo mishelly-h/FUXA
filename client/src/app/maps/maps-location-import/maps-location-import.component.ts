@@ -8,7 +8,8 @@ import { map, Observable, startWith } from 'rxjs';
 @Component({
     selector: 'app-maps-location-import',
     templateUrl: './maps-location-import.component.html',
-    styleUrls: ['./maps-location-import.component.scss']
+    styleUrls: ['./maps-location-import.component.scss'],
+    standalone: false
 })
 export class MapsLocationImportComponent implements OnInit {
     formGroup: FormGroup;

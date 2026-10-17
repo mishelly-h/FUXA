@@ -10,9 +10,10 @@ import { ProjectService } from '../../_services/project.service';
 import { DeviceType, DeviceSecurity, MessageSecurityMode, SecurityPolicy, ModbusOptionType, ModbusReuseModeType, RedisReadModeType, RedisOptions } from './../../_models/device';
 
 @Component({
-	selector: 'app-device-property',
-	templateUrl: './device-property.component.html',
-	styleUrls: ['./device-property.component.scss']
+    selector: 'app-device-property',
+    templateUrl: './device-property.component.html',
+    styleUrls: ['./device-property.component.scss'],
+    standalone: false
 })
 export class DevicePropertyComponent implements OnInit, OnDestroy {
 

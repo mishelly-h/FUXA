@@ -12,7 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
     selector: 'app-video-property',
     templateUrl: './video-property.component.html',
-    styleUrls: ['./video-property.component.scss']
+    styleUrls: ['./video-property.component.scss'],
+    standalone: false
 })
 export class VideoPropertyComponent implements OnInit {
 

@@ -16,7 +16,8 @@ import { createQrSvg, createQrSvgDataUrl } from '../ar-marker-property/qr-code-g
 @Component({
     selector: 'app-ar-marker-list',
     templateUrl: './ar-marker-list.component.html',
-    styleUrls: ['./ar-marker-list.component.scss']
+    styleUrls: ['./ar-marker-list.component.scss'],
+    standalone: false
 })
 export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {
     displayedColumns = ['select', 'id', 'label', 'view', 'ttlMs', 'download', 'remove'];

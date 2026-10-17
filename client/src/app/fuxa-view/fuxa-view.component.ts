@@ -39,7 +39,8 @@ declare var SVG: any;
 @Component({
     selector: 'app-fuxa-view',
     templateUrl: './fuxa-view.component.html',
-    styleUrls: ['./fuxa-view.component.css']
+    styleUrls: ['./fuxa-view.component.css'],
+    standalone: false
 })
 export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
 

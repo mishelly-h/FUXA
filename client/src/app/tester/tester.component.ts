@@ -10,7 +10,8 @@ import { Variable } from '../_models/hmi';
 @Component({
     selector: 'app-tester',
     templateUrl: './tester.component.html',
-    styleUrls: ['./tester.component.css']
+    styleUrls: ['./tester.component.css'],
+    standalone: false
 })
 export class TesterComponent implements OnInit, OnDestroy {
 

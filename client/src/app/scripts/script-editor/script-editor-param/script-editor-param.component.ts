@@ -7,7 +7,8 @@ import { Utils } from '../../../_helpers/utils';
 @Component({
     selector: 'app-script-editor-param',
     templateUrl: './script-editor-param.component.html',
-    styleUrls: ['./script-editor-param.component.scss']
+    styleUrls: ['./script-editor-param.component.scss'],
+    standalone: false
 })
 export class ScriptEditorParamComponent {
     error = '';

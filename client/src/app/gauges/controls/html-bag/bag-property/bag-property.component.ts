@@ -12,7 +12,8 @@ import { PermissionData, PermissionDialogComponent } from '../../../gauge-proper
 @Component({
     selector: 'bag-property',
     templateUrl: './bag-property.component.html',
-    styleUrls: ['./bag-property.component.scss']
+    styleUrls: ['./bag-property.component.scss'],
+    standalone: false
 })
 export class BagPropertyComponent implements AfterViewInit {
 

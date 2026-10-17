@@ -14,9 +14,10 @@ import { SettingsService } from '../_services/settings.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-	selector: 'app-users',
-	templateUrl: './users.component.html',
-	styleUrls: ['./users.component.scss']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
+    standalone: false
 })
 export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 

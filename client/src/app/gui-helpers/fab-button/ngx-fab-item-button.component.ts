@@ -99,7 +99,8 @@ import {
         </div>
     </div>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class NgxFabItemButtonComponent {
     @Input() icon: string;

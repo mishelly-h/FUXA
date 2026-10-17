@@ -9,7 +9,8 @@ import { Subject, takeUntil } from 'rxjs';
 @Component({
     selector: 'app-users-role-edit',
     templateUrl: './users-role-edit.component.html',
-    styleUrls: ['./users-role-edit.component.css']
+    styleUrls: ['./users-role-edit.component.css'],
+    standalone: false
 })
 export class UsersRoleEditComponent implements OnInit, OnDestroy {
     formGroup: UntypedFormGroup;

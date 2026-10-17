@@ -8,7 +8,8 @@ import { UploadFile } from '../../../_models/project';
 @Component({
     selector: 'app-layout-header-item-property',
     templateUrl: './layout-header-item-property.component.html',
-    styleUrls: ['./layout-header-item-property.component.scss']
+    styleUrls: ['./layout-header-item-property.component.scss'],
+    standalone: false
 })
 export class LayoutHeaderItemPropertyComponent {
     item: HeaderItem;

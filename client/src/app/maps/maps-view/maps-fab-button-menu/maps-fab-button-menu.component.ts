@@ -3,7 +3,8 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input } from '@angular/cor
 @Component({
     selector: 'app-maps-fab-button-menu',
     templateUrl: './maps-fab-button-menu.component.html',
-    styleUrls: ['./maps-fab-button-menu.component.scss']
+    styleUrls: ['./maps-fab-button-menu.component.scss'],
+    standalone: false
 })
 export class MapsFabButtonMenuComponent implements AfterViewInit {
 

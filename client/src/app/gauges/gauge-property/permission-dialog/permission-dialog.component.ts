@@ -9,7 +9,8 @@ import { Subject, map, takeUntil } from 'rxjs';
 @Component({
     selector: 'app-permission-dialog',
     templateUrl: './permission-dialog.component.html',
-    styleUrls: ['./permission-dialog.component.scss']
+    styleUrls: ['./permission-dialog.component.scss'],
+    standalone: false
 })
 export class PermissionDialogComponent implements AfterViewInit, OnDestroy {
     selected = [];

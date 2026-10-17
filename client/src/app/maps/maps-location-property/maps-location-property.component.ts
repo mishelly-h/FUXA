@@ -13,7 +13,8 @@ import { UploadFile } from '../../_models/project';
 @Component({
     selector: 'app-maps-location-property',
     templateUrl: './maps-location-property.component.html',
-    styleUrls: ['./maps-location-property.component.scss']
+    styleUrls: ['./maps-location-property.component.scss'],
+    standalone: false
 })
 export class MapsLocationPropertyComponent implements OnInit {
 

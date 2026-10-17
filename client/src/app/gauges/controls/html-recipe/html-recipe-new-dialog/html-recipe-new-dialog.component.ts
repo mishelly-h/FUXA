@@ -11,7 +11,8 @@ export interface HtmlRecipeNewDialogData {
 @Component({
     selector: 'html-recipe-new-dialog',
     templateUrl: './html-recipe-new-dialog.component.html',
-    styleUrls: ['./html-recipe-new-dialog.component.scss']
+    styleUrls: ['./html-recipe-new-dialog.component.scss'],
+    standalone: false
 })
 export class HtmlRecipeNewDialogComponent {
     dialogName: string;

@@ -15,7 +15,8 @@ export const _filter = (opt: DeviceTagOption[], value: string): DeviceTagOption[
 @Component({
     selector: 'app-flex-device-tag',
     templateUrl: './flex-device-tag.component.html',
-    styleUrls: ['./flex-device-tag.component.scss']
+    styleUrls: ['./flex-device-tag.component.scss'],
+    standalone: false
 })
 export class FlexDeviceTagComponent implements OnInit, OnChanges {
 

@@ -12,7 +12,8 @@ import { LogsRequest } from '../_models/diagnose';
 @Component({
     selector: 'app-logs-view',
     templateUrl: './logs-view.component.html',
-    styleUrls: ['./logs-view.component.css']
+    styleUrls: ['./logs-view.component.css'],
+    standalone: false
 })
 export class LogsViewComponent implements AfterViewInit {
 
