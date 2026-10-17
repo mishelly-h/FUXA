@@ -30,6 +30,7 @@ var DEVICE_POLLING_INTERVAL = 3000;             // with DAQ enabled, will be sav
 var DISABLE_POLLING_INTERVAL = -1;              // disable polling
 
 var fncGetDeviceProperty;
+var fncGetDevices;
 
 function Device(data, runtime) {
     var property = { id: data.id, name: data.name, type: data.type };   // Device property (name, id)
@@ -48,6 +49,7 @@ function Device(data, runtime) {
                                                             // required: connect, disconnect, isConnected, polling, init, load, getValue,
                                                             // getValues, getStatus, setValue, bindAddDaq, getTagProperty,
     fncGetDeviceProperty = runtime.project.getDeviceProperty;
+    fncGetDevices = runtime.project.getDevices;
 
     if (data.type === DeviceEnum.S7) {
         if (!S7client) {
@@ -490,7 +492,7 @@ function getSupportedProperty(endpoint, type, packagerManager) {
                 reject(err);
             });
         } else if (type === DeviceEnum.ODBC) {
-            ODBCclient.getTables(endpoint, fncGetDeviceProperty, packagerManager).then(function (result) {
+            ODBCclient.getTables(endpoint, fncGetDeviceProperty, packagerManager, fncGetDevices).then(function (result) {
                 resolve(result);
             }).catch(function (err) {
                 reject(err);

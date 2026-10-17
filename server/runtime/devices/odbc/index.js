@@ -262,17 +262,21 @@ function ODBCclient(_data, _logger, _events) {
 /**
  * Return tables list
  */
-function getTables(endpoint, fncGetProperty, packagerManager) {
+function getTables(endpoint, fncGetProperty, packagerManager, fncGetDevices) {
     return new Promise(async function (resolve, reject) {
         if (loadOdbcLib(packagerManager)) {
             var connection;
             try {
-                var security
-                await fncGetProperty({ query: 'security', name: endpoint.id }).then((result, error) => {
-                    if (result) {
-                        security = utils.JsonTryToParse(result.value);
-                    }
-                });
+                var security = {};
+                // stored credentials are only merged into the configured connection string of the same device
+                const storedDevice = endpoint.id && fncGetDevices ? fncGetDevices()?.[endpoint.id] : null;
+                if (storedDevice && storedDevice.property?.address && storedDevice.property.address === endpoint.address) {
+                    await fncGetProperty({ query: 'security', name: endpoint.id }).then((result, error) => {
+                        if (result) {
+                            security = utils.JsonTryToParse(result.value) || {};
+                        }
+                    });
+                }
                 var connectionsString = endpoint.address;
                 if (endpoint.uid || security.uid) {
                     connectionsString += `;UID=${endpoint.uid || security.uid}`;

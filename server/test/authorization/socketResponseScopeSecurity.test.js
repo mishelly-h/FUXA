@@ -22,6 +22,7 @@ describe('Security - Socket.IO admin response scoping', () => {
     }
 
     [
+        'DEVICE_PROPERTY',
         'DEVICE_BROWSE',
         'DEVICE_NODE_ATTRIBUTE',
         'HOST_INTERFACES',
