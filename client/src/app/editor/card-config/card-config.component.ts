@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from
 import { TranslateService } from '@ngx-translate/core';
 
 import { CardWidgetType, CardWidget, PropertyScaleModeType } from '../../_models/hmi';
-import { GridsterItem } from 'angular-gridster2';
+import { GridsterItemConfig } from 'angular-gridster2';
 
 @Component({
     selector: 'app-card-config',
@@ -44,6 +44,6 @@ export class CardConfigComponent implements OnInit {
 }
 
 export interface CardConfigType {
-    item: GridsterItem;
+    item: GridsterItemConfig;
     views: string[];
 }
