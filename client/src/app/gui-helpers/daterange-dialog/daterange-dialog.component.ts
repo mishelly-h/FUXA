@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { DaterangepickerComponent } from '../daterangepicker';
@@ -7,6 +7,7 @@ import { IDateRange } from '../../_models/hmi';
     selector: 'app-daterange-dialog',
     templateUrl: './daterange-dialog.component.html',
     styleUrls: ['./daterange-dialog.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DaterangeDialogComponent {

@@ -20,7 +20,7 @@
       <div class="my-form-field block mt10">
         <span>{{'dlg.userproperty-language' | translate}}</span>
         <mat-select formControlName="languageId">
-          <mat-option [value]="languages?.default?.id">{{ languages?.default?.name }}</mat-option>
+          <mat-option [value]="$safeNavigationMigration(languages?.default?.id)">{{ languages?.default?.name }}</mat-option>
           @for (language of languages?.options; track language) {
             <mat-option [value]="language.id">
               {{ language.name }}

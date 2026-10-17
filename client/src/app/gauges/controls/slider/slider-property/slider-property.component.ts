@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, OnInit, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -15,6 +15,7 @@ import { Define } from '../../../../_helpers/define';
     selector: 'app-slider-property',
     templateUrl: './slider-property.component.html',
     styleUrls: ['./slider-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SliderPropertyComponent implements OnInit, AfterViewInit {

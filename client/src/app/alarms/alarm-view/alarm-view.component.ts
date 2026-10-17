@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { AlarmBaseType, AlarmColumns, AlarmHistoryColumns, AlarmPriorityType, AlarmQuery, AlarmStatusType } from '../../_models/alarm';
 import { FormControl, FormGroup } from '@angular/forms';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { LanguageService } from '../../_services/language.service';
@@ -19,6 +19,7 @@ import { LanguageService } from '../../_services/language.service';
     selector: 'app-alarm-view',
     templateUrl: './alarm-view.component.html',
     styleUrls: ['./alarm-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {

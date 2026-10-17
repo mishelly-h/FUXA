@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -9,6 +9,7 @@ import { RecipeProgressEvent, RecipeCompleteEvent } from '../../_models/recipe';
     selector: 'app-recipe-progress',
     templateUrl: './recipe-progress.component.html',
     styleUrls: ['./recipe-progress.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RecipeProgressComponent implements OnInit, OnDestroy {

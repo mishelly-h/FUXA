@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ComponentFactoryResolver, ComponentRef } from '@angular/core';
+import { Component, ViewContainerRef, ComponentRef, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, Variable, GaugeStatus } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -10,6 +10,7 @@ import { SchedulerComponent } from '../../../gauges/controls/html-scheduler/sche
     selector: 'html-scheduler',
     templateUrl: './html-scheduler.component.html',
     styleUrls: ['./html-scheduler.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlSchedulerComponent extends GaugeBaseComponent {
@@ -36,7 +37,7 @@ export class HtmlSchedulerComponent extends GaugeBaseComponent {
         }
     }
 
-    static initElement(gab: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, isview: boolean): SchedulerComponent {
+    static initElement(gab: GaugeSettings, viewContainerRef: ViewContainerRef, isview: boolean): SchedulerComponent {
         let ele = document.getElementById(gab.id);
         if (ele) {
             ele?.setAttribute('data-name', gab.name);
@@ -53,8 +54,7 @@ export class HtmlSchedulerComponent extends GaugeBaseComponent {
 
             let htmlScheduler = Utils.searchTreeStartWith(ele, this.prefixD);
             if (htmlScheduler) {
-                const factory = resolver.resolveComponentFactory(SchedulerComponent);
-                const componentRef: ComponentRef<SchedulerComponent> = viewContainerRef.createComponent(factory);
+                const componentRef: ComponentRef<SchedulerComponent> = viewContainerRef.createComponent(SchedulerComponent);
 
                 if (!gab.property) {
                     gab.property = {
@@ -103,7 +103,7 @@ export class HtmlSchedulerComponent extends GaugeBaseComponent {
         return null;
     }
 
-    static detectChange(gab: GaugeSettings, res: any, ref: any): SchedulerComponent {
-        return HtmlSchedulerComponent.initElement(gab, res, ref, false);
+    static detectChange(gab: GaugeSettings, ref: any): SchedulerComponent {
+        return HtmlSchedulerComponent.initElement(gab, ref, false);
     }
 }

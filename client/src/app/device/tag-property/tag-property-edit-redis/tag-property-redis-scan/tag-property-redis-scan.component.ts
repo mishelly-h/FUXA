@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,6 +12,7 @@ import { Device } from '../../../../_models/device';
     selector: 'app-tag-property-redis-scan',
     templateUrl: './tag-property-redis-scan.component.html',
     styleUrls: ['./tag-property-redis-scan.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyRedisScanComponent implements OnInit, OnDestroy {

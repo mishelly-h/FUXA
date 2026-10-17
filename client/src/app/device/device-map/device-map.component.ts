@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef, Input, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -18,6 +18,7 @@ import { DeviceWebapiPropertyDialogComponent } from './device-webapi-property-di
     selector: 'app-device-map',
     templateUrl: './device-map.component.html',
     styleUrls: ['./device-map.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {

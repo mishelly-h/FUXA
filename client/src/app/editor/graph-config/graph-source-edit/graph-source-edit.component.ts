@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { Utils } from '../../../_helpers/utils';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -8,6 +8,7 @@ import { GraphSource } from '../../../_models/graph';
     selector: 'app-graph-source-edit',
     templateUrl: './graph-source-edit.component.html',
     styleUrls: ['./graph-source-edit.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GraphSourceEditComponent {

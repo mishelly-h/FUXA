@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, map, of } from 'rxjs';
 import { Define } from '../../_helpers/define';
 
@@ -6,6 +6,7 @@ import { Define } from '../../_helpers/define';
     selector: 'app-icon-selector',
     templateUrl: './icon-selector.component.html',
     styleUrls: ['./icon-selector.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class IconSelectorComponent implements OnInit {

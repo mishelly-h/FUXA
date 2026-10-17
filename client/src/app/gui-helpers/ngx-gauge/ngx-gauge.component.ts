@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnChanges, ViewChild, HostListener, ElementRef, Input, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnChanges, ViewChild, HostListener, ElementRef, Input, type SimpleChanges, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 
 import { GaugeOptions, GaugeType } from './gaugeOptions';
 import { Utils } from '../../_helpers/utils';
@@ -20,6 +20,7 @@ function getGaugeClasses(): { Gauge: any, Donut: any } {
     selector: 'ngx-gauge',
     templateUrl: './ngx-gauge.component.html',
     styleUrls: ['./ngx-gauge.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NgxGaugeComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {

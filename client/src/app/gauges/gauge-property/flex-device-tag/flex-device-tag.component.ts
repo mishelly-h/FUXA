@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { Observable, map, startWith } from 'rxjs';
@@ -16,6 +16,7 @@ export const _filter = (opt: DeviceTagOption[], value: string): DeviceTagOption[
     selector: 'app-flex-device-tag',
     templateUrl: './flex-device-tag.component.html',
     styleUrls: ['./flex-device-tag.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FlexDeviceTagComponent implements OnInit, OnChanges {

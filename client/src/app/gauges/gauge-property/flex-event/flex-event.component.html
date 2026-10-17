@@ -159,7 +159,7 @@
           [data]="data"
           [(value)]="item.actoptions.variable"
           [withBitmask]="true"
-          [bitmask]="item.actoptions.variable?.bitmask"
+          [bitmask]="$safeNavigationMigration(item.actoptions.variable?.bitmask)"
           [withStaticValue]="false">
         </flex-variable>
       </div>

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { FlexHeadComponent } from '../../gauges/gauge-property/flex-head/flex-head.component';
@@ -13,6 +13,7 @@ import { ProjectService } from '../../_services/project.service';
     selector: 'app-alarm-property',
     templateUrl: './alarm-property.component.html',
     styleUrls: ['./alarm-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AlarmPropertyComponent implements OnInit {

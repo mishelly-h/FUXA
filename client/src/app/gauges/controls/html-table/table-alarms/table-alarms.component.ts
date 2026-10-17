@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { TableFilter, TableType } from '../../../../_models/hmi';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { AlarmColumns, AlarmColumnsType, AlarmHistoryColumns, AlarmHistoryColumnsType, AlarmsFilter, AlarmsType } from '../../../../_models/alarm';
@@ -10,6 +10,7 @@ import { DeviceType } from '../../../../_models/device';
     selector: 'app-table-alarms',
     templateUrl: './table-alarms.component.html',
     styleUrls: ['./table-alarms.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TableAlarmsComponent {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { AlarmsType } from '../../_models/alarm';
@@ -13,6 +13,7 @@ import { APP_LANGUAGES } from '../../_models/language';
     selector: 'app-notification-property',
     templateUrl: './notification-property.component.html',
     styleUrls: ['./notification-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NotificationPropertyComponent implements OnInit {

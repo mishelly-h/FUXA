@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { ReportColumns, ReportsFilter } from '../../../../_models/report';
 import { TableFilter, TableType } from '../../../../_models/hmi';
@@ -8,6 +8,7 @@ import { ProjectService } from '../../../../_services/project.service';
     selector: 'app-table-reports',
     templateUrl: './table-reports.component.html',
     styleUrls: ['./table-reports.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TableReportsComponent {

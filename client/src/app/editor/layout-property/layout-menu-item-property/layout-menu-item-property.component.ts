@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SelOptionType, SelOptionsComponent } from '../../../gui-helpers/sel-options/sel-options.component';
 import { BehaviorSubject, Observable, Subject, combineLatest, map, of, takeUntil } from 'rxjs';
@@ -15,6 +15,7 @@ import { Utils } from '../../../_helpers/utils';
     selector: 'app-layout-menu-item-property',
     templateUrl: './layout-menu-item-property.component.html',
     styleUrls: ['./layout-menu-item-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LayoutMenuItemPropertyComponent implements AfterViewInit, OnDestroy {

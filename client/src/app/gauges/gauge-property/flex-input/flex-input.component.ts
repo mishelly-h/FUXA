@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeProperty, GaugeRangeProperty } from '../../../_models/hmi';
 import { DevicesUtils, Tag } from '../../../_models/device';
 import { Utils } from '../../../_helpers/utils';
@@ -8,6 +8,7 @@ import { FlexVariableComponent } from '../flex-variable/flex-variable.component'
     selector: 'flex-input',
     templateUrl: './flex-input.component.html',
     styleUrls: ['./flex-input.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FlexInputComponent implements OnInit {

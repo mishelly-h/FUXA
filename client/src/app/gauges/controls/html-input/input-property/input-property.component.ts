@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { FlexHeadComponent } from '../../../gauge-property/flex-head/flex-head.component';
 import { FlexEventComponent } from '../../../gauge-property/flex-event/flex-event.component';
 import { FlexActionComponent } from '../../../gauge-property/flex-action/flex-action.component';
@@ -17,6 +17,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
     selector: 'app-input-property',
     templateUrl: './input-property.component.html',
     styleUrls: ['./input-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class InputPropertyComponent implements AfterViewInit {

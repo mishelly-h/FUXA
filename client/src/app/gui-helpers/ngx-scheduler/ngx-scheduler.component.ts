@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
     selector: 'app-ngx-scheduler',
     templateUrl: './ngx-scheduler.component.html',
     styleUrls: ['./ngx-scheduler.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NgxSchedulerComponent implements OnInit {

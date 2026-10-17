@@ -1,18 +1,16 @@
-/* eslint-disable @angular-eslint/no-conflicting-lifecycle */
 import {
   Directive,
   ViewContainerRef,
-  ComponentFactoryResolver,
   ElementRef,
   HostListener,
   forwardRef,
   ChangeDetectorRef,
   OnInit,
   OnChanges,
-  SimpleChanges,
+  type SimpleChanges,
   Input,
   DoCheck,
-  KeyValueDiffer,
+  type KeyValueDiffer,
   KeyValueDiffers,
   Output,
   EventEmitter,
@@ -20,7 +18,7 @@ import {
 } from '@angular/core';
 import { DaterangepickerComponent } from './daterangepicker.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import * as _moment from 'moment';
+import _moment from 'moment';
 import { LocaleConfig } from './daterangepicker.config';
 import { LocaleService } from './locale.service';
 const moment = _moment;
@@ -150,7 +148,6 @@ export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
   constructor(
     public viewContainerRef: ViewContainerRef,
     public _changeDetectorRef: ChangeDetectorRef,
-    private _componentFactoryResolver: ComponentFactoryResolver,
     private _el: ElementRef,
     private _renderer: Renderer2,
     private differs: KeyValueDiffers,
@@ -158,9 +155,8 @@ export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
   ) {
     this.drops = 'down';
     this.opens = 'right';
-    const componentFactory = this._componentFactoryResolver.resolveComponentFactory(DaterangepickerComponent);
     viewContainerRef.clear();
-    const componentRef = viewContainerRef.createComponent(componentFactory);
+    const componentRef = viewContainerRef.createComponent(DaterangepickerComponent);
     this.picker = (<DaterangepickerComponent>componentRef.instance);
     this.picker.inline = false; // set inline to false for all directive usage
   }

@@ -1,7 +1,7 @@
 /**
  * Shape extension
  */
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, GaugeAction, Variable, GaugeStatus, GaugeActionsType, GaugePropertyColor, GaugeProperty } from '../../../_models/hmi';
 import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
@@ -13,6 +13,7 @@ declare var SVG: any;
     selector: 'gauge-proc-eng',
     templateUrl: './proc-eng.component.html',
     styleUrls: ['./proc-eng.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ProcEngComponent extends GaugeBaseComponent {

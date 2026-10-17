@@ -1,4 +1,4 @@
-import { Injectable, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 
 import { GaugeSettings, Variable, GaugeStatus, Event } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -64,14 +64,13 @@ export class SliderComponent {
         }
     }
 
-    static initElement(gab: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, options?: any) {
+    static initElement(gab: GaugeSettings, viewContainerRef: ViewContainerRef, options?: any) {
         let ele = document.getElementById(gab.id);
         if (ele) {
             ele?.setAttribute('data-name', gab.name);
             let htmlSlider = Utils.searchTreeStartWith(ele, this.prefix);
             if (htmlSlider) {
-                const factory = resolver.resolveComponentFactory(NgxNouisliderComponent);
-                const componentRef = viewContainerRef.createComponent(factory);
+                const componentRef = viewContainerRef.createComponent(NgxNouisliderComponent);
                 htmlSlider.innerHTML = '';
 
                 componentRef.changeDetectorRef.detectChanges();
@@ -96,13 +95,12 @@ export class SliderComponent {
         }
     }
 
-    static resize(gab: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, options?: any) {
+    static resize(gab: GaugeSettings, viewContainerRef: ViewContainerRef, options?: any) {
         let ele = document.getElementById(gab.id);
         if (ele) {
             let htmlSlider = Utils.searchTreeStartWith(ele, this.prefix);
             if (htmlSlider) {
-                const factory = resolver.resolveComponentFactory(NgxNouisliderComponent);
-                const componentRef = viewContainerRef.createComponent(factory);
+                const componentRef = viewContainerRef.createComponent(NgxNouisliderComponent);
                 htmlSlider.innerHTML = '';
 
                 componentRef.changeDetectorRef.detectChanges();
@@ -123,11 +121,11 @@ export class SliderComponent {
         }
     }
 
-    static detectChange(gab: GaugeSettings, res: any, ref: any) {
+    static detectChange(gab: GaugeSettings, ref: any) {
         let options;
         if (gab.property && gab.property.options) {
             options = gab.property.options;
         }
-        return SliderComponent.initElement(gab, res, ref, options);
+        return SliderComponent.initElement(gab, ref, options);
     }
 }

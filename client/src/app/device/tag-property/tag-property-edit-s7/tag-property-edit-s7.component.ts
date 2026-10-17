@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Device, Tag, TagType } from '../../../_models/device';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
     selector: 'app-tag-property-edit-s7',
     templateUrl: './tag-property-edit-s7.component.html',
     styleUrls: ['./tag-property-edit-s7.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditS7Component implements OnInit {

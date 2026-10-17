@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Role, UserGroups } from '../../../_models/user';
 import { SelOptionType, SelOptionsComponent } from '../../../gui-helpers/sel-options/sel-options.component';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -10,6 +10,7 @@ import { Subject, map, takeUntil } from 'rxjs';
     selector: 'app-permission-dialog',
     templateUrl: './permission-dialog.component.html',
     styleUrls: ['./permission-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PermissionDialogComponent implements AfterViewInit, OnDestroy {

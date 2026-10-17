@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Device, ServerTagType, Tag } from '../../../_models/device';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from
     selector: 'app-tag-property-edit-internal',
     templateUrl: './tag-property-edit-internal.component.html',
     styleUrls: ['./tag-property-edit-internal.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditInternalComponent implements OnInit {

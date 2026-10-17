@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output, ViewChild, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Subject, of, takeUntil } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
 import { MatTabGroup as MatTabGroup } from '@angular/material/tabs';
@@ -21,6 +21,7 @@ import { ReportColumns } from '../../../../_models/report';
     selector: 'app-table-property',
     templateUrl: './table-property.component.html',
     styleUrls: ['./table-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TablePropertyComponent implements OnInit, OnDestroy {

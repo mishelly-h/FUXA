@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { ProjectService } from '../../_services/project.service';
@@ -8,6 +8,7 @@ import { Language, LanguageText } from '../../_models/language';
     selector: 'app-language-text-property',
     templateUrl: './language-text-property.component.html',
     styleUrls: ['./language-text-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LanguageTextPropertyComponent implements OnInit {

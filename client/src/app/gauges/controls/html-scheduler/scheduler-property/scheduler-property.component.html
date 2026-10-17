@@ -208,7 +208,7 @@
         <!-- Toggle Value -->
         @if (withToggleValue(action.action)) {
           <div style="display: block; padding-top: 5px; padding-left: 25px;">
-            <flex-variable style="display: block" [data]="data" [(value)]="action.actoptions.variable" [withBitmask]="true" [bitmask]="action.actoptions.variable?.bitmask"
+            <flex-variable style="display: block" [data]="data" [(value)]="action.actoptions.variable" [withBitmask]="true" [bitmask]="$safeNavigationMigration(action.actoptions.variable?.bitmask)"
             [withStaticValue]="false"></flex-variable>
           </div>
         }

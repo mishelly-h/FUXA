@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
 import { GaugeAction, GaugeActionsType, GaugeSettings, Variable } from '../../../_models/hmi';
@@ -9,6 +9,7 @@ import { EndPointApi } from '../../../_helpers/endpointapi';
     selector: 'app-html-video',
     templateUrl: './html-video.component.html',
     styleUrls: ['./html-video.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlVideoComponent extends GaugeBaseComponent {
@@ -162,7 +163,7 @@ export class HtmlVideoComponent extends GaugeBaseComponent {
         }
     }
 
-    static detectChange(gaugeSettings: GaugeSettings, res: any, ref: any) {
+    static detectChange(gaugeSettings: GaugeSettings, ref: any) {
         return HtmlVideoComponent.initElement(gaugeSettings, false);
     }
 

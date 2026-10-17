@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface HtmlRecipeNewDialogData {
@@ -12,6 +12,7 @@ export interface HtmlRecipeNewDialogData {
     selector: 'html-recipe-new-dialog',
     templateUrl: './html-recipe-new-dialog.component.html',
     styleUrls: ['./html-recipe-new-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlRecipeNewDialogComponent {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeAction, GaugeVideoProperty } from '../../../../_models/hmi';
 import { FlexAuthValues } from '../../../gauge-property/flex-auth/flex-auth.component';
 import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
@@ -13,6 +13,7 @@ import { MatDialog } from '@angular/material/dialog';
     selector: 'app-video-property',
     templateUrl: './video-property.component.html',
     styleUrls: ['./video-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class VideoPropertyComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Role } from '../../_models/user';
@@ -10,6 +10,7 @@ import { Subject, takeUntil } from 'rxjs';
     selector: 'app-users-role-edit',
     templateUrl: './users-role-edit.component.html',
     styleUrls: ['./users-role-edit.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UsersRoleEditComponent implements OnInit, OnDestroy {

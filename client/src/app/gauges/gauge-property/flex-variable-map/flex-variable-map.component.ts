@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { IPropertyVariable, View } from '../../../_models/hmi';
 
 @Component({
     selector: 'flex-variable-map',
     templateUrl: './flex-variable-map.component.html',
     styleUrls: ['./flex-variable-map.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FlexVariableMapComponent implements OnInit {

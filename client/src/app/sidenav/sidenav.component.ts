@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, AfterContentChecked, ChangeDetectionStrategy } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Location } from '@angular/common';
 
@@ -12,6 +12,7 @@ import { Utils } from '../_helpers/utils';
     selector: 'app-sidenav',
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SidenavComponent implements AfterContentChecked {

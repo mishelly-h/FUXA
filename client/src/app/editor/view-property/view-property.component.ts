@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Utils } from '../../_helpers/utils';
 import { Script } from '../../_models/script';
 import { DocAlignType, DocProfile, ViewProperty, ViewType } from '../../_models/hmi';
@@ -15,6 +15,7 @@ import { MatTab as MatTab } from '@angular/material/tabs';
     selector: 'app-view-property',
     templateUrl: './view-property.component.html',
     styleUrls: ['./view-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ViewPropertyComponent implements OnInit, OnDestroy {

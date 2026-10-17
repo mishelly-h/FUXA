@@ -1,4 +1,4 @@
-import { Component, Input, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, ViewContainerRef, ComponentRef, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings } from '../../../_models/hmi';
@@ -23,6 +23,7 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../gui-helpers/
     selector: 'html-recipe-view',
     templateUrl: './html-recipe.component.html',
     styleUrls: ['./html-recipe.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
@@ -593,6 +594,7 @@ export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
  */
 @Component({
     template: '',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlRecipeComponent extends GaugeBaseComponent {
@@ -615,7 +617,6 @@ export class HtmlRecipeComponent extends GaugeBaseComponent {
     /** Initialise the recipe widget inside the SVG editor canvas */
     static initElement(
         gab: GaugeSettings,
-        resolver: ComponentFactoryResolver,
         viewContainerRef: ViewContainerRef,
         isview: boolean
     ): HtmlRecipeViewComponent | null {
@@ -643,8 +644,7 @@ export class HtmlRecipeComponent extends GaugeBaseComponent {
             return null;
         }
 
-        const factory = resolver.resolveComponentFactory(HtmlRecipeViewComponent);
-        const componentRef: ComponentRef<HtmlRecipeViewComponent> = viewContainerRef.createComponent(factory);
+        const componentRef: ComponentRef<HtmlRecipeViewComponent> = viewContainerRef.createComponent(HtmlRecipeViewComponent);
 
         if (!gab.property) {
             gab.property = { recipeId: null, readonly: false };
@@ -690,8 +690,8 @@ export class HtmlRecipeComponent extends GaugeBaseComponent {
         return componentRef.instance;
     }
 
-    static detectChange(ga: GaugeSettings, res: any, ref: any) {
-        return HtmlRecipeComponent.initElement(ga, res, ref, false);
+    static detectChange(ga: GaugeSettings, ref: any) {
+        return HtmlRecipeComponent.initElement(ga, ref, false);
     }
 }
 

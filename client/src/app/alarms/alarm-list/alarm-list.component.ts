@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -15,6 +15,7 @@ import { AlarmImportDialogComponent, AlarmImportMode } from './alarm-import-dial
     selector: 'app-alarm-list',
     templateUrl: './alarm-list.component.html',
     styleUrls: ['./alarm-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AlarmListComponent implements OnInit, AfterViewInit, OnDestroy {

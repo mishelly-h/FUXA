@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import {
     Event, GaugeAction,
@@ -22,6 +22,7 @@ declare var SVG: any;
     selector: 'app-html-image',
     templateUrl: './html-image.component.html',
     styleUrls: ['./html-image.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlImageComponent extends GaugeBaseComponent {

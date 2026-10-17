@@ -1,5 +1,5 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+ 
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -17,6 +17,7 @@ import { TranslateService } from '@ngx-translate/core';
     selector: 'app-language-text-list',
     templateUrl: './language-text-list.component.html',
     styleUrls: ['./language-text-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LanguageTextListComponent implements OnInit, AfterViewInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { MyFileService, TransferResult } from '../../_services/my-file.service';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
 
@@ -6,6 +6,7 @@ import { ToastNotifierService } from '../../_services/toast-notifier.service';
     selector: 'app-file-upload',
     templateUrl: './file-upload.component.html',
     styleUrls: ['./file-upload.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FileUploadComponent {

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatDialog as MatDialog} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
@@ -13,6 +13,7 @@ import { MapsLocationPropertyComponent } from '../maps-location-property/maps-lo
     selector: 'app-maps-location-list',
     templateUrl: './maps-location-list.component.html',
     styleUrls: ['./maps-location-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MapsLocationListComponent implements OnInit, AfterViewInit, OnDestroy {

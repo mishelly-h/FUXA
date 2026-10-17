@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Role } from '../../_models/user';
 import { MatDialog as MatDialog} from '@angular/material/dialog';
@@ -12,6 +12,7 @@ import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm
     selector: 'app-user-roles',
     templateUrl: './users-roles.component.html',
     styleUrls: ['./users-roles.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class UsersRolesComponent implements OnInit, AfterViewInit {

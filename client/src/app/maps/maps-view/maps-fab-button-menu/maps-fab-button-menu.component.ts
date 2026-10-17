@@ -1,9 +1,10 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'app-maps-fab-button-menu',
     templateUrl: './maps-fab-button-menu.component.html',
     styleUrls: ['./maps-fab-button-menu.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MapsFabButtonMenuComponent implements AfterViewInit {

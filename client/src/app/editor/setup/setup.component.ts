@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
@@ -19,6 +19,7 @@ const clientOnlyToDisable = ['messages', 'users', 'userRoles', 'plugins', 'notif
     selector: 'app-setup',
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SetupComponent {

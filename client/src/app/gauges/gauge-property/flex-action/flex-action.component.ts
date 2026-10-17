@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from '../../../_helpers/utils';
@@ -9,6 +9,7 @@ import { GaugeProperty, GaugeAction, GaugeRangeProperty, GaugeActionsType, Gauge
     selector: 'flex-action',
     templateUrl: './flex-action.component.html',
     styleUrls: ['./flex-action.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FlexActionComponent implements OnInit {

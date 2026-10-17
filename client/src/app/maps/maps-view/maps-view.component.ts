@@ -1,4 +1,4 @@
-import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, createComponent, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import * as L from 'leaflet';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
@@ -30,6 +30,7 @@ interface MarkerBinding {
     selector: 'app-maps-view',
     templateUrl: './maps-view.component.html',
     styleUrls: ['./maps-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class MapsViewComponent implements AfterViewInit, OnDestroy {
@@ -59,7 +60,6 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
     private currentPopup: L.Popup | null = null;
 
     constructor(
-        private resolver: ComponentFactoryResolver,
         private hmiService: HmiService,
         private injector: Injector,
         private dialog: MatDialog,
@@ -288,8 +288,7 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
 
     showFabButton(location: MapsLocation, marker: L.Marker) {
         const container = document.createElement('div');
-        const factory = this.resolver.resolveComponentFactory(MapsFabButtonMenuComponent);
-        const componentRef = factory.create(this.injector);
+        const componentRef = createComponent(MapsFabButtonMenuComponent, { environmentInjector: this.appRef.injector, elementInjector: this.injector });
         this.appRef.attachView(componentRef.hostView);
         container.appendChild((componentRef.hostView as any).rootNodes[0]);
         container.style.width = '40px';
@@ -340,8 +339,7 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
                 return;
             }
             const container = document.createElement('div');
-            const factory = this.resolver.resolveComponentFactory(FuxaViewComponent);
-            const componentRef = factory.create(this.injector);
+            const componentRef = createComponent(FuxaViewComponent, { environmentInjector: this.appRef.injector, elementInjector: this.injector });
 
             componentRef.instance.gaugesManager = this.gaugesManager;
             componentRef.instance.hmi = this.hmi;
