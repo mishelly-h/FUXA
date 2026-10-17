@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -9,6 +9,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     selector: 'app-tag-property-edit-melsec',
     templateUrl: './tag-property-edit-melsec.component.html',
     styleUrls: ['./tag-property-edit-melsec.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditMelsecComponent implements OnInit, OnDestroy {

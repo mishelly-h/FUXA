@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -17,6 +17,7 @@ import { createQrSvg, createQrSvgDataUrl } from '../ar-marker-property/qr-code-g
     selector: 'app-ar-marker-list',
     templateUrl: './ar-marker-list.component.html',
     styleUrls: ['./ar-marker-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {

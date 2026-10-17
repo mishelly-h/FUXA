@@ -1,6 +1,6 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-/* eslint-disable @angular-eslint/component-selector */
-import { Component, Inject, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+ 
+ 
+import { Component, Inject, ViewChild, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -24,6 +24,7 @@ const saveFromEditorRouteKey = ['/device', '/messages', '/language', '/users', '
     selector: 'app-header',
     templateUrl: 'header.component.html',
     styleUrls: ['header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
@@ -237,6 +238,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 @Component({
     selector: 'dialog-info',
     templateUrl: 'info.dialog.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DialogInfo {

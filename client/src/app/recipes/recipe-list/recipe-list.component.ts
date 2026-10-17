@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -17,6 +17,7 @@ import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm
     selector: 'app-recipe-list',
     templateUrl: './recipe-list.component.html',
     styleUrls: ['./recipe-list.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RecipeListComponent implements OnInit, OnDestroy {

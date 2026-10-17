@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Device, Tag } from '../../../_models/device';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
@@ -9,6 +9,7 @@ import { TranslateService } from '@ngx-translate/core';
     selector: 'app-tag-property-edit-ethernetip',
     templateUrl: './tag-property-edit-ethernetip.component.html',
     styleUrls: ['./tag-property-edit-ethernetip.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditEthernetipComponent implements OnInit, OnDestroy {

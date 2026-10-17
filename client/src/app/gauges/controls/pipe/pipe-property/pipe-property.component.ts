@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { GaugeAction, GaugeProperty, View } from '../../../../_models/hmi';
@@ -21,6 +21,7 @@ declare var SVG: any;
     selector: 'app-pipe-property',
     templateUrl: './pipe-property.component.html',
     styleUrls: ['./pipe-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PipePropertyComponent implements OnInit  {

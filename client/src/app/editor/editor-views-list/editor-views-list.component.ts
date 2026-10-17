@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { View, ViewType } from '../../_models/hmi';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
@@ -12,6 +12,7 @@ import { EditNameComponent, EditNameData } from '../../gui-helpers/edit-name/edi
     selector: 'app-editor-views-list',
     templateUrl: './editor-views-list.component.html',
     styleUrls: ['./editor-views-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class EditorViewsListComponent {

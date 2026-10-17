@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { Tag, DevicesUtils, Device, PlaceholderDevice } from '../../../_models/device';
@@ -24,6 +24,7 @@ export const _filter = (opt: DeviceTagOption[], value: string): DeviceTagOption[
     selector: 'flex-variable',
     templateUrl: './flex-variable.component.html',
     styleUrls: ['./flex-variable.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FlexVariableComponent implements OnInit {

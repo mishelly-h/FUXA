@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { GaugesManager } from '../gauges/gauges.component';
 import { Subscription, timer } from 'rxjs';
 
@@ -11,6 +11,7 @@ import { Variable } from '../_models/hmi';
     selector: 'app-tester',
     templateUrl: './tester.component.html',
     styleUrls: ['./tester.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TesterComponent implements OnInit, OnDestroy {

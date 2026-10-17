@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { Device } from '../../_models/device';
 
@@ -6,6 +6,7 @@ import { Device } from '../../_models/device';
     selector: 'app-tags-ids-config',
     templateUrl: './tags-ids-config.component.html',
     styleUrls: ['./tags-ids-config.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagsIdsConfigComponent {

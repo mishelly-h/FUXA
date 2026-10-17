@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { GaugesManager } from '../../../gauges/gauges.component';
 import { GaugeSettings, View } from '../../../_models/hmi';
@@ -7,6 +7,7 @@ import { GaugeSettings, View } from '../../../_models/hmi';
     selector: 'app-webcam-player-dialog',
     templateUrl: './webcam-player-dialog.component.html',
     styleUrls: ['./webcam-player-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class WebcamPlayerDialogComponent {

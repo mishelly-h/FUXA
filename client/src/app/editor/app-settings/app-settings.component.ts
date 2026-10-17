@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { SettingsService } from '../../_services/settings.service';
@@ -14,6 +14,7 @@ import { APP_LANGUAGES } from '../../_models/language';
     selector: 'app-app-settings',
     templateUrl: './app-settings.component.html',
     styleUrls: ['./app-settings.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AppSettingsComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import {
     AbstractControl,
     UntypedFormBuilder,
@@ -15,6 +15,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     selector: 'app-tag-property-edit-internal',
     templateUrl: './tag-property-edit-webcam.component.html',
     styleUrls: ['./tag-property-edit-webcam.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditWebcamComponent implements OnInit {

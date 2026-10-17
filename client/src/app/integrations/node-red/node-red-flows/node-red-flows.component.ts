@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ProjectService, SaveMode } from '../../../_services/project.service';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,7 @@ import { SettingsService } from '../../../_services/settings.service';
     selector: 'app-node-red-flows',
     templateUrl: './node-red-flows.component.html',
     styleUrls: ['./node-red-flows.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NodeRedFlowsComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 interface TutorialShortcut {
     combo: string;
@@ -9,6 +9,7 @@ interface TutorialShortcut {
     selector: 'app-tutorial',
     templateUrl: './tutorial.component.html',
     styleUrls: ['./tutorial.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TutorialComponent {

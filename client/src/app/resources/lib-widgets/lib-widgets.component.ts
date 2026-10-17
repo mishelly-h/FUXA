@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ResourceGroup, ResourceItem } from '../../_models/resources';
 import { LibWidgetsService } from './lib-widgets.service';
@@ -10,6 +10,7 @@ import { ToastNotifierService } from '../../_services/toast-notifier.service';
     selector: 'app-lib-widgets',
     templateUrl: './lib-widgets.component.html',
     styleUrls: ['./lib-widgets.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LibWidgetsComponent implements OnInit, OnDestroy {

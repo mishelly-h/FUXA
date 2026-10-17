@@ -1,5 +1,5 @@
-/* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Input } from '@angular/core';
+ 
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Utils } from '../../_helpers/utils';
 
 import { Series, Options, Legend } from './uPlot';
@@ -37,6 +37,7 @@ const WHEEL_MIN_RANGE_DIVISOR = 1e4;   // prevent over-zoom: min range = current
     selector: 'ngx-uplot',
     templateUrl: './ngx-uplot.component.html',
     styleUrls: ['./ngx-uplot.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NgxUplotComponent implements OnInit, OnDestroy {

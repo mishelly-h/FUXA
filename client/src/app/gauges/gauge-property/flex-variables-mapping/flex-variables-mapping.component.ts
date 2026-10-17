@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import { View } from '../../../_models/hmi';
 import { VariableMapItemType } from '../flex-variable-map/flex-variable-map.component';
@@ -7,6 +7,7 @@ import { VariableMapItemType } from '../flex-variable-map/flex-variable-map.comp
     selector: 'flex-variables-mapping',
     templateUrl: './flex-variables-mapping.component.html',
     styleUrls: ['./flex-variables-mapping.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FlexVariablesMappingComponent implements OnInit, OnChanges {

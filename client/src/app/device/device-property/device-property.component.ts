@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Subscription, delay } from 'rxjs';
@@ -13,6 +13,7 @@ import { DeviceType, DeviceSecurity, MessageSecurityMode, SecurityPolicy, Modbus
     selector: 'app-device-property',
     templateUrl: './device-property.component.html',
     styleUrls: ['./device-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DevicePropertyComponent implements OnInit, OnDestroy {

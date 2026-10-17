@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { ScriptParamType } from '../../../_models/script';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { Utils } from '../../../_helpers/utils';
     selector: 'app-script-editor-param',
     templateUrl: './script-editor-param.component.html',
     styleUrls: ['./script-editor-param.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ScriptEditorParamComponent {

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Utils } from '../../../_helpers/utils';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChartLine, ChartLineZone } from '../../../_models/chart';
@@ -8,6 +8,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
     selector: 'app-chart-line-property',
     templateUrl: './chart-line-property.component.html',
     styleUrls: ['./chart-line-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ChartLinePropertyComponent implements OnInit {

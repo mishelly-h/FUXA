@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { KioskWidgetsService } from './kiosk-widgets.service';
 import { map, Observable } from 'rxjs';
@@ -11,6 +11,7 @@ import { ToastNotifierService } from '../../_services/toast-notifier.service';
     selector: 'app-kiosk-widgets',
     templateUrl: './kiosk-widgets.component.html',
     styleUrls: ['./kiosk-widgets.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class KioskWidgetsComponent implements OnInit {

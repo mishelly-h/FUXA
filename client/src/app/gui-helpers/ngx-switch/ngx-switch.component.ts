@@ -1,10 +1,11 @@
-/* eslint-disable @angular-eslint/component-selector */
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+ 
+import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'ngx-switch',
     templateUrl: './ngx-switch.component.html',
     styleUrls: ['./ngx-switch.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NgxSwitchComponent implements AfterViewInit {

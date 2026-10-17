@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { HmiService } from '../../../_services/hmi.service';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { BACnetObjectType, Device, Tag } from '../../../_models/device';
@@ -9,6 +9,7 @@ import { TreetableComponent, Node, NodeType } from '../../../gui-helpers/treetab
     selector: 'app-tag-property-edit-bacnet',
     templateUrl: './tag-property-edit-bacnet.component.html',
     styleUrls: ['./tag-property-edit-bacnet.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {

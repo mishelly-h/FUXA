@@ -1,5 +1,5 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, Inject, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
+ 
+import { Component, OnInit, Inject, ViewChild, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -23,6 +23,7 @@ import { LayoutHeaderItemPropertyComponent } from './layout-header-item-property
     selector: 'app-layout-property',
     templateUrl: './layout-property.component.html',
     styleUrls: ['./layout-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LayoutPropertyComponent implements OnInit, OnDestroy {

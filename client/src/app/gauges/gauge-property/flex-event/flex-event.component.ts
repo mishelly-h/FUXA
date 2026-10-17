@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -27,6 +27,7 @@ import { ProjectService } from '../../../_services/project.service';
     selector: 'flex-event',
     templateUrl: './flex-event.component.html',
     styleUrls: ['./flex-event.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FlexEventComponent implements OnInit {

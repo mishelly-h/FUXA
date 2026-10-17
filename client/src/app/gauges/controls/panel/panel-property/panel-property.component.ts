@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { GaugePanelProperty, PropertyScaleModeType } from '../../../../_models/hmi';
 import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
 
@@ -6,6 +6,7 @@ import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/
     selector: 'app-panel-property',
     templateUrl: './panel-property.component.html',
     styleUrls: ['./panel-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PanelPropertyComponent implements OnInit {

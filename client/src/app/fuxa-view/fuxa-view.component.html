@@ -10,9 +10,8 @@
     [style.width]="card.width +'px'"
     class="fab-card"
     style="cursor: auto !important;"
-    [handle]="DemoHandle"
-    ngDraggable>
-    <div #DemoHandle
+    cdkDrag>
+    <div cdkDragHandle
       class="card-move-area">
       @if (!card.disableDefaultClose) {
         <a (click)="onCloseCard(card);" class="card-close">
@@ -32,9 +31,9 @@
   </div>
 }
 @for (iframe of iframes; track iframe; let i = $index) {
-  <div (rzResizing)="onIframeResizing(iframe, $event)" [handle]="iframeHandle" [style.height]="(iframe.height + 22) + 'px'"
-    [style.left]="iframe.x + 'px'" [style.top]="iframe.y + 'px'" [style.width]="iframe.width + 'px'" class="fab-iframe" ngDraggable ngResizable>
-    <div #iframeHandle class="iframe-header">
+  <div appBoxResizable (resizing)="onIframeResizing(iframe, { size: { width: $event.size.width, height: $event.size.height - 22 } })" [style.height]="(iframe.height + 22) + 'px'"
+    [style.left]="iframe.x + 'px'" [style.top]="iframe.y + 'px'" [style.width]="iframe.width + 'px'" class="fab-iframe" cdkDrag>
+    <div cdkDragHandle class="iframe-header">
       <span>{{iframe.name}}</span>
       <a (click)="onCloseIframe(iframe);">
         <i class="material-icons" style="font-size: 22px; cursor: pointer;">close</i>

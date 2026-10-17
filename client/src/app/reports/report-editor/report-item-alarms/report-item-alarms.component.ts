@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AlarmPriorityType, AlarmPropertyType, AlarmStatusType, AlarmsType } from '../../../_models/alarm';
@@ -10,6 +10,7 @@ import { ReportItemTableComponent } from '../report-item-table/report-item-table
     selector: 'app-report-item-alarms',
     templateUrl: './report-item-alarms.component.html',
     styleUrls: ['./report-item-alarms.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ReportItemAlarmsComponent implements OnInit {

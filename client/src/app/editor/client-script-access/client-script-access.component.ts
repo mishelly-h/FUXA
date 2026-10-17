@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { ScriptMode, SystemFunctions } from '../../_models/script';
 import { ProjectService } from '../../_services/project.service';
@@ -8,6 +8,7 @@ import { ClientAccess } from '../../_models/client-access';
     selector: 'app-client-script-access',
     templateUrl: './client-script-access.component.html',
     styleUrls: ['./client-script-access.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ClientScriptAccessComponent implements OnInit {

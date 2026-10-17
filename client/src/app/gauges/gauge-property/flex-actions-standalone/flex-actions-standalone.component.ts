@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Utils } from '../../../_helpers/utils';
@@ -9,6 +9,7 @@ import { ProjectService } from '../../../_services/project.service';
     selector: 'flex-actions-standalone',
     templateUrl: './flex-actions-standalone.component.html',
     styleUrls: ['./flex-actions-standalone.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class FlexActionsStandaloneComponent implements OnInit {

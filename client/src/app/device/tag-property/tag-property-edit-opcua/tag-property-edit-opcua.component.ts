@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Inject, OnDestroy, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { HmiService } from '../../../_services/hmi.service';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { Device, OpcUaTagType, Tag } from '../../../_models/device';
@@ -10,6 +10,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
     selector: 'app-tag-property-edit-opcua',
     templateUrl: './tag-property-edit-opcua.component.html',
     styleUrls: ['./tag-property-edit-opcua.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditOpcuaComponent implements OnInit, OnDestroy {

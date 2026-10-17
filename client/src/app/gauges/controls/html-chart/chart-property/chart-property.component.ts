@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
@@ -24,6 +24,7 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../gui-helpe
     selector: 'app-chart-property',
     templateUrl: './chart-property.component.html',
     styleUrls: ['./chart-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ChartPropertyComponent implements OnInit, OnDestroy {

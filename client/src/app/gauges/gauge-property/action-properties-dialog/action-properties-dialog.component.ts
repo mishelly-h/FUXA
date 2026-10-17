@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { ProjectService } from '../../../_services/project.service';
 import { Device } from '../../../_models/device';
@@ -9,6 +9,7 @@ import { FlexActionComponent } from '../flex-action/flex-action.component';
     selector: 'app-action-properties-dialog',
     templateUrl: './action-properties-dialog.component.html',
     styleUrls: ['./action-properties-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ActionPropertiesDialogComponent implements OnInit {

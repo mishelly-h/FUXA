@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, Inject, ViewChild, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GaugeProperty } from '../../../../_models/hmi';
@@ -15,6 +15,7 @@ import { FlexEventComponent } from '../../../gauge-property/flex-event/flex-even
     selector: 'app-html-switch-property',
     templateUrl: './html-switch-property.component.html',
     styleUrls: ['./html-switch-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlSwitchPropertyComponent implements OnInit, AfterViewInit {

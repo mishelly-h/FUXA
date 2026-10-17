@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { RecipeService } from '../../../../_services/recipe.service';
 import { Recipe } from '../../../../_models/recipe';
 import { FlexAuthValues } from '../../../gauge-property/flex-auth/flex-auth.component';
@@ -14,6 +14,7 @@ import { Define } from '../../../../_helpers/define';
     selector: 'app-recipe-property',
     templateUrl: './recipe-property.component.html',
     styleUrls: ['./recipe-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RecipePropertyComponent implements OnInit {

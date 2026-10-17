@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -10,6 +10,7 @@ import { ProjectService } from '../../../_services/project.service';
     selector: 'app-device-webapi-property-dialog',
     templateUrl: './device-webapi-property-dialog.component.html',
     styleUrls: ['./device-webapi-property-dialog.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DeviceWebapiPropertyDialogComponent implements OnInit, OnDestroy {

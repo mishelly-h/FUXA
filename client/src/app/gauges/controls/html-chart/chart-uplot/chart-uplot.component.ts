@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, Input, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, Input, Output, EventEmitter, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 
 import { ChartLegendMode, ChartRangeType, ChartRangeConverter, ChartLine, ChartViewType, ChartLineZone, Chart } from '../../../../_models/chart';
 import { NgxUplotComponent, NgxSeries, ChartOptions } from '../../../../gui-helpers/ngx-uplot/ngx-uplot.component';
@@ -19,6 +19,7 @@ import { HmiService } from '../../../../_services/hmi.service';
     selector: 'chart-uplot',
     templateUrl: './chart-uplot.component.html',
     styleUrls: ['./chart-uplot.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {

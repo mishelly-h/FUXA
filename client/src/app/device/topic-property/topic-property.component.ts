@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabGroup as MatTabGroup, MatTab as MatTab } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
@@ -13,6 +13,7 @@ import { JsonUtils } from '../../_helpers/json-utils';
     selector: 'app-topic-property',
     templateUrl: './topic-property.component.html',
     styleUrls: ['./topic-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TopicPropertyComponent implements OnInit, OnDestroy {

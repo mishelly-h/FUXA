@@ -151,11 +151,11 @@
             <div class="flex value mt5">
               <div class="my-form-field number inbk">
                 <span>{{'gui.range-number-min' | translate}}</span>
-                <input [value]="action?.range?.min" type="text" readonly [disabled]="true">
+                <input [value]="$safeNavigationMigration(action?.range?.min)" type="text" readonly [disabled]="true">
               </div>
               <div class="my-form-field number inbk ml5">
                 <span>{{'gui.range-number-max' | translate}}</span>
-                <input [value]="action?.range?.max" type="text" readonly [disabled]="true">
+                <input [value]="$safeNavigationMigration(action?.range?.max)" type="text" readonly [disabled]="true">
               </div>
               <div class="my-form-field type inbk ml5">
                 <span>{{'gauges.property-action-type' | translate}}</span>

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { EditNameComponent } from '../../../gui-helpers/edit-name/edit-name.component';
@@ -12,6 +12,7 @@ import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../../de
     selector: 'app-report-item-table',
     templateUrl: './report-item-table.component.html',
     styleUrls: ['./report-item-table.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ReportItemTableComponent implements OnInit {

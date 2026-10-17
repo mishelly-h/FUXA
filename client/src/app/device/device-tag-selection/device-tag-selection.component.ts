@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, Inject, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
@@ -14,6 +14,7 @@ import { TagPropertyService } from '../tag-property/tag-property.service';
     selector: 'app-device-tag-selection',
     templateUrl: './device-tag-selection.component.html',
     styleUrls: ['./device-tag-selection.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDestroy {

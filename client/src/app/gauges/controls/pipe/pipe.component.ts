@@ -264,7 +264,7 @@ export class PipeComponent {
         PipeComponent.initElement(gaugeSettings, false);
     }
 
-    static detectChange(gaugeSettings: GaugeSettings, res: any, ref: any) {
+    static detectChange(gaugeSettings: GaugeSettings, ref: any) {
         let data = { id: gaugeSettings.id, property: gaugeSettings.property.options };
         let result = ref.nativeWindow.svgEditor.runExtension('pipe', 'initPipe', data);
         PipeComponent.initElement(gaugeSettings, false);

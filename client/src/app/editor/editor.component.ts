@@ -1,5 +1,5 @@
-﻿/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef } from '@angular/core';
+﻿ 
+import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -59,6 +59,7 @@ declare var mysvgeditor: any;
 @Component({
     templateUrl: 'editor.component.html',
     styleUrls: ['editor.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 
@@ -137,7 +138,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         private translateService: TranslateService,
         public gaugesManager: GaugesManager,
         private viewContainerRef: ViewContainerRef,
-        private resolver: ComponentFactoryResolver,
         private resourcesService: ResourcesService,
         private libWidgetsService: LibWidgetsService,
         private settingsService: SettingsService) {
@@ -283,7 +283,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 (eleresized) => {
                     if (eleresized && eleresized.id) {
                         let ga: GaugeSettings = this.getGaugeSettings(eleresized);
-                        this.gaugesManager.checkElementToResize(ga, this.resolver, this.viewContainerRef, eleresized.size);
+                        this.gaugesManager.checkElementToResize(ga, this.viewContainerRef, eleresized.size);
                     }
                 },
                 (copiedPasted) => {
@@ -1011,7 +1011,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     checkGaugeAdded(ga: GaugeSettings) {
         this.gaugesManager.chackSetModeParamToAddedGauge(ga, this.setModeParam);
-        let gauge = this.gaugesManager.initElementAdded(ga, this.resolver, this.viewContainerRef, false);
+        let gauge = this.gaugesManager.initElementAdded(ga, this.viewContainerRef, false);
         if (gauge) {
             if (gauge !== true) {
                 if (!this.gaugesRef.hasOwnProperty(ga.id)) {
@@ -1504,7 +1504,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             if (result) {
                 callback(result.settings);
                 this.saveView(this.currentView);
-                this.gaugesManager.initInEditor(result.settings, this.resolver, this.viewContainerRef, elementWithLanguageText);
+                this.gaugesManager.initInEditor(result.settings, this.viewContainerRef, elementWithLanguageText);
                 this.checkSvgElementsMap(true);
             }
         });
@@ -1560,7 +1560,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         if (settings) {
             this.setGaugeSettings(settings);
             this.saveView(this.currentView);
-            let result_gauge = this.gaugesManager.initInEditor(settings, this.resolver, this.viewContainerRef);
+            let result_gauge = this.gaugesManager.initInEditor(settings, this.viewContainerRef);
             if (result_gauge?.element && result_gauge.element.id !== settings.id) {
                 // by init a path we need to change the id
                 delete this.currentView.items[settings.id];
@@ -1752,6 +1752,7 @@ interface CopiedAndPasted {
 @Component({
     selector: 'dialog-link-property',
     templateUrl: 'linkproperty.dialog.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DialogLinkProperty {
