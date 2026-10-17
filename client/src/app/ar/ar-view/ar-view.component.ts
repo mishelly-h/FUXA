@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -13,6 +13,7 @@ import { ArViewService, ArVisibleMarker } from './ar-view.service';
     templateUrl: './ar-view.component.html',
     styleUrls: ['./ar-view.component.scss'],
     providers: [ArViewService, ArMarkerScannerService],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ArViewComponent implements AfterViewInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, Input, ChangeDetectionStrategy } from '@angular/core';
 
 declare const noUiSlider: any;
 
@@ -17,6 +17,7 @@ export class NgxNouisliderOptions {
     selector: 'ngx-nouislider',
     templateUrl: './ngx-nouislider.component.html',
     styleUrls: ['./ngx-nouislider.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NgxNouisliderComponent implements OnInit, AfterViewInit, OnDestroy {

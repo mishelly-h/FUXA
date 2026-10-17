@@ -8,7 +8,7 @@
               @switch (item.card.type) {
                 @case (cardType.view) {
                   <div>
-                    @switch (item.content?.type) {
+                    @switch ($safeNavigationMigration(item.content?.type)) {
                       @case (mapsViewType) {
                         <app-maps-view [view]="item.content" [hmi]="hmi" [gaugesManager]="gaugesManager" (onGoTo)="onGoToPage($event)"></app-maps-view>
                       }

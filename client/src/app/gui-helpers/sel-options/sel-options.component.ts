@@ -1,10 +1,11 @@
-/* eslint-disable @angular-eslint/component-selector */
-import { Component, Input } from '@angular/core';
+ 
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'sel-options',
     templateUrl: './sel-options.component.html',
     styleUrls: ['./sel-options.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SelOptionsComponent {

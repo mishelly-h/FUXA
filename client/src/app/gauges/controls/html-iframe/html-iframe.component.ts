@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, Variable } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -8,6 +8,7 @@ import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
     selector: 'app-html-iframe',
     templateUrl: './html-iframe.component.html',
     styleUrls: ['./html-iframe.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlIframeComponent extends GaugeBaseComponent {

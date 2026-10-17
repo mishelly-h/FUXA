@@ -1,10 +1,11 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { ISvgElement } from '../../_models/hmi';
 
 @Component({
     selector: 'app-svg-selector',
     templateUrl: './svg-selector.component.html',
     styleUrls: ['./svg-selector.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SvgSelectorComponent {

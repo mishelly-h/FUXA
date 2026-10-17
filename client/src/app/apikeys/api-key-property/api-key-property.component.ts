@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiKey } from '../../_models/apikey';
@@ -8,6 +8,7 @@ import { Utils } from '../../_helpers/utils';
     selector: 'app-api-key-property',
     templateUrl: './api-key-property.component.html',
     styleUrls: ['./api-key-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ApiKeyPropertyComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Inject, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Inject, Output, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Device, AdsClientTagType, Tag } from '../../../_models/device';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
@@ -9,6 +9,7 @@ import { Subject } from 'rxjs';
     selector: 'app-tag-property-edit-adsclient',
     templateUrl: './tag-property-edit-adsclient.component.html',
     styleUrls: ['./tag-property-edit-adsclient.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditADSclientComponent implements OnInit, OnDestroy {

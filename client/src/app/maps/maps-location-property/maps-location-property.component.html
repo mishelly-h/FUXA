@@ -63,9 +63,9 @@
                 <div class="my-form-field block">
                   <span>{{'dlg.menuitem-icon' | translate}}</span>
                   <app-icon-selector
-                    [value]="formGroup.get('markerIcon')?.value"
+                    [value]="$safeNavigationMigration(formGroup.get('markerIcon')?.value)"
                     (valueChange)="formGroup.get('markerIcon')?.setValue($event)"
-                    [image]="formGroup.get('markerImage')?.value"
+                    [image]="$safeNavigationMigration(formGroup.get('markerImage')?.value)"
                     [allowImage]="true"
                     [imageLabel]="'dlg.menuitem-image'"
                     [filterPlaceholder]="'dlg.menuitem-icons-filter'"
@@ -84,7 +84,7 @@
             <div class="col-4">
               <div class="my-form-field">
                 <span>{{'maps.location-property-marker-background' | translate}}</span>
-                <input [colorPicker]="formGroup.get('markerBackground')?.value" (colorPickerChange)="formGroup.get('markerBackground')?.setValue($event)"
+                <input [colorPicker]="$safeNavigationMigration(formGroup.get('markerBackground')?.value)" (colorPickerChange)="formGroup.get('markerBackground')?.setValue($event)"
                   [style.background]="formGroup.get('markerBackground')?.value" [cpAlphaChannel]="'always'" [cpPresetColors]="defaultColor" [cpOKButton]="true"
                   [cpOKButtonClass]="'cpOKButtonClass'" [cpCancelButton]="true" [cpCancelButtonClass]="'cpCancelButtonClass'" [cpCancelButtonText]="'Cancel'"
                   [cpOKButtonText]="'OK'" [cpOKButtonClass]="'cpOKButtonClass'" class="input-color" formControlName="markerBackground"
@@ -92,7 +92,7 @@
               </div>
               <div class="my-form-field mt10">
                 <span>{{'maps.location-property-marker-color' | translate}}</span>
-                <input [colorPicker]="formGroup.get('markerColor')?.value" (colorPickerChange)="formGroup.get('markerColor')?.setValue($event)"
+                <input [colorPicker]="$safeNavigationMigration(formGroup.get('markerColor')?.value)" (colorPickerChange)="formGroup.get('markerColor')?.setValue($event)"
                   [style.background]="formGroup.get('markerColor')?.value" [cpAlphaChannel]="'always'" [cpPresetColors]="defaultColor" [cpOKButton]="true"
                   [cpCancelButton]="true" [cpCancelButtonClass]="'cpCancelButtonClass'" [cpCancelButtonText]="'Cancel'" [cpOKButtonText]="'OK'"
                   [cpOKButtonClass]="'cpOKButtonClass'" class="input-color" formControlName="markerColor" style="padding: 8px 0 0 0; width: 90px">
@@ -106,7 +106,7 @@
             </div>
             @if (formGroup.controls?.showMarkerValue?.value) {
               <div class="w100">
-                <app-flex-device-tag class="block mt5 item-device-tag" (onchange)="onTagChanged($event)" [variableId]="formGroup.get('markerTagValueId')?.value">
+                <app-flex-device-tag class="block mt5 item-device-tag" (onchange)="onTagChanged($event)" [variableId]="$safeNavigationMigration(formGroup.get('markerTagValueId')?.value)">
                 </app-flex-device-tag>
               </div>
             }

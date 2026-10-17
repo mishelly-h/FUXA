@@ -1,7 +1,7 @@
 import {
     Input, Directive, ViewContainerRef,
     OnInit, TemplateRef, DoCheck,
-    IterableDiffers, IterableDiffer
+    IterableDiffers, type IterableDiffer
 } from '@angular/core';
 
 @Directive({

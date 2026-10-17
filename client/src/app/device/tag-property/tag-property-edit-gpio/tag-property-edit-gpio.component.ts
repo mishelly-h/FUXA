@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Inject, Output, ChangeDetectionStrategy } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import {Device, GpioDirectionType, GpioEdgeType, Tag} from '../../../_models/device';
 import { TranslateService } from '@ngx-translate/core';
@@ -8,6 +8,7 @@ import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from
     selector: 'app-tag-property-edit-gpio',
     templateUrl: './tag-property-edit-gpio.component.html',
     styleUrls: ['./tag-property-edit-gpio.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditGpioComponent implements OnInit {

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Device, Tag } from '../../../_models/device';
 import { Subject, takeUntil } from 'rxjs';
 import { HmiService } from '../../../_services/hmi.service';
@@ -10,6 +10,7 @@ import { Utils } from '../../../_helpers/utils';
     selector: 'app-tag-property-edit-webapi',
     templateUrl: './tag-property-edit-webapi.component.html',
     styleUrls: ['./tag-property-edit-webapi.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {

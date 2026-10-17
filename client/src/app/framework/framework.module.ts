@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { IconSelectorComponent } from './icon-selector/icon-selector.component';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -25,7 +25,8 @@ import { TranslateModule } from '@ngx-translate/core';
     MatIconModule,
     MatSelectModule,
     MatInputModule,
-    TranslateModule
+    TranslatePipe,
+    TranslateDirective
   ],
   exports: [
     NgxTouchKeyboardModule,

@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -10,6 +10,7 @@ import { EndPointApi } from '../../_helpers/endpointapi';
     selector: 'app-lib-images',
     templateUrl: './lib-images.component.html',
     styleUrls: ['./lib-images.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LibImagesComponent implements AfterViewInit, OnDestroy {

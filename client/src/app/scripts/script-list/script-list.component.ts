@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -17,6 +17,7 @@ import { ScriptModeComponent, ScriptModeType } from '../script-mode/script-mode.
     selector: 'app-script-list',
     templateUrl: './script-list.component.html',
     styleUrls: ['./script-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ScriptListComponent implements OnInit, AfterViewInit, OnDestroy {

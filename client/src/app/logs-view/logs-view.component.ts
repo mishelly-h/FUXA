@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 
 import { UntypedFormControl } from '@angular/forms';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -13,6 +13,7 @@ import { LogsRequest } from '../_models/diagnose';
     selector: 'app-logs-view',
     templateUrl: './logs-view.component.html',
     styleUrls: ['./logs-view.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LogsViewComponent implements AfterViewInit {

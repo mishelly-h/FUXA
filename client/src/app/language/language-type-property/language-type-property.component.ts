@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Language, Languages } from '../../_models/language';
 import { AbstractControl, FormArray, FormGroup, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { ProjectService } from '../../_services/project.service';
     selector: 'app-language-type-property',
     templateUrl: './language-type-property.component.html',
     styleUrls: ['./language-type-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LanguageTypePropertyComponent implements OnInit {

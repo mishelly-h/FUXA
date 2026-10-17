@@ -1,4 +1,4 @@
-import { Injectable, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 
 import { GaugeSettings, Variable, GaugeStatus, TableType, TableOptions, TableCellType, GaugeTableProperty } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -48,14 +48,13 @@ export class HtmlTableComponent {
         }
     }
 
-    static initElement(gab: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, isview: boolean): DataTableComponent {
+    static initElement(gab: GaugeSettings, viewContainerRef: ViewContainerRef, isview: boolean): DataTableComponent {
         let ele = document.getElementById(gab.id);
         if (ele) {
             ele?.setAttribute('data-name', gab.name);
             let htmlTable = Utils.searchTreeStartWith(ele, this.prefixD);
             if (htmlTable) {
-                let factory = resolver.resolveComponentFactory(DataTableComponent);
-                const componentRef = viewContainerRef.createComponent(factory);
+                const componentRef = viewContainerRef.createComponent(DataTableComponent);
                 // if (gab.property) {
                 //     componentRef.instance.withToolbar = (gab.property.type === 'history') ? true : false;
                 // }
@@ -103,8 +102,8 @@ export class HtmlTableComponent {
         }
     }
 
-    static detectChange(gab: GaugeSettings, res: any, ref: any): DataTableComponent{
-        return HtmlTableComponent.initElement(gab, res, ref, false);
+    static detectChange(gab: GaugeSettings, ref: any): DataTableComponent{
+        return HtmlTableComponent.initElement(gab, ref, false);
     }
 }
 

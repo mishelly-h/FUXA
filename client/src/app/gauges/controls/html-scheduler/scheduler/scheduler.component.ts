@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, ViewChild, ElementRef, ChangeDetectorRef, ViewEncapsulation, AfterViewInit, NgZone } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, type SimpleChanges, ViewChild, ElementRef, ChangeDetectorRef, ViewEncapsulation, AfterViewInit, NgZone, ChangeDetectionStrategy } from '@angular/core';
 import { fromEvent, Subject, take, takeUntil } from 'rxjs';
 import { HmiService } from '../../../../_services/hmi.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
     templateUrl: './scheduler.component.html',
     styleUrls: ['./scheduler.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {

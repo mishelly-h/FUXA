@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, Variable, GaugeStatus } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -11,6 +11,7 @@ import { ChartOptions } from '../../../gui-helpers/ngx-uplot/ngx-uplot.component
     selector: 'html-chart',
     templateUrl: './html-chart.component.html',
     styleUrls: ['./html-chart.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlChartComponent extends GaugeBaseComponent {
@@ -18,7 +19,7 @@ export class HtmlChartComponent extends GaugeBaseComponent {
     static LabelTag = 'HtmlChart';
     static prefixD = 'D-HXC_';
 
-    constructor(private resolver: ComponentFactoryResolver) {
+    constructor() {
         super();
     }
 
@@ -38,14 +39,13 @@ export class HtmlChartComponent extends GaugeBaseComponent {
         }
     }
 
-    static initElement(gab: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, isview: boolean, chartRange: any) {
+    static initElement(gab: GaugeSettings, viewContainerRef: ViewContainerRef, isview: boolean, chartRange: any) {
         let ele = document.getElementById(gab.id);
         if (ele) {
             ele?.setAttribute('data-name', gab.name);
             let htmlChart = Utils.searchTreeStartWith(ele, this.prefixD);
             if (htmlChart) {
-                const factory = resolver.resolveComponentFactory(ChartUplotComponent);
-                const componentRef = viewContainerRef.createComponent(factory);
+                const componentRef = viewContainerRef.createComponent(ChartUplotComponent);
                 if (gab.property) {
                     componentRef.instance.withToolbar = (gab.property.type === 'history') ? true : false;
                 }
@@ -68,7 +68,7 @@ export class HtmlChartComponent extends GaugeBaseComponent {
         }
     }
 
-    static detectChange(gab: GaugeSettings, res: any, ref: any) {
-        return HtmlChartComponent.initElement(gab, res, ref, false, null);
+    static detectChange(gab: GaugeSettings, ref: any) {
+        return HtmlChartComponent.initElement(gab, ref, false, null);
     }
 }

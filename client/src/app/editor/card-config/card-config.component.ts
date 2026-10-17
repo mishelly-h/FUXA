@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -9,6 +9,7 @@ import { GridsterItemConfig } from 'angular-gridster2';
     selector: 'app-card-config',
     templateUrl: './card-config.component.html',
     styleUrls: ['./card-config.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class CardConfigComponent implements OnInit {

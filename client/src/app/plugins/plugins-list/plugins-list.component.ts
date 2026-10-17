@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { ProjectService } from '../../_services/project.service';
@@ -13,6 +13,7 @@ interface PluginViewModel extends Plugin {
     selector: 'app-plugins-list',
     templateUrl: './plugins-list.component.html',
     styleUrls: ['./plugins-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class PluginsListComponent implements OnInit, OnDestroy {

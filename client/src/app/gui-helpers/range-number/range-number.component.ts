@@ -1,10 +1,11 @@
-/* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, Input } from '@angular/core';
+ 
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'range-number',
     templateUrl: './range-number.component.html',
     styleUrls: ['./range-number.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class RangeNumberComponent implements OnInit {

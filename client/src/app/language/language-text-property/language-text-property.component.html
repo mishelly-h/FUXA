@@ -24,7 +24,7 @@
     @for (lang of languages; track lang) {
       <div class="my-form-field mt5">
         <span>{{ lang.id }} ({{ lang.name }})</span>
-        <input matInput [formControlName]="'translation_' + lang.id" type="text" [value]="formGroup.get('translation_' + lang.id)?.value">
+        <input matInput [formControlName]="'translation_' + lang.id" type="text" [value]="$safeNavigationMigration(formGroup.get('translation_' + lang.id)?.value)">
       </div>
     }
 

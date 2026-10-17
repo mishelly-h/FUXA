@@ -201,44 +201,44 @@ export class GaugesManager {
      * gauges to update in editor after changed property (GaugePropertyComponent, ChartPropertyComponent)
      * @param ga
      */
-    initInEditor(ga: GaugeSettings, res: any, ref: any, elementWithLanguageText?: any) {
+    initInEditor(ga: GaugeSettings, ref: any, elementWithLanguageText?: any) {
         if (ga.type.startsWith(GaugeProgressComponent.TypeTag)) {
             GaugeProgressComponent.initElement(ga);
         } else if (ga.type.startsWith(HtmlButtonComponent.TypeTag)) {
             HtmlButtonComponent.initElement(ga);
         } else if (ga.type.startsWith(HtmlChartComponent.TypeTag)) {
             delete this.mapGauges[ga.id];
-            let gauge = HtmlChartComponent.detectChange(ga, res, ref);
+            let gauge = HtmlChartComponent.detectChange(ga, ref);
             this.setChartPropety(gauge, ga.property);
             this.mapGauges[ga.id] = gauge;
         } else if (ga.type.startsWith(HtmlGraphComponent.TypeTag)) {
             delete this.mapGauges[ga.id];
-            let gauge = HtmlGraphComponent.detectChange(ga, res, ref);
+            let gauge = HtmlGraphComponent.detectChange(ga, ref);
             this.setGraphPropety(gauge, ga.property);
             this.mapGauges[ga.id] = gauge;
         } else if (ga.type.startsWith(HtmlBagComponent.TypeTag)) {
-            this.mapGauges[ga.id] = HtmlBagComponent.detectChange(ga, res, ref);
+            this.mapGauges[ga.id] = HtmlBagComponent.detectChange(ga, ref);
         } else if (ga.type.startsWith(PipeComponent.TypeTag)) {
-            this.mapGauges[ga.id] = PipeComponent.detectChange(ga, res, this.winRef);
+            this.mapGauges[ga.id] = PipeComponent.detectChange(ga, this.winRef);
             return this.mapGauges[ga.id];
         } else if (ga.type.startsWith(SliderComponent.TypeTag)) {
-            return this.mapGauges[ga.id] = SliderComponent.detectChange(ga, res, ref);
+            return this.mapGauges[ga.id] = SliderComponent.detectChange(ga, ref);
         } else if (ga.type.startsWith(HtmlSwitchComponent.TypeTag)) {
-            return this.mapGauges[ga.id] = HtmlSwitchComponent.detectChange(ga, res, ref);
+            return this.mapGauges[ga.id] = HtmlSwitchComponent.detectChange(ga, ref);
         } else if (ga.type.startsWith(HtmlIframeComponent.TypeTag)) {
             HtmlIframeComponent.detectChange(ga);
         } else if (ga.type.startsWith(HtmlTableComponent.TypeTag)) {
             delete this.mapGauges[ga.id];
-            let gauge = HtmlTableComponent.detectChange(ga, res, ref);
+            let gauge = HtmlTableComponent.detectChange(ga, ref);
             this.setTablePropety(gauge, ga.property);
             this.mapGauges[ga.id] = gauge;
         } else if (ga.type.startsWith(HtmlSchedulerComponent.TypeTag)) {
             delete this.mapGauges[ga.id];
-            let gauge = HtmlSchedulerComponent.detectChange(ga, res, ref);
+            let gauge = HtmlSchedulerComponent.detectChange(ga, ref);
             this.mapGauges[ga.id] = gauge;
         } else if (ga.type.startsWith(HtmlRecipeComponent.TypeTag)) {
             delete this.mapGauges[ga.id];
-            let gauge = HtmlRecipeComponent.detectChange(ga, res, ref);
+            let gauge = HtmlRecipeComponent.detectChange(ga, ref);
             this.mapGauges[ga.id] = gauge;
         } else if (ga.type.startsWith(HtmlImageComponent.TypeTag)) {
             HtmlImageComponent.detectChange(ga, true);
@@ -393,7 +393,7 @@ export class GaugesManager {
         return null;
     }
 
-    checkElementToResize(ga: GaugeSettings, res: any, ref: any, size: Size) {
+    checkElementToResize(ga: GaugeSettings, ref: any, size: Size) {
         if (ga && this.mapGauges[ga.id]) {
             if (typeof this.mapGauges[ga.id]['resize'] === 'function') {
                 let height, width;
@@ -410,7 +410,7 @@ export class GaugesManager {
                             if (this.mapGauges[ga.id].options) {
                                 options = this.mapGauges[ga.id].options;
                             }
-                            return GaugesManager.Gauges[i]['resize'](ga, res, ref, options);
+                            return GaugesManager.Gauges[i]['resize'](ga, ref, options);
                         }
                         return;
                     }
@@ -831,12 +831,11 @@ export class GaugesManager {
      * initialize the gauge element found in svg view and editor, like ngx-uplot, ngx-gauge
      * in svg is only a 'div' that have to be dynamic build and render from angular
      * @param ga gauge settings
-     * @param res reference to factory
-     * @param ref reference to factory
+     * @param ref ViewContainerRef used to create the component
      * @param isview in view or editor, in editor have to disable mouse activity
      * @param parent parent that call the function, should be from a FuxaViewComponent
      */
-    initElementAdded(ga: GaugeSettings, res: any, ref: any, isview: boolean, parent?: FuxaViewComponent, textTranslation?: string, sourceDeviceTags?: Tag[]) {
+    initElementAdded(ga: GaugeSettings, ref: any, isview: boolean, parent?: FuxaViewComponent, textTranslation?: string, sourceDeviceTags?: Tag[]) {
         if (!ga || !ga.type) {
             console.error('!TOFIX', ga);
             return null;
@@ -863,7 +862,7 @@ export class GaugesManager {
         }
         if (ga.type.startsWith(HtmlChartComponent.TypeTag)) {
             // prepare attribute
-            let gauge: ChartUplotComponent = HtmlChartComponent.initElement(ga, res, ref, isview, ChartRangeType);
+            let gauge: ChartUplotComponent = HtmlChartComponent.initElement(ga, ref, isview, ChartRangeType);
             if (gauge) {
                 this.setChartPropety(gauge, ga.property, targetSignalsId);
                 this.mapChart[ga.id] = gauge;
@@ -877,7 +876,7 @@ export class GaugesManager {
             }
             return gauge;
         } else if (ga.type.startsWith(HtmlGraphComponent.TypeTag)) {
-            let gauge: GraphBaseComponent = HtmlGraphComponent.initElement(ga, res, ref, isview);
+            let gauge: GraphBaseComponent = HtmlGraphComponent.initElement(ga, ref, isview);
             if (gauge) {
                 this.setGraphPropety(gauge, ga.property, targetSignalsId);
                 gauge.onReload.subscribe((query: DaqQuery) => {
@@ -892,11 +891,11 @@ export class GaugesManager {
             }
             return gauge;
         } else if (ga.type.startsWith(HtmlBagComponent.TypeTag)) {
-            let gauge: NgxGaugeComponent = HtmlBagComponent.initElement(ga, res, ref, isview);
+            let gauge: NgxGaugeComponent = HtmlBagComponent.initElement(ga, ref, isview);
             this.mapGauges[ga.id] = gauge;
             return gauge;
         } else if (ga.type.startsWith(SliderComponent.TypeTag)) {
-            let gauge: NgxNouisliderComponent = SliderComponent.initElement(ga, res, ref, isview);
+            let gauge: NgxNouisliderComponent = SliderComponent.initElement(ga, ref, isview);
             this.mapGauges[ga.id] = gauge;
             return gauge;
         } else if (ga.type.startsWith(HtmlInputComponent.TypeTag)) {
@@ -909,11 +908,11 @@ export class GaugesManager {
             let gauge = GaugeProgressComponent.initElement(ga);
             return gauge || true;
         } else if (ga.type.startsWith(HtmlSwitchComponent.TypeTag)) {
-            let gauge = HtmlSwitchComponent.initElement(ga, res, ref, this.authService.checkPermission.bind(this.authService));
+            let gauge = HtmlSwitchComponent.initElement(ga, ref, this.authService.checkPermission.bind(this.authService));
             this.mapGauges[ga.id] = gauge;
             return gauge;
         } else if (ga.type.startsWith(HtmlTableComponent.TypeTag)) {
-            let gauge = HtmlTableComponent.initElement(ga, res, ref, isview);
+            let gauge = HtmlTableComponent.initElement(ga, ref, isview);
             if (gauge) {
                 this.setTablePropety(gauge, ga.property, targetSignalsId);
                 this.mapTable[ga.id] = gauge;
@@ -926,7 +925,7 @@ export class GaugesManager {
             }
             return gauge;
         } else if (ga.type.startsWith(HtmlSchedulerComponent.TypeTag)) {
-            let gauge = HtmlSchedulerComponent.initElement(ga, res, ref, isview);
+            let gauge = HtmlSchedulerComponent.initElement(ga, ref, isview);
             if (gauge) {
                 this.mapGauges[ga.id] = gauge;
             }
@@ -939,7 +938,7 @@ export class GaugesManager {
             this.mapGauges[ga.id] = gauge;
             return gauge;
         } else if (ga.type.startsWith(PanelComponent.TypeTag)) {
-            let gauge: FuxaViewComponent = PanelComponent.initElement(ga, res, ref, this, this.hmiService.hmi, isview, parent);
+            let gauge: FuxaViewComponent = PanelComponent.initElement(ga, ref, this, this.hmiService.hmi, isview, parent);
             this.mapGauges[ga.id] = gauge;
             return gauge;
         } else if (ga.type.startsWith(HtmlButtonComponent.TypeTag)) {
@@ -954,7 +953,7 @@ export class GaugesManager {
             this.mapGauges[ga.id] = gauge;
             return gauge || true;
         } else if (ga.type.startsWith(HtmlRecipeComponent.TypeTag)) {
-            let gauge = HtmlRecipeComponent.initElement(ga, res, ref, isview);
+            let gauge = HtmlRecipeComponent.initElement(ga, ref, isview);
             if (gauge) {
                 this.mapGauges[ga.id] = gauge;
             }

@@ -1,4 +1,4 @@
-import { Component, Inject, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, AfterViewInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Utils } from '../../../../_helpers/utils';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -13,6 +13,7 @@ import { PermissionData, PermissionDialogComponent } from '../../../gauge-proper
     selector: 'bag-property',
     templateUrl: './bag-property.component.html',
     styleUrls: ['./bag-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class BagPropertyComponent implements AfterViewInit {

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {  ModuleWithProviders, NgModule } from '@angular/core';
+import {  type ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { DaterangepickerComponent } from './daterangepicker.component';

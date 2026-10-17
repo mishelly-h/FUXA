@@ -906,7 +906,7 @@
           <h3>{{confirmDialogData?.title}}</h3>
         </div>
         <div class="dialog-content">
-          <div [innerHTML]="confirmDialogData?.message"></div>
+          <div [innerHTML]="$safeNavigationMigration(confirmDialogData?.message)"></div>
         </div>
         <div class="dialog-actions">
           @if (confirmDialogData?.showCancel !== false) {

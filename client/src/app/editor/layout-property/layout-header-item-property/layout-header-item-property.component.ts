@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HeaderItem, HeaderItemType } from '../../../_models/hmi';
 import { ProjectService } from '../../../_services/project.service';
@@ -9,6 +9,7 @@ import { UploadFile } from '../../../_models/project';
     selector: 'app-layout-header-item-property',
     templateUrl: './layout-header-item-property.component.html',
     styleUrls: ['./layout-header-item-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class LayoutHeaderItemPropertyComponent {

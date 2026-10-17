@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { TableCell, TableCellType, TableType } from '../../../../../_models/hmi';
 import { ProjectService } from '../../../../../_services/project.service';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -8,6 +8,7 @@ import { TranslateService } from '@ngx-translate/core';
     selector: 'app-table-customizer-cell-edit',
     templateUrl: './table-customizer-cell-edit.component.html',
     styleUrls: ['./table-customizer-cell-edit.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TableCustomizerCellEditComponent {

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { SchedulerData, ScriptScheduling, ScriptSchedulingMode } from '../../_models/script';
@@ -8,6 +8,7 @@ import { FormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms'
     selector: 'app-script-scheduling',
     templateUrl: './script-scheduling.component.html',
     styleUrls: ['./script-scheduling.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ScriptSchedulingComponent implements OnInit {

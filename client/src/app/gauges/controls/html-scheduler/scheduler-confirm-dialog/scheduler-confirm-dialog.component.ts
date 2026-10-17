@@ -1,4 +1,4 @@
-import { Component, Inject, ViewEncapsulation } from '@angular/core';
+import { Component, Inject, ViewEncapsulation, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface SchedulerConfirmDialogData {
@@ -14,6 +14,7 @@ export interface SchedulerConfirmDialogData {
     templateUrl: './scheduler-confirm-dialog.component.html',
     styleUrls: ['./scheduler-confirm-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class SchedulerConfirmDialogComponent {

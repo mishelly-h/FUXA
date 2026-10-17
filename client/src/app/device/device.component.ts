@@ -1,5 +1,5 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+ 
+import {Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import {Subject, Subscription, takeUntil} from 'rxjs';
 import {Router} from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,6 +18,7 @@ import { SectionMessageDialogComponent } from '../editor/section-message-dialog/
     selector: 'app-device',
     templateUrl: './device.component.html',
     styleUrls: ['./device.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class DeviceComponent implements OnInit, OnDestroy {

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { SelOptionType, SelOptionsComponent } from '../../gui-helpers/sel-options/sel-options.component';
 import { Role, UserGroups } from '../../_models/user';
 import { SettingsService } from '../../_services/settings.service';
@@ -11,6 +11,7 @@ import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from
     selector: 'app-script-permission',
     templateUrl: './script-permission.component.html',
     styleUrls: ['./script-permission.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ScriptPermissionComponent implements OnInit, OnDestroy {

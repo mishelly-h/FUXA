@@ -1,10 +1,11 @@
-/* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+ 
+import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
     selector: 'ngx-treetable',
     templateUrl: './treetable.component.html',
     styleUrls: ['./treetable.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class TreetableComponent implements OnInit {

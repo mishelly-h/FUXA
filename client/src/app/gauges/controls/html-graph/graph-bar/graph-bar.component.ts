@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { GraphBaseComponent, GraphOptions, GraphThemeType } from '../graph-base/graph-base.component';
 import { GraphBarProperty, GraphBarXType, GraphSource, GraphRangeType, GraphBarFunction, GraphBarDateFunctionType, GraphDateGroupType } from '../../../../_models/graph';
@@ -13,6 +13,7 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
     selector: 'graph-bar',
     templateUrl: './graph-bar.component.html',
     styleUrls: ['./graph-bar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class GraphBarComponent extends GraphBaseComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -174,7 +175,7 @@ export class GraphBarComponent extends GraphBaseComponent implements OnInit, Aft
             let dataset = this.sourceMap[sigid];
             if (this.property.xtype === this.xTypeValue) {
                 dataset.data[0] = parseFloat(sigvalue).toFixed(this.barChartOptions.decimals);
-                this.chart.update(400);
+                this.chart.update();
             }
         }
     }

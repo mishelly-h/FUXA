@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReportItemText } from '../../../_models/report';
 
@@ -6,6 +6,7 @@ import { ReportItemText } from '../../../_models/report';
     selector: 'app-report-item-text',
     templateUrl: './report-item-text.component.html',
     styleUrls: ['./report-item-text.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class ReportItemTextComponent {

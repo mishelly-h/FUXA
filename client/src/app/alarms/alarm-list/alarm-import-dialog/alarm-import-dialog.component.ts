@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export type AlarmImportMode = 'replace' | 'copy';
@@ -12,6 +12,7 @@ export interface AlarmImportDialogData {
     selector: 'app-alarm-import-dialog',
     templateUrl: './alarm-import-dialog.component.html',
     styleUrls: ['./alarm-import-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class AlarmImportDialogComponent {

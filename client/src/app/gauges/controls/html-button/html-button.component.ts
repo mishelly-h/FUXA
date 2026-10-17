@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeAction, GaugeSettings, GaugeStatus, Variable, GaugeActionsType, GaugePropertyColor } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -10,6 +10,7 @@ declare var SVG: any;
     selector: 'html-button',
     templateUrl: './html-button.component.html',
     styleUrls: ['./html-button.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class HtmlButtonComponent extends GaugeBaseComponent {

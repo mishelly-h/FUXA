@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
@@ -15,6 +15,7 @@ import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm
     selector: 'app-notification-list',
     templateUrl: './notification-list.component.html',
     styleUrls: ['./notification-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
     standalone: false
 })
 export class NotificationListComponent implements OnInit, AfterViewInit, OnDestroy {
