@@ -3,18 +3,21 @@ import * as L from 'leaflet';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
 import { ProjectService } from '../../_services/project.service';
-import { MatMenuTrigger as MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuTrigger as MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { GaugeAction, GaugeRangeProperty, Hmi, View, ViewProperty } from '../../_models/hmi';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { MapsLocation, MAPSLOCATION_PREFIX } from '../../_models/maps';
 import { MapsLocationPropertyComponent } from '../maps-location-property/maps-location-property.component';
 import { Utils } from '../../_helpers/utils';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { MapsLocationImportComponent } from '../maps-location-import/maps-location-import.component';
 import { MapsFabButtonMenuComponent } from './maps-fab-button-menu/maps-fab-button-menu.component';
 import { HmiService } from '../../_services/hmi.service';
+import { NgStyle } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { MatDivider } from '@angular/material/list';
 
 interface MarkerBinding {
     nodeIds: string[];
@@ -31,7 +34,7 @@ interface MarkerBinding {
     templateUrl: './maps-view.component.html',
     styleUrls: ['./maps-view.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [NgStyle, MatButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, TranslatePipe]
 })
 export class MapsViewComponent implements AfterViewInit, OnDestroy {
 

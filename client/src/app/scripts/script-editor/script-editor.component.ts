@@ -1,27 +1,37 @@
  
 import { Component, OnInit, Inject, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { CodemirrorComponent, CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { ChangeDetectorRef } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
 import { HmiService } from '../../_services/hmi.service';
 import { ScriptService } from '../../_services/script.service';
 import { EditNameComponent } from '../../gui-helpers/edit-name/edit-name.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Utils } from '../../_helpers/utils';
 import { ScriptParamType, Script, ScriptTest, SCRIPT_PREFIX, SystemFunctions, SystemFunction, ScriptParam, ScriptConsoleMessage, TemplatesCode, ScriptMode, ScriptParamFilterType } from '../../_models/script';
 import { DevicesUtils, DeviceType } from '../../_models/device';
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../device/device-tag-selection/device-tag-selection.component';
 import { ScriptEditorParamComponent } from './script-editor-param/script-editor-param.component';
 import { getJavaScriptSyntaxAnnotations } from './javascript-linter';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgClass } from '@angular/common';
+import { MatDrawerContainer, MatDrawer } from '@angular/material/sidenav';
+import { FormsModule } from '@angular/forms';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
 
 @Component({
     selector: 'app-script-editor',
     templateUrl: './script-editor.component.html',
     styleUrls: ['./script-editor.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatTooltip, NgClass, MatDrawerContainer, CodemirrorModule, FormsModule, MatDrawer, MatTabGroup, MatTab, MatButton, MatDialogActions, TranslatePipe]
 })
 export class ScriptEditorComponent implements OnInit, OnDestroy {
     @ViewChild(CodemirrorComponent, {static: false}) CodeMirror: CodemirrorComponent;

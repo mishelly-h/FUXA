@@ -10,8 +10,7 @@ import { HmiService } from '../../_services/hmi.service';
     selector: 'app-webcam-player',
     templateUrl: './webcam-player.component.html',
     styleUrls: ['./webcam-player.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class WebcamPlayerComponent implements OnInit {
 

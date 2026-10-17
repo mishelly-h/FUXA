@@ -1,21 +1,32 @@
 import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ProjectService } from '../../_services/project.service';
 import { MapsLocation, MAPSLOCATION_PREFIX } from '../../_models/maps';
 import { Utils } from '../../_helpers/utils';
 import { GaugeAction, GaugeRangeProperty, View, ViewType } from '../../_models/hmi';
-import { FlexDeviceTagValueType } from '../../gauges/gauge-property/flex-device-tag/flex-device-tag.component';
+import { FlexDeviceTagValueType, FlexDeviceTagComponent } from '../../gauges/gauge-property/flex-device-tag/flex-device-tag.component';
 import { FlexActionsStandaloneComponent } from '../../gauges/gauge-property/flex-actions-standalone/flex-actions-standalone.component';
 import { UploadFile } from '../../_models/project';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { IconSelectorComponent } from '../../framework/icon-selector/icon-selector.component';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-maps-location-property',
     templateUrl: './maps-location-property.component.html',
     styleUrls: ['./maps-location-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, MatSelect, MatOption, MatSlideToggle, IconSelectorComponent, ColorPickerDirective, FlexDeviceTagComponent, MatIconButton, MatTooltip, FlexActionsStandaloneComponent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class MapsLocationPropertyComponent implements OnInit {
 

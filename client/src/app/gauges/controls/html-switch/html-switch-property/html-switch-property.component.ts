@@ -1,6 +1,6 @@
 import { Component, Inject, ViewChild, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { GaugeProperty } from '../../../../_models/hmi';
 
 import { FlexAuthComponent } from '../../../gauge-property/flex-auth/flex-auth.component';
@@ -10,13 +10,25 @@ import { NgxSwitchComponent, SwitchOptions } from '../../../../gui-helpers/ngx-s
 import { Define } from '../../../../_helpers/define';
 import { Utils } from '../../../../_helpers/utils';
 import { FlexEventComponent } from '../../../gauge-property/flex-event/flex-event.component';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-html-switch-property',
     templateUrl: './html-switch-property.component.html',
     styleUrls: ['./html-switch-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FlexAuthComponent, FlexHeadComponent, ColorPickerDirective, FormsModule, NumberOnlyDirective, MatSelect, MatOption, NgxSwitchComponent, MatIconButton, MatTooltip, FlexEventComponent, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
 })
 export class HtmlSwitchPropertyComponent implements OnInit, AfterViewInit {
 

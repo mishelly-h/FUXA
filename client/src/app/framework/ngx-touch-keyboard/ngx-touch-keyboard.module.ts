@@ -7,8 +7,7 @@ import { NgxTouchKeyboardDirective } from './ngx-touch-keyboard.directive';
 import { NgxTouchKeyboardComponent } from './ngx-touch-keyboard.component';
 
 @NgModule({
-  declarations: [NgxTouchKeyboardDirective, NgxTouchKeyboardComponent],
-  imports: [CommonModule, OverlayModule, PortalModule],
-  exports: [NgxTouchKeyboardDirective, NgxTouchKeyboardComponent],
+    imports: [CommonModule, OverlayModule, PortalModule, NgxTouchKeyboardDirective, NgxTouchKeyboardComponent],
+    exports: [NgxTouchKeyboardDirective, NgxTouchKeyboardComponent],
 })
 export class NgxTouchKeyboardModule {}

@@ -14,7 +14,7 @@ import panzoom from 'panzoom';
     templateUrl: './view.component.html',
     styleUrls: ['./view.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FuxaViewComponent]
 })
 export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
 

@@ -10,8 +10,7 @@ declare var SVG: any;
     selector: 'html-button',
     templateUrl: './html-button.component.html',
     styleUrls: ['./html-button.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlButtonComponent extends GaugeBaseComponent {
 

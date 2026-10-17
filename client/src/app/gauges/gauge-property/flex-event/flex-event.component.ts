@@ -1,6 +1,6 @@
 import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import {
     GaugeEvent,
@@ -17,10 +17,19 @@ import {
 } from '../../../_models/hmi';
 import { Script, ScriptParam, SCRIPT_PARAMS_MAP } from '../../../_models/script';
 
-import { Utils } from '../../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../../_helpers/utils';
 import { HtmlInputComponent } from '../../controls/html-input/html-input.component';
 import { HtmlSelectComponent } from '../../controls/html-select/html-select.component';
 import { ProjectService } from '../../../_services/project.service';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { FlexVariablesMappingComponent } from '../flex-variables-mapping/flex-variables-mapping.component';
+import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
 
 
 @Component({
@@ -28,7 +37,7 @@ import { ProjectService } from '../../../_services/project.service';
     templateUrl: './flex-event.component.html',
     styleUrls: ['./flex-event.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatIconButton, MatIcon, MatSelect, MatOption, FormsModule, NumberOnlyDirective, MatSlideToggle, FlexVariablesMappingComponent, FlexVariableComponent, TranslatePipe, EnumToArrayPipe]
 })
 export class FlexEventComponent implements OnInit {
 

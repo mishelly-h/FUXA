@@ -4,10 +4,7 @@ export interface BoxResizeEvent {
     size: { width: number; height: number };
 }
 
-@Directive({
-    selector: '[appBoxResizable]',
-    standalone: false
-})
+@Directive({ selector: '[appBoxResizable]' })
 export class BoxResizableDirective implements OnInit, OnDestroy {
     @Input() minWidth = 100;
     @Input() minHeight = 60;

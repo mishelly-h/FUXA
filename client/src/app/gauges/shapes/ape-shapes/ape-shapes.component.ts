@@ -15,8 +15,7 @@ declare var Raphael: any;
     selector: 'ape-shapes',
     templateUrl: './ape-shapes.component.html',
     styleUrls: ['./ape-shapes.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ApeShapesComponent extends GaugeBaseComponent {
 

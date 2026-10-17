@@ -4,10 +4,7 @@ import {
     IterableDiffers, type IterableDiffer
 } from '@angular/core';
 
-@Directive({
-    selector: '[lazyFor]',
-    standalone: false
-})
+@Directive({ selector: '[lazyFor]' })
 export class LazyForDirective implements DoCheck, OnInit {
 
     lazyForContainer: HTMLElement;

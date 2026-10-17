@@ -13,8 +13,7 @@ declare var SVG: any;
     selector: 'gauge-proc-eng',
     templateUrl: './proc-eng.component.html',
     styleUrls: ['./proc-eng.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ProcEngComponent extends GaugeBaseComponent {
 

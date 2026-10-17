@@ -10,8 +10,7 @@ declare var SVG: any;
     selector: 'html-input',
     templateUrl: './html-input.component.html',
     styleUrls: ['./html-input.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlInputComponent extends GaugeBaseComponent {
 

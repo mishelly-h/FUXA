@@ -13,13 +13,20 @@ import {DEVICE_READONLY} from '../_models/hmi';
 import {Utils} from '../_helpers/utils';
 import { SettingsService } from '../_services/settings.service';
 import { SectionMessageDialogComponent } from '../editor/section-message-dialog/section-message-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/list';
+import { NgClass } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-device',
     templateUrl: './device.component.html',
     styleUrls: ['./device.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatIcon, DeviceListComponent, DeviceMapComponent, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, NgClass, MatTooltip, MatFabButton, TranslatePipe]
 })
 export class DeviceComponent implements OnInit, OnDestroy {
 
