@@ -10,8 +10,7 @@ import { NgxGaugeComponent } from '../../../gui-helpers/ngx-gauge/ngx-gauge.comp
     selector: 'app-html-bag',
     templateUrl: './html-bag.component.html',
     styleUrls: ['./html-bag.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlBagComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-html_bag';

@@ -1,16 +1,21 @@
 import { Component, OnInit, Inject, OnDestroy, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { HmiService } from '../../../_services/hmi.service';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { BACnetObjectType, Device, Tag } from '../../../_models/device';
 import { Subject, takeUntil } from 'rxjs';
 import { TreetableComponent, Node, NodeType } from '../../../gui-helpers/treetable/treetable.component';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-tag-property-edit-bacnet',
     templateUrl: './tag-property-edit-bacnet.component.html',
     styleUrls: ['./tag-property-edit-bacnet.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, TreetableComponent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
     @Output() result = new EventEmitter<any>();

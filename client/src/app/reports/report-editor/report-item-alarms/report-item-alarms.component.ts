@@ -1,17 +1,27 @@
 import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AlarmPriorityType, AlarmPropertyType, AlarmStatusType, AlarmsType } from '../../../_models/alarm';
 import { ReportDateRangeType, ReportItemAlarms } from '../../../_models/report';
 import { ProjectService } from '../../../_services/project.service';
 import { ReportItemTableComponent } from '../report-item-table/report-item-table.component';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatSelectionList, MatListOption } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { EnumToArrayPipe } from '../../../_helpers/utils';
 
 @Component({
     selector: 'app-report-item-alarms',
     templateUrl: './report-item-alarms.component.html',
     styleUrls: ['./report-item-alarms.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, MatCheckbox, MatSelectionList, FormsModule, MatListOption, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class ReportItemAlarmsComponent implements OnInit {
 

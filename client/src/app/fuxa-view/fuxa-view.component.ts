@@ -33,6 +33,15 @@ import { WebcamPlayerDialogComponent, WebcamPlayerDialogData } from '../gui-help
 import { DevicesUtils, PlaceholderDevice, Tag } from '../_models/device';
 import { LanguageService } from '../_services/language.service';
 import { EventUtils } from '../_helpers/event-utils';
+import { NgStyle } from '@angular/common';
+import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { BoxResizableDirective } from '../_directives/box-resizable.directive';
+import { IframeComponent } from '../iframe/iframe.component';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { HomeComponent } from '../home/home.component';
 
 declare var SVG: any;
 
@@ -41,7 +50,7 @@ declare var SVG: any;
     templateUrl: './fuxa-view.component.html',
     styleUrls: ['./fuxa-view.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [NgStyle, CdkDrag, CdkDragHandle, BoxResizableDirective, IframeComponent, MatInput, FormsModule, MatButton, MatIcon, NgxTouchKeyboardDirective, HomeComponent]
 })
 export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
 

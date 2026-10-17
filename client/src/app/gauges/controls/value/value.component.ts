@@ -11,8 +11,7 @@ declare var SVG: any;
     selector: 'gauge-value',
     templateUrl: './value.component.html',
     styleUrls: ['./value.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ValueComponent extends GaugeBaseComponent {
 

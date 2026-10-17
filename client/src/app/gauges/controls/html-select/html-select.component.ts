@@ -10,8 +10,7 @@ declare var SVG: any;
     selector: 'html-select',
     templateUrl: './html-select.component.html',
     styleUrls: ['./html-select.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlSelectComponent extends GaugeBaseComponent {
 

@@ -1,5 +1,5 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { SelOptionType, SelOptionsComponent } from '../../../gui-helpers/sel-options/sel-options.component';
 import { BehaviorSubject, Observable, Subject, combineLatest, map, of, takeUntil } from 'rxjs';
 import { Define } from '../../../_helpers/define';
@@ -10,13 +10,23 @@ import { UploadFile } from '../../../_models/project';
 import { UserService } from '../../../_services/user.service';
 import { SettingsService } from '../../../_services/settings.service';
 import { Utils } from '../../../_helpers/utils';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect, MatSelectTrigger } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-layout-menu-item-property',
     templateUrl: './layout-menu-item-property.component.html',
     styleUrls: ['./layout-menu-item-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatSelectTrigger, MatOption, MatInput, FormsModule, SelOptionsComponent, MatIconButton, MatDialogActions, MatButton, AsyncPipe, TranslatePipe]
 })
 export class LayoutMenuItemPropertyComponent implements AfterViewInit, OnDestroy {
     selected = [];

@@ -1,16 +1,21 @@
 import { Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
 import { HmiService } from '../../_services/hmi.service';
 import { RecipeProgressEvent, RecipeCompleteEvent } from '../../_models/recipe';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-recipe-progress',
     templateUrl: './recipe-progress.component.html',
     styleUrls: ['./recipe-progress.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatProgressBar, MatIcon, MatDialogActions, MatButton, TranslatePipe]
 })
 export class RecipeProgressComponent implements OnInit, OnDestroy {
     progressEntries: { entryId: string; tagName: string; status: string; error?: string }[] = [];

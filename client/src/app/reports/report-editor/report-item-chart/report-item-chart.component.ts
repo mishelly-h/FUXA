@@ -1,19 +1,29 @@
 import { Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { ReportDateRangeType, ReportItemChart } from '../../../_models/report';
 import { ProjectService } from '../../../_services/project.service';
 import { Chart } from '../../../_models/chart';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatSelectSearchComponent } from '../../../gui-helpers/mat-select-search/mat-select-search.component';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { MatButton } from '@angular/material/button';
+import { AsyncPipe } from '@angular/common';
+import { EnumToArrayPipe } from '../../../_helpers/utils';
 
 @Component({
     selector: 'app-report-item-chart',
     templateUrl: './report-item-chart.component.html',
     styleUrls: ['./report-item-chart.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, FormsModule, ReactiveFormsModule, MatSelectSearchComponent, NumberOnlyDirective, MatDialogActions, MatButton, AsyncPipe, TranslatePipe, EnumToArrayPipe]
 })
 export class ReportItemChartComponent implements OnInit, OnDestroy {
 

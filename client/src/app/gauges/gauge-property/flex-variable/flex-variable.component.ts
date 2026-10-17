@@ -5,9 +5,16 @@ import { Tag, DevicesUtils, Device, PlaceholderDevice } from '../../../_models/d
 import { Utils } from '../../../_helpers/utils';
 import { BitmaskComponent } from '../../../gui-helpers/bitmask/bitmask.component';
 import { Observable, map, startWith } from 'rxjs';
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../../device/device-tag-selection/device-tag-selection.component';
 import { ProjectService } from '../../../_services/project.service';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatAutocompleteTrigger, MatAutocomplete, MatOptgroup, MatOption } from '@angular/material/autocomplete';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface Variable {
     id: string;
@@ -25,7 +32,7 @@ export const _filter = (opt: DeviceTagOption[], value: string): DeviceTagOption[
     templateUrl: './flex-variable.component.html',
     styleUrls: ['./flex-variable.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [ColorPickerDirective, FormsModule, MatIconButton, MatIcon, MatInput, MatAutocompleteTrigger, ReactiveFormsModule, MatAutocomplete, MatOptgroup, MatOption, AsyncPipe, TranslatePipe]
 })
 export class FlexVariableComponent implements OnInit {
     @Input() data: any;

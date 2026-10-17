@@ -1,23 +1,35 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { Observable, ReplaySubject, of } from 'rxjs';
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { GaugeChartProperty, DateFormatType, TimeFormatType, GaugeEvent, GaugeEventType, GaugeEventActionType } from '../../../../_models/hmi';
 import { Chart, ChartViewType, ChartLegendMode, ChartRangeType } from '../../../../_models/chart';
 import { ChartUplotComponent } from '../chart-uplot/chart-uplot.component';
 import { ChartConfigComponent, IDataChartResult } from '../../../../editor/chart-config/chart-config.component';
 import { Define } from '../../../../_helpers/define';
-import { Utils } from '../../../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../../../_helpers/utils';
 import { ChartOptions } from '../../../../gui-helpers/ngx-uplot/ngx-uplot.component';
 import { ProjectService } from '../../../../_services/project.service';
 import { SCRIPT_PARAMS_MAP, Script } from '../../../../_models/script';
-import { MatSelectChange as MatSelectChange } from '@angular/material/select';
+import { MatSelectChange as MatSelectChange, MatSelect } from '@angular/material/select';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../gui-helpers/confirm-dialog/confirm-dialog.component';
+import { StopInputPropagationDirective } from '../../../../_directives/stop-input-propagation.directive';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatSelectSearchComponent } from '../../../../gui-helpers/mat-select-search/mat-select-search.component';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { FlexDeviceTagComponent } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { AsyncPipe } from '@angular/common';
 
 
 @Component({
@@ -25,7 +37,7 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../gui-helpe
     templateUrl: './chart-property.component.html',
     styleUrls: ['./chart-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [StopInputPropagationDirective, MatTabGroup, MatTab, FormsModule, MatSelect, ReactiveFormsModule, MatSelectSearchComponent, MatOption, NumberOnlyDirective, MatSlideToggle, ColorPickerDirective, MatIconButton, MatIcon, MatTooltip, FlexDeviceTagComponent, AsyncPipe, TranslatePipe, EnumToArrayPipe]
 })
 export class ChartPropertyComponent implements OnInit, OnDestroy {
 

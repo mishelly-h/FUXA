@@ -17,8 +17,7 @@ export class NgxNouisliderOptions {
     selector: 'ngx-nouislider',
     templateUrl: './ngx-nouislider.component.html',
     styleUrls: ['./ngx-nouislider.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class NgxNouisliderComponent implements OnInit, AfterViewInit, OnDestroy {
 

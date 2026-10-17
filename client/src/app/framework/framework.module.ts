@@ -12,28 +12,25 @@ import { IconSelectorComponent } from './icon-selector/icon-selector.component';
 import { TranslateDirective, TranslatePipe } from '@ngx-translate/core';
 
 @NgModule({
-  declarations: [
-    JsonTooltipDirective,
-    FileUploadComponent,
-    IconSelectorComponent
-  ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    NgxTouchKeyboardModule,
-    MatTooltipModule,
-    MatIconModule,
-    MatSelectModule,
-    MatInputModule,
-    TranslatePipe,
-    TranslateDirective
-  ],
-  exports: [
-    NgxTouchKeyboardModule,
-    JsonTooltipDirective,
-    FileUploadComponent,
-    IconSelectorComponent
-  ],
-
+    imports: [
+        CommonModule,
+        FormsModule,
+        NgxTouchKeyboardModule,
+        MatTooltipModule,
+        MatIconModule,
+        MatSelectModule,
+        MatInputModule,
+        TranslatePipe,
+        TranslateDirective,
+        JsonTooltipDirective,
+        FileUploadComponent,
+        IconSelectorComponent
+    ],
+    exports: [
+        NgxTouchKeyboardModule,
+        JsonTooltipDirective,
+        FileUploadComponent,
+        IconSelectorComponent
+    ],
 })
 export class FrameworkModule { }

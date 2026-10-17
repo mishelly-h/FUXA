@@ -5,8 +5,7 @@ import { Component, ViewChild, ElementRef, AfterViewInit, ChangeDetectionStrateg
     selector: 'ngx-switch',
     templateUrl: './ngx-switch.component.html',
     styleUrls: ['./ngx-switch.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class NgxSwitchComponent implements AfterViewInit {
 

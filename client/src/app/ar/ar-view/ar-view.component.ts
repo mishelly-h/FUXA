@@ -7,6 +7,7 @@ import { ProjectService } from '../../_services/project.service';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { ArMarkerScannerMode, ArMarkerScannerService } from './ar-marker-scanner.service';
 import { ArViewService, ArVisibleMarker } from './ar-view.service';
+import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
 
 @Component({
     selector: 'app-ar',
@@ -14,7 +15,7 @@ import { ArViewService, ArVisibleMarker } from './ar-view.service';
     styleUrls: ['./ar-view.component.scss'],
     providers: [ArViewService, ArMarkerScannerService],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FuxaViewComponent]
 })
 export class ArViewComponent implements AfterViewInit, OnDestroy {
     @ViewChild('video', { static: false }) videoRef: ElementRef<HTMLVideoElement>;

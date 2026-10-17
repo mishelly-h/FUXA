@@ -3,6 +3,7 @@ import { Component, OnInit, AfterViewInit, OnChanges, ViewChild, HostListener, E
 import { GaugeOptions, GaugeType } from './gaugeOptions';
 import { Utils } from '../../_helpers/utils';
 import { Subject, interval, take, takeUntil } from 'rxjs';
+import { HomeComponent } from '../../home/home.component';
 
 declare const Gauge: any;
 declare const Donut: any;
@@ -21,7 +22,7 @@ function getGaugeClasses(): { Gauge: any, Donut: any } {
     templateUrl: './ngx-gauge.component.html',
     styleUrls: ['./ngx-gauge.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [HomeComponent]
 })
 export class NgxGaugeComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
 

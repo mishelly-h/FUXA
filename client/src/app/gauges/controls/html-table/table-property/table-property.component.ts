@@ -1,28 +1,38 @@
 import { Component, EventEmitter, OnInit, Input, Output, ViewChild, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Subject, of, takeUntil } from 'rxjs';
-import { UntypedFormControl } from '@angular/forms';
-import { MatTabGroup as MatTabGroup } from '@angular/material/tabs';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTabGroup as MatTabGroup, MatTab } from '@angular/material/tabs';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { TableType, TableCellType, TableCellAlignType, TableRangeType, GaugeTableProperty, GaugeEvent, GaugeEventType, GaugeEventActionType, TableColumn } from '../../../../_models/hmi';
 import { DataTableComponent } from '../data-table/data-table.component';
 import { TableCustomizerComponent, TableCustomizerType } from '../table-customizer/table-customizer.component';
-import { Utils } from '../../../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../../../_helpers/utils';
 import { SCRIPT_PARAMS_MAP, Script } from '../../../../_models/script';
 import { ProjectService } from '../../../../_services/project.service';
 import { TableAlarmsComponent, TableAlarmsType } from '../table-alarms/table-alarms.component';
 import { AlarmColumns, AlarmHistoryColumns } from '../../../../_models/alarm';
 import { TableReportsComponent, TableReportsType } from '../table-reports/table-reports.component';
 import { ReportColumns } from '../../../../_models/report';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { FlexDeviceTagComponent } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-table-property',
     templateUrl: './table-property.component.html',
     styleUrls: ['./table-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatTabGroup, MatTab, FormsModule, MatSelect, ReactiveFormsModule, MatOption, MatSlideToggle, NumberOnlyDirective, ColorPickerDirective, MatIconButton, MatTooltip, MatIcon, FlexDeviceTagComponent, AsyncPipe, TranslatePipe, EnumToArrayPipe]
 })
 export class TablePropertyComponent implements OnInit, OnDestroy {
 

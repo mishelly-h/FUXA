@@ -10,6 +10,10 @@ import { MatOption as MatOption } from '@angular/material/core';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { MatInput } from '@angular/material/input';
+import { NgClass } from '@angular/common';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 /**
  * Component providing an input field for searching MatSelect options.
@@ -99,7 +103,7 @@ import { TranslateService } from '@ngx-translate/core';
         }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [MatInput, NgClass, MatButton, MatIconButton, MatIcon]
 })
 export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
 

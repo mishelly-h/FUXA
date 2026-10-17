@@ -1,9 +1,6 @@
 import { Directive, HostListener, Input, Output, EventEmitter, ElementRef, OnDestroy } from '@angular/core';
 
-@Directive({
-    selector: '[appResize]',
-    standalone: false
-})
+@Directive({ selector: '[appResize]' })
 export class ResizeDirective implements OnDestroy {
     private oldY = 0;
     private isGrabbing = false;

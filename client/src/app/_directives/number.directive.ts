@@ -1,9 +1,6 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
-@Directive({
-    selector: '[numberOnly]',
-    standalone: false
-})
+@Directive({ selector: '[numberOnly]' })
 export class NumberOnlyDirective {
     // Allow key codes for special events. Reflect :
     // Backspace, tab, end, home
@@ -22,10 +19,7 @@ export class NumberOnlyDirective {
     }
 }
 
-@Directive({
-    selector: '[numberOrNullOnly]',
-    standalone: false
-})
+@Directive({ selector: '[numberOrNullOnly]' })
 export class NumberOrNullOnlyDirective {
     // Allow decimal numbers and negative values
     private regex = new RegExp(/^-?[0-9]+(\.[0-9]*){0,1}$/g);///^-?[0-9]+(\.[0-9]*){0,1}$/g);
@@ -72,10 +66,7 @@ export class NumberOrNullOnlyDirective {
  *   - paste   : rejects pasted content entirely if it is not a non-negative integer
  *   - input   : clamps the value to a non-negative integer after browser spinner changes
  */
-@Directive({
-    selector: '[nonNegativeIntegerOnly]',
-    standalone: false
-})
+@Directive({ selector: '[nonNegativeIntegerOnly]' })
 export class NonNegativeIntegerOnlyDirective {
     // Allow only whole non-negative integers: digits 0-9
     private regex = new RegExp(/^[0-9]+$/g);

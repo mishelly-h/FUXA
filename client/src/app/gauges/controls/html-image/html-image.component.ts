@@ -22,8 +22,7 @@ declare var SVG: any;
     selector: 'app-html-image',
     templateUrl: './html-image.component.html',
     styleUrls: ['./html-image.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlImageComponent extends GaugeBaseComponent {
 
