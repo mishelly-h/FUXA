@@ -1,5 +1,5 @@
  
-import { Component, Inject, Input, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Inject, Input, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, forwardRef } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { FlexHeadComponent } from './flex-head/flex-head.component';
 import { FlexEventComponent } from './flex-event/flex-event.component';
@@ -28,7 +28,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     templateUrl: './gauge-property.component.html',
     styleUrls: ['./gauge-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, IconSelectorComponent, MatSlideToggle, MatIconButton, FlexWidgetPropertyComponent, FlexHeadComponent, MatTooltip, FlexEventComponent, FlexActionComponent, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, IconSelectorComponent, MatSlideToggle, MatIconButton, FlexWidgetPropertyComponent, FlexHeadComponent, MatTooltip, forwardRef(() => FlexEventComponent), FlexActionComponent, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
 })
 export class GaugePropertyComponent implements AfterViewInit {
 

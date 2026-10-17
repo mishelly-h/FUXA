@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Input, OnInit, ChangeDetectionStrategy, forwardRef } from '@angular/core';
 
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
@@ -37,7 +37,7 @@ import { FlexVariableComponent } from '../flex-variable/flex-variable.component'
     templateUrl: './flex-event.component.html',
     styleUrls: ['./flex-event.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatIconButton, MatIcon, MatSelect, MatOption, FormsModule, NumberOnlyDirective, MatSlideToggle, FlexVariablesMappingComponent, FlexVariableComponent, TranslatePipe, EnumToArrayPipe]
+    imports: [MatIconButton, MatIcon, MatSelect, MatOption, FormsModule, NumberOnlyDirective, MatSlideToggle, FlexVariablesMappingComponent, forwardRef(() => FlexVariableComponent), TranslatePipe, EnumToArrayPipe]
 })
 export class FlexEventComponent implements OnInit {
 

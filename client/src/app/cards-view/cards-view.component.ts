@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Renderer2, ViewChildren, QueryList, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Renderer2, ViewChildren, QueryList, ChangeDetectionStrategy, forwardRef } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { GaugesManager } from '../gauges/gauges.component';
@@ -21,7 +21,7 @@ import { TranslatePipe } from '@ngx-translate/core';
     templateUrl: './cards-view.component.html',
     styleUrls: ['./cards-view.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [Gridster, GridsterItem, MapsViewComponent, FuxaViewComponent, AlarmViewComponent, IframeComponent, FormsModule, NumberOnlyDirective, MatIconButton, MatIcon, TranslatePipe]
+    imports: [Gridster, GridsterItem, forwardRef(() => MapsViewComponent), forwardRef(() => FuxaViewComponent), AlarmViewComponent, IframeComponent, FormsModule, NumberOnlyDirective, MatIconButton, MatIcon, TranslatePipe]
 })
 export class CardsViewComponent implements OnInit, AfterViewInit {
 
