@@ -1,99 +1,98 @@
 <div #treetable class="container" [style.height]="containerProperty.height" [style.width]="containerProperty.width">
-	<div *lazyFor="let node of list; index as i" class="item">
-		@if (node.visible) {
-<div>
-@switch (treeType) {
-			@case (TypeOfTree.Standard) {
-<div>
-				<div class="item-text" [style.left.px]="node.childPos * 15" [style.width.px]="500 - node.childPos * 15">
-					<button mat-icon-button (click)="onExpandToggle(node)" [disabled]="!node.childs">
-						@if (node.expanded) {
-<mat-icon>expand_more</mat-icon>
-}
-						@if (!node.expanded) {
-<mat-icon>chevron_right</mat-icon>
-}
-					</button>
-					@if (!node.childs.length) {
-<div class="item-waiting" style="width:40px"
-						[ngStyle]="{'display': (node.expanded) ? 'inline-block' : 'none'}">
-						<mat-spinner diameter="20"></mat-spinner>
-					</div>
-}
-					@if (node.class === nodeType.Variable) {
-<button mat-icon-button enabled="false">
-						<mat-icon>label</mat-icon>
-					</button>
-}
-					<span>{{node.text}}</span>
-				</div>
-				<div class="item-property" [style.left.px]="node.childPos * 15">
-					{{node.property}}
-				</div>
-				<div class="item-check">
-					@if ((node.class === nodeType.Variable) || (node.class === nodeType.Object && node.expanded)) {
-<mat-checkbox [(ngModel)]="node.checked"
-					
-						[disabled]="!node.enabled" (change)="changeStatus(node,$event)"></mat-checkbox>
-}
-				</div>
-			</div>
-}
-			@case (TypeOfTree.ToDefine) {
-<div>
-				<div class="item-text" [style.left.px]="node.childPos * 15" [style.width.px]="600 - node.childPos * 15">
-					@if (node.expandable) {
-<button mat-icon-button (click)="onExpandToggle(node)">
-						@if (node.expanded) {
-<mat-icon>expand_more</mat-icon>
-}
-						@if (!node.expanded) {
-<mat-icon>chevron_right</mat-icon>
-}
-					</button>
-}
-					@if (node.class === nodeType.Variable || node.class === nodeType.Item) {
-<button mat-icon-button>
-						<mat-icon>label</mat-icon>
-					</button>
-}
-					<span>{{node.text}}</span>
-					@if (node.class === nodeType.Array) {
-<div>
-						<span style="margin-left: 15px;margin-right: 5px;">{{'device.tag-array-id' | translate}}</span>
-						<mat-select [(value)]="node.todefine.id" style="width: 120px">
-							@for (key of node.todefine.options; track key) {
-<mat-option [value]="key">
-								{{ key }}
-							</mat-option>
-}
-						</mat-select>
-						<span style="margin-left: 15px;margin-right: 5px;">{{'device.tag-array-value' |
-							translate}}</span>
-						<mat-select [(value)]="node.todefine.value" style="width: 120px">
-							@for (key of node.todefine.options; track key) {
-<mat-option [value]="key">
-								{{ key }}
-							</mat-option>
-}
-						</mat-select>
-					</div>
-}
-				</div>
-				<div class="item-info" [style.left.px]="node.childPos * 15">
-					{{node.property}}
-				</div>
-				<div class="item-check">
-					&nbsp;
-					@if (node.text && (node.class === nodeType.Variable)) {
-<mat-checkbox [(ngModel)]="node.checked"
-						[disabled]="!node.enabled" (change)="changeStatus(node,$event)"></mat-checkbox>
-}
-				</div>
-			</div>
-}
-		}
-</div>
-}
-	</div>
+  <div *lazyFor="let node of list; index as i" class="item">
+    @if (node.visible) {
+      <div>
+        @switch (treeType) {
+          @case (TypeOfTree.Standard) {
+            <div>
+              <div class="item-text" [style.left.px]="node.childPos * 15" [style.width.px]="500 - node.childPos * 15">
+                <button mat-icon-button (click)="onExpandToggle(node)" [disabled]="!node.childs">
+                  @if (node.expanded) {
+                    <mat-icon>expand_more</mat-icon>
+                  }
+                  @if (!node.expanded) {
+                    <mat-icon>chevron_right</mat-icon>
+                  }
+                </button>
+                @if (!node.childs.length) {
+                  <div class="item-waiting" style="width:40px"
+                    [ngStyle]="{'display': (node.expanded) ? 'inline-block' : 'none'}">
+                    <mat-spinner diameter="20"></mat-spinner>
+                  </div>
+                }
+                @if (node.class === nodeType.Variable) {
+                  <button mat-icon-button enabled="false">
+                    <mat-icon>label</mat-icon>
+                  </button>
+                }
+                <span>{{node.text}}</span>
+              </div>
+              <div class="item-property" [style.left.px]="node.childPos * 15">
+                {{node.property}}
+              </div>
+              <div class="item-check">
+                @if ((node.class === nodeType.Variable) || (node.class === nodeType.Object && node.expanded)) {
+                  <mat-checkbox [(ngModel)]="node.checked"
+                  [disabled]="!node.enabled" (change)="changeStatus(node,$event)"></mat-checkbox>
+                }
+              </div>
+            </div>
+          }
+          @case (TypeOfTree.ToDefine) {
+            <div>
+              <div class="item-text" [style.left.px]="node.childPos * 15" [style.width.px]="600 - node.childPos * 15">
+                @if (node.expandable) {
+                  <button mat-icon-button (click)="onExpandToggle(node)">
+                    @if (node.expanded) {
+                      <mat-icon>expand_more</mat-icon>
+                    }
+                    @if (!node.expanded) {
+                      <mat-icon>chevron_right</mat-icon>
+                    }
+                  </button>
+                }
+                @if (node.class === nodeType.Variable || node.class === nodeType.Item) {
+                  <button mat-icon-button>
+                    <mat-icon>label</mat-icon>
+                  </button>
+                }
+                <span>{{node.text}}</span>
+                @if (node.class === nodeType.Array) {
+                  <div>
+                    <span style="margin-left: 15px;margin-right: 5px;">{{'device.tag-array-id' | translate}}</span>
+                    <mat-select [(value)]="node.todefine.id" style="width: 120px">
+                      @for (key of node.todefine.options; track key) {
+                        <mat-option [value]="key">
+                          {{ key }}
+                        </mat-option>
+                      }
+                    </mat-select>
+                    <span style="margin-left: 15px;margin-right: 5px;">{{'device.tag-array-value' |
+                    translate}}</span>
+                    <mat-select [(value)]="node.todefine.value" style="width: 120px">
+                      @for (key of node.todefine.options; track key) {
+                        <mat-option [value]="key">
+                          {{ key }}
+                        </mat-option>
+                      }
+                    </mat-select>
+                  </div>
+                }
+              </div>
+              <div class="item-info" [style.left.px]="node.childPos * 15">
+                {{node.property}}
+              </div>
+              <div class="item-check">
+                &nbsp;
+                @if (node.text && (node.class === nodeType.Variable)) {
+                  <mat-checkbox [(ngModel)]="node.checked"
+                  [disabled]="!node.enabled" (change)="changeStatus(node,$event)"></mat-checkbox>
+                }
+              </div>
+            </div>
+          }
+        }
+      </div>
+    }
+  </div>
 </div>

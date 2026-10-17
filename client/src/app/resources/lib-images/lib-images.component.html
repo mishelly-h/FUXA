@@ -1,59 +1,51 @@
 <div class="container">
-    <h1 mat-dialog-title class="dialog-title" mat-dialog-draggable>{{'resources.lib-images' | translate}}</h1>
-    <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
-    <div mat-dialog-content class="mat-dialog-content">
-        <mat-accordion multi="true">
-            @for (grpImages of resImages; track grpImages) {
-<mat-expansion-panel class="my-expansion-panel lib-image-panel">
-                <mat-expansion-panel-header class="header" [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
-                    <mat-panel-title>
-                        {{grpImages.name}}
-                    </mat-panel-title>
-                    <mat-panel-description>
+  <h1 mat-dialog-title class="dialog-title" mat-dialog-draggable>{{'resources.lib-images' | translate}}</h1>
+  <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
+  <div mat-dialog-content class="mat-dialog-content">
+    <mat-accordion multi="true">
+      @for (grpImages of resImages; track grpImages) {
+        <mat-expansion-panel class="my-expansion-panel lib-image-panel">
+          <mat-expansion-panel-header class="header" [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+            <mat-panel-title>
+              {{grpImages.name}}
+            </mat-panel-title>
+            <mat-panel-description>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+          @for (item of grpImages.items; track item) {
+            <div
+              (click)="onSelect(item.path)"
+              class="lib-image-item"
+              matTooltip="{{item.name}}">
+              @if (isVideo(item.path)) {
+                <video width="300" height="auto" controls>
+                  <source [src]="item.path" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              } @else {
+                <img [src]="item.path" [id]="item.path">
+              }
+            </div>
+          }
+        </mat-expansion-panel>
+      }
+      <!-- <mat-expansion-panel class="my-expansion-panel">
+      <mat-expansion-panel-header class="header" [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
+        <mat-panel-title>
+          Page editor
+        </mat-panel-title>
+        <mat-panel-description>
 
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                @for (item of grpImages.items; track item) {
-<div
-                     (click)="onSelect(item.path)"
-                     class="lib-image-item"
-                     matTooltip="{{item.name}}">
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      Page editor content
+    </mat-expansion-panel> -->
+  </mat-accordion>
+  <div style="display: block;width: 660px; padding-bottom: 20px;">
 
-                    @if (isVideo(item.path)) {
-
-                        <video width="300" height="auto" controls>
-                            <source [src]="item.path" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    
-} @else {
-
-                        <img [src]="item.path" [id]="item.path">
-                    
-}
-                    
-                </div>
-}
-
-            </mat-expansion-panel>
-}
-            <!-- <mat-expansion-panel class="my-expansion-panel">
-                <mat-expansion-panel-header class="header" [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
-                    <mat-panel-title>
-                        Page editor
-                    </mat-panel-title>
-                    <mat-panel-description>
-
-                    </mat-panel-description>
-                </mat-expansion-panel-header>
-                Page editor content
-            </mat-expansion-panel> -->
-        </mat-accordion>
-        <div style="display: block;width: 660px; padding-bottom: 20px;">
-
-        </div>
-    </div>
-    <div mat-dialog-actions class="dialog-action">
-        <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>
-    </div>
+  </div>
+</div>
+<div mat-dialog-actions class="dialog-action">
+  <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>
+</div>
 </div>

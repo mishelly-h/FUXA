@@ -1,83 +1,79 @@
 <div class="ar-shell">
-    <video #video class="ar-video" autoplay muted playsinline></video>
+  <video #video class="ar-video" autoplay muted playsinline></video>
 
-    <div class="ar-topbar">
-        <div>
-            <div class="ar-title">FUXA AR</div>
-            @if (isCameraActive && detectorAvailable) {
-<div class="ar-status">
-                Camera active - marker scan supported
-            </div>
-}
-            @if (isCameraActive && !detectorAvailable) {
-<div class="ar-status">
-                Camera active - marker scan unavailable in this browser
-            </div>
-}
-            @if (!isCameraActive && !cameraError) {
-<div class="ar-status">
-                Starting camera...
-            </div>
-}
-            @if (debugEnabled) {
-<div class="ar-status">
-                AR markers: {{arViewService.getConfiguredMarkerCount()}}
-            </div>
-}
-            @if (debugEnabled) {
-<div class="ar-status">
-                Scanner: {{scannerMode}}
-            </div>
-}
+  <div class="ar-topbar">
+    <div>
+      <div class="ar-title">FUXA AR</div>
+      @if (isCameraActive && detectorAvailable) {
+        <div class="ar-status">
+          Camera active - marker scan supported
         </div>
-    </div>
-
-    @if (cameraError) {
-<div class="ar-error">
-        {{cameraError}}
-    </div>
-}
-
-    @if (isCameraActive && !hasConfiguredMarkers) {
-<div class="ar-message">
-        No AR markers configured.
-    </div>
-}
-
-    @if (isCameraActive && !detectorAvailable && hasConfiguredMarkers) {
-<div class="ar-message">
-        QR detection is not available in this browser.
-    </div>
-}
-
-    @if (debugEnabled && debugLines.length) {
-<div class="ar-debug-lines">
-        @for (line of debugLines; track line) {
-<div>{{ line }}</div>
-}
-    </div>
-}
-
-    @for (marker of visibleMarkers; track marker) {
-<div class="ar-marker-card">
-        <!-- <div class="ar-marker-title">{{ marker.label }}</div> -->
-
-        @if (getMarkerView(marker.viewId); as markerView) {
-<div class="ar-marker-view">
-            <app-fuxa-view
-                [id]="'ar-' + marker.id"
-                [view]="markerView"
-                [hmi]="projectService.getHmi()"
-                [gaugesManager]="gaugesManager"
-                [child]="true">
-            </app-fuxa-view>
+      }
+      @if (isCameraActive && !detectorAvailable) {
+        <div class="ar-status">
+          Camera active - marker scan unavailable in this browser
         </div>
-} @else {
-
-            <div class="ar-marker-missing">View not found: {{ marker.viewId }}</div>
-        
-}
-        
+      }
+      @if (!isCameraActive && !cameraError) {
+        <div class="ar-status">
+          Starting camera...
+        </div>
+      }
+      @if (debugEnabled) {
+        <div class="ar-status">
+          AR markers: {{arViewService.getConfiguredMarkerCount()}}
+        </div>
+      }
+      @if (debugEnabled) {
+        <div class="ar-status">
+          Scanner: {{scannerMode}}
+        </div>
+      }
     </div>
-}
+  </div>
+
+  @if (cameraError) {
+    <div class="ar-error">
+      {{cameraError}}
+    </div>
+  }
+
+  @if (isCameraActive && !hasConfiguredMarkers) {
+    <div class="ar-message">
+      No AR markers configured.
+    </div>
+  }
+
+  @if (isCameraActive && !detectorAvailable && hasConfiguredMarkers) {
+    <div class="ar-message">
+      QR detection is not available in this browser.
+    </div>
+  }
+
+  @if (debugEnabled && debugLines.length) {
+    <div class="ar-debug-lines">
+      @for (line of debugLines; track line) {
+        <div>{{ line }}</div>
+      }
+    </div>
+  }
+
+  @for (marker of visibleMarkers; track marker) {
+    <div class="ar-marker-card">
+      <!-- <div class="ar-marker-title">{{ marker.label }}</div> -->
+      @if (getMarkerView(marker.viewId); as markerView) {
+        <div class="ar-marker-view">
+          <app-fuxa-view
+            [id]="'ar-' + marker.id"
+            [view]="markerView"
+            [hmi]="projectService.getHmi()"
+            [gaugesManager]="gaugesManager"
+            [child]="true">
+          </app-fuxa-view>
+        </div>
+      } @else {
+        <div class="ar-marker-missing">View not found: {{ marker.viewId }}</div>
+      }
+    </div>
+  }
 </div>

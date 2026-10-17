@@ -1,177 +1,172 @@
 <div class="recipe-widget" [style.backgroundColor]="backgroundColor" [style.color]="textColor" [style.borderColor]="borderColor" [style.border]="borderWidth + 'px solid ' + borderColor"
-    [style.fontFamily]="fontFamily" [style.fontSize.px]="fontSize" [style.--recipe-font-size]="fontSize + 'px'"
-    [style.--recipe-border-color]="borderColor">
-    <!-- Loading state -->
-    @if (loading) {
-<div class="recipe-loading">
-        <mat-spinner diameter="24"></mat-spinner>
-        <span>{{'recipe.loading' | translate}}</span>
+  [style.fontFamily]="fontFamily" [style.fontSize.px]="fontSize" [style.--recipe-font-size]="fontSize + 'px'"
+  [style.--recipe-border-color]="borderColor">
+  <!-- Loading state -->
+  @if (loading) {
+    <div class="recipe-loading">
+      <mat-spinner diameter="24"></mat-spinner>
+      <span>{{'recipe.loading' | translate}}</span>
     </div>
-}
+  }
 
-    <!-- Error state -->
-    @if (error && !loading) {
-<div class="recipe-error">
-        <span class="material-icons error-icon">error_outline</span>
-        <span class="error-text">{{error}}</span>
-        <button type="button" class="nav-btn retry-btn" (click)="loadInstances()" [attr.title]="'recipe.retry' | translate">
-            <span class="material-icons">refresh</span>
-        </button>
+  <!-- Error state -->
+  @if (error && !loading) {
+    <div class="recipe-error">
+      <span class="material-icons error-icon">error_outline</span>
+      <span class="error-text">{{error}}</span>
+      <button type="button" class="nav-btn retry-btn" (click)="loadInstances()" [attr.title]="'recipe.retry' | translate">
+        <span class="material-icons">refresh</span>
+      </button>
     </div>
-}
+  }
 
-    <!-- No type configured -->
-    @if (!loading && !error && !typeId) {
-<div class="recipe-empty">
-        <span class="material-icons">settings</span>
-        <span>{{'recipe.no-type' | translate}}</span>
+  <!-- No type configured -->
+  @if (!loading && !error && !typeId) {
+    <div class="recipe-empty">
+      <span class="material-icons">settings</span>
+      <span>{{'recipe.no-type' | translate}}</span>
     </div>
-}
+  }
 
-    <!-- Recipe content (type is configured) -->
-    @if (!loading && !error && typeId) {
-<div class="recipe-content">
-        <!-- Navigation header with prev/next (only when instances exist) -->
-        @if (instances.length > 0) {
-<div class="recipe-nav-header">
-            <button type="button" class="nav-btn" (click)="onPrev()" [disabled]="busy || currentIndex < 1">
-                <span class="material-icons">chevron_left</span>
-            </button>
-            <div class="nav-info">
-                <span class="nav-title">{{ currentInstance?.name || ('recipe.no-instance' | translate) }}</span>
-                <span class="nav-count">{{ currentIndex + 1 }} / {{ instances.length }}</span>
-            </div>
-            <button type="button" class="nav-btn" (click)="onNext()" [disabled]="busy || currentIndex >= instances.length - 1">
-                <span class="material-icons">chevron_right</span>
-            </button>
+  <!-- Recipe content (type is configured) -->
+  @if (!loading && !error && typeId) {
+    <div class="recipe-content">
+      <!-- Navigation header with prev/next (only when instances exist) -->
+      @if (instances.length > 0) {
+        <div class="recipe-nav-header">
+          <button type="button" class="nav-btn" (click)="onPrev()" [disabled]="busy || currentIndex < 1">
+            <span class="material-icons">chevron_left</span>
+          </button>
+          <div class="nav-info">
+            <span class="nav-title">{{ currentInstance?.name || ('recipe.no-instance' | translate) }}</span>
+            <span class="nav-count">{{ currentIndex + 1 }} / {{ instances.length }}</span>
+          </div>
+          <button type="button" class="nav-btn" (click)="onNext()" [disabled]="busy || currentIndex >= instances.length - 1">
+            <span class="material-icons">chevron_right</span>
+          </button>
         </div>
-}
-
-        <!-- Empty state when no instances exist -->
-        @if (instances.length === 0 && !currentInstance) {
-<div class="recipe-empty">
-            <span class="material-icons">menu_book</span>
-            <span>{{'recipe.no-instances' | translate}}</span>
-            @if (!readonly && permission.show && isActionVisible('new')) {
-<button type="button" class="btn-action" (click)="onNew()" [disabled]="busy || !permission.enabled">
-                {{'recipe.new' | translate}}
+      }
+      <!-- Empty state when no instances exist -->
+      @if (instances.length === 0 && !currentInstance) {
+        <div class="recipe-empty">
+          <span class="material-icons">menu_book</span>
+          <span>{{'recipe.no-instances' | translate}}</span>
+          @if (!readonly && permission.show && isActionVisible('new')) {
+            <button type="button" class="btn-action" (click)="onNew()" [disabled]="busy || !permission.enabled">
+              {{'recipe.new' | translate}}
             </button>
-}
+          }
         </div>
-}
-
-        <!-- Instance description -->
-        @if (currentInstance?.description) {
-<div class="recipe-header">
-            <p class="recipe-description">{{currentInstance.description}}</p>
+      }
+      <!-- Instance description -->
+      @if (currentInstance?.description) {
+        <div class="recipe-header">
+          <p class="recipe-description">{{currentInstance.description}}</p>
         </div>
-}
-
-        <!-- Entries table (editable) -->
-        @if (entries.length > 0) {
-<div class="recipe-entries">
-            <div class="entries-header">
-                <span class="col-tag" [style.textAlign]="property?.tagAlign">{{'recipe.tag' | translate}}</span>
+      }
+      <!-- Entries table (editable) -->
+      @if (entries.length > 0) {
+        <div class="recipe-entries">
+          <div class="entries-header">
+            <span class="col-tag" [style.textAlign]="property?.tagAlign">{{'recipe.tag' | translate}}</span>
+            @if (property?.showType) {
+              <span class="col-type">{{'recipe.type' | translate}}</span>
+            }
+            <span class="col-value" [style.textAlign]="property?.valueAlign">{{'recipe.value' | translate}}</span>
+          </div>
+          <div class="entries-body">
+            @for (entry of entries; track entry; let i = $index) {
+              <div class="entry-row">
+                <span class="col-tag" [attr.title]="entry.tagId" [style.textAlign]="property?.tagAlign">{{entry.tagName}}</span>
                 @if (property?.showType) {
-<span class="col-type">{{'recipe.type' | translate}}</span>
-}
-                <span class="col-value" [style.textAlign]="property?.valueAlign">{{'recipe.value' | translate}}</span>
+                  <span class="col-type">
+                    <span class="type-badge">{{entry.tagType}}</span>
+                  </span>
+                }
+                <span class="col-value" [style.textAlign]="property?.valueAlign">
+                  @if (!readonly) {
+                    <input
+                      class="value-input"
+                      [(ngModel)]="entry.value"
+                      [type]="isNumericType(entry.tagType) ? 'number' : (isStringType(entry.tagType) ? 'text' : 'text')"
+                      [style.borderColor]="accentColor"
+                      [style.textAlign]="property?.valueAlign" />
+                  }
+                  @if (readonly) {
+                    <span class="value-text" [style.textAlign]="property?.valueAlign">{{entry.value !== null && entry.value !== undefined ? entry.value : '-'}}</span>
+                  }
+                </span>
+              </div>
+            }
+          </div>
+        </div>
+      }
+      <!-- Progress -->
+      @if (progress) {
+        <div class="recipe-progress">
+          <mat-progress-bar mode="indeterminate" [style.backgroundColor]="accentColor"></mat-progress-bar>
+          <span class="progress-text">{{'recipe.sending' | translate}}...</span>
+          @if (progress.errors.length > 0) {
+            <div class="progress-errors">
+              @for (err of progress.errors; track err) {
+                <span class="error-item">{{err}}</span>
+              }
             </div>
-            <div class="entries-body">
-                @for (entry of entries; track entry; let i = $index) {
-<div class="entry-row">
-                    <span class="col-tag" [attr.title]="entry.tagId" [style.textAlign]="property?.tagAlign">{{entry.tagName}}</span>
-                    @if (property?.showType) {
-<span class="col-type">
-                        <span class="type-badge">{{entry.tagType}}</span>
-                    </span>
-}
-                    <span class="col-value" [style.textAlign]="property?.valueAlign">
-                        @if (!readonly) {
-<input
-                               class="value-input"
-                               [(ngModel)]="entry.value"
-                               [type]="isNumericType(entry.tagType) ? 'number' : (isStringType(entry.tagType) ? 'text' : 'text')"
-                               [style.borderColor]="accentColor"
-                               [style.textAlign]="property?.valueAlign" />
-}
-                           @if (readonly) {
-<span class="value-text" [style.textAlign]="property?.valueAlign">{{entry.value !== null && entry.value !== undefined ? entry.value : '-'}}</span>
-}
-                    </span>
-                </div>
-}
-            </div>
+          }
         </div>
-}
-
-        <!-- Progress -->
-        @if (progress) {
-<div class="recipe-progress">
-            <mat-progress-bar mode="indeterminate" [style.backgroundColor]="accentColor"></mat-progress-bar>
-            <span class="progress-text">{{'recipe.sending' | translate}}...</span>
-            @if (progress.errors.length > 0) {
-<div class="progress-errors">
-                @for (err of progress.errors; track err) {
-<span class="error-item">{{err}}</span>
-}
-            </div>
-}
+      }
+      <!-- Action buttons (editable mode) -->
+      @if (!readonly && currentInstance && permission.show) {
+        <div class="recipe-actions">
+          @if (isActionVisible('new')) {
+            <button type="button" class="btn-action" (click)="onNew()" [disabled]="busy || !permission.enabled">
+              <span class="material-icons">add</span>
+              {{'recipe.new' | translate}}
+            </button>
+          }
+          @if (isActionVisible('delete')) {
+            <button type="button" class="btn-action" (click)="onDelete()" [disabled]="busy || !permission.enabled">
+              <span class="material-icons">delete</span>
+              {{deleting ? ('recipe.deleting' | translate) : ('recipe.delete' | translate)}}
+            </button>
+          }
+          @if (isActionVisible('save')) {
+            <button type="button" class="btn-action" (click)="onSave()" [disabled]="busy || !permission.enabled">
+              <span class="material-icons">save</span>
+              {{saving ? ('recipe.saving' | translate) : ('recipe.save' | translate)}}
+            </button>
+          }
+          @if (isActionVisible('download')) {
+            <button type="button" class="btn-action" (click)="onDownload()" [disabled]="busy || !permission.enabled">
+              <span class="material-icons">arrow_downward</span>
+              {{downloading ? ('recipe.downloading' | translate) : ('recipe.download' | translate)}}
+            </button>
+          }
+          @if (isActionVisible('upload')) {
+            <button type="button" class="btn-action" (click)="onUpload()" [disabled]="busy || !permission.enabled">
+              <span class="material-icons">arrow_upward</span>
+              {{uploading ? ('recipe.uploading' | translate) : ('recipe.upload' | translate)}}
+            </button>
+          }
         </div>
-}
-
-        <!-- Action buttons (editable mode) -->
-        @if (!readonly && currentInstance && permission.show) {
-<div class="recipe-actions">
-            @if (isActionVisible('new')) {
-<button type="button" class="btn-action" (click)="onNew()" [disabled]="busy || !permission.enabled">
-                <span class="material-icons">add</span>
-                {{'recipe.new' | translate}}
+      }
+      <!-- Action buttons (read-only mode) -->
+      @if (readonly && currentInstance && permission.show) {
+        <div class="recipe-actions">
+          @if (isActionVisible('download')) {
+            <button type="button" class="btn-action" (click)="onDownload()" [disabled]="busy || !permission.enabled">
+              <span class="material-icons">arrow_downward</span>
+              {{downloading ? ('recipe.downloading' | translate) : ('recipe.download' | translate)}}
             </button>
-}
-            @if (isActionVisible('delete')) {
-<button type="button" class="btn-action" (click)="onDelete()" [disabled]="busy || !permission.enabled">
-                <span class="material-icons">delete</span>
-                {{deleting ? ('recipe.deleting' | translate) : ('recipe.delete' | translate)}}
+          }
+          @if (isActionVisible('upload')) {
+            <button type="button" class="btn-action" (click)="onUpload()" [disabled]="busy || !permission.enabled">
+              <span class="material-icons">arrow_upward</span>
+              {{uploading ? ('recipe.uploading' | translate) : ('recipe.upload' | translate)}}
             </button>
-}
-            @if (isActionVisible('save')) {
-<button type="button" class="btn-action" (click)="onSave()" [disabled]="busy || !permission.enabled">
-                <span class="material-icons">save</span>
-                {{saving ? ('recipe.saving' | translate) : ('recipe.save' | translate)}}
-            </button>
-}
-            @if (isActionVisible('download')) {
-<button type="button" class="btn-action" (click)="onDownload()" [disabled]="busy || !permission.enabled">
-                <span class="material-icons">arrow_downward</span>
-                {{downloading ? ('recipe.downloading' | translate) : ('recipe.download' | translate)}}
-            </button>
-}
-            @if (isActionVisible('upload')) {
-<button type="button" class="btn-action" (click)="onUpload()" [disabled]="busy || !permission.enabled">
-                <span class="material-icons">arrow_upward</span>
-                {{uploading ? ('recipe.uploading' | translate) : ('recipe.upload' | translate)}}
-            </button>
-}
+          }
         </div>
-}
-        <!-- Action buttons (read-only mode) -->
-        @if (readonly && currentInstance && permission.show) {
-<div class="recipe-actions">
-            @if (isActionVisible('download')) {
-<button type="button" class="btn-action" (click)="onDownload()" [disabled]="busy || !permission.enabled">
-                <span class="material-icons">arrow_downward</span>
-                {{downloading ? ('recipe.downloading' | translate) : ('recipe.download' | translate)}}
-            </button>
-}
-            @if (isActionVisible('upload')) {
-<button type="button" class="btn-action" (click)="onUpload()" [disabled]="busy || !permission.enabled">
-                <span class="material-icons">arrow_upward</span>
-                {{uploading ? ('recipe.uploading' | translate) : ('recipe.upload' | translate)}}
-            </button>
-}
-        </div>
-}
+      }
     </div>
-}
+  }
 </div>
