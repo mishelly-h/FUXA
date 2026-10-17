@@ -87,9 +87,11 @@
                         <div class="my-form-field input-font ml10">
                             <span>{{'html-switch.property-font' | translate}}</span>
                             <mat-select [(value)]="options.fontFamily" (selectionChange)="updateOptions()">
-                                <mat-option *ngFor="let font of fonts" [style.fontFamily]="font" [value]="font">
+                                @for (font of fonts; track font) {
+<mat-option [style.fontFamily]="font" [value]="font">
                                     {{font}}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                     </div>
@@ -99,7 +101,8 @@
                     </div>
                 </div>
             </mat-tab>
-            <mat-tab label="{{'gauges.property-events' | translate}}" *ngIf="eventsSupported">
+            @if (eventsSupported) {
+<mat-tab label="{{'gauges.property-events' | translate}}">
                 <div class="mat-tab-container">
                     <div class="toolbox">
                         <button mat-icon-button (click)="onAddEvent()" matTooltip="{{'gauges.property-tooltip-add-event' | translate}}">
@@ -111,6 +114,7 @@
                     </div>
                 </div>
             </mat-tab>
+}
         </mat-tab-group>
     </div>
     <div mat-dialog-actions class="dialog-action">

@@ -21,11 +21,13 @@
                     <input numberOnly type="number" formControlName="minute"  min="0" max="59" step="1">
                 </div>
             </div>
-            <ng-container *ngIf="removable">
+            @if (removable) {
+
                 <button mat-icon-button (click)="onRemoveScheduling()" class="ml10" type="button">
                     <mat-icon>clear</mat-icon>
                 </button>
-            </ng-container>            
+            
+}            
         </mat-tab>
         <mat-tab label="{{'script.scheduling-date' | translate}}">
             <div class="mt10">
@@ -37,11 +39,13 @@
                     <span>{{'script.scheduling-time' | translate}}</span>
                     <input type="time" matInput formControlName="time" class="time">
                 </div>
-                <ng-container *ngIf="removable">
+                @if (removable) {
+
                     <button mat-icon-button (click)="onRemoveScheduling()" class="ftr" type="button">
                         <mat-icon>clear</mat-icon>
                     </button>
-                </ng-container> 
+                
+} 
             </div>     
         </mat-tab>
     </mat-tab-group>

@@ -7,7 +7,9 @@
     </div>
 
     <div mat-dialog-actions class="dialog-action" [style.color]="data.color">
-        <button mat-raised-button *ngIf="!data.hideCancel" (click)="onNoClick()" [style.backgroundColor]="data.backgroundColor" [style.color]="data.color">{{'dlg.cancel' | translate}}</button>
+        @if (!data.hideCancel) {
+<button mat-raised-button (click)="onNoClick()" [style.backgroundColor]="data.backgroundColor" [style.color]="data.color">{{'dlg.cancel' | translate}}</button>
+}
         <button mat-raised-button color="primary" (click)="onOkClick()" [mat-dialog-close]="data" [style.backgroundColor]="data.backgroundColor" [style.color]="data.color">{{'dlg.ok' | translate}}</button>
     </div>
 </div>

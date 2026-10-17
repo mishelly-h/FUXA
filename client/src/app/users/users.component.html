@@ -41,9 +41,11 @@
 			<ng-container matColumnDef="remove">
 				<mat-header-cell *matHeaderCellDef> </mat-header-cell>
 				<mat-cell *matCellDef="let element">
-					<button mat-icon-button (click)="$event.stopPropagation();onRemoveUser(element)" class="remove" *ngIf="!isAdmin(element)">
+					@if (!isAdmin(element)) {
+<button mat-icon-button (click)="$event.stopPropagation();onRemoveUser(element)" class="remove">
 						<mat-icon>clear</mat-icon>
 					</button>
+}
 				</mat-cell>
 			</ng-container>
 

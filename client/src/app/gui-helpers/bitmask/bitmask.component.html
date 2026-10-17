@@ -13,7 +13,8 @@
                 <mat-list-option [selected]="bits[6].selected" [value]="bits[6]" class="bitmask-item" checkboxPosition="after">{{bits[6].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[7].selected" [value]="bits[7]" class="bitmask-item" checkboxPosition="after">{{bits[7].label}}</mat-list-option>
             </div>
-            <div *ngIf="size > 8" style="display: inline-block;">
+            @if (size > 8) {
+<div style="display: inline-block;">
                 <mat-list-option [selected]="bits[8].selected" [value]="bits[8]" class="bitmask-item" checkboxPosition="after">{{bits[8].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[9].selected" [value]="bits[9]" class="bitmask-item" checkboxPosition="after">{{bits[9].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[10].selected" [value]="bits[10]" class="bitmask-item" checkboxPosition="after">{{bits[10].label}}</mat-list-option>
@@ -23,7 +24,9 @@
                 <mat-list-option [selected]="bits[14].selected" [value]="bits[14]" class="bitmask-item" checkboxPosition="after">{{bits[14].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[15].selected" [value]="bits[15]" class="bitmask-item" checkboxPosition="after">{{bits[15].label}}</mat-list-option>
             </div>
-            <div *ngIf="size > 16" style="display: inline-block;">
+}
+            @if (size > 16) {
+<div style="display: inline-block;">
                 <mat-list-option [selected]="bits[16].selected" [value]="bits[16]" class="bitmask-item" checkboxPosition="after">{{bits[16].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[17].selected" [value]="bits[17]" class="bitmask-item" checkboxPosition="after">{{bits[17].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[18].selected" [value]="bits[18]" class="bitmask-item" checkboxPosition="after">{{bits[18].label}}</mat-list-option>
@@ -33,7 +36,9 @@
                 <mat-list-option [selected]="bits[22].selected" [value]="bits[22]" class="bitmask-item" checkboxPosition="after">{{bits[22].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[23].selected" [value]="bits[23]" class="bitmask-item" checkboxPosition="after">{{bits[23].label}}</mat-list-option>
             </div>
-            <div *ngIf="size > 24" style="display: inline-block;">
+}
+            @if (size > 24) {
+<div style="display: inline-block;">
                 <mat-list-option [selected]="bits[24].selected" [value]="bits[24]" class="bitmask-item" checkboxPosition="after">{{bits[24].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[25].selected" [value]="bits[25]" class="bitmask-item" checkboxPosition="after">{{bits[25].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[26].selected" [value]="bits[26]" class="bitmask-item" checkboxPosition="after">{{bits[26].label}}</mat-list-option>
@@ -43,6 +48,7 @@
                 <mat-list-option [selected]="bits[30].selected" [value]="bits[30]" class="bitmask-item" checkboxPosition="after">{{bits[30].label}}</mat-list-option>
                 <mat-list-option [selected]="bits[31].selected" [value]="bits[31]" class="bitmask-item" checkboxPosition="after">{{bits[31].label}}</mat-list-option>
             </div>
+}
         </mat-selection-list>
     </div>
     <div mat-dialog-actions class="dialog-action">

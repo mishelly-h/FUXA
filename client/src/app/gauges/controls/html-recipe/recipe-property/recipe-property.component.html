@@ -23,10 +23,14 @@
                 <span>{{'recipe.property-select-recipe' | translate}}</span>
                 <mat-select style="width: 260px;" [(ngModel)]="property.recipeId" (selectionChange)="onPropertyChanged()">
                     <mat-option [value]="null">-- {{'recipe.no-recipe-selected' | translate}} --</mat-option>
-                    <mat-option *ngFor="let r of recipes" [value]="r.id">{{r.data?.name || r.id}}</mat-option>
+                    @for (r of recipes; track r) {
+<mat-option [value]="r.id">{{r.data?.name || r.id}}</mat-option>
+}
                 </mat-select>
             </div>
-            <div *ngIf="loading" class="loading-hint">{{'recipe.loading-recipes' | translate}}</div>
+            @if (loading) {
+<div class="loading-hint">{{'recipe.loading-recipes' | translate}}</div>
+}
         </div>
 
         <!-- Readonly toggle -->
@@ -101,9 +105,11 @@
                 <div class="my-form-field">
                     <span>{{'slider.property-font' | translate}}</span>
                     <mat-select [(value)]="property.fontFamily" (selectionChange)="onPropertyChanged()">
-                        <mat-option *ngFor="let font of fonts" [style.fontFamily]="font" [value]="font">
+                        @for (font of fonts; track font) {
+<mat-option [style.fontFamily]="font" [value]="font">
                             {{font}}
                         </mat-option>
+}
                     </mat-select>
                 </div>
                 <div class="my-form-field">

@@ -5,40 +5,56 @@
         <div class="my-form-field">
             <span>{{'card.config-content-type' | translate}}</span>
             <mat-select [(value)]="card.type" style="width: 320px;">
-                <mat-option *ngFor="let type of cardType | enumToArray" [value]="type.key" [disabled]="type.key === cardType.table">
+                @for (type of cardType | enumToArray; track type) {
+<mat-option [value]="type.key" [disabled]="type.key === cardType.table">
                     {{ 'card.widget-' + type.value | translate }}
                 </mat-option>
+}
             </mat-select>
         </div>
-        <div [ngSwitch]="card.type" class="ftr">
-            <div *ngSwitchCase="cardType.view">
+        <div class="ftr">
+@switch (card.type) {
+            @case (cardType.view) {
+<div>
                 <div class="my-form-field">
                     <span>{{'card.config-content-view' | translate}}</span>
                     <mat-select [(value)]="card.data" style="width: 320px;">
-                        <mat-option *ngFor="let view of data.views" [value]="view">
+                        @for (view of data.views; track view) {
+<mat-option [value]="view">
                             {{ view }}
                         </mat-option>
+}
                     </mat-select>
                 </div>
             </div>
-            <div *ngSwitchCase="cardType.alarms">
+}
+            @case (cardType.alarms) {
+<div>
             </div>
-            <div *ngSwitchCase="cardType.iframe">
+}
+            @case (cardType.iframe) {
+<div>
                 <div class="my-form-field ftr">
                     <span>{{'card.config-content-iframe' | translate}}</span>
                     <input [(ngModel)]="card.data" type="text" style="width:320px">
                 </div>
             </div>
-        </div>
+}
+        }
+</div>
 
-        <div *ngIf="card.type === cardType.view || card.type === cardType.iframe" class="my-form-field block mt10">
+        @if (card.type === cardType.view || card.type === cardType.iframe) {
+<div class="my-form-field block mt10">
             <span>{{'panel.property-scalemode' | translate}}</span>
             <mat-select [(value)]="card.scaleMode" style="width: 320px;">
-                <mat-option *ngFor="let mode of scaleMode | enumToArray" [value]="mode.key">
+                @for (mode of scaleMode | enumToArray; track mode) {
+<mat-option [value]="mode.key">
                     {{'panel.property-scalemode-' + mode.value | translate }}
                 </mat-option>
+}
             </mat-select>
         </div>
+}
     </div>
     <div mat-dialog-actions class="dialog-action">
         <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>

@@ -13,20 +13,27 @@
 						<div class="my-form-field ml10" style="vertical-align: bottom;">
 							<span>{{'gauges.property-permission' | translate}}</span>
 							<div style="text-align:center;" class="my-form-field-permission pointer" (click)="onEditPermission()">
-								<mat-icon *ngIf="havePermission(); else unlock"
+								@if (havePermission()) {
+<mat-icon
 										class="header-icon"
 										style="line-height: 28px;">lock</mat-icon>
-								<ng-template #unlock>
+} @else {
+
 									<mat-icon class="header-icon"
 											style="line-height: 28px;">lock_open</mat-icon>
-								</ng-template>
+								
+}
+								
 							</div>
 						</div>
-						<div class="my-form-field ml10" *ngIf="isTextToShow()">
+						@if (isTextToShow()) {
+<div class="my-form-field ml10">
 							<span>{{'gauges.property-text' | translate}}</span>
 							<input [(ngModel)]="property.text" style="width: 250px" type="text" placeholder="{{'gauges.property-language-text' | translate}}">
 						</div>
-						<div class="my-form-field ml10 icon-property-field" *ngIf="isButton()">
+}
+						@if (isButton()) {
+<div class="my-form-field ml10 icon-property-field">
 							<span>{{'gauges.property-icon' | translate}}</span>
 							<app-icon-selector
 								[(value)]="property.icon"
@@ -34,25 +41,35 @@
 								(selected)="property.image = ''">
 							</app-icon-selector>
 						</div>
-						<div class="my-form-field" style="padding-left: 100px" *ngIf="isReadonlyToShow()">
+}
+						@if (isReadonlyToShow()) {
+<div class="my-form-field" style="padding-left: 100px">
 							<span>{{'gauges.property-readonly' | translate}}</span>
 							<mat-slide-toggle color="primary" [(ngModel)]="property.readonly"></mat-slide-toggle>
 						</div>
-						<div class="toolbox" *ngIf="isToolboxToShow()">
+}
+						@if (isToolboxToShow()) {
+<div class="toolbox">
 							<button mat-icon-button (click)="onAddInput()">
 								<mat-icon>add_circle_outline</mat-icon>
 							</button>
 						</div>
+}
 					</div>
 					<div mat-dialog-content style="overflow: visible; width:100%;">
-						<flex-widget-property *ngIf="isWidget()"
+						@if (isWidget()) {
+<flex-widget-property
 											[property]="property">
 						</flex-widget-property>
-						<flex-head *ngIf="!isWidget()" [data]="data" [property]="property" #flexhead [withBitmask]="withBitmask"></flex-head>
+}
+						@if (!isWidget()) {
+<flex-head [data]="data" [property]="property" #flexhead [withBitmask]="withBitmask"></flex-head>
+}
 					</div>
 				</div>
 			</mat-tab>
-			<mat-tab label="{{'gauges.property-events' | translate}}" *ngIf="eventsSupported">
+			@if (eventsSupported) {
+<mat-tab label="{{'gauges.property-events' | translate}}">
 				<div class="mat-tab-container">
 					<div class="toolbox">
 						<button mat-icon-button (click)="onAddEvent()" matTooltip="{{'gauges.property-tooltip-add-event' | translate}}">
@@ -64,7 +81,9 @@
 					</div>
 				</div>
 			</mat-tab>
-			<mat-tab label="{{'gauges.property-actions' | translate}}" *ngIf="actionsSupported">
+}
+			@if (actionsSupported) {
+<mat-tab label="{{'gauges.property-actions' | translate}}">
 				<div class="mat-tab-container">
 					<div class="toolbox">
 						<button mat-icon-button (click)="onAddAction()">
@@ -81,6 +100,7 @@
 					</div>
 				</div>
 			</mat-tab>
+}
 		</mat-tab-group>
     </div>
     <div mat-dialog-actions class="dialog-action">

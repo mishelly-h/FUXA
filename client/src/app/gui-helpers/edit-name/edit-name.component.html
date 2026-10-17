@@ -7,7 +7,9 @@
             <input [(ngModel)]="data.name" type="text" style="width:300px" (input)="onCheckValue($event)">
         </div>
         <div style="display: block; color: red; height: 22px">
-            <span *ngIf="error">{{error}}</span>
+            @if (error) {
+<span>{{error}}</span>
+}
         </div>
     </div>
     <div mat-dialog-actions class="dialog-action">

@@ -1,32 +1,54 @@
 <div class="container">
     <gridster [options]="gridOptions">
-        <gridster-item [item]="item" *ngFor="let item of dashboard; index as i">
-            <div *ngIf="item.content" class="card-content">
-                <div [ngSwitch]="item.card.type"  [style.transform]="'scale(' + item.card.zoom + ')'">
-                    <div *ngSwitchCase="cardType.view">
-                        <ng-container [ngSwitch]="item.content?.type">
-                            <ng-container *ngSwitchCase="mapsViewType">
+        @for (item of dashboard; track item; let i = $index) {
+<gridster-item [item]="item">
+            @if (item.content) {
+<div class="card-content">
+                <div  [style.transform]="'scale(' + item.card.zoom + ')'">
+@switch (item.card.type) {
+                    @case (cardType.view) {
+<div>
+                        
+@switch (item.content?.type) {
+                            @case (mapsViewType) {
+
                                 <app-maps-view [view]="item.content" [hmi]="hmi" [gaugesManager]="gaugesManager" (onGoTo)="onGoToPage($event)"></app-maps-view>
-                            </ng-container>
-                            <ng-container *ngSwitchDefault>
+                            
+}
+                            @default {
+
                                 <app-fuxa-view class="lab-body" id="fuxaView{{i}}" [view]="item.content" [hmi]="hmi" [gaugesManager]="gaugesManager"></app-fuxa-view>
-                            </ng-container>
-                        </ng-container>
+                            
+}
+                        }
+
                     </div>
-                    <div *ngSwitchCase="cardType.alarms">
+}
+                    @case (cardType.alarms) {
+<div>
                         <app-alarm-view #alarmsview [fullview]="true" [showInContainer]="true" [autostart]="true"></app-alarm-view>
                     </div>
-                    <div *ngSwitchCase="cardType.iframe">
-                        <div *ngIf="edit; else iframe" class="card-iframe-edit">
+}
+                    @case (cardType.iframe) {
+<div>
+                        @if (edit) {
+<div class="card-iframe-edit">
                             <span><b>iframe</b> {{ item.card.data }}</span>
                         </div>
-                        <ng-template #iframe>
+} @else {
+
                             <app-iframe [link]="item.card.data" class="iframe-class"></app-iframe>
-                        </ng-template>
+                        
+}
+                        
                     </div>
-                </div>
+}
+                }
+</div>
             </div>
-            <div *ngIf="edit" class="card-tool">
+}
+            @if (edit) {
+<div class="card-tool">
                 <div class="my-form-field">
                     <span>{{'card.style-zoom' | translate}}</span>
                     <input numberOnly class="zoom-input"
@@ -42,6 +64,8 @@
                     <mat-icon>close</mat-icon>
                 </button>
             </div>
+}
         </gridster-item>
+}
     </gridster>
 </div>

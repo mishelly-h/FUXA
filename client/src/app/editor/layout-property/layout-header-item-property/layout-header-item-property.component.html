@@ -18,9 +18,11 @@
             <div class="my-form-field type-field">
                 <span>{{'dlg.layout-lbl-type' | translate}}</span>
                 <mat-select [(ngModel)]="item.type">
-                    <mat-option *ngFor="let type of headerType" [value]="type">
+                    @for (type of headerType; track type) {
+<mat-option [value]="type">
                         {{ 'item.headertype-' + type | translate }}
                     </mat-option>
+}
                 </mat-select>
             </div>
             <div class="my-form-field field-input-70">

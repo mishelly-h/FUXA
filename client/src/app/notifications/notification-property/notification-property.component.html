@@ -20,38 +20,52 @@
                     <mat-option [value]="notificationAccess"> {{ notificationsType[notificationAccess] }} </mat-option>
                 </mat-select>
             </div>
-            <div class="my-form-field ml15" *ngIf="formGroup.value.type === notificationAlarm">
+            @if (formGroup.value.type === notificationAlarm) {
+<div class="my-form-field ml15">
                 <span>{{'notification.property-delay' | translate}}</span>
                 <input numberOnly formControlName="delay" type="number" max="60" min="1" step="1" style="width:80px">
             </div>
-            <div class="my-form-field ml15" *ngIf="formGroup.value.type === notificationAlarm">
+}
+            @if (formGroup.value.type === notificationAlarm) {
+<div class="my-form-field ml15">
                 <span>{{'notification.property-interval' | translate}}</span>
                 <input numberOnly formControlName="interval" type="number" max="60" min="0" step="1" style="width:80px">
             </div>
+}
             <div class="my-form-field ml20">
                 <span>{{'notification.property-enabled' | translate}}</span>
                 <mat-slide-toggle color="primary" formControlName="enabled" style="vertical-align: middle;"></mat-slide-toggle>
             </div>
         </div>
-        <div class="my-form-field block mt10" *ngIf="formGroup.value.type === notificationAlarm">
+        @if (formGroup.value.type === notificationAlarm) {
+<div class="my-form-field block mt10">
             <span>{{'notification.property-mode' | translate}}</span>
             <mat-select formControlName="mode" style="width: 207px">
                 <mat-option [value]="notificationModeAll">{{'notification.property-mode-alarm-all' | translate}}</mat-option>
                 <mat-option [value]="notificationModeSingle">{{'notification.property-mode-alarm-single' | translate}}</mat-option>
             </mat-select>
         </div>
-        <div class="my-form-field block mt10" *ngIf="formGroup.value.type === notificationAlarm">
+}
+        @if (formGroup.value.type === notificationAlarm) {
+<div class="my-form-field block mt10">
             <span>{{'notification.property-priority' | translate}}</span>
-            <mat-checkbox *ngFor="let item of alarmsType" (change)="onSubscriptionChanged(item, $event.checked)" [checked]="getTypeValue(item)" style="margin: 7px 10px 7px 10px;">
+            @for (item of alarmsType; track item) {
+<mat-checkbox (change)="onSubscriptionChanged(item, $event.checked)" [checked]="getTypeValue(item)" style="margin: 7px 10px 7px 10px;">
                 {{'alarm.property-' + item | translate}}
             </mat-checkbox>
+}
         </div>
-        <div class="my-form-field block mt10" *ngIf="formGroup.value.type === notificationAccess">
+}
+        @if (formGroup.value.type === notificationAccess) {
+<div class="my-form-field block mt10">
             <span>{{'notification.property-language' | translate}}</span>
             <mat-select formControlName="language" style="width: 207px">
-                <mat-option *ngFor="let language of notificationLanguages" [value]="language.value">{{language.text | translate}}</mat-option>
+                @for (language of notificationLanguages; track language) {
+<mat-option [value]="language.value">{{language.text | translate}}</mat-option>
+}
             </mat-select>
         </div>
+}
     </div>
     <div mat-dialog-actions class="dialog-action mt10">
         <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>

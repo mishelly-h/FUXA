@@ -9,9 +9,11 @@
         <div class="my-form-field item-block mt10">
             <span>{{'device.tag-property-name' | translate}}</span>
             <input formControlName="tagName" type="text">
-            <span *ngIf="formGroup.controls.tagName.errors?.name" class="form-input-error">
+            @if (formGroup.controls.tagName.errors?.name) {
+<span class="form-input-error">
                 {{formGroup.controls.tagName.errors?.name}}
             </span>
+}
         </div>
         <div class="my-form-field item-block mt10">
             <span>{{'device.tag-property-webcam-device-address' | translate}}</span>
@@ -41,17 +43,21 @@
             <div class="my-form-field item-inline mt10">
                 <span>{{'device.tag-property-webcam-options.outputType' | translate}}</span>
                 <mat-select formControlName="output">
-                    <mat-option *ngFor="let type of outputType | enumToArray" [value]="type.key">
+                    @for (type of outputType | enumToArray; track type) {
+<mat-option [value]="type.key">
                         {{ type.value }}
                     </mat-option>
+}
                 </mat-select>
             </div>
             <div class="my-form-field item-inline mt10 ftr mr5" >
                 <span>{{'device.tag-property-webcam-options.callbackReturn' | translate}}</span>
                 <mat-select formControlName="callbackReturn">
-                    <mat-option *ngFor="let type of callbackReturnType | enumToArray" [value]="type.key">
+                    @for (type of callbackReturnType | enumToArray; track type) {
+<mat-option [value]="type.key">
                         {{ type.value }}
                     </mat-option>
+}
                 </mat-select>
             </div>
         </div>

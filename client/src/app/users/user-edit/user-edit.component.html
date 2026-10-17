@@ -16,30 +16,40 @@
                 placeholder="•••••••">
             <mat-icon matSuffix (click)="showPassword = !showPassword" class="show-password">{{showPassword ? 'visibility' : 'visibility_off'}}</mat-icon>
         </div>
-        <div *ngIf="languages" class="my-form-field block mt10">
+        @if (languages) {
+<div class="my-form-field block mt10">
             <span>{{'dlg.userproperty-language' | translate}}</span>
             <mat-select formControlName="languageId">
                 <mat-option [value]="languages?.default?.id">{{ languages?.default?.name }}</mat-option>
-                <mat-option *ngFor="let language of languages?.options" [value]="language.id">
+                @for (language of languages?.options; track language) {
+<mat-option [value]="language.id">
                     {{ language.name }}
                 </mat-option>
+}
             </mat-select>
         </div>
+}
         <div class="my-form-field block mt10">
-            <ng-template *ngIf="isRolePermission(); else groups">
+            @if (isRolePermission()) {
+
                 <span>{{'dlg.userproperty-role' | translate}}</span>
-            </ng-template>
-            <ng-template #groups>
+            
+} @else {
+
                 <span>{{'dlg.userproperty-groups' | translate}}</span>
-            </ng-template>
+            
+}
+            
             <sel-options #seloptions [selected]="selected" [disabled]="isAdmin()" [options]="options"></sel-options>
         </div>
         <div class="my-form-field block mt10 mb5">
             <span>{{'dlg.userproperty-start' | translate}}</span>
             <mat-select formControlName="start">
-                <mat-option *ngFor="let view of views" [value]="view.id">
+                @for (view of views; track view) {
+<mat-option [value]="view.id">
                     {{ view.name }}
                 </mat-option>
+}
             </mat-select>
         </div>
     </div>

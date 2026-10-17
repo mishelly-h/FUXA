@@ -1,7 +1,8 @@
 <div class="header-panel">
     {{'logs.view-title' | translate}}
 </div>
- <div class="work-panel" #workPanel *ngIf="tableView">
+ @if (tableView) {
+<div class="work-panel" #workPanel>
     <mat-table #table [dataSource]="dataSource" matSort>
         <ng-container matColumnDef="ontime">
             <mat-header-cell *matHeaderCellDef mat-sort-header class="my-header-filter">
@@ -36,16 +37,23 @@
     </mat-table>
     <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="table-pagination"></mat-paginator>
 </div>
- <div class="work-panel text-content" #textContent *ngIf="!tableView" [innerHTML]="content">
+}
+ @if (!tableView) {
+<div class="work-panel text-content" #textContent [innerHTML]="content">
 </div>
-<div class="logs-selector" *ngIf="!tableView">
+}
+@if (!tableView) {
+<div class="logs-selector">
     <div class="my-form-field">
         <span>{{'logs.view-files' | translate}}</span>
         <mat-select [(value)]="logs.selected" style="width: 200px;" (selectionChange)="loadLogs(logs.selected)">
-            <mat-option *ngFor="let file of logs.files" [value]="file">{{file}}</mat-option>
+            @for (file of logs.files; track file) {
+<mat-option [value]="file">{{file}}</mat-option>
+}
         </mat-select>
     </div>
 </div>
+}
 <div class="scroll-buttons">
     <button (click)="scrollToTop()" class="scroll-btn scroll-top">↑</button>
     <button (click)="scrollToBottom()" class="scroll-btn scroll-bottom">↓</button>
