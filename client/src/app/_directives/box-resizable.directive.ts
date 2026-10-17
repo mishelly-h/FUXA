@@ -38,6 +38,7 @@ export class BoxResizableDirective implements OnInit, OnDestroy {
         this.startY = event.clientY;
         this.startWidth = bounds.width;
         this.startHeight = bounds.height;
+        this.renderer.addClass(this.el.nativeElement, 'box-resizing');
         window.addEventListener('pointermove', this.onPointerMove);
         window.addEventListener('pointerup', this.onPointerUp);
     }
@@ -61,6 +62,7 @@ export class BoxResizableDirective implements OnInit, OnDestroy {
     };
 
     private detachWindowListeners() {
+        this.renderer.removeClass(this.el.nativeElement, 'box-resizing');
         window.removeEventListener('pointermove', this.onPointerMove);
         window.removeEventListener('pointerup', this.onPointerUp);
     }

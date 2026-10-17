@@ -1268,3 +1268,9 @@ mat-toolbar-row {
     justify-content: center;
     align-items: center;
   }
+
+/* keep pointer events on the page while dragging/resizing panels that contain iframes */
+.cdk-drag-dragging iframe,
+.box-resizing iframe {
+    pointer-events: none;
+}
