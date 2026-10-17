@@ -14,9 +14,8 @@
         @for (item of layout.navigation.items; track item; let i = $index) {
 
             <mat-list-item [ngClass]="'menu-item-' + layout.navigation.type" style="width: unset" [style.color]="layoutNavigation.fgcolor">
-                <button type="button" mat-button class="sidenav-btn sidenav-submenu-btn" (click)="isExpandable(item) ? toggleSubMenu(item) : onGoTo(item)"
-                        [style.color]="layoutNavigation.fgcolor"
-                       >
+          <button type="button" mat-button class="sidenav-btn sidenav-submenu-btn" (click)="isExpandable(item) ? toggleSubMenu(item) : onGoTo(item)"
+            [style.color]="layoutNavigation.fgcolor">
 @switch ($any(layout.navigation.type)) {
 @case ('icon') {
 <div class="menu-item-content-icon">
@@ -71,8 +70,7 @@
                                class="sidenav-submenu-item"
                                [style.color]="layoutNavigation.fgcolor">
                 <button type="button" mat-button class="sidenav-btn" (click)="onGoTo(child)"
-                            [style.color]="layoutNavigation.fgcolor"
-                           >
+                  [style.color]="layoutNavigation.fgcolor">
 @switch ($any(layout.navigation.type)) {
 @case ('icon') {
 <div class="menu-item-content-icon">

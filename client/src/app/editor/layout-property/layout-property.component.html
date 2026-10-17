@@ -121,9 +121,8 @@
                                                        [style.color]="data.layout.header.fgcolor"
                                                        (click)="toggleSubMenu(item)"
                                                        style="width: unset">
-                            <button type="button" mat-button class="sidenav-btn sidenav-submenu-btn"
-                                                    [style.color]="data.layout.navigation.fgcolor"
-                                                   >
+                      <button type="button" mat-button class="sidenav-btn sidenav-submenu-btn"
+                        [style.color]="data.layout.navigation.fgcolor">
 @switch ($any(data.layout.navigation.type)) {
 @case ('icon') {
 <div class="menu-item-content-icon">
@@ -192,9 +191,8 @@
 <mat-list-item [ngClass]="'menu-item-' + data.layout.navigation.type"
                                                            class="sidenav-submenu-item"
                                                            [style.color]="data.layout.navigation.fgcolor">
-                                                <button type="button" mat-button class="sidenav-btn"
-                                                           [style.color]="data.layout.navigation.fgcolor"
-                                                          >
+                            <button type="button" mat-button class="sidenav-btn"
+                              [style.color]="data.layout.navigation.fgcolor">
 @switch ($any(data.layout.navigation.type)) {
 @case ('icon') {
 <div class="menu-item-content-icon">
