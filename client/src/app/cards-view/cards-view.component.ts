@@ -41,6 +41,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
 
     ngOnInit() {
         this.gridOptions = { ...this.gridOptions, ...this.options };
+        this.applyViewProfileOptions();
     }
 
     ngAfterViewInit() {
@@ -60,10 +61,19 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
                 this.renderer.setStyle(element?.parentElement, 'width', `100vw`);
             }
         }
-        const gridType = this.view.profile.gridType ?? GridType.Fixed;
-        const margin = this.view.profile.margin >= 0 ? this.view.profile.margin : this.gridOptions.margin;
-        this.gridOptions = { ...this.gridOptions, gridType, margin };
+        this.applyViewProfileOptions();
         this.initCardsEditor(this.view.svgcontent);
+    }
+
+    private applyViewProfileOptions(): boolean {
+        const gridType = this.view?.profile?.gridType ?? GridType.Fixed;
+        const profileMargin = this.view?.profile?.margin;
+        const margin = profileMargin !== undefined && profileMargin >= 0 ? profileMargin : this.gridOptions.margin;
+        if (gridType === this.gridOptions.gridType && margin === this.gridOptions.margin) {
+            return false;
+        }
+        this.gridOptions = { ...this.gridOptions, gridType, margin };
+        return true;
     }
 
     initCardsEditor(dashboardContent: string) {
