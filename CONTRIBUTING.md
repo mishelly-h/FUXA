@@ -10,7 +10,7 @@ We welcome improvements to both the codebase and the documentation.
 
 ## Requirements
 
-- Node.js 18 LTS (recommended)
+- Node.js 24 LTS to build the Angular client; the server runs on Node.js 18+
 - npm
 
 ## Setup Development Environment
