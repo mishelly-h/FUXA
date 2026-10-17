@@ -208,26 +208,26 @@
 // Override Angular Material theme colors for this component
 .scheduler-container {
     position: relative;
-    --mdc-theme-primary: var(--scheduler-accent-color) !important;
-    --mdc-theme-surface: var(--scheduler-bg-color) !important;
-    --mdc-theme-on-surface: var(--scheduler-text-color) !important;
-    --mdc-theme-text-primary-on-background: var(--scheduler-text-color) !important;
-    --mdc-filled-select-container-color: rgba(255, 255, 255, 0.2) !important;
-    --mdc-filled-select-ink-color: var(--scheduler-text-color) !important;
-    --mdc-select-ink-color: var(--scheduler-text-color) !important;
-    --mdc-select-container-fill-color: rgba(255, 255, 255, 0.2) !important;
-    --mdc-select-dropdown-icon-color: var(--scheduler-secondary-text-color, #ffffff) !important;
-    --mdc-select-hover-container-fill-color: rgba(255, 255, 255, 0.3) !important;
-    --mdc-select-focused-container-fill-color: var(--scheduler-accent-color) !important;
-    --mdc-select-focused-ink-color: var(--scheduler-secondary-text-color, #ffffff) !important;
-    --mdc-menu-container-shape: 4px !important;
-    --mdc-menu-container-color: var(--scheduler-bg-color) !important;
-    --mdc-menu-container-surface-tint-color: var(--scheduler-bg-color) !important;
-    --mdc-menu-item-container-height: 48px !important;
-    --mdc-menu-item-label-text-color: var(--scheduler-text-color) !important;
-    --mdc-menu-item-selected-container-fill-color: var(--scheduler-accent-color) !important;
-    --mdc-menu-item-selected-label-text-color: var(--scheduler-secondary-text-color, #ffffff) !important;
-    --mdc-menu-item-hover-container-fill-color: var(--scheduler-hover-color) !important;
+    --mat-theme-primary: var(--scheduler-accent-color) !important;
+    --mat-theme-surface: var(--scheduler-bg-color) !important;
+    --mat-theme-on-surface: var(--scheduler-text-color) !important;
+    --mat-theme-text-primary-on-background: var(--scheduler-text-color) !important;
+    --mat-filled-select-container-color: rgba(255, 255, 255, 0.2) !important;
+    --mat-filled-select-ink-color: var(--scheduler-text-color) !important;
+    --mat-select-ink-color: var(--scheduler-text-color) !important;
+    --mat-select-container-fill-color: rgba(255, 255, 255, 0.2) !important;
+    --mat-select-dropdown-icon-color: var(--scheduler-secondary-text-color, #ffffff) !important;
+    --mat-select-hover-container-fill-color: rgba(255, 255, 255, 0.3) !important;
+    --mat-select-focused-container-fill-color: var(--scheduler-accent-color) !important;
+    --mat-select-focused-ink-color: var(--scheduler-secondary-text-color, #ffffff) !important;
+    --mat-menu-container-shape: 4px !important;
+    --mat-menu-container-color: var(--scheduler-bg-color) !important;
+    --mat-menu-container-surface-tint-color: var(--scheduler-bg-color) !important;
+    --mat-menu-item-container-height: 48px !important;
+    --mat-menu-item-label-text-color: var(--scheduler-text-color) !important;
+    --mat-menu-item-selected-container-fill-color: var(--scheduler-accent-color) !important;
+    --mat-menu-item-selected-label-text-color: var(--scheduler-secondary-text-color, #ffffff) !important;
+    --mat-menu-item-hover-container-fill-color: var(--scheduler-hover-color) !important;
 
     // Main container layout
     display: flex;

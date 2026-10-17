@@ -1,5 +1,5 @@
 # --- STAGE 1: Angular Client Builder ---
-FROM node:18-bookworm AS client-builder
+FROM node:24-bookworm AS client-builder
 WORKDIR /usr/src/app/client
 COPY client/package*.json ./
 RUN npm install --no-audit --no-fund

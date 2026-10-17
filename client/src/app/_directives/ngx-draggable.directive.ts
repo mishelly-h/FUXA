@@ -1,4 +1,3 @@
-/* eslint @angular-eslint/no-host-metadata-property: off */
 import { Directive, ElementRef, Renderer2, OnDestroy, OnInit, AfterViewInit, Input } from '@angular/core';
 
 

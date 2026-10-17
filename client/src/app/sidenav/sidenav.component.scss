@@ -105,14 +105,14 @@
         }
 
         /* MDC tokens used by MatButton */
-        --mdc-text-button-label-text-color: currentColor;
-        --mdc-filled-button-label-text-color: currentColor;
-        --mdc-outlined-button-label-text-color: currentColor;
+        --mat-button-text-label-text-color: currentColor;
+        --mat-button-filled-label-text-color: currentColor;
+        --mat-button-outlined-label-text-color: currentColor;
     }
 
     ::ng-deep .sidenav-menu .mdc-list {
-        --mdc-list-list-item-leading-padding: 0px;
-        --mdc-list-list-item-trailing-padding: 0px;
+        --mat-list-list-item-leading-padding: 0px;
+        --mat-list-list-item-trailing-padding: 0px;
     }
 
     ::ng-deep .sidenav-menu .mat-mdc-list-item.mdc-list-item {
