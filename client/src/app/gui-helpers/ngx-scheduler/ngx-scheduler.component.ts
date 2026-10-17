@@ -4,7 +4,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 @Component({
     selector: 'app-ngx-scheduler',
     templateUrl: './ngx-scheduler.component.html',
-    styleUrls: ['./ngx-scheduler.component.scss']
+    styleUrls: ['./ngx-scheduler.component.scss'],
+    standalone: false
 })
 export class NgxSchedulerComponent implements OnInit {
 

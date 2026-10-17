@@ -12,7 +12,8 @@ interface PluginViewModel extends Plugin {
 @Component({
     selector: 'app-plugins-list',
     templateUrl: './plugins-list.component.html',
-    styleUrls: ['./plugins-list.component.scss']
+    styleUrls: ['./plugins-list.component.scss'],
+    standalone: false
 })
 export class PluginsListComponent implements OnInit, OnDestroy {
 

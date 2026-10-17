@@ -7,7 +7,8 @@ import { ProjectService } from '../../../../_services/project.service';
 @Component({
     selector: 'app-table-reports',
     templateUrl: './table-reports.component.html',
-    styleUrls: ['./table-reports.component.scss']
+    styleUrls: ['./table-reports.component.scss'],
+    standalone: false
 })
 export class TableReportsComponent {
 

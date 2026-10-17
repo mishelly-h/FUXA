@@ -1,7 +1,8 @@
 import { Directive, HostListener, Input, Output, EventEmitter, ElementRef, OnDestroy } from '@angular/core';
 
 @Directive({
-    selector: '[appResize]'
+    selector: '[appResize]',
+    standalone: false
 })
 export class ResizeDirective implements OnDestroy {
     private oldY = 0;

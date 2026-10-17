@@ -11,7 +11,8 @@ import { Utils } from '../_helpers/utils';
 @Component({
     selector: 'app-sidenav',
     templateUrl: './sidenav.component.html',
-    styleUrls: ['./sidenav.component.scss']
+    styleUrls: ['./sidenav.component.scss'],
+    standalone: false
 })
 export class SidenavComponent implements AfterContentChecked {
 

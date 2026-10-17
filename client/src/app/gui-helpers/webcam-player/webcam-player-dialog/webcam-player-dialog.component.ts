@@ -6,7 +6,8 @@ import { GaugeSettings, View } from '../../../_models/hmi';
 @Component({
     selector: 'app-webcam-player-dialog',
     templateUrl: './webcam-player-dialog.component.html',
-    styleUrls: ['./webcam-player-dialog.component.scss']
+    styleUrls: ['./webcam-player-dialog.component.scss'],
+    standalone: false
 })
 export class WebcamPlayerDialogComponent {
 

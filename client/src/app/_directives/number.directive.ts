@@ -1,7 +1,8 @@
 import { Directive, ElementRef, HostListener } from '@angular/core';
 
 @Directive({
-    selector: '[numberOnly]'
+    selector: '[numberOnly]',
+    standalone: false
 })
 export class NumberOnlyDirective {
     // Allow key codes for special events. Reflect :
@@ -22,7 +23,8 @@ export class NumberOnlyDirective {
 }
 
 @Directive({
-    selector: '[numberOrNullOnly]'
+    selector: '[numberOrNullOnly]',
+    standalone: false
 })
 export class NumberOrNullOnlyDirective {
     // Allow decimal numbers and negative values
@@ -71,7 +73,8 @@ export class NumberOrNullOnlyDirective {
  *   - input   : clamps the value to a non-negative integer after browser spinner changes
  */
 @Directive({
-    selector: '[nonNegativeIntegerOnly]'
+    selector: '[nonNegativeIntegerOnly]',
+    standalone: false
 })
 export class NonNegativeIntegerOnlyDirective {
     // Allow only whole non-negative integers: digits 0-9

@@ -1,7 +1,8 @@
 import { AfterViewInit, Directive, ElementRef } from '@angular/core';
 
 @Directive({
-  selector: '[stopInputPropagation]'
+    selector: '[stopInputPropagation]',
+    standalone: false
 })
 export class StopInputPropagationDirective implements AfterViewInit  {
 

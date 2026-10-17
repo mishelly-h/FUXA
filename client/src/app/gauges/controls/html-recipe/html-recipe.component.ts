@@ -22,7 +22,8 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../gui-helpers/
 @Component({
     selector: 'html-recipe-view',
     templateUrl: './html-recipe.component.html',
-    styleUrls: ['./html-recipe.component.scss']
+    styleUrls: ['./html-recipe.component.scss'],
+    standalone: false
 })
 export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
 
@@ -591,7 +592,8 @@ export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
  * HtmlRecipeViewComponent inside SVG editor canvases.
  */
 @Component({
-    template: ''
+    template: '',
+    standalone: false
 })
 export class HtmlRecipeComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-own_ctrl-recipe';

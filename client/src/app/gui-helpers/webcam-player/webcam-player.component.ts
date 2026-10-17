@@ -9,7 +9,8 @@ import { HmiService } from '../../_services/hmi.service';
 @Component({
     selector: 'app-webcam-player',
     templateUrl: './webcam-player.component.html',
-    styleUrls: ['./webcam-player.component.css']
+    styleUrls: ['./webcam-player.component.css'],
+    standalone: false
 })
 export class WebcamPlayerComponent implements OnInit {
 

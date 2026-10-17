@@ -8,7 +8,8 @@ import { TreetableComponent, Node, NodeType } from '../../../gui-helpers/treetab
 @Component({
     selector: 'app-tag-property-edit-bacnet',
     templateUrl: './tag-property-edit-bacnet.component.html',
-    styleUrls: ['./tag-property-edit-bacnet.component.css']
+    styleUrls: ['./tag-property-edit-bacnet.component.css'],
+    standalone: false
 })
 export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
     @Output() result = new EventEmitter<any>();

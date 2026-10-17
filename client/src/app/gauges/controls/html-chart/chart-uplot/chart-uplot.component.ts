@@ -18,7 +18,8 @@ import { HmiService } from '../../../../_services/hmi.service';
 @Component({
     selector: 'chart-uplot',
     templateUrl: './chart-uplot.component.html',
-    styleUrls: ['./chart-uplot.component.scss']
+    styleUrls: ['./chart-uplot.component.scss'],
+    standalone: false
 })
 export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
 

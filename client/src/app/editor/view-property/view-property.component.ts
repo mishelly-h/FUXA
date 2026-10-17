@@ -14,7 +14,8 @@ import { MatTab as MatTab } from '@angular/material/tabs';
 @Component({
     selector: 'app-view-property',
     templateUrl: './view-property.component.html',
-    styleUrls: ['./view-property.component.scss']
+    styleUrls: ['./view-property.component.scss'],
+    standalone: false
 })
 export class ViewPropertyComponent implements OnInit, OnDestroy {
     defaultColor = Utils.defaultColor;

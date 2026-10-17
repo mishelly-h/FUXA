@@ -13,7 +13,8 @@ import { APP_LANGUAGES } from '../../_models/language';
 @Component({
     selector: 'app-app-settings',
     templateUrl: './app-settings.component.html',
-    styleUrls: ['./app-settings.component.scss']
+    styleUrls: ['./app-settings.component.scss'],
+    standalone: false
 })
 export class AppSettingsComponent implements OnInit {
 

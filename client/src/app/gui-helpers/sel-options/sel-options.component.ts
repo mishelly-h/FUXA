@@ -4,7 +4,8 @@ import { Component, Input } from '@angular/core';
 @Component({
     selector: 'sel-options',
     templateUrl: './sel-options.component.html',
-    styleUrls: ['./sel-options.component.css']
+    styleUrls: ['./sel-options.component.css'],
+    standalone: false
 })
 export class SelOptionsComponent {
 

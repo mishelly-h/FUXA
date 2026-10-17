@@ -14,7 +14,8 @@ import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm
 @Component({
     selector: 'app-notification-list',
     templateUrl: './notification-list.component.html',
-    styleUrls: ['./notification-list.component.scss']
+    styleUrls: ['./notification-list.component.scss'],
+    standalone: false
 })
 export class NotificationListComponent implements OnInit, AfterViewInit, OnDestroy {
 

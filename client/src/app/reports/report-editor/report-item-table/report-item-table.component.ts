@@ -11,7 +11,8 @@ import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../../de
 @Component({
     selector: 'app-report-item-table',
     templateUrl: './report-item-table.component.html',
-    styleUrls: ['./report-item-table.component.scss']
+    styleUrls: ['./report-item-table.component.scss'],
+    standalone: false
 })
 export class ReportItemTableComponent implements OnInit {
 

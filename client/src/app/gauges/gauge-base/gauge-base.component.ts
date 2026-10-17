@@ -9,7 +9,8 @@ import { PropertyType } from '../gauge-property/flex-input/flex-input.component'
 @Component({
     selector: 'gauge-base',
     templateUrl: './gauge-base.component.html',
-    styleUrls: ['./gauge-base.component.css']
+    styleUrls: ['./gauge-base.component.css'],
+    standalone: false
 })
 export class GaugeBaseComponent {
 

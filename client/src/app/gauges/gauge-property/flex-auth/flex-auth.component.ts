@@ -8,7 +8,8 @@ import { SettingsService } from '../../../_services/settings.service';
 @Component({
     selector: 'flex-auth',
     templateUrl: './flex-auth.component.html',
-    styleUrls: ['./flex-auth.component.css']
+    styleUrls: ['./flex-auth.component.css'],
+    standalone: false
 })
 export class FlexAuthComponent {
 

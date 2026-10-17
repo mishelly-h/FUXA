@@ -11,7 +11,8 @@ import { EditNameComponent, EditNameData } from '../../gui-helpers/edit-name/edi
 @Component({
     selector: 'app-editor-views-list',
     templateUrl: './editor-views-list.component.html',
-    styleUrls: ['./editor-views-list.component.scss']
+    styleUrls: ['./editor-views-list.component.scss'],
+    standalone: false
 })
 export class EditorViewsListComponent {
 

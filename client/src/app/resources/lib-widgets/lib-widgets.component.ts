@@ -9,7 +9,8 @@ import { ToastNotifierService } from '../../_services/toast-notifier.service';
 @Component({
     selector: 'app-lib-widgets',
     templateUrl: './lib-widgets.component.html',
-    styleUrls: ['./lib-widgets.component.scss']
+    styleUrls: ['./lib-widgets.component.scss'],
+    standalone: false
 })
 export class LibWidgetsComponent implements OnInit, OnDestroy {
 

@@ -7,7 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-table-customizer-cell-edit',
     templateUrl: './table-customizer-cell-edit.component.html',
-    styleUrls: ['./table-customizer-cell-edit.component.css']
+    styleUrls: ['./table-customizer-cell-edit.component.css'],
+    standalone: false
 })
 export class TableCustomizerCellEditComponent {
 

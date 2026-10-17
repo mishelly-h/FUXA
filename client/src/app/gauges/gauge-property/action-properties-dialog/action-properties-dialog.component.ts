@@ -8,7 +8,8 @@ import { FlexActionComponent } from '../flex-action/flex-action.component';
 @Component({
     selector: 'app-action-properties-dialog',
     templateUrl: './action-properties-dialog.component.html',
-    styleUrls: ['./action-properties-dialog.component.scss']
+    styleUrls: ['./action-properties-dialog.component.scss'],
+    standalone: false
 })
 export class ActionPropertiesDialogComponent implements OnInit {
 

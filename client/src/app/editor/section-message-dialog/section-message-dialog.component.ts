@@ -17,7 +17,8 @@ export interface SectionMessageDialogData {
 @Component({
     selector: 'app-section-message-dialog',
     templateUrl: './section-message-dialog.component.html',
-    styleUrls: ['./section-message-dialog.component.scss']
+    styleUrls: ['./section-message-dialog.component.scss'],
+    standalone: false
 })
 export class SectionMessageDialogComponent implements OnInit {
     hideMessage = false;
