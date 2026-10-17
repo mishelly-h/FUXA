@@ -270,11 +270,17 @@ var utils = module.exports = {
         return chunks;
     },
 
-    chunkTimeRange: (start, end, chunkSize) => {
+    chunkTimeRange: (start, end, chunkSize, maxChunks = 2000) => {
         const chunks = [];
         let currentStart = start;
         if (chunkSize < 1) {
             return [{ start: start, end: end }];
+        }
+        if (!Number.isFinite(start) || !Number.isFinite(end) || !Number.isFinite(chunkSize)) {
+            throw new Error('chunkTimeRange: start, end and chunkSize must be finite numbers');
+        }
+        if (Math.ceil((end - start) / chunkSize) > maxChunks) {
+            throw new Error(`chunkTimeRange: time range exceeds ${maxChunks} chunks`);
         }
         while (currentStart < end) {
             const currentEnd = Math.min(currentStart + chunkSize, end);

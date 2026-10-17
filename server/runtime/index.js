@@ -37,6 +37,10 @@ var tagsSubscription = new Map();
 var socketPool = new Map();
 var socketMutex = new Map();
 
+const DAQ_QUERY_MAX_SIDS = 100;
+const DAQ_QUERY_CHUNK_SIZE = 6 * 60 * 60 * 1000;    // 6 hours in ms
+const DAQ_QUERY_MAX_CHUNKS = 4 * 366;               // ~1 year of chunks
+
 function isSocketWriteAuthorized(socket) {
     if (!settings || !settings.secureEnabled || settings.secureOnlyEditor) {
         return true;
@@ -269,9 +273,23 @@ function init(_io, _api, _settings, _log, eventsMain) {
         // client query DAQ values
         socket.on(Events.IoEventTypes.DAQ_QUERY, (msg) => {
             try {
+                if (!isSocketWriteAuthorized(socket)) {
+                    logger.warn(`${Events.IoEventTypes.DAQ_QUERY}: unauthorized request from ${socket.userId || 'guest'}`);
+                    return;
+                }
                 if (msg && msg.from && msg.to && msg.sids && msg.sids.length) {
-                    const TIME_CHUNK_SIZE = 60 * 60 * 1000 * 6; // Dimensione del chunk in millisecondi (ad esempio, 1 ora)
-                    const timeChunks = utils.chunkTimeRange(msg.from, msg.to, msg.chunked ? TIME_CHUNK_SIZE : 0);
+                    const from = Number(msg.from);
+                    const to = Number(msg.to);
+                    if (!Array.isArray(msg.sids) || msg.sids.length > DAQ_QUERY_MAX_SIDS
+                        || !Number.isSafeInteger(from) || !Number.isSafeInteger(to) || from < 0 || from > to
+                        || (msg.chunked && to - from > DAQ_QUERY_MAX_CHUNKS * DAQ_QUERY_CHUNK_SIZE)) {
+                        logger.warn(`${Events.IoEventTypes.DAQ_QUERY}: invalid query from ${socket.userId || 'guest'}`);
+                        socket.emit(Events.IoEventTypes.DAQ_ERROR, { gid: msg.gid, error: 'invalid query' });
+                        return;
+                    }
+                    msg.from = from;
+                    msg.to = to;
+                    const timeChunks = utils.chunkTimeRange(from, to, msg.chunked ? DAQ_QUERY_CHUNK_SIZE : 0, DAQ_QUERY_MAX_CHUNKS);
                     const processChunks = async () => {
                         var counter = 1;
                         for (const chunk of timeChunks) {

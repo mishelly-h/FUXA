@@ -66,7 +66,7 @@ function createRuntime(getNodeValues) {
 
     return {
         calls,
-        async connect(id) {
+        async connect(id, { expectAuthenticated = true } = {}) {
             const handlers = new Map();
             const socket = {
                 id,
@@ -81,7 +81,7 @@ function createRuntime(getNodeValues) {
             };
             sockets.push(socket);
             await onConnection(socket);
-            assert.equal(socket.isAuthenticated, true);
+            assert.equal(!!socket.isAuthenticated, expectAuthenticated);
             return socket;
         }
     };
@@ -168,6 +168,37 @@ describe('DAQ query response scoping', () => {
             } }]);
             assert.deepEqual(idle.received, []);
             assert.equal(runtime.calls.length, 1, 'do not query later chunks after failure');
+        });
+    }
+
+    it('rejects a guest query without querying storage', async () => {
+        const runtime = createRuntime(async () => []);
+        const guest = await runtime.connect('guest', { expectAuthenticated: false });
+        guest.query(query());
+        await flushQueries();
+        assert.deepEqual(runtime.calls, []);
+        assert.deepEqual(guest.received, []);
+    });
+
+    for (const [name, overrides] of [
+        ['an unbounded chunked range', { from: 1, to: 1e18, chunked: true }],
+        ['a chunked range above the chunk limit', { to: 1000 + SIX_HOURS * 4 * 367, chunked: true }],
+        ['a non-numeric range', { from: 'abc', to: 2000 }],
+        ['an inverted range', { from: 3000, to: 2000 }],
+        ['too many tag IDs', { sids: Array.from({ length: 101 }, (_, i) => `tag-${i}`) }],
+        ['non-array tag IDs', { sids: 'tag-a' }]
+    ]) {
+        it(`rejects ${name} without querying storage`, async () => {
+            const runtime = createRuntime(async () => []);
+            const requester = await runtime.connect('operator-a');
+            const started = Date.now();
+            requester.query(query(overrides));
+            await flushQueries();
+            assert.ok(Date.now() - started < 1000);
+            assert.deepEqual(runtime.calls, []);
+            assert.deepEqual(requester.received, [{ event: 'daq-error', payload: {
+                gid: 'shared-chart', error: 'invalid query'
+            } }]);
         });
     }
 
