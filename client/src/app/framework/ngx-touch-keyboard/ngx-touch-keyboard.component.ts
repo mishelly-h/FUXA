@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Inject,
-  LOCALE_ID,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, Inject, LOCALE_ID, Output, ViewEncapsulation, forwardRef } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { fnButton } from './Locale/constants';
@@ -16,7 +6,7 @@ import { Locale } from './Locale/type';
 import * as Locales from './Locale';
 import { Dir } from '@angular/cdk/bidi';
 import { NgClass } from '@angular/common';
-import { NgxTouchKeyboardModule } from './ngx-touch-keyboard.module';
+
 
 @Component({
     selector: 'ngx-touch-keyboard',
@@ -24,7 +14,7 @@ import { NgxTouchKeyboardModule } from './ngx-touch-keyboard.module';
     styleUrls: ['./ngx-touch-keyboard.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    imports: [Dir, NgClass, NgxTouchKeyboardModule]
+    imports: [Dir, NgClass, forwardRef(() => NgxTouchKeyboardComponent)]
 })
 export class NgxTouchKeyboardComponent {
   locale: Locale = Locales.enUS;
