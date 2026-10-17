@@ -143,6 +143,7 @@ export class HeaderSettings {
 
 export interface HeaderItem {
     id: string;
+    text?: string;
     type: HeaderItemType;
     icon: string;
     image: string;
@@ -450,6 +451,8 @@ export class GaugeRangeProperty {
     type: any;
     style: any;
     stroke: string;
+    fractionDigitsId?: string;
+    fractionDigits?: number | string;
 }
 
 export interface GaugeChartProperty {
