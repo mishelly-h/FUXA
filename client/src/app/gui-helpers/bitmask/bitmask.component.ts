@@ -4,7 +4,8 @@ import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from
 @Component({
     selector: 'app-bitmask',
     templateUrl: './bitmask.component.html',
-    styleUrls: ['./bitmask.component.css']
+    styleUrls: ['./bitmask.component.css'],
+    standalone: false
 })
 export class BitmaskComponent implements OnInit {
 

@@ -11,7 +11,8 @@ import { User } from '../../_models/user';
 @Component({
     selector: 'app-onboarding-wizard',
     templateUrl: './onboarding-wizard.component.html',
-    styleUrls: ['./onboarding-wizard.component.scss']
+    styleUrls: ['./onboarding-wizard.component.scss'],
+    standalone: false
 })
 export class OnboardingWizardComponent implements OnInit {
 

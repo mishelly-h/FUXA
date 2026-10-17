@@ -16,11 +16,12 @@ import { Locale } from './Locale/type';
 import * as Locales from './Locale';
 
 @Component({
-  selector: 'ngx-touch-keyboard',
-  templateUrl: './ngx-touch-keyboard.component.html',
-  styleUrls: ['./ngx-touch-keyboard.component.scss'],
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ngx-touch-keyboard',
+    templateUrl: './ngx-touch-keyboard.component.html',
+    styleUrls: ['./ngx-touch-keyboard.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class NgxTouchKeyboardComponent {
   locale: Locale = Locales.enUS;

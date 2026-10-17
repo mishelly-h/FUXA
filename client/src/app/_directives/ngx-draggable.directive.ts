@@ -8,7 +8,8 @@ import { Directive, ElementRef, Renderer2, OnDestroy, OnInit, AfterViewInit, Inp
         '(dragstart)': 'onDragStart($event)',
         '(dragend)': 'onDragEnd($event)',
         '(drag)': 'onDrag($event)'
-    }
+    },
+    standalone: false
 })
 export class DraggableDirective implements OnDestroy, OnInit, AfterViewInit {
     private dx = 0;

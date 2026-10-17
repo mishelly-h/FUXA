@@ -9,7 +9,8 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 @Component({
     selector: 'app-graph-pie',
     templateUrl: './graph-pie.component.html',
-    styleUrls: ['./graph-pie.component.css']
+    styleUrls: ['./graph-pie.component.css'],
+    standalone: false
 })
 export class GraphPieComponent extends GraphBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(BaseChartDirective, {static: false}) public chart?: BaseChartDirective;

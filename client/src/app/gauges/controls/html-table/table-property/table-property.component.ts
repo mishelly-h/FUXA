@@ -20,7 +20,8 @@ import { ReportColumns } from '../../../../_models/report';
 @Component({
     selector: 'app-table-property',
     templateUrl: './table-property.component.html',
-    styleUrls: ['./table-property.component.scss']
+    styleUrls: ['./table-property.component.scss'],
+    standalone: false
 })
 export class TablePropertyComponent implements OnInit, OnDestroy {
 

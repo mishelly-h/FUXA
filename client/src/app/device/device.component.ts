@@ -17,7 +17,8 @@ import { SectionMessageDialogComponent } from '../editor/section-message-dialog/
 @Component({
     selector: 'app-device',
     templateUrl: './device.component.html',
-    styleUrls: ['./device.component.scss']
+    styleUrls: ['./device.component.scss'],
+    standalone: false
 })
 export class DeviceComponent implements OnInit, OnDestroy {
 

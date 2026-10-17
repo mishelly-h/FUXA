@@ -15,9 +15,10 @@ import { AuthService } from './_services/auth.service';
 import { HmiService } from './_services/hmi.service';
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {

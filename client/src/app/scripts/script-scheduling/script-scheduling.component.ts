@@ -7,7 +7,8 @@ import { FormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms'
 @Component({
     selector: 'app-script-scheduling',
     templateUrl: './script-scheduling.component.html',
-    styleUrls: ['./script-scheduling.component.scss']
+    styleUrls: ['./script-scheduling.component.scss'],
+    standalone: false
 })
 export class ScriptSchedulingComponent implements OnInit {
 

@@ -4,7 +4,8 @@ import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter }
 @Component({
     selector: 'ngx-treetable',
     templateUrl: './treetable.component.html',
-    styleUrls: ['./treetable.component.scss']
+    styleUrls: ['./treetable.component.scss'],
+    standalone: false
 })
 export class TreetableComponent implements OnInit {
 

@@ -12,7 +12,8 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 @Component({
     selector: 'graph-bar',
     templateUrl: './graph-bar.component.html',
-    styleUrls: ['./graph-bar.component.scss']
+    styleUrls: ['./graph-bar.component.scss'],
+    standalone: false
 })
 export class GraphBarComponent extends GraphBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(BaseChartDirective, {static: false}) public chart?: BaseChartDirective;

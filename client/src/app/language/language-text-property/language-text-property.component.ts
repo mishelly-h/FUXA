@@ -7,7 +7,8 @@ import { Language, LanguageText } from '../../_models/language';
 @Component({
     selector: 'app-language-text-property',
     templateUrl: './language-text-property.component.html',
-    styleUrls: ['./language-text-property.component.scss']
+    styleUrls: ['./language-text-property.component.scss'],
+    standalone: false
 })
 export class LanguageTextPropertyComponent implements OnInit {
 

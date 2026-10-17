@@ -8,7 +8,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
     selector: 'app-tag-property-edit-melsec',
     templateUrl: './tag-property-edit-melsec.component.html',
-    styleUrls: ['./tag-property-edit-melsec.component.scss']
+    styleUrls: ['./tag-property-edit-melsec.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditMelsecComponent implements OnInit, OnDestroy {
     @Output() result = new EventEmitter<any>();

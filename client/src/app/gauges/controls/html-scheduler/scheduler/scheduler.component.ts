@@ -10,7 +10,8 @@ import { TranslateService } from '@ngx-translate/core';
     selector: 'app-scheduler',
     templateUrl: './scheduler.component.html',
     styleUrls: ['./scheduler.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class SchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
     @ViewChild('schedulerContainer', { static: true }) schedulerContainer: ElementRef;

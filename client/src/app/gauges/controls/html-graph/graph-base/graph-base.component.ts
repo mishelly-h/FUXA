@@ -4,7 +4,8 @@ import { GraphSource, GraphRangeType, GraphDateGroupType } from '../../../../_mo
 import { ChartOptions, GridLineOptions, ChartType } from 'chart.js';
 import { DaqQuery } from '../../../../_models/hmi';
 @Component({
-    template: ''
+    template: '',
+    standalone: false
 })
 export class GraphBaseComponent {
     @Output() onReload: EventEmitter<DaqQuery> = new EventEmitter();

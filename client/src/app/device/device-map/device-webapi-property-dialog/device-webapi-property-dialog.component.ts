@@ -7,9 +7,10 @@ import { HmiService } from '../../../_services/hmi.service';
 import { ProjectService } from '../../../_services/project.service';
 
 @Component({
-  selector: 'app-device-webapi-property-dialog',
-  templateUrl: './device-webapi-property-dialog.component.html',
-  styleUrls: ['./device-webapi-property-dialog.component.css']
+    selector: 'app-device-webapi-property-dialog',
+    templateUrl: './device-webapi-property-dialog.component.html',
+    styleUrls: ['./device-webapi-property-dialog.component.css'],
+    standalone: false
 })
 export class DeviceWebapiPropertyDialogComponent implements OnInit, OnDestroy {
 

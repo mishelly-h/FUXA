@@ -9,7 +9,8 @@ declare var SVG: any;
 @Component({
     selector: 'html-input',
     templateUrl: './html-input.component.html',
-    styleUrls: ['./html-input.component.css']
+    styleUrls: ['./html-input.component.css'],
+    standalone: false
 })
 export class HtmlInputComponent extends GaugeBaseComponent {
 
