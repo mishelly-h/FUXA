@@ -9,7 +9,6 @@ import { LocaleConfig } from './daterangepicker.config';
 import _moment from 'moment';
 import { LocaleService } from './locale.service';
 import { NgClass } from '@angular/common';
-import { NgxDaterangepickerMd } from './daterangepicker.module';
 const moment = _moment;
 
 export enum SideEnum {
@@ -31,7 +30,7 @@ export enum SideEnum {
             multi: true
         }],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [NgClass, FormsModule, NgxDaterangepickerMd]
+    imports: [NgClass, FormsModule]
 })
 export class DaterangepickerComponent implements OnInit {
     private _old: {start: any; end: any} = {start: null, end: null};

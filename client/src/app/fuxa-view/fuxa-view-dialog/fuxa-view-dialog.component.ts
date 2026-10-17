@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy, forwardRef } from '@angular/core';
 import { Hmi, View } from '../../_models/hmi';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
@@ -10,7 +10,7 @@ import { FuxaViewComponent } from '../fuxa-view.component';
     templateUrl: './fuxa-view-dialog.component.html',
     styleUrls: ['./fuxa-view-dialog.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [FuxaViewComponent]
+    imports: [forwardRef(() => FuxaViewComponent)]
 })
 export class FuxaViewDialogComponent implements OnInit {
 

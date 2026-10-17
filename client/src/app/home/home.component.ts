@@ -1,6 +1,6 @@
  
  
-import { Component, Inject, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Inject, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef, ChangeDetectionStrategy, forwardRef } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
 import { interval, Observable, Subject, Subscription } from 'rxjs';
 import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
@@ -50,7 +50,7 @@ import { IframeComponent } from '../iframe/iframe.component';
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [MatProgressBar, MatSidenavContainer, MatSidenav, SidenavComponent, MatSidenavContent, MatIconButton, MatIcon, MatButton, MatMenuTrigger, MatMenu, MatMenuItem, NgClass, CardsViewComponent, MapsViewComponent, FuxaViewComponent, IframeComponent, AlarmViewComponent, AsyncPipe, DatePipe]
+    imports: [MatProgressBar, MatSidenavContainer, MatSidenav, SidenavComponent, MatSidenavContent, MatIconButton, MatIcon, MatButton, MatMenuTrigger, MatMenu, MatMenuItem, NgClass, forwardRef(() => CardsViewComponent), forwardRef(() => MapsViewComponent), forwardRef(() => FuxaViewComponent), IframeComponent, AlarmViewComponent, AsyncPipe, DatePipe]
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 

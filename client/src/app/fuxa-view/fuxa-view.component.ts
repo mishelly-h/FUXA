@@ -10,8 +10,7 @@ import {
   Output,
   ViewChild,
   ViewContainerRef,
-  ChangeDetectionStrategy
-} from '@angular/core';
+  ChangeDetectionStrategy } from '@angular/core';
 import { Subject, Subscription, take } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -41,7 +40,6 @@ import { MatInput } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
-import { HomeComponent } from '../home/home.component';
 
 declare var SVG: any;
 
@@ -50,7 +48,7 @@ declare var SVG: any;
     templateUrl: './fuxa-view.component.html',
     styleUrls: ['./fuxa-view.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    imports: [NgStyle, CdkDrag, CdkDragHandle, BoxResizableDirective, IframeComponent, MatInput, FormsModule, MatButton, MatIcon, NgxTouchKeyboardDirective, HomeComponent]
+    imports: [NgStyle, CdkDrag, CdkDragHandle, BoxResizableDirective, IframeComponent, MatInput, FormsModule, MatButton, MatIcon, NgxTouchKeyboardDirective]
 })
 export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
