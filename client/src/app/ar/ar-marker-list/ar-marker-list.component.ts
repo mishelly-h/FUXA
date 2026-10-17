@@ -1,8 +1,8 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { TranslateService } from '@ngx-translate/core';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { MatTable, MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
 import { ArMarker, ArSettings } from '../../_models/ar';
@@ -12,13 +12,16 @@ import { SectionMessageDialogComponent } from '../../editor/section-message-dial
 import { ProjectService } from '../../_services/project.service';
 import { ArMarkerPropertyComponent } from '../ar-marker-property/ar-marker-property.component';
 import { createQrSvg, createQrSvgDataUrl } from '../ar-marker-property/qr-code-generator';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-ar-marker-list',
     templateUrl: './ar-marker-list.component.html',
     styleUrls: ['./ar-marker-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatIconButton, MatCellDef, MatCell, MatSortHeader, MatTooltip, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFabButton, TranslatePipe]
 })
 export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {
     displayedColumns = ['select', 'id', 'label', 'view', 'ttlMs', 'download', 'remove'];

@@ -12,6 +12,7 @@ import {
     Output,
     OnChanges
 } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,7 +85,7 @@ import {
       <ng-content></ng-content>
     </div>
     `,
-    standalone: false
+    imports: [AsyncPipe]
 })
 
 export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnChanges {

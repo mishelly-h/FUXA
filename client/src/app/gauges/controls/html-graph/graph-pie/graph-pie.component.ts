@@ -11,7 +11,7 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
     templateUrl: './graph-pie.component.html',
     styleUrls: ['./graph-pie.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [BaseChartDirective]
 })
 export class GraphPieComponent extends GraphBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(BaseChartDirective, {static: false}) public chart?: BaseChartDirective;

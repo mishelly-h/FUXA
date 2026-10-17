@@ -35,8 +35,7 @@ const moment = _moment;
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => DaterangepickerDirective), multi: true
         }
-    ],
-    standalone: false
+    ]
 })
 export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
   public picker: DaterangepickerComponent;

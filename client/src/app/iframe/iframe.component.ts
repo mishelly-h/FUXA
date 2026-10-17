@@ -6,8 +6,7 @@ import { ActivatedRoute } from '@angular/router';
     selector: 'app-iframe',
     templateUrl: './iframe.component.html',
     styleUrls: ['./iframe.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class IframeComponent implements OnInit, OnDestroy {
 

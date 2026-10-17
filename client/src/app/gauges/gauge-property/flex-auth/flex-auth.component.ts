@@ -4,13 +4,16 @@ import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { PermissionData, PermissionDialogComponent, PermissionMode } from '../permission-dialog/permission-dialog.component';
 import { PermissionRoles } from '../../../_models/hmi';
 import { SettingsService } from '../../../_services/settings.service';
+import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'flex-auth',
     templateUrl: './flex-auth.component.html',
     styleUrls: ['./flex-auth.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, MatIcon, TranslatePipe]
 })
 export class FlexAuthComponent {
 

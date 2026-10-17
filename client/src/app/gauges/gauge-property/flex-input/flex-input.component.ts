@@ -3,13 +3,20 @@ import { GaugeProperty, GaugeRangeProperty } from '../../../_models/hmi';
 import { DevicesUtils, Tag } from '../../../_models/device';
 import { Utils } from '../../../_helpers/utils';
 import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
+import { RangeNumberComponent } from '../../../gui-helpers/range-number/range-number.component';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'flex-input',
     templateUrl: './flex-input.component.html',
     styleUrls: ['./flex-input.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [RangeNumberComponent, ColorPickerDirective, MatIconButton, MatIcon, FormsModule, NumberOnlyDirective, FlexVariableComponent, TranslatePipe]
 })
 export class FlexInputComponent implements OnInit {
     @Input() data: any;

@@ -1,12 +1,14 @@
  
 import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { MatSelectionList, MatListOption } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'sel-options',
     templateUrl: './sel-options.component.html',
     styleUrls: ['./sel-options.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatSelectionList, FormsModule, MatListOption]
 })
 export class SelOptionsComponent {
 

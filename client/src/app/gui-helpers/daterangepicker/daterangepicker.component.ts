@@ -2,12 +2,13 @@ import {
   Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef,
   ChangeDetectionStrategy
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { UntypedFormControl} from '@angular/forms';
 import { LocaleConfig } from './daterangepicker.config';
 
 import _moment from 'moment';
 import { LocaleService } from './locale.service';
+import { NgClass } from '@angular/common';
 const moment = _moment;
 
 export enum SideEnum {
@@ -29,7 +30,7 @@ export enum SideEnum {
             multi: true
         }],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [NgClass, FormsModule]
 })
 export class DaterangepickerComponent implements OnInit {
     private _old: {start: any; end: any} = {start: null, end: null};

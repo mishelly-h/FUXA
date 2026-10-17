@@ -1,14 +1,18 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, type SimpleChanges, ChangeDetectionStrategy } from '@angular/core';
 
 import { View } from '../../../_models/hmi';
-import { VariableMapItemType } from '../flex-variable-map/flex-variable-map.component';
+import { VariableMapItemType, FlexVariableMapComponent } from '../flex-variable-map/flex-variable-map.component';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'flex-variables-mapping',
     templateUrl: './flex-variables-mapping.component.html',
     styleUrls: ['./flex-variables-mapping.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatIconButton, MatIcon, FlexVariableMapComponent, MatTooltip, TranslatePipe]
 })
 export class FlexVariablesMappingComponent implements OnInit, OnChanges {
     @Input() view: View;

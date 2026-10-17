@@ -1,11 +1,11 @@
  
 import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ProjectService } from '../../_services/project.service';
 
-import { Utils } from '../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { Device, DevicesUtils, Tag } from '../../_models/device';
 import { Graph, GraphSource, GraphType, GraphBarProperty, GraphBarXType, GraphBarDateFunctionType, GraphBarFunction, GraphBarDateFunction } from '../../_models/graph';
 import { EditNameComponent } from '../../gui-helpers/edit-name/edit-name.component';
@@ -13,13 +13,22 @@ import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../device/device-tag-selection/device-tag-selection.component';
 import { GraphSourceEditComponent } from './graph-source-edit/graph-source-edit.component';
 import { EditPlaceholderComponent } from '../../gui-helpers/edit-placeholder/edit-placeholder.component';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgClass } from '@angular/common';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatList, MatListItem } from '@angular/material/list';
 
 @Component({
     selector: 'app-graph-config',
     templateUrl: './graph-config.component.html',
     styleUrls: ['./graph-config.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, MatIconButton, CdkScrollable, MatDialogContent, NgClass, MatMenuTrigger, MatMenu, MatMenuItem, MatSelect, MatOption, MatList, MatListItem, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class GraphConfigComponent implements OnInit {
 

@@ -5,8 +5,7 @@ import { ChartOptions, GridLineOptions, ChartType } from 'chart.js';
 import { DaqQuery } from '../../../../_models/hmi';
 @Component({
     template: '',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class GraphBaseComponent {
     @Output() onReload: EventEmitter<DaqQuery> = new EventEmitter();

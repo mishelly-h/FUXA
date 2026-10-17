@@ -11,8 +11,7 @@ import { ProjectService } from '../../../_services/project.service';
     selector: 'app-panel',
     templateUrl: './panel.component.html',
     styleUrls: ['./panel.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class PanelComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-own_ctrl-panel';

@@ -8,11 +8,14 @@ import { RecipeService } from '../../../_services/recipe.service';
 import { HmiService } from '../../../_services/hmi.service';
 import { AuthService } from '../../../_services/auth.service';
 import { SettingsService } from '../../../_services/settings.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Recipe, RecipeEntry, RecipeProgressEvent, RecipeCompleteEvent } from '../../../_models/recipe';
 import { Subscription } from 'rxjs';
 import { HtmlRecipeNewDialogComponent } from './html-recipe-new-dialog/html-recipe-new-dialog.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../../gui-helpers/confirm-dialog/confirm-dialog.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 /**
  * Runtime view component for the HTML recipe widget.
@@ -24,7 +27,7 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../gui-helpers/
     templateUrl: './html-recipe.component.html',
     styleUrls: ['./html-recipe.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatProgressSpinner, FormsModule, MatProgressBar, TranslatePipe]
 })
 export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
 
@@ -594,8 +597,7 @@ export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
  */
 @Component({
     template: '',
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlRecipeComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-own_ctrl-recipe';

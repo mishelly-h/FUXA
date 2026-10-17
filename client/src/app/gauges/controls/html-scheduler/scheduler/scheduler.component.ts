@@ -4,7 +4,8 @@ import { HmiService } from '../../../../_services/hmi.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../../_services/auth.service';
 import { Utils } from '../../../../_helpers/utils';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-scheduler',
@@ -12,7 +13,7 @@ import { TranslateService } from '@ngx-translate/core';
     styleUrls: ['./scheduler.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [FormsModule, TranslatePipe]
 })
 export class SchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
     @ViewChild('schedulerContainer', { static: true }) schedulerContainer: ElementRef;

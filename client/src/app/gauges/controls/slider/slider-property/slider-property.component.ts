@@ -1,22 +1,32 @@
 import { Component, AfterViewInit, OnInit, Inject, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Utils } from '../../../../_helpers/utils';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { Utils, EnumToArrayPipe } from '../../../../_helpers/utils';
 import { GaugeProperty } from '../../../../_models/hmi';
 import { FlexHeadComponent } from '../../../gauge-property/flex-head/flex-head.component';
 import { FlexAuthComponent } from '../../../gauge-property/flex-auth/flex-auth.component';
 import { NgxNouisliderComponent, NgxNouisliderOptions } from '../../../../gui-helpers/ngx-nouislider/ngx-nouislider.component';
 import { Define } from '../../../../_helpers/define';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-slider-property',
     templateUrl: './slider-property.component.html',
     styleUrls: ['./slider-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FlexAuthComponent, FlexHeadComponent, NgxNouisliderComponent, MatSelect, MatOption, ColorPickerDirective, FormsModule, NumberOnlyDirective, MatDialogActions, MatButton, MatDialogClose, TranslatePipe, EnumToArrayPipe]
 })
 export class SliderPropertyComponent implements OnInit, AfterViewInit {
 

@@ -9,8 +9,7 @@ declare var SVG: any;
     selector: 'gauge-shapes',
     templateUrl: './shapes.component.html',
     styleUrls: ['./shapes.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ShapesComponent extends GaugeBaseComponent {
 

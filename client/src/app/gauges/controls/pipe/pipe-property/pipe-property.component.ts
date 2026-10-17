@@ -14,6 +14,15 @@ import { ProjectService } from '../../../../_services/project.service';
 import { Device, DevicesUtils } from '../../../../_models/device';
 import { ActionPropertyService } from '../../../gauge-property/action-properties-dialog/action-property.service';
 import { UploadFile } from '../../../../_models/project';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import { TranslatePipe } from '@ngx-translate/core';
 
 declare var SVG: any;
 
@@ -22,7 +31,7 @@ declare var SVG: any;
     templateUrl: './pipe-property.component.html',
     styleUrls: ['./pipe-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatTabGroup, MatTab, FlexAuthComponent, FormsModule, NumberOnlyDirective, ColorPickerDirective, MatIconButton, MatTooltip, MatIcon, MatSelect, TranslatePipe]
 })
 export class PipePropertyComponent implements OnInit  {
     @Input() data: PipePropertyData;

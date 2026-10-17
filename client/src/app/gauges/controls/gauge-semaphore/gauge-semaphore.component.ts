@@ -9,8 +9,7 @@ declare var SVG: any;
     selector: 'gauge-semaphore',
     templateUrl: './gauge-semaphore.component.html',
     styleUrls: ['./gauge-semaphore.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class GaugeSemaphoreComponent extends GaugeBaseComponent {
 

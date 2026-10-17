@@ -21,7 +21,7 @@ function getGaugeClasses(): { Gauge: any, Donut: any } {
     templateUrl: './ngx-gauge.component.html',
     styleUrls: ['./ngx-gauge.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: []
 })
 export class NgxGaugeComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
 

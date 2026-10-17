@@ -8,8 +8,7 @@ import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
     selector: 'gauge-progress',
     templateUrl: './gauge-progress.component.html',
     styleUrls: ['./gauge-progress.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class GaugeProgressComponent extends GaugeBaseComponent {
 

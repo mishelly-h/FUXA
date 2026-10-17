@@ -8,8 +8,7 @@ import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
     selector: 'app-html-iframe',
     templateUrl: './html-iframe.component.html',
     styleUrls: ['./html-iframe.component.css'],
-    changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlIframeComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-own_ctrl-iframe';

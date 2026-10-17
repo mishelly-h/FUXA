@@ -2,16 +2,21 @@ import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild, 
 import { Device, Tag } from '../../../_models/device';
 import { Subject, takeUntil } from 'rxjs';
 import { HmiService } from '../../../_services/hmi.service';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { TreetableComponent, Node, NodeType } from '../../../gui-helpers/treetable/treetable.component';
 import { Utils } from '../../../_helpers/utils';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-tag-property-edit-webapi',
     templateUrl: './tag-property-edit-webapi.component.html',
     styleUrls: ['./tag-property-edit-webapi.component.css'],
     changeDetection: ChangeDetectionStrategy.Eager,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, TreetableComponent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
 
