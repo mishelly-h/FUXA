@@ -29,7 +29,7 @@
               autocomplete="off"/>
           </div>
         </mat-option>
-        @for (icon of filteredIcons$ | async; track icon) {
+        @for (icon of filteredIcons$ | async; track $index) {
           <mat-option [value]="icon" (click)="data.item.image = ''" style="display: inline-block !important; width: 18px;">
             <mat-icon class="">{{ icon }}</mat-icon>
           </mat-option>

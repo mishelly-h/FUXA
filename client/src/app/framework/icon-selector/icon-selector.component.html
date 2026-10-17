@@ -39,7 +39,7 @@
         autocomplete="off" />
     </div>
   </mat-option>
-  @for (icon of filteredIcons$ | async; track icon) {
+  @for (icon of filteredIcons$ | async; track $index) {
     <mat-option
       [value]="icon"
       (click)="onSelect(icon)"
