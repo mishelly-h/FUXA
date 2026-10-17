@@ -225,6 +225,16 @@ describe('Node-RED secure mode authorization', () => {
         expect(result.allowed).to.equal(true);
     });
 
+    it('requires authentication when nodeRedAuthMode is missing or unknown', async () => {
+        const missing = await authorize({}, {}, makeMiddleware({ nodeRedAuthMode: undefined }));
+        const unknown = await authorize({}, {}, makeMiddleware({ nodeRedAuthMode: 'open' }));
+
+        expect(missing.allowed).to.equal(false);
+        expect(missing.res.statusCode).to.equal(401);
+        expect(unknown.allowed).to.equal(false);
+        expect(unknown.res.statusCode).to.equal(401);
+    });
+
     it('preserves access without credentials when FUXA security is disabled', async () => {
         const result = await authorize({}, {}, makeMiddleware({ secureEnabled: false }));
 

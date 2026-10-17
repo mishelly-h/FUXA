@@ -424,6 +424,10 @@ async function mountNodeRedIfInstalled({ app, server, settings, runtime, logger,
     // Initialize Node-RED on the existing HTTP server (must be done before server.listen)
     RED.init(server, redSettings);
 
+    if (settings.secureEnabled && settings.nodeRedAuthMode === 'legacy-open') {
+        logger.warn("[Node-RED] WARNING: nodeRedAuthMode is 'legacy-open': the Node-RED editor and admin API at /nodered are accessible WITHOUT authentication although FUXA security is enabled. Anyone with network access can deploy flows and execute code on this server.");
+    }
+
     const allowDashboard = createNodeRedAuthMiddleware({ settings, runtime, logger, authJwt });
 
     // Mount Node-RED admin/editor under /nodered; HTTP nodes (including dashboard)
