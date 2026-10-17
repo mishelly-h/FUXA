@@ -79,6 +79,8 @@ module.exports = {
     // CORS (Cross-Origin Resource Sharing)
     // Used to enable CORS for all HTTP request
     // Please use exact origin urls for better and safe CORS (Wild Cards not Recommended)
+    // '*' is only allowed as a whole host label: 'http://192.168.*' matches IPv4 hosts 192.168.x.x only,
+    // 'https://*.example.com' matches one subdomain label. If not defined, cross-origin requests are not allowed
     // "allowedOrigins": ["https://example.com", "https://dashboard.example.com"]
     // Default: ["http://localhost", "http://127.0.0.1", "http://192.168.*", "http://10.*"]
     "allowedOrigins": ["http://localhost", "http://127.0.0.1", "http://192.168.*", "http://10.*", "http://localhost:4200"],

@@ -16,6 +16,7 @@ var events = require("./runtime/events").create();
 const FUXA = require('./fuxa.js');
 const runtime = require('./runtime');
 const authJwt = require('./api/jwt-helper');
+const corsHelper = require('./api/cors-helper');
 
 const BASE_PATH = (process.env.BASE_PATH || '').replace(/\/+$/, '');
 
@@ -366,32 +367,7 @@ try {
 
 // Http Server for client UI
 const allowCrossDomain = function (req, res, next) {
-    const origin = req.headers.origin;
-    const allowedOrigins = settings.allowedOrigins || ["*"];
-
-    const isOriginAllowed = (origin) => {
-        if (!origin) return false;
-        if (allowedOrigins.includes("*")) return true;
-
-        // Convert wildcard-style strings to regex
-        return allowedOrigins.some(pattern => {
-            if (!pattern.includes("*")) return pattern === origin;
-
-            // Escape dots and replace * with regex
-            const regexPattern = new RegExp(
-                "^" + pattern.replace(/\./g, "\\.").replace(/\*/g, ".*") + "$"
-            );
-            return regexPattern.test(origin);
-        });
-    };
-
-    if (isOriginAllowed(origin)) {
-        res.header('Access-Control-Allow-Origin', origin || '*');
-
-        if (settings.enableRefreshCookieAuth || settings.nodeRedEnabled) {
-            res.header('Access-Control-Allow-Credentials', 'true');
-        }
-    }
+    corsHelper.applyCorsHeaders(req, res, settings);
 
     res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
     res.header('Access-Control-Allow-Headers', 'x-access-token, x-auth-user, Origin, Content-Type, Accept, Skip-Auth, Skip-Error');
