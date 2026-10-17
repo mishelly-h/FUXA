@@ -2,8 +2,8 @@ import { Directive, Input, ElementRef, HostListener } from '@angular/core';
 import { MatTooltip as MatTooltip } from '@angular/material/tooltip';
 
 @Directive({
-  selector: '[jsonTooltip]',
-  providers: [MatTooltip]
+    selector: '[jsonTooltip]',
+    providers: [MatTooltip]
 })
 export class JsonTooltipDirective {
   @Input('jsonTooltip') tooltipData: any;

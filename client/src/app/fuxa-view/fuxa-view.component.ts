@@ -1,17 +1,16 @@
 import {
-    AfterViewInit,
-    Component,
-    ComponentFactoryResolver,
-    ElementRef,
-    EventEmitter,
-    HostListener,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-    ViewChild,
-    ViewContainerRef
-} from '@angular/core';
+  AfterViewInit,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+  ViewContainerRef,
+  ChangeDetectionStrategy } from '@angular/core';
 import { Subject, Subscription, take } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -33,13 +32,23 @@ import { WebcamPlayerDialogComponent, WebcamPlayerDialogData } from '../gui-help
 import { DevicesUtils, PlaceholderDevice, Tag } from '../_models/device';
 import { LanguageService } from '../_services/language.service';
 import { EventUtils } from '../_helpers/event-utils';
+import { NgStyle } from '@angular/common';
+import { CdkDrag, CdkDragHandle } from '@angular/cdk/drag-drop';
+import { BoxResizableDirective } from '../_directives/box-resizable.directive';
+import { IframeComponent } from '../iframe/iframe.component';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 declare var SVG: any;
 
 @Component({
     selector: 'app-fuxa-view',
     templateUrl: './fuxa-view.component.html',
-    styleUrls: ['./fuxa-view.component.css']
+    styleUrls: ['./fuxa-view.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [NgStyle, CdkDrag, CdkDragHandle, BoxResizableDirective, IframeComponent, MatInput, FormsModule, MatButton, MatIcon, NgxTouchKeyboardDirective]
 })
 export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -93,7 +102,6 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
         private projectService: ProjectService,
         private hmiService: HmiService,
         private languageService: LanguageService,
-        private resolver: ComponentFactoryResolver,
         private fuxaDialog: MatDialog) {
     }
 
@@ -307,7 +315,7 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
                     // check language translation
                     const textTranslated = this.languageService.getTranslation(items[key].property?.text);
                     // init gauge and TagId
-                    let gauge = this.gaugesManager.initElementAdded(items[key], this.resolver, this.viewContainerRef, true, this, textTranslated, sourceTags);
+                    let gauge = this.gaugesManager.initElementAdded(items[key], this.viewContainerRef, true, this, textTranslated, sourceTags);
                     if (gauge) {
                         this.mapControls[key] = gauge;
                     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ProjectService } from '../_services/project.service';
@@ -7,13 +7,17 @@ import { Hmi, View } from '../_models/hmi';
 import { GaugesManager } from '../gauges/gauges.component';
 import { TesterService } from '../tester/tester.service';
 import { TesterComponent } from '../tester/tester.component';
+import { FuxaViewComponent } from '../fuxa-view/fuxa-view.component';
+import { MatMiniFabButton } from '@angular/material/button';
 
 declare var SVG: any;
 declare var Raphael: any;
 
 @Component({
     templateUrl: 'lab.component.html',
-    styleUrls: ['lab.component.css']
+    styleUrls: ['lab.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [FuxaViewComponent, MatMiniFabButton, TesterComponent]
 })
 
 export class LabComponent implements OnInit, OnDestroy {

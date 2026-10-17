@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { GraphBaseComponent, GraphOptions, GraphThemeType } from '../graph-base/graph-base.component';
 import { GraphBarProperty, GraphBarXType, GraphSource, GraphRangeType, GraphBarFunction, GraphBarDateFunctionType, GraphDateGroupType } from '../../../../_models/graph';
@@ -8,11 +8,16 @@ import { ChartType, ChartDataset } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { DaqQuery, DaqValue } from '../../../../_models/hmi';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'graph-bar',
     templateUrl: './graph-bar.component.html',
-    styleUrls: ['./graph-bar.component.scss']
+    styleUrls: ['./graph-bar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [BaseChartDirective, MatIconButton, MatIcon, NgClass]
 })
 export class GraphBarComponent extends GraphBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(BaseChartDirective, {static: false}) public chart?: BaseChartDirective;
@@ -173,7 +178,7 @@ export class GraphBarComponent extends GraphBaseComponent implements OnInit, Aft
             let dataset = this.sourceMap[sigid];
             if (this.property.xtype === this.xTypeValue) {
                 dataset.data[0] = parseFloat(sigvalue).toFixed(this.barChartOptions.decimals);
-                this.chart.update(400);
+                this.chart.update();
             }
         }
     }

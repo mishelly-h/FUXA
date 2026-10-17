@@ -68,7 +68,8 @@
     /* transform-origin:left top; */
 }
 
-.ng-draggable {
+.card-move-area,
+.iframe-header {
     cursor: move;
 }
 

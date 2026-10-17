@@ -1,9 +1,9 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-/* eslint-disable @angular-eslint/component-selector */
-import { Component, Inject, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+ 
+ 
+import { Component, Inject, ViewChild, AfterViewInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 
 import { environment } from '../../environments/environment';
 
@@ -14,8 +14,13 @@ import { ThemeService } from '../_services/theme.service';
 
 import { HelpData, DEVICE_READONLY } from '../_models/hmi';
 import { TutorialComponent } from '../help/tutorial/tutorial.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { EditNameComponent } from '../gui-helpers/edit-name/edit-name.component';
+import { MatButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatIcon } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/list';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 const editorModeRouteKey = ['/editor', '/device', '/messages', '/language', '/users', '/userRoles', '/notifications', '/scripts', '/recipes', '/reports', '/materials', '/logs', '/events', '/mapsLocations', '/arMarkers', '/flows', '/apikeys', '/plugins'];
 const saveFromEditorRouteKey = ['/device', '/messages', '/language', '/users', '/userRoles', '/notifications', '/scripts', '/reports', '/materials', '/logs', '/events', '/mapsLocations', '/arMarkers', '/flows', '/apikeys', '/plugins'];
@@ -23,7 +28,9 @@ const saveFromEditorRouteKey = ['/device', '/messages', '/language', '/users', '
 @Component({
     selector: 'app-header',
     templateUrl: 'header.component.html',
-    styleUrls: ['header.component.scss']
+    styleUrls: ['header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatButton, MatMenuTrigger, MatIcon, MatMenu, MatMenuItem, MatDivider, TutorialComponent, TranslatePipe]
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
 
@@ -236,6 +243,8 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 @Component({
     selector: 'dialog-info',
     templateUrl: 'info.dialog.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
 })
 export class DialogInfo {
     constructor(

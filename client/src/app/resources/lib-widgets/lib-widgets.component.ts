@@ -1,15 +1,22 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ResourceGroup, ResourceItem } from '../../_models/resources';
 import { LibWidgetsService } from './lib-widgets.service';
 import { RcgiService } from '../../_services/rcgi/rcgi.service';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription, MatExpansionPanelContent } from '@angular/material/expansion';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-lib-widgets',
     templateUrl: './lib-widgets.component.html',
-    styleUrls: ['./lib-widgets.component.scss']
+    styleUrls: ['./lib-widgets.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription, MatExpansionPanelContent, MatTooltip, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem, AsyncPipe, TranslatePipe]
 })
 export class LibWidgetsComponent implements OnInit, OnDestroy {
 

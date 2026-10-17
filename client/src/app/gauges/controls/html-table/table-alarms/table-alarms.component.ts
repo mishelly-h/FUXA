@@ -1,15 +1,25 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { TableFilter, TableType } from '../../../../_models/hmi';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { AlarmColumns, AlarmColumnsType, AlarmHistoryColumns, AlarmHistoryColumnsType, AlarmsFilter, AlarmsType } from '../../../../_models/alarm';
 import { ProjectService } from '../../../../_services/project.service';
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../../../device/device-tag-selection/device-tag-selection.component';
 import { DeviceType } from '../../../../_models/device';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatList, MatListItem } from '@angular/material/list';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-table-alarms',
     templateUrl: './table-alarms.component.html',
-    styleUrls: ['./table-alarms.component.scss']
+    styleUrls: ['./table-alarms.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatCheckbox, FormsModule, MatIconButton, MatList, MatListItem, MatDialogActions, MatButton, TranslatePipe]
 })
 export class TableAlarmsComponent {
 

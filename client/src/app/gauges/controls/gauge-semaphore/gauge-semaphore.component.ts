@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, GaugeStatus, Variable, GaugeActionsType, GaugeAction, GaugeProperty } from '../../../_models/hmi';
 import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
@@ -8,7 +8,8 @@ declare var SVG: any;
 @Component({
     selector: 'gauge-semaphore',
     templateUrl: './gauge-semaphore.component.html',
-    styleUrls: ['./gauge-semaphore.component.css']
+    styleUrls: ['./gauge-semaphore.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class GaugeSemaphoreComponent extends GaugeBaseComponent {
 

@@ -1,6 +1,6 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, Inject, Input, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+ 
+import { Component, Inject, Input, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, forwardRef } from '@angular/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { FlexHeadComponent } from './flex-head/flex-head.component';
 import { FlexEventComponent } from './flex-event/flex-event.component';
 import { FlexActionComponent } from './flex-action/flex-action.component';
@@ -11,12 +11,24 @@ import { PermissionData, PermissionDialogComponent } from './permission-dialog/p
 import { SettingsService } from '../../_services/settings.service';
 import { Device } from '../../_models/device';
 import { HtmlButtonComponent } from '../controls/html-button/html-button.component';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
+import { IconSelectorComponent } from '../../framework/icon-selector/icon-selector.component';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { FlexWidgetPropertyComponent } from './flex-widget-property/flex-widget-property.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'gauge-property',
     templateUrl: './gauge-property.component.html',
     styleUrls: ['./gauge-property.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, IconSelectorComponent, MatSlideToggle, MatIconButton, FlexWidgetPropertyComponent, FlexHeadComponent, MatTooltip, forwardRef(() => FlexEventComponent), FlexActionComponent, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
 })
 export class GaugePropertyComponent implements AfterViewInit {
 

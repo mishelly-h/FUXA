@@ -1,11 +1,12 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-iframe',
     templateUrl: './iframe.component.html',
-    styleUrls: ['./iframe.component.css']
+    styleUrls: ['./iframe.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class IframeComponent implements OnInit, OnDestroy {
 

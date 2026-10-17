@@ -1,7 +1,7 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 
 import { AR_MARKER_PREFIX, ArMarker } from '../../_models/ar';
@@ -9,6 +9,13 @@ import { Utils } from '../../_helpers/utils';
 import { View } from '../../_models/hmi';
 import { ProjectService } from '../../_services/project.service';
 import { createQrSvgDataUrl } from './qr-code-generator';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
 
 export interface ArMarkerPropertyData {
     marker?: ArMarker;
@@ -18,7 +25,9 @@ export interface ArMarkerPropertyData {
 @Component({
     selector: 'app-ar-marker-property',
     templateUrl: './ar-marker-property.component.html',
-    styleUrls: ['./ar-marker-property.component.scss']
+    styleUrls: ['./ar-marker-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatIconButton, MatTooltip, MatSelect, MatOption, MatDialogActions, MatButton, TranslatePipe]
 })
 export class ArMarkerPropertyComponent implements OnInit, OnDestroy {
     formGroup: UntypedFormGroup;

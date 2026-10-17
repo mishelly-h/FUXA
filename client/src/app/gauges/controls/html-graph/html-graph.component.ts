@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, Variable, GaugeStatus } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -11,7 +11,8 @@ import { GraphBaseComponent, GraphOptions } from './graph-base/graph-base.compon
 @Component({
     selector: 'html-graph',
     templateUrl: './html-graph.component.html',
-    styleUrls: ['./html-graph.component.css']
+    styleUrls: ['./html-graph.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlGraphComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-html_graph';
@@ -42,19 +43,14 @@ export class HtmlGraphComponent extends GaugeBaseComponent {
         }
     }
 
-    static initElement(gab: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, isview: boolean): GraphBaseComponent {
+    static initElement(gab: GaugeSettings, viewContainerRef: ViewContainerRef, isview: boolean): GraphBaseComponent {
         let ele = document.getElementById(gab.id);
         if (ele) {
             ele?.setAttribute('data-name', gab.name);
             let htmlGraph = Utils.searchTreeStartWith(ele, this.prefixD);
             if (htmlGraph) {
-                let factory = resolver.resolveComponentFactory(GraphBaseComponent);
-                if (gab.type.endsWith(this.suffixBar)) {
-                    factory = resolver.resolveComponentFactory(GraphBarComponent);
-                } else {
-                    factory = resolver.resolveComponentFactory(GraphPieComponent);
-                }
-                const componentRef = viewContainerRef.createComponent(factory);
+                const graphComponent = gab.type.endsWith(this.suffixBar) ? GraphBarComponent : GraphPieComponent;
+                const componentRef = viewContainerRef.createComponent<GraphBaseComponent>(graphComponent);
                 // if (gab.property) {
                 //     componentRef.instance.withToolbar = (gab.property.type === 'history') ? true : false;
                 // }
@@ -80,7 +76,7 @@ export class HtmlGraphComponent extends GaugeBaseComponent {
         }
     }
 
-    static detectChange(gab: GaugeSettings, res: any, ref: any) {
-        return HtmlGraphComponent.initElement(gab, res, ref, false);
+    static detectChange(gab: GaugeSettings, ref: any) {
+        return HtmlGraphComponent.initElement(gab, ref, false);
     }
 }

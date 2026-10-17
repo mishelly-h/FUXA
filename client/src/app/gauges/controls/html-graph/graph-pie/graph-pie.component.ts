@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy, Input, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnDestroy, Input, OnInit, AfterViewInit, ChangeDetectionStrategy } from '@angular/core';
 
 import { GraphBaseComponent, GraphOptions } from '../graph-base/graph-base.component';
 import { BaseChartDirective } from 'ng2-charts';
@@ -9,7 +9,9 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
 @Component({
     selector: 'app-graph-pie',
     templateUrl: './graph-pie.component.html',
-    styleUrls: ['./graph-pie.component.css']
+    styleUrls: ['./graph-pie.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [BaseChartDirective]
 })
 export class GraphPieComponent extends GraphBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(BaseChartDirective, {static: false}) public chart?: BaseChartDirective;
@@ -109,7 +111,7 @@ export class GraphPieComponent extends GraphBaseComponent implements OnInit, Aft
 
     setValue(sigid: string, timestamp: any, sigvalue: any) {
         this.pieData[this.sourceMap[sigid]] = sigvalue;
-        this.chart.update(400);
+        this.chart.update();
     }
 
     setOptions(options: GraphOptions): void {

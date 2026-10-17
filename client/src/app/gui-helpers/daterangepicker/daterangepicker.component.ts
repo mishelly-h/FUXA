@@ -1,13 +1,14 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
 import {
-    Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef
+  Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef,
+  ChangeDetectionStrategy
 } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { UntypedFormControl} from '@angular/forms';
 import { LocaleConfig } from './daterangepicker.config';
 
-import * as _moment from 'moment';
+import _moment from 'moment';
 import { LocaleService } from './locale.service';
+import { NgClass } from '@angular/common';
 const moment = _moment;
 
 export enum SideEnum {
@@ -20,14 +21,16 @@ export enum SideEnum {
     styleUrls: ['./daterangepicker.component.scss'],
     templateUrl: './daterangepicker.component.html',
     host: {
-    '(click)': 'handleInternalClick($event)',
+        '(click)': 'handleInternalClick($event)',
     },
     encapsulation: ViewEncapsulation.None,
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => DaterangepickerComponent),
-        multi: true
-    }]
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DaterangepickerComponent),
+            multi: true
+        }],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [NgClass, FormsModule]
 })
 export class DaterangepickerComponent implements OnInit {
     private _old: {start: any; end: any} = {start: null, end: null};

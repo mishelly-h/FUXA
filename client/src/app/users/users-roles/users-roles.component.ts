@@ -1,17 +1,22 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { AfterViewInit, Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { MatTable, MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { Role } from '../../_models/user';
 import { MatDialog as MatDialog} from '@angular/material/dialog';
 import { UsersRoleEditComponent } from '../users-role-edit/users-role-edit.component';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { UserService } from '../../_services/user.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-user-roles',
     templateUrl: './users-roles.component.html',
-    styleUrls: ['./users-roles.component.scss']
+    styleUrls: ['./users-roles.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatIconButton, MatCellDef, MatCell, MatSortHeader, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFabButton, TranslatePipe]
 })
 export class UsersRolesComponent implements OnInit, AfterViewInit {
 

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {  ModuleWithProviders, NgModule } from '@angular/core';
+import {  type ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 
 import { DaterangepickerComponent } from './daterangepicker.component';
@@ -8,14 +8,12 @@ import { LocaleConfig, LOCALE_CONFIG } from './daterangepicker.config';
 import { LocaleService } from './locale.service';
 
 @NgModule({
-    declarations: [
-        DaterangepickerComponent,
-        DaterangepickerDirective
-    ],
     imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DaterangepickerComponent,
+        DaterangepickerDirective
     ],
     providers: [],
     exports: [

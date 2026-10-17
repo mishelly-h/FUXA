@@ -1,12 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { WidgetProperty } from '../../../_models/hmi';
 import { ProjectService } from '../../../_services/project.service';
 import { SvgUtils } from '../../../_helpers/svg-utils';
+import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
 
 @Component({
     selector: 'flex-widget-property',
     templateUrl: './flex-widget-property.component.html',
-    styleUrls: ['./flex-widget-property.component.scss']
+    styleUrls: ['./flex-widget-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [FlexVariableComponent]
 })
 export class FlexWidgetPropertyComponent implements OnInit {
 

@@ -1,28 +1,42 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, Inject, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+ 
+import { Component, OnInit, Inject, ViewChild, OnDestroy, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { ProjectService } from '../../_services/project.service';
 
 import { LayoutSettings, NaviModeType, NaviItem, NaviItemType, NotificationModeType, ZoomModeType, InputModeType, HeaderBarModeType, View, HeaderItem, AnchorType, GaugeProperty, LoginInfoType, LoginOverlayColorType, LanguageShowModeType } from '../../_models/hmi';
 import { Define } from '../../_helpers/define';
-import { Utils } from '../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { ResourceGroup, ResourceItem, Resources, ResourceType } from '../../_models/resources';
 import { ResourcesService } from '../../_services/resources.service';
 import { interval, Subject, takeUntil } from 'rxjs';
 import { GaugeDialogType, GaugePropertyComponent } from '../../gauges/gauge-property/gauge-property.component';
 import { HtmlButtonComponent } from '../../gauges/controls/html-button/html-button.component';
-import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { CodemirrorComponent, CodemirrorModule } from '@ctrl/ngx-codemirror';
+import { MatTabChangeEvent, MatTabGroup, MatTab } from '@angular/material/tabs';
 import 'codemirror/mode/css/css';
 import { LayoutMenuItemPropertyComponent } from './layout-menu-item-property/layout-menu-item-property.component';
 import { LayoutHeaderItemPropertyComponent } from './layout-header-item-property/layout-header-item-property.component';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
+import { NgClass, DatePipe } from '@angular/common';
+import { MatList, MatListItem } from '@angular/material/list';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { NumberOnlyDirective } from '../../_directives/number.directive';
 
 @Component({
     selector: 'app-layout-property',
     templateUrl: './layout-property.component.html',
-    styleUrls: ['./layout-property.component.scss']
+    styleUrls: ['./layout-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, MatSelect, MatOption, MatIconButton, MatSlideToggle, FormsModule, NgClass, MatList, MatListItem, MatButton, ColorPickerDirective, NumberOnlyDirective, CodemirrorModule, MatDialogActions, MatDialogClose, DatePipe, TranslatePipe, EnumToArrayPipe]
 })
 export class LayoutPropertyComponent implements OnInit, OnDestroy {
 

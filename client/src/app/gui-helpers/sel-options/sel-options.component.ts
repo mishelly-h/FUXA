@@ -1,10 +1,14 @@
-/* eslint-disable @angular-eslint/component-selector */
-import { Component, Input } from '@angular/core';
+ 
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { MatSelectionList, MatListOption } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'sel-options',
     templateUrl: './sel-options.component.html',
-    styleUrls: ['./sel-options.component.css']
+    styleUrls: ['./sel-options.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatSelectionList, FormsModule, MatListOption]
 })
 export class SelOptionsComponent {
 

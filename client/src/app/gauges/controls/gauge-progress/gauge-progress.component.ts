@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, Variable, GaugeRangeProperty, GaugeStatus, GaugeProperty } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -7,7 +7,8 @@ import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
 @Component({
     selector: 'gauge-progress',
     templateUrl: './gauge-progress.component.html',
-    styleUrls: ['./gauge-progress.component.css']
+    styleUrls: ['./gauge-progress.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class GaugeProgressComponent extends GaugeBaseComponent {
 

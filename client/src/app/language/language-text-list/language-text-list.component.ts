@@ -1,8 +1,8 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+ 
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Subscription } from 'rxjs';
 
@@ -11,12 +11,18 @@ import { Language, LanguageText } from '../../_models/language';
 import { LanguageTextPropertyComponent } from '../language-text-property/language-text-property.component';
 import { LanguageTypePropertyComponent } from '../language-type-property/language-type-property.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 
 @Component({
     selector: 'app-language-text-list',
     templateUrl: './language-text-list.component.html',
-    styleUrls: ['./language-text-list.component.scss']
+    styleUrls: ['./language-text-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatCellDef, MatCell, MatSortHeader, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFabButton, TranslatePipe]
 })
 export class LanguageTextListComponent implements OnInit, AfterViewInit, OnDestroy {
 

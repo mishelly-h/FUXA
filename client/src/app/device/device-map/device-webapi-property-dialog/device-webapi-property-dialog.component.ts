@@ -1,15 +1,23 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, Inject, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { Device } from '../../../_models/device';
 import { HmiService } from '../../../_services/hmi.service';
 import { ProjectService } from '../../../_services/project.service';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 
 @Component({
-  selector: 'app-device-webapi-property-dialog',
-  templateUrl: './device-webapi-property-dialog.component.html',
-  styleUrls: ['./device-webapi-property-dialog.component.css']
+    selector: 'app-device-webapi-property-dialog',
+    templateUrl: './device-webapi-property-dialog.component.html',
+    styleUrls: ['./device-webapi-property-dialog.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSlideToggle, FormsModule, MatDialogActions, MatButton, TranslatePipe]
 })
 export class DeviceWebapiPropertyDialogComponent implements OnInit, OnDestroy {
 

@@ -1,14 +1,21 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { Device, Tag } from '../../../_models/device';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-tag-property-edit-ethernetip',
     templateUrl: './tag-property-edit-ethernetip.component.html',
-    styleUrls: ['./tag-property-edit-ethernetip.component.scss']
+    styleUrls: ['./tag-property-edit-ethernetip.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, NumberOnlyDirective, MatDialogActions, MatButton, TranslatePipe]
 })
 export class TagPropertyEditEthernetipComponent implements OnInit, OnDestroy {
     @Output() result = new EventEmitter<any>();

@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { Component, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeActionsType, GaugeSettings, GaugeStatus, Hmi, Variable } from '../../../_models/hmi';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
@@ -10,7 +10,8 @@ import { ProjectService } from '../../../_services/project.service';
 @Component({
     selector: 'app-panel',
     templateUrl: './panel.component.html',
-    styleUrls: ['./panel.component.css']
+    styleUrls: ['./panel.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class PanelComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-own_ctrl-panel';
@@ -51,7 +52,6 @@ export class PanelComponent extends GaugeBaseComponent {
     }
 
     static initElement(gaugeSettings: GaugeSettings,
-                       resolver: ComponentFactoryResolver,
                        viewContainerRef: ViewContainerRef,
                        gaugeManager: GaugesManager,
                        hmi: Hmi,
@@ -65,8 +65,7 @@ export class PanelComponent extends GaugeBaseComponent {
             ele?.setAttribute('data-name', gaugeSettings.name);
             let svgPanelContainer = Utils.searchTreeStartWith(ele, this.prefixD);
             if (svgPanelContainer) {
-                const factory = resolver.resolveComponentFactory(FuxaViewComponent);
-                const componentRef = viewContainerRef.createComponent(factory);
+                const componentRef = viewContainerRef.createComponent(FuxaViewComponent);
                 componentRef.instance.gaugesManager = gaugeManager;
 
                 componentRef.changeDetectorRef.detectChanges();

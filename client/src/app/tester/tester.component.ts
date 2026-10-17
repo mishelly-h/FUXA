@@ -1,16 +1,23 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { GaugesManager } from '../gauges/gauges.component';
 import { Subscription, timer } from 'rxjs';
 
 import { HmiService } from '../_services/hmi.service';
 import { TesterService } from '../tester/tester.service';
 import { Variable } from '../_models/hmi';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { MatDialogActions } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 @Component({
     selector: 'app-tester',
     templateUrl: './tester.component.html',
-    styleUrls: ['./tester.component.css']
+    styleUrls: ['./tester.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [CdkDrag, MatDialogActions, FormsModule, MatButton, TranslatePipe]
 })
 export class TesterComponent implements OnInit, OnDestroy {
 

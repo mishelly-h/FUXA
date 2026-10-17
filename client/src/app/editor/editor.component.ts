@@ -1,10 +1,10 @@
-﻿/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef } from '@angular/core';
+﻿ 
+import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, ElementRef, ChangeDetectionStrategy } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { MatDrawer } from '@angular/material/sidenav';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { MatDrawer, MatDrawerContainer, MatDrawerContent } from '@angular/material/sidenav';
 import { Subject, Subscription, switchMap, takeUntil } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { ProjectService, SaveMode } from '../_services/project.service';
 import { Hmi, View, GaugeSettings, SelElement, LayoutSettings, ViewType, ISvgElement, GaugeProperty, DocProfile } from '../_models/hmi';
@@ -27,22 +27,45 @@ import { GaugeProgressComponent } from '../gauges/controls/gauge-progress/gauge-
 import { GaugeSemaphoreComponent } from '../gauges/controls/gauge-semaphore/gauge-semaphore.component';
 import { HtmlSwitchPropertyComponent } from '../gauges/controls/html-switch/html-switch-property/html-switch-property.component';
 
-import { GridsterItem } from 'angular-gridster2';
+import { GridsterItemConfig } from 'angular-gridster2';
 import { CardConfigComponent, CardConfigType } from './card-config/card-config.component';
 import { CardsViewComponent } from '../cards-view/cards-view.component';
-import { IElementPreview } from './svg-selector/svg-selector.component';
+import { IElementPreview, SvgSelectorComponent } from './svg-selector/svg-selector.component';
 import { TagIdRef, TagsIdsConfigComponent, TagsIdsData } from './tags-ids-config/tags-ids-config.component';
 import { UploadFile } from '../_models/project';
 import { ViewPropertyComponent, ViewPropertyType } from './view-property/view-property.component';
 import { HtmlImageComponent } from '../gauges/controls/html-image/html-image.component';
 import { LibWidgetsService } from '../resources/lib-widgets/lib-widgets.service';
-import { PipePropertyData } from '../gauges/controls/pipe/pipe-property/pipe-property.component';
+import { PipePropertyData, PipePropertyComponent } from '../gauges/controls/pipe/pipe-property/pipe-property.component';
 import { MapsViewComponent } from '../maps/maps-view/maps-view.component';
 import { KioskWidgetsComponent } from '../resources/kiosk-widgets/kiosk-widgets.component';
 import { ResourcesService } from '../_services/resources.service';
 import { InputPropertyComponent } from '../gauges/controls/html-input/input-property/input-property.component';
 import { SettingsService } from '../_services/settings.service';
 import { OnboardingWizardComponent } from './onboarding-wizard/onboarding-wizard.component';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatIconButton, MatButton, MatFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { ChartPropertyComponent } from '../gauges/controls/html-chart/chart-property/chart-property.component';
+import { GraphPropertyComponent } from '../gauges/controls/html-graph/graph-property/graph-property.component';
+import { IframePropertyComponent } from '../gauges/controls/html-iframe/iframe-property/iframe-property.component';
+import { TablePropertyComponent } from '../gauges/controls/html-table/table-property/table-property.component';
+import { PanelPropertyComponent } from '../gauges/controls/panel/panel-property/panel-property.component';
+import { VideoPropertyComponent } from '../gauges/controls/html-video/video-property/video-property.component';
+import { SchedulerPropertyComponent } from '../gauges/controls/html-scheduler/scheduler-property/scheduler-property.component';
+import { RecipePropertyComponent } from '../gauges/controls/html-recipe/recipe-property/recipe-property.component';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelContent } from '@angular/material/expansion';
+import { MatTooltip } from '@angular/material/tooltip';
+import { ResizeDirective } from '../_directives/resize.directive';
+import { EditorViewsListComponent } from './editor-views-list/editor-views-list.component';
+import { NgClass } from '@angular/common';
+import { LibWidgetsComponent } from '../resources/lib-widgets/lib-widgets.component';
+import { NumberOnlyDirective } from '../_directives/number.directive';
+import { FormsModule } from '@angular/forms';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { DialogDraggableDirective } from '../_directives/dialog-draggable.directive';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 declare var Gauge: any;
 
@@ -58,7 +81,9 @@ declare var mysvgeditor: any;
 
 @Component({
     templateUrl: 'editor.component.html',
-    styleUrls: ['editor.component.css']
+    styleUrls: ['editor.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatProgressBar, MatDrawer, MatIconButton, MatIcon, SvgSelectorComponent, ChartPropertyComponent, GraphPropertyComponent, IframePropertyComponent, TablePropertyComponent, PanelPropertyComponent, PipePropertyComponent, VideoPropertyComponent, SchedulerPropertyComponent, RecipePropertyComponent, MatDrawerContainer, MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatTooltip, ResizeDirective, EditorViewsListComponent, NgClass, MatExpansionPanelContent, LibWidgetsComponent, MatDrawerContent, NumberOnlyDirective, FormsModule, GaugeBaseComponent, MatButton, MatMenuTrigger, MatMenu, MatMenuItem, ColorPickerDirective, CardsViewComponent, MatFabButton, MapsViewComponent, TranslatePipe]
 })
 
 export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -115,7 +140,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     gaugeSettingsHide: boolean = false;
     gaugeSettingsLock: boolean = false;
 
-    dashboard: Array<GridsterItem>;
+    dashboard: Array<GridsterItemConfig>;
     cardViewType = ViewType.cards;
     svgViewType = ViewType.svg;
     mapsViewType = ViewType.maps;
@@ -136,7 +161,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         private translateService: TranslateService,
         public gaugesManager: GaugesManager,
         private viewContainerRef: ViewContainerRef,
-        private resolver: ComponentFactoryResolver,
         private resourcesService: ResourcesService,
         private libWidgetsService: LibWidgetsService,
         private settingsService: SettingsService) {
@@ -282,7 +306,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 (eleresized) => {
                     if (eleresized && eleresized.id) {
                         let ga: GaugeSettings = this.getGaugeSettings(eleresized);
-                        this.gaugesManager.checkElementToResize(ga, this.resolver, this.viewContainerRef, eleresized.size);
+                        this.gaugesManager.checkElementToResize(ga, this.viewContainerRef, eleresized.size);
                     }
                 },
                 (copiedPasted) => {
@@ -1010,7 +1034,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     checkGaugeAdded(ga: GaugeSettings) {
         this.gaugesManager.chackSetModeParamToAddedGauge(ga, this.setModeParam);
-        let gauge = this.gaugesManager.initElementAdded(ga, this.resolver, this.viewContainerRef, false);
+        let gauge = this.gaugesManager.initElementAdded(ga, this.viewContainerRef, false);
         if (gauge) {
             if (gauge !== true) {
                 if (!this.gaugesRef.hasOwnProperty(ga.id)) {
@@ -1503,7 +1527,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             if (result) {
                 callback(result.settings);
                 this.saveView(this.currentView);
-                this.gaugesManager.initInEditor(result.settings, this.resolver, this.viewContainerRef, elementWithLanguageText);
+                this.gaugesManager.initInEditor(result.settings, this.viewContainerRef, elementWithLanguageText);
                 this.checkSvgElementsMap(true);
             }
         });
@@ -1559,7 +1583,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
         if (settings) {
             this.setGaugeSettings(settings);
             this.saveView(this.currentView);
-            let result_gauge = this.gaugesManager.initInEditor(settings, this.resolver, this.viewContainerRef);
+            let result_gauge = this.gaugesManager.initInEditor(settings, this.viewContainerRef);
             if (result_gauge?.element && result_gauge.element.id !== settings.id) {
                 // by init a path we need to change the id
                 delete this.currentView.items[settings.id];
@@ -1751,6 +1775,8 @@ interface CopiedAndPasted {
 @Component({
     selector: 'dialog-link-property',
     templateUrl: 'linkproperty.dialog.html',
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, FormsModule, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
 })
 export class DialogLinkProperty {
     constructor(

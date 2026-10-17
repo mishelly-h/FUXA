@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription } from '@angular/material/expansion';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface TutorialShortcut {
     combo: string;
@@ -8,7 +11,9 @@ interface TutorialShortcut {
 @Component({
     selector: 'app-tutorial',
     templateUrl: './tutorial.component.html',
-    styleUrls: ['./tutorial.component.css']
+    styleUrls: ['./tutorial.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [CdkDrag, MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription, TranslatePipe]
 })
 export class TutorialComponent {
 

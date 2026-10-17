@@ -1,13 +1,25 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Utils } from '../../../_helpers/utils';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { ChartLine, ChartLineZone } from '../../../_models/chart';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-chart-line-property',
     templateUrl: './chart-line-property.component.html',
-    styleUrls: ['./chart-line-property.component.scss']
+    styleUrls: ['./chart-line-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, NumberOnlyDirective, MatSlideToggle, ColorPickerDirective, MatIconButton, MatDialogActions, MatButton, TranslatePipe]
 })
 export class ChartLinePropertyComponent implements OnInit {
     defaultColor = Utils.defaultColor;

@@ -1,16 +1,23 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
 import { SelOptionType, SelOptionsComponent } from '../../gui-helpers/sel-options/sel-options.component';
 import { Role, UserGroups } from '../../_models/user';
 import { SettingsService } from '../../_services/settings.service';
 import { UserService } from '../../_services/user.service';
 import { Subject, map, takeUntil } from 'rxjs';
 import { UserInfo } from '../../users/user-edit/user-edit.component';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
-  selector: 'app-script-permission',
-  templateUrl: './script-permission.component.html',
-  styleUrls: ['./script-permission.component.css']
+    selector: 'app-script-permission',
+    templateUrl: './script-permission.component.html',
+    styleUrls: ['./script-permission.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, SelOptionsComponent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class ScriptPermissionComponent implements OnInit, OnDestroy {
 

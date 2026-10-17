@@ -1,13 +1,16 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { GaugeIframeProperty } from '../../../../_models/hmi';
-import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { FlexDeviceTagValueType, FlexDeviceTagComponent } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-iframe-property',
     templateUrl: './iframe-property.component.html',
-    styleUrls: ['./iframe-property.component.scss']
+    styleUrls: ['./iframe-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [FormsModule, FlexDeviceTagComponent, TranslatePipe]
 })
 export class IframePropertyComponent implements OnInit {
 

@@ -1,14 +1,19 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { PermissionData, PermissionDialogComponent, PermissionMode } from '../permission-dialog/permission-dialog.component';
 import { PermissionRoles } from '../../../_models/hmi';
 import { SettingsService } from '../../../_services/settings.service';
+import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'flex-auth',
     templateUrl: './flex-auth.component.html',
-    styleUrls: ['./flex-auth.component.css']
+    styleUrls: ['./flex-auth.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [FormsModule, MatIcon, TranslatePipe]
 })
 export class FlexAuthComponent {
 

@@ -1,11 +1,20 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ChangeDetectionStrategy } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, map, of } from 'rxjs';
 import { Define } from '../../_helpers/define';
+import { MatSelect, MatSelectTrigger } from '@angular/material/select';
+import { NgStyle, AsyncPipe } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-icon-selector',
     templateUrl: './icon-selector.component.html',
-    styleUrls: ['./icon-selector.component.scss']
+    styleUrls: ['./icon-selector.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatSelect, NgStyle, MatSelectTrigger, MatIcon, MatOption, MatInput, FormsModule, AsyncPipe, TranslatePipe]
 })
 export class IconSelectorComponent implements OnInit {
     @Input() value: string;

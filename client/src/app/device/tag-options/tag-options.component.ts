@@ -1,11 +1,21 @@
 import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { FuxaServer, TagDaq, TagDeadband, TagDeadbandModeType, TagScale, TagScaleModeType } from '../../_models/device';
-import { Utils} from '../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { ProjectService } from '../../_services/project.service';
 import { Subscription } from 'rxjs';
 import { Script, ScriptMode, ScriptParam, ScriptParamType } from '../../_models/script';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { NumberOnlyDirective } from '../../_directives/number.directive';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 class ScriptAndParam extends ScriptParam {
     scriptId: string;
@@ -14,7 +24,8 @@ class ScriptAndParam extends ScriptParam {
     selector: 'app-tag-options',
     templateUrl: './tag-options.component.html',
     styleUrls: ['./tag-options.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSlideToggle, NumberOnlyDirective, MatSelect, MatOption, MatTooltip, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class TagOptionsComponent implements OnInit, OnDestroy {
 

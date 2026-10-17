@@ -5,8 +5,9 @@ import {
   Inject,
   Input,
   OnDestroy,
+  DOCUMENT
 } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+
 import { ComponentPortal } from '@angular/cdk/portal';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
@@ -19,8 +20,8 @@ import { NgxTouchKeyboardComponent } from './ngx-touch-keyboard.component';
 import { Observable, Subject } from 'rxjs';
 
 @Directive({
-  selector: 'input[ngxTouchKeyboard], textarea[ngxTouchKeyboard]',
-  exportAs: 'ngxTouchKeyboard',
+    selector: 'input[ngxTouchKeyboard], textarea[ngxTouchKeyboard]',
+    exportAs: 'ngxTouchKeyboard'
 })
 export class NgxTouchKeyboardDirective implements OnDestroy {
   isOpen = false;

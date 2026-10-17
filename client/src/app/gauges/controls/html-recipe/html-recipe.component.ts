@@ -1,4 +1,4 @@
-import { Component, Input, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, ViewContainerRef, ComponentRef, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings } from '../../../_models/hmi';
@@ -8,11 +8,14 @@ import { RecipeService } from '../../../_services/recipe.service';
 import { HmiService } from '../../../_services/hmi.service';
 import { AuthService } from '../../../_services/auth.service';
 import { SettingsService } from '../../../_services/settings.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Recipe, RecipeEntry, RecipeProgressEvent, RecipeCompleteEvent } from '../../../_models/recipe';
 import { Subscription } from 'rxjs';
 import { HtmlRecipeNewDialogComponent } from './html-recipe-new-dialog/html-recipe-new-dialog.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../../gui-helpers/confirm-dialog/confirm-dialog.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 /**
  * Runtime view component for the HTML recipe widget.
@@ -22,7 +25,9 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../gui-helpers/
 @Component({
     selector: 'html-recipe-view',
     templateUrl: './html-recipe.component.html',
-    styleUrls: ['./html-recipe.component.scss']
+    styleUrls: ['./html-recipe.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatProgressSpinner, FormsModule, MatProgressBar, TranslatePipe]
 })
 export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
 
@@ -591,7 +596,8 @@ export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
  * HtmlRecipeViewComponent inside SVG editor canvases.
  */
 @Component({
-    template: ''
+    template: '',
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlRecipeComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-own_ctrl-recipe';
@@ -613,7 +619,6 @@ export class HtmlRecipeComponent extends GaugeBaseComponent {
     /** Initialise the recipe widget inside the SVG editor canvas */
     static initElement(
         gab: GaugeSettings,
-        resolver: ComponentFactoryResolver,
         viewContainerRef: ViewContainerRef,
         isview: boolean
     ): HtmlRecipeViewComponent | null {
@@ -641,8 +646,7 @@ export class HtmlRecipeComponent extends GaugeBaseComponent {
             return null;
         }
 
-        const factory = resolver.resolveComponentFactory(HtmlRecipeViewComponent);
-        const componentRef: ComponentRef<HtmlRecipeViewComponent> = viewContainerRef.createComponent(factory);
+        const componentRef: ComponentRef<HtmlRecipeViewComponent> = viewContainerRef.createComponent(HtmlRecipeViewComponent);
 
         if (!gab.property) {
             gab.property = { recipeId: null, readonly: false };
@@ -688,8 +692,8 @@ export class HtmlRecipeComponent extends GaugeBaseComponent {
         return componentRef.instance;
     }
 
-    static detectChange(ga: GaugeSettings, res: any, ref: any) {
-        return HtmlRecipeComponent.initElement(ga, res, ref, false);
+    static detectChange(ga: GaugeSettings, ref: any) {
+        return HtmlRecipeComponent.initElement(ga, ref, false);
     }
 }
 

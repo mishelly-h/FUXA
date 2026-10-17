@@ -1,16 +1,26 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
-import { MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+ 
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatTableDataSource as MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { TableType, TableColumn, TableRow, TableCell, TableCellType } from '../../../../_models/hmi';
 
 import { Utils } from '../../../../_helpers/utils';
 import { TableCustomizerCellEditComponent, TableCustomizerCellRowType, TableCustomizerCellType } from './table-customizer-cell-edit/table-customizer-cell-edit.component';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSort } from '@angular/material/sort';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-table-customizer',
     templateUrl: './table-customizer.component.html',
-    styleUrls: ['./table-customizer.component.scss']
+    styleUrls: ['./table-customizer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatCellDef, MatCell, MatTooltip, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatDialogActions, MatButton, TranslatePipe]
 })
 export class TableCustomizerComponent implements OnInit {
 

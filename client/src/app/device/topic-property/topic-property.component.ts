@@ -1,18 +1,32 @@
-import { Component, OnInit, OnDestroy, Inject, ViewChild } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy, Inject, ViewChild, ChangeDetectionStrategy, forwardRef } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatTabGroup as MatTabGroup, MatTab as MatTab } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 
 import { HmiService } from '../../_services/hmi.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from '../../_helpers/utils';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { Device, Tag, TAG_PREFIX } from '../../_models/device';
 import { JsonUtils } from '../../_helpers/json-utils';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { NgClass, KeyValuePipe } from '@angular/common';
+import { MatButtonToggleGroup, MatButtonToggle } from '@angular/material/button-toggle';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { FlexVariableComponent } from '../../gauges/gauge-property/flex-variable/flex-variable.component';
 
 @Component({
     selector: 'app-topic-property',
     templateUrl: './topic-property.component.html',
-    styleUrls: ['./topic-property.component.scss']
+    styleUrls: ['./topic-property.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, MatIconButton, MatProgressSpinner, NgClass, MatButtonToggleGroup, MatButtonToggle, MatButton, MatCheckbox, MatSelect, MatOption, forwardRef(() => FlexVariableComponent), MatDialogActions, KeyValuePipe, TranslatePipe, EnumToArrayPipe]
 })
 export class TopicPropertyComponent implements OnInit, OnDestroy {
 
@@ -24,7 +38,7 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
 
     editMode = false;
     topicSource = '#';
-    topicsList = {};
+    topicsList: { [topic: string]: any } = {};
     topicContent: TopicContent[] = [];
     topicSelectedSubType = 'raw';
     discoveryError = '';

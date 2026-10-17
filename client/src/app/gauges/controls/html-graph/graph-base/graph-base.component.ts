@@ -1,10 +1,11 @@
 
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { GraphSource, GraphRangeType, GraphDateGroupType } from '../../../../_models/graph';
 import { ChartOptions, GridLineOptions, ChartType } from 'chart.js';
 import { DaqQuery } from '../../../../_models/hmi';
 @Component({
-    template: ''
+    template: '',
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class GraphBaseComponent {
     @Output() onReload: EventEmitter<DaqQuery> = new EventEmitter();

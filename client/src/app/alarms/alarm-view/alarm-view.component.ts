@@ -1,24 +1,33 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { Subject, timer, empty } from 'rxjs';
 import { takeUntil, switchMap, catchError, delay } from 'rxjs/operators';
 
 import { HmiService } from '../../_services/hmi.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AlarmBaseType, AlarmColumns, AlarmHistoryColumns, AlarmPriorityType, AlarmQuery, AlarmStatusType } from '../../_models/alarm';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-import * as moment from 'moment';
+import moment from 'moment';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { LanguageService } from '../../_services/language.service';
+import { NgStyle, DatePipe } from '@angular/common';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatDateRangeInput, MatStartDate, MatEndDate, MatDateRangePicker, MatDatepickerActions, MatDatepickerCancel, MatDatepickerApply } from '@angular/material/datepicker';
 
 @Component({
     selector: 'app-alarm-view',
     templateUrl: './alarm-view.component.html',
-    styleUrls: ['./alarm-view.component.scss']
+    styleUrls: ['./alarm-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [NgStyle, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatSortHeader, MatCellDef, MatCell, MatIconButton, MatTooltip, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, MatProgressSpinner, MatDateRangeInput, FormsModule, ReactiveFormsModule, MatStartDate, MatEndDate, MatDateRangePicker, MatDatepickerActions, MatButton, MatDatepickerCancel, MatDatepickerApply, DatePipe, TranslatePipe]
 })
 export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
 

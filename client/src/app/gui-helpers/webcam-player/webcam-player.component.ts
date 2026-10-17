@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import Player from 'xgplayer';
 import LivePreset from 'xgplayer/es/presets/live';
 import FlvJsPlugin from 'xgplayer-flv.js';
@@ -9,7 +9,8 @@ import { HmiService } from '../../_services/hmi.service';
 @Component({
     selector: 'app-webcam-player',
     templateUrl: './webcam-player.component.html',
-    styleUrls: ['./webcam-player.component.css']
+    styleUrls: ['./webcam-player.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class WebcamPlayerComponent implements OnInit {
 

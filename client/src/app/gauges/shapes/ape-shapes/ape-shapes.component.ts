@@ -1,7 +1,7 @@
 /**
  * Shape extension
  */
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, GaugeAction, Variable, GaugeStatus, GaugeActionStatus, GaugeActionsType, GaugeProperty, GaugePropertyColor } from '../../../_models/hmi';
 import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
@@ -14,7 +14,8 @@ declare var Raphael: any;
 @Component({
     selector: 'ape-shapes',
     templateUrl: './ape-shapes.component.html',
-    styleUrls: ['./ape-shapes.component.css']
+    styleUrls: ['./ape-shapes.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class ApeShapesComponent extends GaugeBaseComponent {
 

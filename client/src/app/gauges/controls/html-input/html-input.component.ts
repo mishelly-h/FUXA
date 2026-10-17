@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, Variable, GaugeStatus, GaugeAction, Event, GaugeActionsType, InputOptionType, InputTimeFormatType, InputConvertionType } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -9,7 +9,8 @@ declare var SVG: any;
 @Component({
     selector: 'html-input',
     templateUrl: './html-input.component.html',
-    styleUrls: ['./html-input.component.css']
+    styleUrls: ['./html-input.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlInputComponent extends GaugeBaseComponent {
 

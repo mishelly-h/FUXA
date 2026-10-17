@@ -1,14 +1,24 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { CardWidgetType, CardWidget, PropertyScaleModeType } from '../../_models/hmi';
-import { GridsterItem } from 'angular-gridster2';
+import { GridsterItemConfig } from 'angular-gridster2';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { EnumToArrayPipe } from '../../_helpers/utils';
 
 @Component({
     selector: 'app-card-config',
     templateUrl: './card-config.component.html',
-    styleUrls: ['./card-config.component.scss']
+    styleUrls: ['./card-config.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, FormsModule, MatDialogActions, MatButton, MatDialogClose, TranslatePipe, EnumToArrayPipe]
 })
 export class CardConfigComponent implements OnInit {
 
@@ -43,6 +53,6 @@ export class CardConfigComponent implements OnInit {
 }
 
 export interface CardConfigType {
-    item: GridsterItem;
+    item: GridsterItemConfig;
     views: string[];
 }

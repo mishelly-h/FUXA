@@ -1,12 +1,10 @@
 import {
     Input, Directive, ViewContainerRef,
     OnInit, TemplateRef, DoCheck,
-    IterableDiffers, IterableDiffer
+    IterableDiffers, type IterableDiffer
 } from '@angular/core';
 
-@Directive({
-    selector: '[lazyFor]'
-})
+@Directive({ selector: '[lazyFor]' })
 export class LazyForDirective implements DoCheck, OnInit {
 
     lazyForContainer: HTMLElement;

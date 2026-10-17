@@ -1,9 +1,9 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
-import { MatSelectionList as MatSelectionList } from '@angular/material/list';
+ 
+import { Component, OnInit, ViewChild, ChangeDetectionStrategy } from '@angular/core';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatSelectionList as MatSelectionList, MatList, MatListItem } from '@angular/material/list';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ProjectService } from '../../_services/project.service';
 
 import { Utils } from '../../_helpers/utils';
@@ -14,11 +14,19 @@ import { EditNameComponent } from '../../gui-helpers/edit-name/edit-name.compone
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../device/device-tag-selection/device-tag-selection.component';
 import { ChartLineAndInterpolationsType, ChartLinePropertyComponent } from './chart-line-property/chart-line-property.component';
 import { EditPlaceholderComponent } from '../../gui-helpers/edit-placeholder/edit-placeholder.component';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgClass } from '@angular/common';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 
 @Component({
-  selector: 'app-chart-config',
-  templateUrl: './chart-config.component.html',
-  styleUrls: ['./chart-config.component.scss']
+    selector: 'app-chart-config',
+    templateUrl: './chart-config.component.html',
+    styleUrls: ['./chart-config.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, MatIconButton, CdkScrollable, MatDialogContent, NgClass, MatMenuTrigger, MatMenu, MatMenuItem, MatList, MatListItem, MatDialogActions, MatButton, TranslatePipe]
 })
 export class ChartConfigComponent implements OnInit {
 

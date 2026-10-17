@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, ViewContainerRef, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, Variable, GaugeStatus } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -9,14 +9,15 @@ import { NgxGaugeComponent } from '../../../gui-helpers/ngx-gauge/ngx-gauge.comp
 @Component({
     selector: 'app-html-bag',
     templateUrl: './html-bag.component.html',
-    styleUrls: ['./html-bag.component.css']
+    styleUrls: ['./html-bag.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager
 })
 export class HtmlBagComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-html_bag';
     static LabelTag = 'HtmlBag';
     static prefixD = 'D-BAG_';
 
-    constructor(private resolver: ComponentFactoryResolver) {
+    constructor() {
         super();
     }
 
@@ -40,14 +41,13 @@ export class HtmlBagComponent extends GaugeBaseComponent {
         }
     }
 
-    static initElement(gab: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, isview: boolean) {
+    static initElement(gab: GaugeSettings, viewContainerRef: ViewContainerRef, isview: boolean) {
         let ele = document.getElementById(gab.id);
         if (ele) {
             ele?.setAttribute('data-name', gab.name);
             let htmlBag = Utils.searchTreeStartWith(ele, this.prefixD);
             if (htmlBag) {
-                const factory = resolver.resolveComponentFactory(NgxGaugeComponent);
-                const componentRef = viewContainerRef.createComponent(factory);
+                const componentRef = viewContainerRef.createComponent(NgxGaugeComponent);
                 htmlBag.innerHTML = '';
 
                 componentRef.changeDetectorRef.detectChanges();
@@ -64,13 +64,12 @@ export class HtmlBagComponent extends GaugeBaseComponent {
         }
     }
 
-    static resize(gab: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, options?: any) {
+    static resize(gab: GaugeSettings, viewContainerRef: ViewContainerRef, options?: any) {
         let ele = document.getElementById(gab.id);
         if (ele) {
             let htmlBag = Utils.searchTreeStartWith(ele, this.prefixD);
             if (htmlBag) {
-                const factory = resolver.resolveComponentFactory(NgxGaugeComponent);
-                const componentRef = viewContainerRef.createComponent(factory);
+                const componentRef = viewContainerRef.createComponent(NgxGaugeComponent);
                 htmlBag.innerHTML = '';
 
                 componentRef.changeDetectorRef.detectChanges();
@@ -86,11 +85,11 @@ export class HtmlBagComponent extends GaugeBaseComponent {
         }
     }
 
-    static detectChange(gab: GaugeSettings, res: any, ref: any) {
+    static detectChange(gab: GaugeSettings, ref: any) {
         let options;
         if (gab.property && gab.property.options) {
             options = gab.property.options;
         }
-        return HtmlBagComponent.resize(gab, res, ref, options);
+        return HtmlBagComponent.resize(gab, ref, options);
     }
 }

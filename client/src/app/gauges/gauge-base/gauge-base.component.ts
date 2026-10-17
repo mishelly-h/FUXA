@@ -1,15 +1,20 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { GaugeSettings, GaugeProperty, GaugeEvent, GaugeEventType, GaugeStatus, GaugeActionStatus, GaugePropertyColor, GaugeAction } from '../../_models/hmi';
 
 import { Utils } from '../../_helpers/utils';
 import { PropertyType } from '../gauge-property/flex-input/flex-input.component';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 // declare var SVG: any;
 
 @Component({
     selector: 'gauge-base',
     templateUrl: './gauge-base.component.html',
-    styleUrls: ['./gauge-base.component.css']
+    styleUrls: ['./gauge-base.component.css'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [FormsModule, MatButton, TranslatePipe]
 })
 export class GaugeBaseComponent {
 

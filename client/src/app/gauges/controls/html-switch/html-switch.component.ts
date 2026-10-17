@@ -1,4 +1,4 @@
-import { Injectable, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Injectable, ViewContainerRef } from '@angular/core';
 
 import { GaugeSettings, Variable, GaugeStatus, Event, GaugeProperty } from '../../../_models/hmi';
 import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
@@ -79,15 +79,14 @@ export class HtmlSwitchComponent extends GaugeBaseComponent {
         }
     }
 
-    static initElement(ga: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, checkPermission?: CheckPermissionFunction) {
+    static initElement(ga: GaugeSettings, viewContainerRef: ViewContainerRef, checkPermission?: CheckPermissionFunction) {
         let ele = document.getElementById(ga.id);
         if (ele) {
             ele?.setAttribute('data-name', ga.name);
             let htmlSwitch = Utils.searchTreeStartWith(ele, this.prefix);
             if (htmlSwitch) {
                 const permission = checkPermission ? checkPermission(ga.property) : null;
-                const factory = resolver.resolveComponentFactory(NgxSwitchComponent);
-                const componentRef = viewContainerRef.createComponent(factory);
+                const componentRef = viewContainerRef.createComponent(NgxSwitchComponent);
                 htmlSwitch.innerHTML = '';
 
                 componentRef.changeDetectorRef.detectChanges();
@@ -110,13 +109,12 @@ export class HtmlSwitchComponent extends GaugeBaseComponent {
         }
     }
 
-    static resize(ga: GaugeSettings, resolver: ComponentFactoryResolver, viewContainerRef: ViewContainerRef, options?: any) {
+    static resize(ga: GaugeSettings, viewContainerRef: ViewContainerRef, options?: any) {
         let ele = document.getElementById(ga.id);
         if (ele) {
             let htmlSwitch = Utils.searchTreeStartWith(ele, this.prefix);
             if (htmlSwitch) {
-                const factory = resolver.resolveComponentFactory(NgxSwitchComponent);
-                const componentRef = viewContainerRef.createComponent(factory);
+                const componentRef = viewContainerRef.createComponent(NgxSwitchComponent);
                 htmlSwitch.innerHTML = '';
 
                 componentRef.changeDetectorRef.detectChanges();
@@ -133,8 +131,8 @@ export class HtmlSwitchComponent extends GaugeBaseComponent {
         }
     }
 
-    static detectChange(ga: GaugeSettings, res: any, ref: any) {
-        return HtmlSwitchComponent.initElement(ga, res, ref);
+    static detectChange(ga: GaugeSettings, ref: any) {
+        return HtmlSwitchComponent.initElement(ga, ref);
     }
 
     static getSize(ga: GaugeSettings) {

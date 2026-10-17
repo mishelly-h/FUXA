@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 
 import { ProjectService } from '../../_services/project.service';
 import { AppService } from '../../_services/app.service';
@@ -12,13 +12,21 @@ import { AppSettingsComponent } from '../../editor/app-settings/app-settings.com
 import { ClientScriptAccessComponent } from '../client-script-access/client-script-access.component';
 import { PluginService } from '../../_services/plugin.service';
 import { catchError, Observable, of, shareReplay } from 'rxjs';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 const clientOnlyToDisable = ['messages', 'users', 'userRoles', 'plugins', 'notifications', 'scripts', 'reports', 'materials', 'logs', 'events', 'language'];
 
 @Component({
     selector: 'app-setup',
     templateUrl: './setup.component.html',
-    styleUrls: ['./setup.component.scss']
+    styleUrls: ['./setup.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Eager,
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatButton, AsyncPipe, TranslatePipe]
 })
 export class SetupComponent {
 

@@ -700,9 +700,7 @@ export class Utils {
     }
 }
 
-@Pipe({
-    name: 'enumToArray'
-})
+@Pipe({ name: 'enumToArray' })
 export class EnumToArrayPipe implements PipeTransform {
 
     transform(value): any {
@@ -718,7 +716,9 @@ export class EnumToArrayPipe implements PipeTransform {
     }
 }
 
-@Pipe({ name: 'keepHtml', pure: false })
+@Pipe({
+    name: 'keepHtml', pure: false
+})
 export class EscapeHtmlPipe implements PipeTransform {
     constructor(private sanitizer: DomSanitizer) {
     }

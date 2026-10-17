@@ -127,7 +127,7 @@
         ::ng-deep .mat-mdc-icon-button {
             --effective-header-button-height: var(--header-item-button-height, var(--header-button-height, var(--default-header-button-height)));
             --header-button-icon-size: calc(var(--effective-header-button-height) - 8px);
-            --mdc-icon-button-state-layer-size: var(--effective-header-button-height);
+            --mat-icon-button-state-layer-size: var(--effective-header-button-height);
             width: var(--effective-header-button-height);
             height: var(--effective-header-button-height);
             padding: 0;
@@ -455,8 +455,8 @@
 }
 
 :host ::ng-deep .dndList {
-  --mdc-list-list-item-leading-padding: 0px;
-  --mdc-list-list-item-trailing-padding: 0px;
+  --mat-list-list-item-leading-padding: 0px;
+  --mat-list-list-item-trailing-padding: 0px;
 }
 
 :host ::ng-deep .dndList .mat-mdc-list-item.mdc-list-item {
