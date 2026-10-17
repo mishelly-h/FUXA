@@ -1,54 +1,50 @@
 <mat-select
-    [value]="value"
-    [panelWidth]="panelWidth"
-    [panelClass]="panelClass"
-    class="icons-selector"
-    [ngStyle]="{ width: width, height: height }"
-    #iconsel>
-    <mat-select-trigger>
-        @if (image) {
-<img class="icon-selector-image" [src]="image" alt="">
-} @else {
-
-            @if (iconsel.value) {
-<mat-icon>{{iconsel.value}}</mat-icon>
-}
-        
-}
-        
-    </mat-select-trigger>
-    @if (allowClear) {
-<mat-option [value]="''" (click)="onClear()">
-        {{ clearLabel | translate }}
+  [value]="value"
+  [panelWidth]="panelWidth"
+  [panelClass]="panelClass"
+  class="icons-selector"
+  [ngStyle]="{ width: width, height: height }"
+  #iconsel>
+  <mat-select-trigger>
+    @if (image) {
+      <img class="icon-selector-image" [src]="image" alt="">
+    } @else {
+      @if (iconsel.value) {
+        <mat-icon>{{iconsel.value}}</mat-icon>
+      }
+    }
+  </mat-select-trigger>
+  @if (allowClear) {
+    <mat-option [value]="''" (click)="onClear()">
+      {{ clearLabel | translate }}
     </mat-option>
-}
-    @if (allowImage) {
-<mat-option [value]="'image'" (click)="imagefile.value = '';imagefile.click();">
-        {{ imageLabel | translate }}
-        <input #imagefile type="file" style="display: none;" (change)="onImageSelected($event)" accept="image/png|jpg|svg" />
+  }
+  @if (allowImage) {
+    <mat-option [value]="'image'" (click)="imagefile.value = '';imagefile.click();">
+      {{ imageLabel | translate }}
+      <input #imagefile type="file" style="display: none;" (change)="onImageSelected($event)" accept="image/png|jpg|svg" />
     </mat-option>
-}
-    <mat-option>
-        <div class="my-form-field">
-            <input
-                matInput
-                [(ngModel)]="filterText"
-                [ngModelOptions]="{standalone: true}"
-                (input)="onFilterChange()"
-                (click)="$event.stopPropagation()"
-                (keydown)="$event.stopPropagation()"
-                [placeholder]="filterPlaceholder | translate"
-                type="text"
-                autocomplete="off" />
-        </div>
+  }
+  <mat-option>
+    <div class="my-form-field">
+      <input
+        matInput
+        [(ngModel)]="filterText"
+        [ngModelOptions]="{standalone: true}"
+        (input)="onFilterChange()"
+        (click)="$event.stopPropagation()"
+        (keydown)="$event.stopPropagation()"
+        [placeholder]="filterPlaceholder | translate"
+        type="text"
+        autocomplete="off" />
+    </div>
+  </mat-option>
+  @for (icon of filteredIcons$ | async; track icon) {
+    <mat-option
+      [value]="icon"
+      (click)="onSelect(icon)"
+      style="display: inline-block !important;">
+      <mat-icon>{{ icon }}</mat-icon>
     </mat-option>
-    @for (icon of filteredIcons$ | async; track icon) {
-<mat-option
-       
-        [value]="icon"
-        (click)="onSelect(icon)"
-        style="display: inline-block !important;">
-        <mat-icon>{{ icon }}</mat-icon>
-    </mat-option>
-}
+  }
 </mat-select>

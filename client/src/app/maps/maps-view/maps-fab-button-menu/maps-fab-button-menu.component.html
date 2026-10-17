@@ -1,12 +1,12 @@
 <div class="fab-container">
-    <div class="fab-buttons" [class.open]="isOpen">
-        @for (button of buttons; track button; let i = $index) {
-<button mat-mini-fab
-                class="fab"
-                [ngStyle]="buttonStyles[i]"
-                (click)="button.action()">
-            <mat-icon>{{ button.icon }}</mat-icon>
-        </button>
-}
-    </div>
+  <div class="fab-buttons" [class.open]="isOpen">
+    @for (button of buttons; track button; let i = $index) {
+      <button mat-mini-fab
+        class="fab"
+        [ngStyle]="buttonStyles[i]"
+        (click)="button.action()">
+        <mat-icon>{{ button.icon }}</mat-icon>
+      </button>
+    }
+  </div>
 </div>

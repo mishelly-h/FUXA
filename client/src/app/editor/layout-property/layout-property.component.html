@@ -1,614 +1,585 @@
 <div style="position: relative;" class="dialog-mdsd-main">
-    <h1 mat-dialog-title class="dialog-title" mat-dialog-draggable>{{'dlg.layout-title' | translate}}</h1>
-    <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
-    <div mat-dialog-content class="dialog-mdsd-content content">
-        <mat-tab-group (selectedTabChange)="onTabChanged($event)">
-            <mat-tab label="{{'dlg.layout-general' | translate}}">
-                <div class="container-split-ver mt25">
-                    <div>
-                        <div class="my-form-field block">
-                            <span>{{'dlg.layout-lbl-sview' | translate}}</span>
-                            <mat-select [(value)]="data.layout.start" style="width: 400px">
-                                @for (view of data.views; track view) {
-<mat-option [value]="view.id">
-                                    {{ view.name }}
-                                </mat-option>
-}
-                            </mat-select>
-                        </div>
-                        <div class="my-form-field block mt10">
-                            <span>{{'dlg.layout-lbl-login-start' | translate}}</span>
-                            <mat-select [(value)]="data.layout.loginonstart" style="width: 400px">
-                                <mat-option [value]="true">{{'general.enabled' | translate}}</mat-option>
-                                <mat-option [value]="false">{{'general.disabled' | translate}}</mat-option>
-                            </mat-select>
-                        </div>
-                        @if (data.layout.loginonstart) {
-<div class="my-form-field block mt10">
-                            <span>{{'dlg.layout-lbl-login-overlay-color' | translate}}</span>
-                            <mat-select [(value)]="data.layout.loginoverlaycolor" style="width: 400px">
-                                @for (color of loginOverlayColor | enumToArray; track color) {
-<mat-option [value]="color.key">
-                                    {{ 'item.overlaycolor-' + color.value | translate }}
-                                </mat-option>
-}
-                            </mat-select>
-                        </div>
-}
-                        <div class="my-form-field block mt10">
-                            <span>{{'dlg.layout-lbl-zoom' | translate}}</span>
-                            <mat-select [(value)]="data.layout.zoom" style="width: 400px">
-                                @for (type of zoomMode | enumToArray; track type) {
-<mat-option [value]="type.key">
-                                    {{ type.value }}
-                                </mat-option>
-}
-                            </mat-select>
-                        </div>
-                        <div class="my-form-field block mt10">
-                            <span>{{'dlg.layout-input-dialog' | translate}}</span>
-                            <mat-select [(value)]="data.layout.inputdialog" style="width: 400px">
-                                @for (type of inputMode | enumToArray; track type) {
-<mat-option [value]="type.key">
-                                    {{ type.value }}
-                                </mat-option>
-}
-                            </mat-select>
-                        </div>
-                        <div class="my-form-field block mt10">
-                            <span>{{'dlg.layout-navigation-mode' | translate}}</span>
-                            <mat-select [(value)]="data.layout.hidenavigation" style="width: 400px">
-                                @for (type of headerMode | enumToArray; track type) {
-<mat-option [value]="type.key">
-                                    {{ type.value }}
-                                </mat-option>
-}
-                            </mat-select>
-                        </div>
-                        <div class="my-form-field block mt10">
-                            <span>{{'dlg.layout-connection-message' | translate}}</span>
-                            <mat-select [(value)]="data.layout.show_connection_error" style="width: 400px">
-                                <mat-option [value]="true">{{'general.enabled' | translate}}</mat-option>
-                                <mat-option [value]="false">{{'general.disabled' | translate}}</mat-option>
-                            </mat-select>
-                        </div>
-                    </div>
-                    <div>
-                        <div style="display: inline-block;margin-left: 180px;">
-                            <button mat-icon-button style="color: rgba(255,255,255,1);background-color: rgba(68,138,255, 1);">
-                                <mat-icon>menu</mat-icon>
-                            </button>
-                        </div>
-                        <div class="my-form-field" style="display: inline-block;margin-left: 30px;">
-                            <span>{{'dlg.layout-show-dev' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="data.layout.showdev"></mat-slide-toggle>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
-            <mat-tab label="{{'dlg.layout-navigation' | translate}}">
-                <div class="tab-container">
-                    <div [style.background-color]="data.layout.header.bkcolor" [style.color]="data.layout.header.fgcolor">
-                        <button mat-icon-button [style.color]="data.layout.header.fgcolor">
-                            <mat-icon aria-label="Menu">menu</mat-icon>
-                        </button>
-                        <div style="display: inline-block;padding-left: 140px">
-                            <button mat-icon-button (click)="onAddMenuItem()" [style.color]="data.layout.header.fgcolor">
-                                <mat-icon aria-label="Add">control_point</mat-icon>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="nav-config">
-                        <div class="config-left">
-                            <div class="sidenav-menu" [style.background-color]="data.layout.navigation.bkcolor" [style.color]="data.layout.navigation.fgcolor"
-                                style="height: calc(100% - 50px);" [ngClass]="'sidenav-menu-' + data.layout.navigation.type">
-                                <mat-list class="dndList" style="padding-top: 10px; background-color: inherit;">
-                                    <mat-list-item class="sidenav-header" style="display: flex; justify-content: center; height: 35px; font-weight: bold; padding-bottom: 10px;margin-bottom: 10px; width: unset">
-                                        @if (!data.layout.navigation.logo) {
-<span [style.color]="data.layout.navigation.fgcolor"
-                                              class="sidenav-title"
-                                             >
-                                            {{'sidenav.title' | translate}}
-                                        </span>
-} @else {
-<img src="{{data.layout.navigation.logo}}" style="max-width: 100%; max-height: 100%;">
-}
-                                        
-                                    </mat-list-item>
-                                    @for (item of draggableListLeft; track item; let i = $index) {
-
-                                        <mat-list-item [ngClass]="'menu-item-' + data.layout.navigation.type"
-                                                       [style.color]="data.layout.header.fgcolor"
-                                                       (click)="toggleSubMenu(item)"
-                                                       style="width: unset">
+  <h1 mat-dialog-title class="dialog-title" mat-dialog-draggable>{{'dlg.layout-title' | translate}}</h1>
+  <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
+  <div mat-dialog-content class="dialog-mdsd-content content">
+    <mat-tab-group (selectedTabChange)="onTabChanged($event)">
+      <mat-tab label="{{'dlg.layout-general' | translate}}">
+        <div class="container-split-ver mt25">
+          <div>
+            <div class="my-form-field block">
+              <span>{{'dlg.layout-lbl-sview' | translate}}</span>
+              <mat-select [(value)]="data.layout.start" style="width: 400px">
+                @for (view of data.views; track view) {
+                  <mat-option [value]="view.id">
+                    {{ view.name }}
+                  </mat-option>
+                }
+              </mat-select>
+            </div>
+            <div class="my-form-field block mt10">
+              <span>{{'dlg.layout-lbl-login-start' | translate}}</span>
+              <mat-select [(value)]="data.layout.loginonstart" style="width: 400px">
+                <mat-option [value]="true">{{'general.enabled' | translate}}</mat-option>
+                <mat-option [value]="false">{{'general.disabled' | translate}}</mat-option>
+              </mat-select>
+            </div>
+            @if (data.layout.loginonstart) {
+              <div class="my-form-field block mt10">
+                <span>{{'dlg.layout-lbl-login-overlay-color' | translate}}</span>
+                <mat-select [(value)]="data.layout.loginoverlaycolor" style="width: 400px">
+                  @for (color of loginOverlayColor | enumToArray; track color) {
+                    <mat-option [value]="color.key">
+                      {{ 'item.overlaycolor-' + color.value | translate }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </div>
+            }
+            <div class="my-form-field block mt10">
+              <span>{{'dlg.layout-lbl-zoom' | translate}}</span>
+              <mat-select [(value)]="data.layout.zoom" style="width: 400px">
+                @for (type of zoomMode | enumToArray; track type) {
+                  <mat-option [value]="type.key">
+                    {{ type.value }}
+                  </mat-option>
+                }
+              </mat-select>
+            </div>
+            <div class="my-form-field block mt10">
+              <span>{{'dlg.layout-input-dialog' | translate}}</span>
+              <mat-select [(value)]="data.layout.inputdialog" style="width: 400px">
+                @for (type of inputMode | enumToArray; track type) {
+                  <mat-option [value]="type.key">
+                    {{ type.value }}
+                  </mat-option>
+                }
+              </mat-select>
+            </div>
+            <div class="my-form-field block mt10">
+              <span>{{'dlg.layout-navigation-mode' | translate}}</span>
+              <mat-select [(value)]="data.layout.hidenavigation" style="width: 400px">
+                @for (type of headerMode | enumToArray; track type) {
+                  <mat-option [value]="type.key">
+                    {{ type.value }}
+                  </mat-option>
+                }
+              </mat-select>
+            </div>
+            <div class="my-form-field block mt10">
+              <span>{{'dlg.layout-connection-message' | translate}}</span>
+              <mat-select [(value)]="data.layout.show_connection_error" style="width: 400px">
+                <mat-option [value]="true">{{'general.enabled' | translate}}</mat-option>
+                <mat-option [value]="false">{{'general.disabled' | translate}}</mat-option>
+              </mat-select>
+            </div>
+          </div>
+          <div>
+            <div style="display: inline-block;margin-left: 180px;">
+              <button mat-icon-button style="color: rgba(255,255,255,1);background-color: rgba(68,138,255, 1);">
+                <mat-icon>menu</mat-icon>
+              </button>
+            </div>
+            <div class="my-form-field" style="display: inline-block;margin-left: 30px;">
+              <span>{{'dlg.layout-show-dev' | translate}}</span>
+              <mat-slide-toggle color="primary" [(ngModel)]="data.layout.showdev"></mat-slide-toggle>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{'dlg.layout-navigation' | translate}}">
+        <div class="tab-container">
+          <div [style.background-color]="data.layout.header.bkcolor" [style.color]="data.layout.header.fgcolor">
+            <button mat-icon-button [style.color]="data.layout.header.fgcolor">
+              <mat-icon aria-label="Menu">menu</mat-icon>
+            </button>
+            <div style="display: inline-block;padding-left: 140px">
+              <button mat-icon-button (click)="onAddMenuItem()" [style.color]="data.layout.header.fgcolor">
+                <mat-icon aria-label="Add">control_point</mat-icon>
+              </button>
+            </div>
+          </div>
+          <div class="nav-config">
+            <div class="config-left">
+              <div class="sidenav-menu" [style.background-color]="data.layout.navigation.bkcolor" [style.color]="data.layout.navigation.fgcolor"
+                style="height: calc(100% - 50px);" [ngClass]="'sidenav-menu-' + data.layout.navigation.type">
+                <mat-list class="dndList" style="padding-top: 10px; background-color: inherit;">
+                  <mat-list-item class="sidenav-header" style="display: flex; justify-content: center; height: 35px; font-weight: bold; padding-bottom: 10px;margin-bottom: 10px; width: unset">
+                    @if (!data.layout.navigation.logo) {
+                      <span [style.color]="data.layout.navigation.fgcolor"
+                        class="sidenav-title"
+                        >
+                        {{'sidenav.title' | translate}}
+                      </span>
+                    } @else {
+                      <img src="{{data.layout.navigation.logo}}" style="max-width: 100%; max-height: 100%;">
+                    }
+                  </mat-list-item>
+                  @for (item of draggableListLeft; track item; let i = $index) {
+                    <mat-list-item [ngClass]="'menu-item-' + data.layout.navigation.type"
+                      [style.color]="data.layout.header.fgcolor"
+                      (click)="toggleSubMenu(item)"
+                      style="width: unset">
                       <button type="button" mat-button class="sidenav-btn sidenav-submenu-btn"
                         [style.color]="data.layout.navigation.fgcolor">
-@switch ($any(data.layout.navigation.type)) {
-@case ('icon') {
-<div class="menu-item-content-icon">
-                                                    @if (item.image) {
-<img src="{{item.image}}">
-}
-                                                    @if (item.icon) {
-<mat-icon [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
-}
-                                                </div>
-}
-@case ('text') {
-<div class="menu-item-content-text">
-                                                    <span [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
-                                                </div>
-}
-@case ('block') {
-<div class="menu-item-content-block">
-                                                    @if (item.image) {
-<img src="{{item.image}}">
-}
-                                                    @if (item.icon) {
-<mat-icon [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
-}
-                                                    <span [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
-                                                </div>
-}
-@case ('inline') {
-<div class="menu-item-content-inline">
-                                                    @if (item.image) {
-<img src="{{item.image}}">
-}
-                                                    @if (item.icon) {
-<mat-icon [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
-}
-                                                    <span style="display: inline-block" [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
-                                                </div>
-}
-}
-@if (isExpandable(item)) {
-<mat-icon class="sidenav-submenu-icon">
-                                                    {{ isExpanded(item) ? 'expand_less' : 'expand_more' }}
-                                                </mat-icon>
-}
-</button>
-                                            <div class="nav-item">
-                                                <div class="position">
-                                                    <mat-icon (click)="$event.stopPropagation();onMoveMenuItem(i, 'top')" class="layout-menu-item-icon" style="display: block;">arrow_upward</mat-icon>
-                                                    <mat-icon (click)="$event.stopPropagation();onMoveMenuItem(i, 'bottom')" class="layout-menu-item-icon" style="display: block;">arrow_downward</mat-icon>
-                                                </div>
-                                                <div class="edit">
-                                                    <mat-icon (click)="$event.stopPropagation();onAddMenuItem(item)" class="layout-menu-item-icon layout-menu-item-edit">edit</mat-icon>
-                                                    <div class="type">
-                                                        {{ getViewName(item) }}
-                                                    </div>
-                                                </div>
-                                                <div class="remove">
-                                                    <mat-icon (click)="$event.stopPropagation();onRemoveMenuItem(i, item)" class="layout-menu-item-icon layout-menu-item-delete">clear</mat-icon>
-                                                </div>
-                                            </div>
-                                        </mat-list-item>
-                                        <!-- Submenu -->
-                                        @if (isExpandable(item) && isExpanded(item)) {
-<mat-list class="submenu-list">
-                                            @for (child of item.children; track child) {
-<mat-list-item [ngClass]="'menu-item-' + data.layout.navigation.type"
-                                                           class="sidenav-submenu-item"
-                                                           [style.color]="data.layout.navigation.fgcolor">
+                        @switch ($any(data.layout.navigation.type)) {
+                          @case ('icon') {
+                            <div class="menu-item-content-icon">
+                              @if (item.image) {
+                                <img src="{{item.image}}">
+                              }
+                              @if (item.icon) {
+                                <mat-icon [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
+                              }
+                            </div>
+                          }
+                          @case ('text') {
+                            <div class="menu-item-content-text">
+                              <span [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
+                            </div>
+                          }
+                          @case ('block') {
+                            <div class="menu-item-content-block">
+                              @if (item.image) {
+                                <img src="{{item.image}}">
+                              }
+                              @if (item.icon) {
+                                <mat-icon [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
+                              }
+                              <span [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
+                            </div>
+                          }
+                          @case ('inline') {
+                            <div class="menu-item-content-inline">
+                              @if (item.image) {
+                                <img src="{{item.image}}">
+                              }
+                              @if (item.icon) {
+                                <mat-icon [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
+                              }
+                              <span style="display: inline-block" [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
+                            </div>
+                          }
+                        }
+                        @if (isExpandable(item)) {
+                          <mat-icon class="sidenav-submenu-icon">
+                            {{ isExpanded(item) ? 'expand_less' : 'expand_more' }}
+                          </mat-icon>
+                        }
+                      </button>
+                      <div class="nav-item">
+                        <div class="position">
+                          <mat-icon (click)="$event.stopPropagation();onMoveMenuItem(i, 'top')" class="layout-menu-item-icon" style="display: block;">arrow_upward</mat-icon>
+                          <mat-icon (click)="$event.stopPropagation();onMoveMenuItem(i, 'bottom')" class="layout-menu-item-icon" style="display: block;">arrow_downward</mat-icon>
+                        </div>
+                        <div class="edit">
+                          <mat-icon (click)="$event.stopPropagation();onAddMenuItem(item)" class="layout-menu-item-icon layout-menu-item-edit">edit</mat-icon>
+                          <div class="type">
+                            {{ getViewName(item) }}
+                          </div>
+                        </div>
+                        <div class="remove">
+                          <mat-icon (click)="$event.stopPropagation();onRemoveMenuItem(i, item)" class="layout-menu-item-icon layout-menu-item-delete">clear</mat-icon>
+                        </div>
+                      </div>
+                    </mat-list-item>
+                    <!-- Submenu -->
+                    @if (isExpandable(item) && isExpanded(item)) {
+                      <mat-list class="submenu-list">
+                        @for (child of item.children; track child) {
+                          <mat-list-item [ngClass]="'menu-item-' + data.layout.navigation.type"
+                            class="sidenav-submenu-item"
+                            [style.color]="data.layout.navigation.fgcolor">
                             <button type="button" mat-button class="sidenav-btn"
                               [style.color]="data.layout.navigation.fgcolor">
-@switch ($any(data.layout.navigation.type)) {
-@case ('icon') {
-<div class="menu-item-content-icon">
-                                                        @if (child.image) {
-<img src="{{child.image}}">
-}
-                                                        @if (child.icon) {
-<mat-icon [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
-}
-                                                    </div>
-}
-@case ('text') {
-<div class="menu-item-content-text">
-                                                        <span [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
-                                                    </div>
-}
-@case ('block') {
-<div class="menu-item-content-block">
-                                                        @if (child.image) {
-<img src="{{child.image}}">
-}
-                                                        @if (child.icon) {
-<mat-icon [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
-}
-                                                        <span [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
-                                                    </div>
-}
-@case ('inline') {
-<div class="menu-item-content-inline">
-                                                        @if (child.image) {
-<img src="{{child.image}}">
-}
-                                                        @if (child.icon) {
-<mat-icon [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
-}
-                                                        <span style="display: inline-block" [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
-                                                    </div>
-}
-}
-</button>
-                                            </mat-list-item>
-}
-                                        </mat-list>
-}
-                                    
-}
-                                </mat-list>
-                            </div>
-                        </div>
-                        <div class="config-right mr10">
-                            <div class="my-form-field" style="display: block;">
-                                <span>{{'dlg.layout-lbl-smode' | translate}}</span>
-                                <mat-select [(value)]="data.layout.navigation.mode" style="width: 300px">
-                                    @for (mode of navMode | enumToArray; track mode) {
-<mat-option [value]="mode.key">
-                                        {{ mode.value }}
-                                    </mat-option>
-}
-                                </mat-select>
-                            </div>
-                            <div class="my-form-field" style="display: block; margin-top: 10px">
-                                <span>{{'dlg.layout-lbl-type' | translate}}</span>
-                                <mat-select [(value)]="data.layout.navigation.type" style="width: 300px">
-                                    @for (type of navType | enumToArray; track type) {
-<mat-option [value]="type.key">
-                                        {{ type.value }}
-                                    </mat-option>
-}
-                                </mat-select>
-                            </div>
-                            <div style="display: block; margin-top: 10px">
-                                <div class="my-form-field" style="display: inline-block">
-                                    <span>{{'dlg.layout-nav-bkcolor' | translate}}</span>
-                                    <input [(colorPicker)]="data.layout.navigation.bkcolor" [style.background]="data.layout.navigation.bkcolor" [cpAlphaChannel]="'always'"
-                                        class="input-color" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true" [cpCancelButtonClass]="'cpCancelButtonClass'"
-                                        [cpCancelButtonText]="'Cancel'" [cpOKButtonText]="'OK'" [cpOKButtonClass]="'cpOKButtonClass'" style="width:126px;" [cpPosition]="'bottom'" />
-                                </div>
-                                <div class="my-form-field" style="float:right">
-                                    <span>{{'dlg.layout-nav-fgcolor' | translate}}</span>
-                                    <input [(colorPicker)]="data.layout.navigation.fgcolor" [style.background]="data.layout.navigation.fgcolor" [cpAlphaChannel]="'always'"
-                                        class="input-color" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true" [cpCancelButtonClass]="'cpCancelButtonClass'"
-                                        [cpCancelButtonText]="'Cancel'" [cpOKButtonText]="'OK'" [cpOKButtonClass]="'cpOKButtonClass'" style="width:126px;" [cpPosition]="'bottom'" />
-                                </div>
-                            </div>
-                            <div class="my-form-field" style="display: inline-block;margin-top: 10px;">
-                                <span>{{'dlg.layout-lbl-logo' | translate}}</span>
-                                <mat-select [(value)]="data.layout.navigation.logo" style="width: 300px">
-                                    <mat-option (click)="data.layout.navigation.logo = null;"></mat-option>
-                                    @for (resource of resources; track resource) {
-<mat-option [value]="resource.path">
-                                        {{ resource.name }}
-                                    </mat-option>
-}
-                                </mat-select>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </mat-tab>
-            <mat-tab label="{{'dlg.layout-header' | translate}}">
-                <div class="tab-container">
-                    <div class="header-layout"
-                         [style.--header-height]="data.layout.header.height ? data.layout.header.height + 'px' : null"
-                         [style.--header-button-height]="data.layout.header.buttonHeight ? data.layout.header.buttonHeight + 'px' : null"
-                         [style.background-color]="data.layout.header.bkcolor"
-                         [style.color]="data.layout.header.fgcolor">
-                        <div class="header-menu">
-                            <button mat-icon-button
-                                    [style.background-color]="data.layout.header.bkcolor"
-                                    [style.color]="data.layout.header.fgcolor">
-                                <mat-icon aria-label="Menu">menu</mat-icon>
+                              @switch ($any(data.layout.navigation.type)) {
+                                @case ('icon') {
+                                  <div class="menu-item-content-icon">
+                                    @if (child.image) {
+                                      <img src="{{child.image}}">
+                                    }
+                                    @if (child.icon) {
+                                      <mat-icon [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
+                                    }
+                                  </div>
+                                }
+                                @case ('text') {
+                                  <div class="menu-item-content-text">
+                                    <span [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
+                                  </div>
+                                }
+                                @case ('block') {
+                                  <div class="menu-item-content-block">
+                                    @if (child.image) {
+                                      <img src="{{child.image}}">
+                                    }
+                                    @if (child.icon) {
+                                      <mat-icon [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
+                                    }
+                                    <span [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
+                                  </div>
+                                }
+                                @case ('inline') {
+                                  <div class="menu-item-content-inline">
+                                    @if (child.image) {
+                                      <img src="{{child.image}}">
+                                    }
+                                    @if (child.icon) {
+                                      <mat-icon [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
+                                    }
+                                    <span style="display: inline-block" [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
+                                  </div>
+                                }
+                              }
                             </button>
-                        </div>
-                        <div class="header-items-button"
-                             [style.textAlign]="data.layout.header.itemsAnchor"
-                             [style.justifyContent]="data.layout.header.itemsAnchor === 'right' ? 'flex-end' : data.layout.header.itemsAnchor">
-                            @for (item of headerItems; track item; let i = $index) {
-
-@switch (item.type) {
-@case ('button') {
-
-                                    <button mat-raised-button
-                                            [style.--header-item-button-height]="item.height ? item.height + 'px' : null"
-                                            [style.background-color]="item.bkcolor ?? data.layout.header.bkcolor"
-                                            [style.color]="item.fgcolor ?? data.layout.header.fgcolor"
-                                            [style.fontFamily]="data.layout.header.fontFamily"
-                                            [style.fontSize]="data.layout.header.fontSize + 'px !important'"
-                                            [style.marginLeft.px]="item.marginLeft"
-                                            [style.marginRight.px]="item.marginRight">
-                                        @if (item.image) {
-<img class="header-item-button-image" [src]="item.image" alt="">
-} @else {
-
-                                            @if (item.icon) {
-<mat-icon
-                                                      class="header-item-icon">
-                                                {{item.icon}}
-                                            </mat-icon>
-}
-                                        
-}
-                                        
-                                        {{ item.property?.text ?? item.type }}
-                                    </button>
-                                
-}
-@case ('label') {
-
-                                    <button mat-button
-                                            [style.--header-item-button-height]="item.height ? item.height + 'px' : null"
-                                            [style.background-color]="item.bkcolor ?? data.layout.header.bkcolor"
-                                            [style.color]="item.fgcolor ?? data.layout.header.fgcolor"
-                                            [style.fontFamily]="data.layout.header.fontFamily"
-                                            [style.fontSize]="data.layout.header.fontSize + 'px !important'"
-                                            [style.marginLeft.px]="item.marginLeft"
-                                            [style.marginRight.px]="item.marginRight">
-                                        @if (item.image) {
-<img class="header-item-label-image" [src]="item.image" alt="">
-} @else {
-
-                                            @if (item.icon) {
-<mat-icon class="header-item-icon">{{item.icon}}</mat-icon>
-}
-                                        
-}
-                                        
-                                        {{ item.property?.text ?? item.type }}
-                                    </button>
-                                
-}
-@case ('image') {
-
-                                    <button mat-icon-button
-                                            [style.--header-item-button-height]="item.height ? item.height + 'px' : null"
-                                            [style.background-color]="item.bkcolor ?? data.layout.header.bkcolor"
-                                            [style.color]="item.fgcolor ?? data.layout.header.fgcolor"
-                                            [style.marginLeft.px]="item.marginLeft"
-                                            [style.marginRight.px]="item.marginRight">
-                                        @if (item.image) {
-<img class="header-item-image" [src]="item.image" alt="">
-} @else {
-
-                                            <mat-icon class="header-item-icon">{{ item.icon }}</mat-icon>
-                                        
-}
-                                        
-                                    </button>
-                                
-}
-}
-
-}
-                        </div>
-                        <div class="header-notify-button"
-                             [style.background-color]="data.layout.header.bkcolor" [style.color]="data.layout.header.fgcolor">
-                            <button mat-icon-button class="alarm-button"
-                                    [style.background-color]="data.layout.header.bkcolor"
-                                    [style.color]="data.layout.header.fgcolor">
-                                <mat-icon aria-label="Alarms">notifications_none</mat-icon>
-                            </button>
-                            <button mat-icon-button class="info-button"
-                                    [style.background-color]="data.layout.header.bkcolor"
-                                    [style.color]="data.layout.header.fgcolor">
-                                <mat-icon aria-label="Info">error_outline</mat-icon>
-                            </button>
-                            @if (data.layout.header.dateTimeDisplay) {
-<div class="header-date-time"
-                                
-                                 [style.fontFamily]="data.layout.header.fontFamily"
-                                 [style.fontSize]="data.layout.header.fontSize + 'px !important'">
-                                {{ currentDateTime | date: data.layout.header.dateTimeDisplay }}
-                            </div>
-}
-                            @if (data.layout.header.language && data.layout.header.language !== 'nothing') {
-<div class="header-language">
-                                <button mat-icon-button class="inbk"
-                                        [style.background-color]="data.layout.header.bkcolor"
-                                        [style.color]="data.layout.header.fgcolor">
-                                    <mat-icon aria-label="Language">language</mat-icon>
-                                </button>
-                                <div class="inbk"
-                                     [style.fontFamily]="data.layout.header.fontFamily"
-                                     [style.fontSize]="data.layout.header.fontSize + 'px !important'">
-                                    @if (data.layout.header.language === 'key') {
-<span class="inbk">EN</span>
-}
-                                    @if (data.layout.header.language === 'fullname') {
-<span class="inbk">English</span>
-}
-                                </div>
-                            </div>
-}
-                            @if (!data.securityEnabled) {
-<div class="header-login">
-                                <button mat-icon-button
-                                        [style.background-color]="data.layout.header.bkcolor"
-                                        [style.color]="data.layout.header.fgcolor">
-                                    <mat-icon aria-label="Login">account_circle</mat-icon>
-                                </button>
-                                <div class="info">
-                                    
-@switch (data.layout.header.loginInfo) {
-@case ('username') {
-
-                                            <span class="primary">username</span>
-                                        
-}
-@case ('fullname') {
-
-                                            <span class="primary">Full Name</span>
-                                        
-}
-@case ('both') {
-
-                                            <span class="primary">username</span>
-                                            <span class="secondary">Full Name</span>
-                                        
-}
-}
-
-                                </div>
-                            </div>
-}
-                        </div>
-                    </div>
-                    <div class="header-config ml20">
-                        <div class="config-left">
-                            <div class="add-item">
-                                <button mat-icon-button (click)="onAddHeaderItem()">
-                                    <mat-icon aria-label="Add">control_point</mat-icon>
-                                </button>
-                            </div>
-                            <div class="header-items">
-                                <mat-list>
-                                    @for (item of headerItems; track item; let i = $index) {
-<mat-list-item
-                                                   [ngClass]="'menu-item-' + data.layout.navigation.type">
-                                        <div class="header-item">
-                                            <div class="position mr15">
-                                                <mat-icon (click)="onMoveHeaderItem(i, 'top')" class="layout-menu-item-icon block">arrow_upward</mat-icon>
-                                                <mat-icon (click)="onMoveHeaderItem(i, 'bottom')" class="layout-menu-item-icon block">arrow_downward</mat-icon>
-                                            </div>
-                                            <div class="edit">
-                                                <mat-icon (click)="onAddHeaderItem(item)" class="layout-menu-item-icon layout-menu-item-edit">edit</mat-icon>
-                                                <div class="type">
-                                                    {{ 'item.headertype-' + item.type | translate }}
-                                                </div>
-                                            </div>
-                                            <div class="property">
-                                                <button mat-button (click)="onEditPropertyItem(item)">
-                                                    {{'gauges.property-title' | translate}}
-                                                </button>
-                                            </div>
-                                            <div class="remove">
-                                                <mat-icon (click)="onRemoveHeaderItem(i, item)" class="layout-menu-item-icon layout-menu-item-delete">clear</mat-icon>
-                                            </div>
-                                        </div>
-                                    </mat-list-item>
-}
-                                </mat-list>
-                            </div>
-                        </div>
-                        <div class="config-right mr10">
-                            <div class="my-form-field block">
-                                <span>{{'dlg.layout-lbl-login-info' | translate}}</span>
-                                <mat-select [(value)]="data.layout.header.loginInfo" style="width: 260px">
-                                    @for (type of loginInfoType; track type) {
-<mat-option [value]="type">
-                                        {{ 'item.logininfo-type-' + type | translate }}
-                                    </mat-option>
-}
-                                </mat-select>
-                                <mat-icon aria-label="Info">account_circle</mat-icon>
-                            </div>
-                            <div class="my-form-field block mt10">
-                                <span>{{'dlg.layout-lbl-show-language' | translate}}</span>
-                                <mat-select [(value)]="data.layout.header.language" style="width: 260px">
-                                    @for (type of languageShowModeType; track type) {
-<mat-option [value]="type">
-                                        {{ 'item.language-show-mode-' + type | translate }}
-                                    </mat-option>
-}
-                                </mat-select>
-                                <mat-icon aria-label="Language">language</mat-icon>
-                            </div>
-                            <div class="my-form-field block mt10">
-                                <span>{{'dlg.layout-lbl-datetime' | translate}}</span>
-                                <input [(ngModel)]="data.layout.header.dateTimeDisplay" (input)="checkTimer()" type="text" style="width: 253px">
-                            </div>
-                            <div class="my-form-field block mt10">
-                                <span>{{'dlg.layout-lbl-alarms' | translate}}</span>
-                                <mat-select [(value)]="data.layout.header.alarms" style="width: 260px">
-                                    @for (mode of notifyMode | enumToArray; track mode) {
-<mat-option [value]="mode.key">
-                                        {{ mode.value }}
-                                    </mat-option>
-}
-                                </mat-select>
-                                <mat-icon aria-label="Alarms">notifications_none</mat-icon>
-                            </div>
-                            <div class="my-form-field block mt10">
-                                <span>{{'dlg.layout-lbl-infos' | translate}}</span>
-                                <mat-select [(value)]="data.layout.header.infos" style="width: 260px">
-                                    @for (mode of notifyMode | enumToArray; track mode) {
-<mat-option [value]="mode.key">
-                                        {{ mode.value }}
-                                    </mat-option>
-}
-                                </mat-select>
-                                <mat-icon aria-label="Info">error_outline</mat-icon>
-                            </div>
-                            <div class="my-form-field block mt10">
-                                <div class="my-form-field lbk">
-                                    <span>{{'dlg.layout-lbl-font' | translate}}</span>
-                                    <mat-select [(ngModel)]="data.layout.header.fontFamily" style="width: 180px">
-                                        @for (font of fonts; track font) {
-<mat-option [style.fontFamily]="font" [value]="font">
-                                            {{font}}
-                                        </mat-option>
-}
-                                    </mat-select>
-                                </div>
-                                <div class="my-form-field lbk ml15">
-                                    <span>{{'dlg.layout-lbl-font-size' | translate}}</span>
-                                    <input numberOnly class="header-size-input" [(ngModel)]="data.layout.header.fontSize" max="20" min="10" step="1" type="number">
-                                </div>
-                            </div>
-                            <div class="my-form-field block mt10">
-                                <div class="my-form-field lbk">
-                                    <span>{{'dlg.layout-lbl-anchor' | translate}}</span>
-                                    <mat-select [(ngModel)]="data.layout.header.itemsAnchor" style="width: 180px">
-                                        @for (type of anchorType; track type) {
-<mat-option [value]="type">
-                                            {{ 'item.headeranchor-' + type | translate }}
-                                        </mat-option>
-}
-                                    </mat-select>
-                                </div>
-                                <div class="my-form-field lbk ml15">
-                                    <span>{{'dlg.layout-lbl-button-height' | translate}}</span>
-                                    <input numberOnly class="header-size-input" [(ngModel)]="data.layout.header.buttonHeight" max="100" min="20" step="1" type="number">
-                                </div>
-                            </div>
-                            <div class="colors block">
-                                <div class="my-form-field inbk">
-                                    <span>{{'dlg.layout-header-bkcolor' | translate}}</span>
-                                    <input [(colorPicker)]="data.layout.header.bkcolor" [style.background]="data.layout.header.bkcolor" [cpAlphaChannel]="'always'"
-                                        class="input-color" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true"
-                                        [cpCancelButtonClass]="'cpCancelButtonClass'" [cpCancelButtonText]="'Cancel'" [cpOKButtonText]="'OK'" [cpOKButtonClass]="'cpOKButtonClass'"
-                                        style="width:100px;" [cpPosition]="'bottom'" />
-                                </div>
-                                <div class="my-form-field inbk ml10">
-                                    <span>{{'dlg.layout-header-fgcolor' | translate}}</span>
-                                    <input [(colorPicker)]="data.layout.header.fgcolor" [style.background]="data.layout.header.fgcolor" [cpAlphaChannel]="'always'"
-                                        class="input-color" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true"
-                                        [cpCancelButtonClass]="'cpCancelButtonClass'" [cpCancelButtonText]="'Cancel'" [cpOKButtonText]="'OK'" [cpOKButtonClass]="'cpOKButtonClass'"
-                                        style="width:100px;" [cpPosition]="'bottom'" />
-                                </div>
-                                <div class="my-form-field inbk ml10">
-                                    <span>{{'dlg.layout-lbl-height' | translate}}</span>
-                                    <input numberOnly class="header-size-input" [(ngModel)]="data.layout.header.height" max="120" min="32" step="1" type="number">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                          </mat-list-item>
+                        }
+                      </mat-list>
+                    }
+                  }
+                </mat-list>
+              </div>
+            </div>
+            <div class="config-right mr10">
+              <div class="my-form-field" style="display: block;">
+                <span>{{'dlg.layout-lbl-smode' | translate}}</span>
+                <mat-select [(value)]="data.layout.navigation.mode" style="width: 300px">
+                  @for (mode of navMode | enumToArray; track mode) {
+                    <mat-option [value]="mode.key">
+                      {{ mode.value }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </div>
+              <div class="my-form-field" style="display: block; margin-top: 10px">
+                <span>{{'dlg.layout-lbl-type' | translate}}</span>
+                <mat-select [(value)]="data.layout.navigation.type" style="width: 300px">
+                  @for (type of navType | enumToArray; track type) {
+                    <mat-option [value]="type.key">
+                      {{ type.value }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </div>
+              <div style="display: block; margin-top: 10px">
+                <div class="my-form-field" style="display: inline-block">
+                  <span>{{'dlg.layout-nav-bkcolor' | translate}}</span>
+                  <input [(colorPicker)]="data.layout.navigation.bkcolor" [style.background]="data.layout.navigation.bkcolor" [cpAlphaChannel]="'always'"
+                    class="input-color" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true" [cpCancelButtonClass]="'cpCancelButtonClass'"
+                    [cpCancelButtonText]="'Cancel'" [cpOKButtonText]="'OK'" [cpOKButtonClass]="'cpOKButtonClass'" style="width:126px;" [cpPosition]="'bottom'" />
                 </div>
-            </mat-tab>
-            <mat-tab label="{{'dlg.layout-lbl-custom-styles' | translate}}">
-                <div class="tab-container">
-                    <ngx-codemirror #CodeMirror [(ngModel)]="data.layout.customStyles" [options]="codeMirrorOptions" ></ngx-codemirror>
+                <div class="my-form-field" style="float:right">
+                  <span>{{'dlg.layout-nav-fgcolor' | translate}}</span>
+                  <input [(colorPicker)]="data.layout.navigation.fgcolor" [style.background]="data.layout.navigation.fgcolor" [cpAlphaChannel]="'always'"
+                    class="input-color" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true" [cpCancelButtonClass]="'cpCancelButtonClass'"
+                    [cpCancelButtonText]="'Cancel'" [cpOKButtonText]="'OK'" [cpOKButtonClass]="'cpOKButtonClass'" style="width:126px;" [cpPosition]="'bottom'" />
                 </div>
-            </mat-tab>
-        </mat-tab-group>
-    </div>
-    <div mat-dialog-actions class="dialog-action">
-        <button mat-raised-button [mat-dialog-close]="">{{'dlg.cancel' | translate}}</button>
-        <button mat-raised-button color="primary" (click)="onOkClick()" cdkFocusInitial>{{'dlg.ok' | translate}}</button>
-    </div>
+              </div>
+              <div class="my-form-field" style="display: inline-block;margin-top: 10px;">
+                <span>{{'dlg.layout-lbl-logo' | translate}}</span>
+                <mat-select [(value)]="data.layout.navigation.logo" style="width: 300px">
+                  <mat-option (click)="data.layout.navigation.logo = null;"></mat-option>
+                  @for (resource of resources; track resource) {
+                    <mat-option [value]="resource.path">
+                      {{ resource.name }}
+                    </mat-option>
+                  }
+                </mat-select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{'dlg.layout-header' | translate}}">
+        <div class="tab-container">
+          <div class="header-layout"
+            [style.--header-height]="data.layout.header.height ? data.layout.header.height + 'px' : null"
+            [style.--header-button-height]="data.layout.header.buttonHeight ? data.layout.header.buttonHeight + 'px' : null"
+            [style.background-color]="data.layout.header.bkcolor"
+            [style.color]="data.layout.header.fgcolor">
+            <div class="header-menu">
+              <button mat-icon-button
+                [style.background-color]="data.layout.header.bkcolor"
+                [style.color]="data.layout.header.fgcolor">
+                <mat-icon aria-label="Menu">menu</mat-icon>
+              </button>
+            </div>
+            <div class="header-items-button"
+              [style.textAlign]="data.layout.header.itemsAnchor"
+              [style.justifyContent]="data.layout.header.itemsAnchor === 'right' ? 'flex-end' : data.layout.header.itemsAnchor">
+              @for (item of headerItems; track item; let i = $index) {
+                @switch (item.type) {
+                  @case ('button') {
+                    <button mat-raised-button
+                      [style.--header-item-button-height]="item.height ? item.height + 'px' : null"
+                      [style.background-color]="item.bkcolor ?? data.layout.header.bkcolor"
+                      [style.color]="item.fgcolor ?? data.layout.header.fgcolor"
+                      [style.fontFamily]="data.layout.header.fontFamily"
+                      [style.fontSize]="data.layout.header.fontSize + 'px !important'"
+                      [style.marginLeft.px]="item.marginLeft"
+                      [style.marginRight.px]="item.marginRight">
+                      @if (item.image) {
+                        <img class="header-item-button-image" [src]="item.image" alt="">
+                      } @else {
+                        @if (item.icon) {
+                          <mat-icon
+                            class="header-item-icon">
+                            {{item.icon}}
+                          </mat-icon>
+                        }
+                      }
+                      {{ item.property?.text ?? item.type }}
+                    </button>
+                  }
+                  @case ('label') {
+                    <button mat-button
+                      [style.--header-item-button-height]="item.height ? item.height + 'px' : null"
+                      [style.background-color]="item.bkcolor ?? data.layout.header.bkcolor"
+                      [style.color]="item.fgcolor ?? data.layout.header.fgcolor"
+                      [style.fontFamily]="data.layout.header.fontFamily"
+                      [style.fontSize]="data.layout.header.fontSize + 'px !important'"
+                      [style.marginLeft.px]="item.marginLeft"
+                      [style.marginRight.px]="item.marginRight">
+                      @if (item.image) {
+                        <img class="header-item-label-image" [src]="item.image" alt="">
+                      } @else {
+                        @if (item.icon) {
+                          <mat-icon class="header-item-icon">{{item.icon}}</mat-icon>
+                        }
+                      }
+                      {{ item.property?.text ?? item.type }}
+                    </button>
+                  }
+                  @case ('image') {
+                    <button mat-icon-button
+                      [style.--header-item-button-height]="item.height ? item.height + 'px' : null"
+                      [style.background-color]="item.bkcolor ?? data.layout.header.bkcolor"
+                      [style.color]="item.fgcolor ?? data.layout.header.fgcolor"
+                      [style.marginLeft.px]="item.marginLeft"
+                      [style.marginRight.px]="item.marginRight">
+                      @if (item.image) {
+                        <img class="header-item-image" [src]="item.image" alt="">
+                      } @else {
+                        <mat-icon class="header-item-icon">{{ item.icon }}</mat-icon>
+                      }
+                    </button>
+                  }
+                }
+              }
+            </div>
+            <div class="header-notify-button"
+              [style.background-color]="data.layout.header.bkcolor" [style.color]="data.layout.header.fgcolor">
+              <button mat-icon-button class="alarm-button"
+                [style.background-color]="data.layout.header.bkcolor"
+                [style.color]="data.layout.header.fgcolor">
+                <mat-icon aria-label="Alarms">notifications_none</mat-icon>
+              </button>
+              <button mat-icon-button class="info-button"
+                [style.background-color]="data.layout.header.bkcolor"
+                [style.color]="data.layout.header.fgcolor">
+                <mat-icon aria-label="Info">error_outline</mat-icon>
+              </button>
+              @if (data.layout.header.dateTimeDisplay) {
+                <div class="header-date-time"
+                  [style.fontFamily]="data.layout.header.fontFamily"
+                  [style.fontSize]="data.layout.header.fontSize + 'px !important'">
+                  {{ currentDateTime | date: data.layout.header.dateTimeDisplay }}
+                </div>
+              }
+              @if (data.layout.header.language && data.layout.header.language !== 'nothing') {
+                <div class="header-language">
+                  <button mat-icon-button class="inbk"
+                    [style.background-color]="data.layout.header.bkcolor"
+                    [style.color]="data.layout.header.fgcolor">
+                    <mat-icon aria-label="Language">language</mat-icon>
+                  </button>
+                  <div class="inbk"
+                    [style.fontFamily]="data.layout.header.fontFamily"
+                    [style.fontSize]="data.layout.header.fontSize + 'px !important'">
+                    @if (data.layout.header.language === 'key') {
+                      <span class="inbk">EN</span>
+                    }
+                    @if (data.layout.header.language === 'fullname') {
+                      <span class="inbk">English</span>
+                    }
+                  </div>
+                </div>
+              }
+              @if (!data.securityEnabled) {
+                <div class="header-login">
+                  <button mat-icon-button
+                    [style.background-color]="data.layout.header.bkcolor"
+                    [style.color]="data.layout.header.fgcolor">
+                    <mat-icon aria-label="Login">account_circle</mat-icon>
+                  </button>
+                  <div class="info">
+                    @switch (data.layout.header.loginInfo) {
+                      @case ('username') {
+                        <span class="primary">username</span>
+                      }
+                      @case ('fullname') {
+                        <span class="primary">Full Name</span>
+                      }
+                      @case ('both') {
+                        <span class="primary">username</span>
+                        <span class="secondary">Full Name</span>
+                      }
+                    }
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="header-config ml20">
+            <div class="config-left">
+              <div class="add-item">
+                <button mat-icon-button (click)="onAddHeaderItem()">
+                  <mat-icon aria-label="Add">control_point</mat-icon>
+                </button>
+              </div>
+              <div class="header-items">
+                <mat-list>
+                  @for (item of headerItems; track item; let i = $index) {
+                    <mat-list-item
+                      [ngClass]="'menu-item-' + data.layout.navigation.type">
+                      <div class="header-item">
+                        <div class="position mr15">
+                          <mat-icon (click)="onMoveHeaderItem(i, 'top')" class="layout-menu-item-icon block">arrow_upward</mat-icon>
+                          <mat-icon (click)="onMoveHeaderItem(i, 'bottom')" class="layout-menu-item-icon block">arrow_downward</mat-icon>
+                        </div>
+                        <div class="edit">
+                          <mat-icon (click)="onAddHeaderItem(item)" class="layout-menu-item-icon layout-menu-item-edit">edit</mat-icon>
+                          <div class="type">
+                            {{ 'item.headertype-' + item.type | translate }}
+                          </div>
+                        </div>
+                        <div class="property">
+                          <button mat-button (click)="onEditPropertyItem(item)">
+                            {{'gauges.property-title' | translate}}
+                          </button>
+                        </div>
+                        <div class="remove">
+                          <mat-icon (click)="onRemoveHeaderItem(i, item)" class="layout-menu-item-icon layout-menu-item-delete">clear</mat-icon>
+                        </div>
+                      </div>
+                    </mat-list-item>
+                  }
+                </mat-list>
+              </div>
+            </div>
+            <div class="config-right mr10">
+              <div class="my-form-field block">
+                <span>{{'dlg.layout-lbl-login-info' | translate}}</span>
+                <mat-select [(value)]="data.layout.header.loginInfo" style="width: 260px">
+                  @for (type of loginInfoType; track type) {
+                    <mat-option [value]="type">
+                      {{ 'item.logininfo-type-' + type | translate }}
+                    </mat-option>
+                  }
+                </mat-select>
+                <mat-icon aria-label="Info">account_circle</mat-icon>
+              </div>
+              <div class="my-form-field block mt10">
+                <span>{{'dlg.layout-lbl-show-language' | translate}}</span>
+                <mat-select [(value)]="data.layout.header.language" style="width: 260px">
+                  @for (type of languageShowModeType; track type) {
+                    <mat-option [value]="type">
+                      {{ 'item.language-show-mode-' + type | translate }}
+                    </mat-option>
+                  }
+                </mat-select>
+                <mat-icon aria-label="Language">language</mat-icon>
+              </div>
+              <div class="my-form-field block mt10">
+                <span>{{'dlg.layout-lbl-datetime' | translate}}</span>
+                <input [(ngModel)]="data.layout.header.dateTimeDisplay" (input)="checkTimer()" type="text" style="width: 253px">
+              </div>
+              <div class="my-form-field block mt10">
+                <span>{{'dlg.layout-lbl-alarms' | translate}}</span>
+                <mat-select [(value)]="data.layout.header.alarms" style="width: 260px">
+                  @for (mode of notifyMode | enumToArray; track mode) {
+                    <mat-option [value]="mode.key">
+                      {{ mode.value }}
+                    </mat-option>
+                  }
+                </mat-select>
+                <mat-icon aria-label="Alarms">notifications_none</mat-icon>
+              </div>
+              <div class="my-form-field block mt10">
+                <span>{{'dlg.layout-lbl-infos' | translate}}</span>
+                <mat-select [(value)]="data.layout.header.infos" style="width: 260px">
+                  @for (mode of notifyMode | enumToArray; track mode) {
+                    <mat-option [value]="mode.key">
+                      {{ mode.value }}
+                    </mat-option>
+                  }
+                </mat-select>
+                <mat-icon aria-label="Info">error_outline</mat-icon>
+              </div>
+              <div class="my-form-field block mt10">
+                <div class="my-form-field lbk">
+                  <span>{{'dlg.layout-lbl-font' | translate}}</span>
+                  <mat-select [(ngModel)]="data.layout.header.fontFamily" style="width: 180px">
+                    @for (font of fonts; track font) {
+                      <mat-option [style.fontFamily]="font" [value]="font">
+                        {{font}}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </div>
+                <div class="my-form-field lbk ml15">
+                  <span>{{'dlg.layout-lbl-font-size' | translate}}</span>
+                  <input numberOnly class="header-size-input" [(ngModel)]="data.layout.header.fontSize" max="20" min="10" step="1" type="number">
+                </div>
+              </div>
+              <div class="my-form-field block mt10">
+                <div class="my-form-field lbk">
+                  <span>{{'dlg.layout-lbl-anchor' | translate}}</span>
+                  <mat-select [(ngModel)]="data.layout.header.itemsAnchor" style="width: 180px">
+                    @for (type of anchorType; track type) {
+                      <mat-option [value]="type">
+                        {{ 'item.headeranchor-' + type | translate }}
+                      </mat-option>
+                    }
+                  </mat-select>
+                </div>
+                <div class="my-form-field lbk ml15">
+                  <span>{{'dlg.layout-lbl-button-height' | translate}}</span>
+                  <input numberOnly class="header-size-input" [(ngModel)]="data.layout.header.buttonHeight" max="100" min="20" step="1" type="number">
+                </div>
+              </div>
+              <div class="colors block">
+                <div class="my-form-field inbk">
+                  <span>{{'dlg.layout-header-bkcolor' | translate}}</span>
+                  <input [(colorPicker)]="data.layout.header.bkcolor" [style.background]="data.layout.header.bkcolor" [cpAlphaChannel]="'always'"
+                    class="input-color" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true"
+                    [cpCancelButtonClass]="'cpCancelButtonClass'" [cpCancelButtonText]="'Cancel'" [cpOKButtonText]="'OK'" [cpOKButtonClass]="'cpOKButtonClass'"
+                    style="width:100px;" [cpPosition]="'bottom'" />
+                </div>
+                <div class="my-form-field inbk ml10">
+                  <span>{{'dlg.layout-header-fgcolor' | translate}}</span>
+                  <input [(colorPicker)]="data.layout.header.fgcolor" [style.background]="data.layout.header.fgcolor" [cpAlphaChannel]="'always'"
+                    class="input-color" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true"
+                    [cpCancelButtonClass]="'cpCancelButtonClass'" [cpCancelButtonText]="'Cancel'" [cpOKButtonText]="'OK'" [cpOKButtonClass]="'cpOKButtonClass'"
+                    style="width:100px;" [cpPosition]="'bottom'" />
+                </div>
+                <div class="my-form-field inbk ml10">
+                  <span>{{'dlg.layout-lbl-height' | translate}}</span>
+                  <input numberOnly class="header-size-input" [(ngModel)]="data.layout.header.height" max="120" min="32" step="1" type="number">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="{{'dlg.layout-lbl-custom-styles' | translate}}">
+        <div class="tab-container">
+          <ngx-codemirror #CodeMirror [(ngModel)]="data.layout.customStyles" [options]="codeMirrorOptions" ></ngx-codemirror>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+  <div mat-dialog-actions class="dialog-action">
+    <button mat-raised-button [mat-dialog-close]="">{{'dlg.cancel' | translate}}</button>
+    <button mat-raised-button color="primary" (click)="onOkClick()" cdkFocusInitial>{{'dlg.ok' | translate}}</button>
+  </div>
 </div>

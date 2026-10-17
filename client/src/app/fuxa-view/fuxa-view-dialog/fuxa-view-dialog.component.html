@@ -1,19 +1,19 @@
 <div class="fuxa-view-dialog"
-    [style.background]="data?.view?.profile?.bkcolor">
-    @if (!data.disableDefaultClose) {
-<a class="dialog-modal-close"
+  [style.background]="data?.view?.profile?.bkcolor">
+  @if (!data.disableDefaultClose) {
+    <a class="dialog-modal-close"
       >
-        <i (click)="onCloseDialog()"
-           class="material-icons"
-           style="font-size: 22px; cursor: pointer;">close</i>
+      <i (click)="onCloseDialog()"
+        class="material-icons"
+      style="font-size: 22px; cursor: pointer;">close</i>
     </a>
-}
-    <app-fuxa-view (onclose)="onCloseDialog()"
-                   [child]='true'
-                   [gaugesManager]="data.gaugesManager"
-                   [hmi]="hmi"
-                   [variablesMapping]="data.variablesMapping"
-                   [view]="data.view"
-                   [sourceDeviceId]="data.sourceDeviceId">
-    </app-fuxa-view>
+  }
+  <app-fuxa-view (onclose)="onCloseDialog()"
+    [child]='true'
+    [gaugesManager]="data.gaugesManager"
+    [hmi]="hmi"
+    [variablesMapping]="data.variablesMapping"
+    [view]="data.view"
+    [sourceDeviceId]="data.sourceDeviceId">
+  </app-fuxa-view>
 </div>

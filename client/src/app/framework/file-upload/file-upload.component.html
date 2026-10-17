@@ -1,9 +1,9 @@
 <div class="file-upload">
-    <mat-icon (click)="file.click();$event.stopPropagation()"
-              class="pointer">upload</mat-icon>
-    <input type="file" #file (change)="onChange($event)" style="display: none" (click)="$event.stopPropagation()"/>
-    <span>{{ fileName }}</span>
-    @if (fileName) {
-<mat-icon (click)="removeFile()" class="clear pointer">clear</mat-icon>
-}
+  <mat-icon (click)="file.click();$event.stopPropagation()"
+  class="pointer">upload</mat-icon>
+  <input type="file" #file (change)="onChange($event)" style="display: none" (click)="$event.stopPropagation()"/>
+  <span>{{ fileName }}</span>
+  @if (fileName) {
+    <mat-icon (click)="removeFile()" class="clear pointer">clear</mat-icon>
+  }
 </div>

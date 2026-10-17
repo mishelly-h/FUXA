@@ -85,26 +85,26 @@ import {
   `],
     template: `
     <div #elementref class="item {{ disabled ? 'disabled' : ''}}"
-    (click)="emitClickEvent($event)">
-        <a class="fab-item" [style.backgroundColor]="color">
-          @if (svgicon) {
-<img src="{{svgicon}}"/>
-}
-          @if (!svgicon) {
-<i class="material-icons"> {{ icon }} </i>
-}
-        </a>
-        <div class="content-wrapper" #contentref>
-          <div class="content" [style.display]="content ? 'block' : 'none'" [style.padding-right]="iconex ? '28px' : '20px'">{{content}}
-            @if (iconex) {
-<a class="fab-item-ex" [style.backgroundColor]="color" (click)="stopPropagation($event);emitClickExEvent($event)">
-                <i class="material-icons" style="font-size: 18px"> {{ iconex }} </i>
+      (click)="emitClickEvent($event)">
+      <a class="fab-item" [style.backgroundColor]="color">
+        @if (svgicon) {
+          <img src="{{svgicon}}"/>
+        }
+        @if (!svgicon) {
+          <i class="material-icons"> {{ icon }} </i>
+        }
+      </a>
+      <div class="content-wrapper" #contentref>
+        <div class="content" [style.display]="content ? 'block' : 'none'" [style.padding-right]="iconex ? '28px' : '20px'">{{content}}
+          @if (iconex) {
+            <a class="fab-item-ex" [style.backgroundColor]="color" (click)="stopPropagation($event);emitClickExEvent($event)">
+              <i class="material-icons" style="font-size: 18px"> {{ iconex }} </i>
             </a>
-}
-          </div>
+          }
         </div>
+      </div>
     </div>
-  `,
+    `,
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
