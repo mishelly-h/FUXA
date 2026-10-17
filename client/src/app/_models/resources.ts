@@ -27,6 +27,7 @@ export interface WidgetsResource extends WidgetResource {
 
 export interface WidgetResource {
     name: string;
+    exist?: boolean;
     type: WidgetsResourceType;
     path: string;
 }
