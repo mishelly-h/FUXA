@@ -24,6 +24,10 @@
         url("./assets/fonts/roboto-thin/roboto-thin-webfont.svg") format("svg");
 }
 
+.cdk-drag-dragging iframe, .box-resizing iframe {
+    pointer-events: none;
+}
+
 @font-face {
     font-family: "Roboto-Light";
     src: local("Roboto Light"), local("Roboto-Light"),

@@ -11,7 +11,7 @@ import { ColorPickerDirective } from 'ngx-color-picker';
 import { ToastrModule } from 'ngx-toastr';
 import { TranslateModule, provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
-import { AngularDraggableModule } from 'angular2-draggable';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgxDaterangepickerMd } from './gui-helpers/daterangepicker';
 
@@ -192,6 +192,7 @@ import { TagPropertyEditWebapiComponent } from './device/tag-property/tag-proper
 import { TagPropertyEditEthernetipComponent } from './device/tag-property/tag-property-edit-ethernetip/tag-property-edit-ethernetip.component';
 import { ViewPropertyComponent } from './editor/view-property/view-property.component';
 import { ResizeDirective } from './_directives/resize.directive';
+import { BoxResizableDirective } from './_directives/box-resizable.directive';
 import { EditorViewsListComponent } from './editor/editor-views-list/editor-views-list.component';
 import { SvgUtils } from './_helpers/svg-utils';
 import { FlexWidgetPropertyComponent } from './gauges/gauge-property/flex-widget-property/flex-widget-property.component';
@@ -407,6 +408,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
         WebcamPlayerComponent,
         WebcamPlayerDialogComponent,
         ResizeDirective,
+        BoxResizableDirective,
         EditorViewsListComponent,
         MapsLocationListComponent,
         MapsLocationPropertyComponent,
@@ -449,7 +451,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
         MaterialModule,
         BrowserAnimationsModule,
         ColorPickerDirective,
-        AngularDraggableModule,
+        DragDropModule,
         MatSelectSearchModule,
         ToastrModule.forRoot({
             timeOut: 3000,
