@@ -20,7 +20,6 @@
             "rules": {
                 "max-len": "off",
                 "@angular-eslint/no-output-on-prefix": "off",
-                "@angular-eslint/prefer-standalone": "off",
                 "@typescript-eslint/member-ordering": "off",
                 "@typescript-eslint/member-delimiter-style": "off",
                 "@angular-eslint/no-input-rename": "off",

@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, DOCUMENT, inject, viewChild } from '@angular/core';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Location, NgClass, AsyncPipe } from '@angular/common';
+import { Router, RouterOutlet } from '@angular/router';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Observable, Subject, Subscription, combineLatest, fromEvent, map, merge, of, startWith, switchMap, takeUntil, timer } from 'rxjs';
 
 import { environment } from '../environments/environment';
@@ -13,12 +13,17 @@ import { AppService } from './_services/app.service';
 import { HeartbeatService } from './_services/heartbeat.service';
 import { AuthService } from './_services/auth.service';
 import { HmiService } from './_services/hmi.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { HeaderComponent } from './header/header.component';
+import { NgxFabButtonComponent } from './gui-helpers/fab-button/ngx-fab-button.component';
+import { NgxFabItemButtonComponent } from './gui-helpers/fab-button/ngx-fab-item-button.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    standalone: false
+    imports: [MatIcon, MatProgressBar, HeaderComponent, NgClass, RouterOutlet, NgxFabButtonComponent, NgxFabItemButtonComponent, AsyncPipe, TranslatePipe]
 })
 
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
