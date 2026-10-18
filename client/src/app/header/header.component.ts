@@ -1,5 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-/* eslint-disable @angular-eslint/component-selector */
 import { Component, Inject, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';

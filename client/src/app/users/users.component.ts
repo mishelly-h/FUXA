@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -152,4 +151,3 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.dataSource.data = users;
 	}
 }
-

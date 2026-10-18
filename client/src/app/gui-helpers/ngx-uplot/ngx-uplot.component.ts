@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Input } from '@angular/core';
 import { Utils } from '../../_helpers/utils';
 

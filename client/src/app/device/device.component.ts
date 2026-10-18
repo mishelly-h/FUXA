@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subject, Subscription, takeUntil} from 'rxjs';
 import {Router} from '@angular/router';

@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
 
 @Component({
