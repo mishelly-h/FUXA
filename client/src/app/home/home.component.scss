@@ -70,7 +70,7 @@
         ::ng-deep .mat-mdc-icon-button {
             --effective-header-button-height: var(--header-item-button-height, var(--header-button-height, var(--default-header-button-height)));
             --header-button-icon-size: calc(var(--effective-header-button-height) - 8px);
-            --mdc-icon-button-state-layer-size: var(--effective-header-button-height);
+            --mat-icon-button-state-layer-size: var(--effective-header-button-height);
             width: var(--effective-header-button-height);
             height: var(--effective-header-button-height);
             padding: 0;
