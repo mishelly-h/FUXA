@@ -143,6 +143,12 @@ async function addPlugin(plugin, options) {
     const addOptions = _normalizeAddPluginOptions(options);
     const normalized = _normalizePlugin(plugin);
     if (!normalized) {
+        const name = typeof plugin === 'string' ? plugin : plugin?.name;
+        if (name !== undefined && name !== null) {
+            const err = new Error(`Plugin '${name}' is not allowed`);
+            err.code = 'plugin_not_allowed';
+            throw err;
+        }
         throw new Error('Invalid plugin');
     }
     const installed = addOptions.installed || _checkPluginsSupported();
@@ -176,7 +182,14 @@ function removePlugin(plugin) {
         try {
             const normalized = _normalizePlugin(plugin);
             if (!normalized) {
-                reject(new Error('Invalid plugin'));
+                const name = typeof plugin === 'string' ? plugin : plugin?.name;
+                if (name !== undefined && name !== null) {
+                    const err = new Error(`Plugin '${name}' is not allowed`);
+                    err.code = 'plugin_not_allowed';
+                    reject(err);
+                } else {
+                    reject(new Error('Invalid plugin'));
+                }
                 return;
             }
             if (!manager.isRuntimeManaged(normalized.name)) {
@@ -252,31 +265,35 @@ function _normalizePlugin(plugin) {
         return null;
     }
     if (typeof plugin === 'string') {
-        return plugins[plugin] || new Plugin(plugin, '', plugin, 'latest', PluginGroupType.service, true);
+        return Object.prototype.hasOwnProperty.call(plugins, plugin) ? plugins[plugin] : null;
     }
-    if (plugin.name && plugins[plugin.name]) {
-        const knownPlugin = plugins[plugin.name];
-        return Object.assign(new Plugin(
+    if (plugin.name) {
+        const registry = createDefaultPlugins();
+        if (!Object.prototype.hasOwnProperty.call(registry, plugin.name)) {
+            return null;
+        }
+        const knownPlugin = registry[plugin.name];
+        const version = plugin.version === undefined ? knownPlugin.version : plugin.version;
+        if (version !== 'latest' && (typeof version !== 'string' || !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(version))) {
+            const err = new Error(`Invalid version for plugin '${plugin.name}'`);
+            err.code = 'invalid_plugin_version';
+            throw err;
+        }
+        const normalized = Object.assign(new Plugin(
             knownPlugin.name,
             knownPlugin.module,
             knownPlugin.type,
-            plugin.version || knownPlugin.version,
-            plugin.group || knownPlugin.group,
+            version,
+            knownPlugin.group,
             true
-        ), knownPlugin, plugin);
-    }
-    if (plugin.name) {
-        const customPlugin = new Plugin(
-            plugin.name,
-            plugin.module || '',
-            plugin.type || plugin.name,
-            plugin.version || 'latest',
-            plugin.group || PluginGroupType.service,
-            true
-        );
-        customPlugin.custom = true;
-        customPlugin.dynamicPackage = true;
-        return Object.assign(customPlugin, plugin);
+        ), knownPlugin);
+        normalized.name = knownPlugin.name;
+        normalized.module = knownPlugin.module;
+        normalized.type = knownPlugin.type;
+        normalized.group = knownPlugin.group;
+        normalized.version = version;
+        normalized.pkg = plugin.pkg === undefined ? knownPlugin.pkg : plugin.pkg;
+        return normalized;
     }
     return null;
 }

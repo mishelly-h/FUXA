@@ -65,9 +65,13 @@ module.exports = {
             } else if (!authJwt.haveAdminPermission(permission)) {
                 res.status(401).json({ error: "unauthorized_error", message: "Unauthorized!" });
                 runtime.logger.error("api post plugins: Unauthorized");
+            } else if (!runtime.settings?.secureEnabled && runtime.settings?.allowUnsecuredPluginInstall !== true) {
+                res.status(401).json({ error: "unauthorized_error", message: "Unauthorized!" });
+                runtime.logger.error("api post plugins: Unauthorized (security disabled)");
             } else {
                 runtime.plugins.addPlugin(req.body.params, true).then(function (data) {
                     runtime.devices.update();
+                    runtime.logger.info("api post plugins: installed " + (data?.name || req.body.params?.name));
                     res.end();
                 }).catch(function (err) {
                     if (err.code) {
@@ -91,8 +95,12 @@ module.exports = {
             } else if (!authJwt.haveAdminPermission(permission)) {
                 res.status(401).json({ error: "unauthorized_error", message: "Unauthorized!" });
                 runtime.logger.error("api delete plugins: Unauthorized");
+            } else if (!runtime.settings?.secureEnabled && runtime.settings?.allowUnsecuredPluginInstall !== true) {
+                res.status(401).json({ error: "unauthorized_error", message: "Unauthorized!" });
+                runtime.logger.error("api delete plugins: Unauthorized (security disabled)");
             } else {
                 runtime.plugins.removePlugin(req.query.param).then(function (data) {
+                    runtime.logger.info("api delete plugins: removed " + req.query.param);
                     res.end();
                 }).catch(function (err) {
                     if (err.code) {
