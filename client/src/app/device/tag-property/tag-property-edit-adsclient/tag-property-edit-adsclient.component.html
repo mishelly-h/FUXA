@@ -10,17 +10,21 @@
         <div class="my-form-field item-block mt10">
             <span>{{'device.tag-property-name' | translate}}</span>
             <input formControlName="tagName" type="text">
-            <span *ngIf="formGroup.controls.tagName.errors?.name"
+            @if (formGroup.controls.tagName.errors?.name) {
+<span
                   class="form-input-error">
                   {{formGroup.controls.tagName.errors?.name}}
             </span>
+}
         </div>
         <div class="my-form-field item-block mt10">
             <span>{{'device.tag-property-type' | translate}}</span>
             <mat-select formControlName="tagType">
-                <mat-option *ngFor="let type of tagType | enumToArray" [value]="type.key">
+                @for (type of tagType | enumToArray; track type) {
+<mat-option [value]="type.key">
                     {{ type.value }}
                 </mat-option>
+}
             </mat-select>
         </div>
         <div class="my-form-field item-block mt10">

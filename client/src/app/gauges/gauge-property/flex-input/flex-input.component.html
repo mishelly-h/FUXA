@@ -1,10 +1,15 @@
 <div class="grid-conta">
-    <div *ngFor="let item of ranges; index as i" class="item">
-        <div *ngIf="isWithRange()">
-            <div *ngIf="slideView" class="item-range">
+    @for (item of ranges; track item; let i = $index) {
+<div class="item">
+        @if (isWithRange()) {
+<div>
+            @if (slideView) {
+<div class="item-range">
                 <range-number [range]="item"></range-number>
             </div>
-            <div *ngIf="isWithRangeColor()" style="display: inline-block;">
+}
+            @if (isWithRangeColor()) {
+<div style="display: inline-block;">
                 <div class="my-form-field">
                     <span>{{'gauges.property-input-color' | translate}}</span>
                     <input [(colorPicker)]="item.color" [value]="item.color" [style.background]="item.color" [cpPresetColors]="defaultColor" [cpOKButton]="true"
@@ -20,13 +25,16 @@
                         [cpAlphaChannel]="'always'" [cpOutputFormat]="'hex'" />
                 </div>
             </div>
+}
             <div class="item-remove">
                 <button mat-icon-button (click)="onRemoveInput(i)" class="remove">
                     <mat-icon>clear</mat-icon>
                 </button>
             </div>
         </div>
-        <div *ngIf="isMinMax()">
+}
+        @if (isMinMax()) {
+<div>
             <div class="item-minmax">
                 <div class="my-form-field">
                     <span>{{'gauges.property-input-min' | translate}}</span>
@@ -50,7 +58,9 @@
                 <!-- <mat-checkbox class="input-minmax-cb" style="padding-left: 20px" [(ngModel)]="withValue">Value</mat-checkbox> -->
             </div>
         </div>
-        <div *ngIf="isWithStep()" class="item-step">
+}
+        @if (isWithStep()) {
+<div class="item-step">
             <div class="my-form-field">
                 <span>{{'gauges.property-input-value' | translate}}</span>
                 <input numberOnly [(ngModel)]="item.min" type="text" style="width: 100px">
@@ -78,7 +88,9 @@
                 </button>
             </div>
         </div>
-        <div *ngIf="isOutputCtrl()" class="item-unit">
+}
+        @if (isOutputCtrl()) {
+<div class="item-unit">
             <flex-variable #unit [data]="data()" (onchange)="onUnitChanged(item, $event)" [variableId]="item.textId" [variableValue]="item.text"
                 [variableLabel]="'gauges.property-input-unit'">
             </flex-variable>
@@ -86,7 +98,9 @@
                 [variableValue]="item.fractionDigits" [variableLabel]="'gauges.property-format-digits'">
             </flex-variable>
         </div>
-        <div *ngIf="isInputMinMax()">
+}
+        @if (isInputMinMax()) {
+<div>
             <p>{{'gauges.property-input-range' | translate}}</p>
             <div class="item-minmax">
                 <div class="my-form-field">
@@ -99,5 +113,7 @@
                 </div>
             </div>
         </div>
+}
     </div>
+}
 </div>

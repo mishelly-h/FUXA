@@ -10,21 +10,28 @@
                             <span>{{'device.discovery-topics' | translate}}</span>
                             <input [(ngModel)]="topicSource" style="width: 400px" type="text" [disabled]="isSubscriptionEdit()">
                         </div>
-                        <button mat-icon-button (click)="onDiscoveryTopics(topicSource)" style="display:inline-block;vertical-align: middle;" *ngIf="!discoveryWait" [disabled]="isSubscriptionEdit()">
+                        @if (!discoveryWait) {
+<button mat-icon-button (click)="onDiscoveryTopics(topicSource)" style="display:inline-block;vertical-align: middle;" [disabled]="isSubscriptionEdit()">
                             <mat-icon>search</mat-icon>
                         </button>
-                        <div style="display:inline-block; margin-left: 10px;width: 30px; vertical-align: middle;" *ngIf="discoveryWait">
+}
+                        @if (discoveryWait) {
+<div style="display:inline-block; margin-left: 10px;width: 30px; vertical-align: middle;">
                             <mat-spinner diameter="20"></mat-spinner>
                         </div>
+}
                         <button mat-icon-button (click)="onClearDiscovery()" style="display:inline-block;vertical-align: middle;" [disabled]="isSubscriptionEdit()">
                             <mat-icon>delete_outline</mat-icon>
                         </button>
-                        <div *ngIf="discoveryError" style="display: block; color: red;">
+                        @if (discoveryError) {
+<div style="display: block; color: red;">
                             {{discoveryError}}
                         </div>
+}
                     </div>
                     <div class="browser-result">
-                        <div *ngFor="let topic of topicsList | keyvalue" class="browser-item">
+                        @for (topic of topicsList | keyvalue; track topic) {
+<div class="browser-item">
                             <div class="topic" (click)="selectTopic(topic);" [ngClass]="{'topic-active': isTopicSelected(topic)}">
                                 <div class="topic-text">
                                     {{topic.key}}
@@ -34,6 +41,7 @@
                                 </div>
                             </div>
                         </div>
+}
                     </div>
                     <div class="select-tool">
                         <div class="my-form-field select-item">
@@ -65,7 +73,8 @@
                             </span>
                         </div>
                         <div class="topic-subscription-result">
-                            <div *ngFor="let tcontent of topicContent">
+                            @for (tcontent of topicContent; track tcontent) {
+<div>
                                 <div class="topic">
                                     <div class="topic-name">
                                         <input [(ngModel)]="tcontent.name" type="text">
@@ -81,6 +90,7 @@
                                     </div>
                                 </div>
                             </div>
+}
                         </div>
                     </div>
                 </mat-tab>
@@ -110,7 +120,8 @@
                             </button>
                             {{'device.topic-publish-add-item' | translate}}
                             <div style="height: 200px; border: 1px solid var(--formBorder); padding: 5px 5px 3px 8px; overflow: auto;margin-bottom: 10px;">
-                                <div *ngFor="let item of pubPayload.items; index as i" class="item">
+                                @for (item of pubPayload.items; track item; let i = $index) {
+<div class="item">
                                     <div class="my-form-field" style="margin-right: 10px;">
                                         <span>{{'device.topic-publish-key' | translate}}</span>
                                         <input [(ngModel)]="item.key" (keyup)="stringifyPublishItem()" style="width: 140px;" type="text"
@@ -119,35 +130,48 @@
                                     <div class="my-form-field" style="width: 120px;margin-right: 16px;">
                                         <span>{{'device.topic-publish-type' | translate}}</span>
                                         <mat-select [(value)]="item.type" (selectionChange)="stringifyPublishItem();onItemTypeChanged(item);">
-                                            <mat-option *ngFor="let type of itemType | enumToArray" [value]="type.key">
+                                            @for (type of itemType | enumToArray; track type) {
+<mat-option [value]="type.key">
                                                 {{ type.value }}
                                             </mat-option>
+}
                                         </mat-select>
                                     </div>
-                                    <div [ngSwitch]="item.type" style="display: inline-block;">
-                                        <div *ngSwitchCase="itemTag">
+                                    <div style="display: inline-block;">
+@switch (item.type) {
+                                        @case (itemTag) {
+<div>
                                             <flex-variable style="display: block" [data]="data" (onchange)="onSetPublishItemTag(item, $event)" [variableId]="item.value"
                                                 [withStaticValue]="false"></flex-variable>
                                         </div>
-                                        <div *ngSwitchCase="itemTimestamp" class="my-form-field" style="margin-bottom: 5px;">
+}
+                                        @case (itemTimestamp) {
+<div class="my-form-field" style="margin-bottom: 5px;">
                                             <span>{{'device.topic-publish-timestamp' | translate}}</span>
                                             <input [(ngModel)]="item.value" style="width: 478px;" type="text" [disabled]="true">
                                         </div>
-                                        <div *ngSwitchCase="itemValue" class="my-form-field" style="margin-bottom: 5px;">
+}
+                                        @case (itemValue) {
+<div class="my-form-field" style="margin-bottom: 5px;">
                                             <span>{{'device.topic-publish-value' | translate}}</span>
                                             <input [(ngModel)]="item.value" style="width: 478px;" type="text" [disabled]="true">
                                         </div>
-                                        <div *ngSwitchCase="itemStatic" class="my-form-field" style="margin-bottom: 5px;">
+}
+                                        @case (itemStatic) {
+<div class="my-form-field" style="margin-bottom: 5px;">
                                             <span>{{'device.topic-publish-static' | translate}}</span>
                                             <input [(ngModel)]="item.value" (keyup)="stringifyPublishItem()" style="width: 478px;" type="text">
                                         </div>
-                                    </div>
+}
+                                    }
+</div>
                                     <div style="float: right;padding-top: 5px;">
                                         <button mat-icon-button (click)="onRemovePublishItem(i)" class="remove">
                                             <mat-icon>clear</mat-icon>
                                         </button>
                                     </div>
                                 </div>
+}
                             </div>
                             <div class="_my-form-field" style="display:block;">
                                 <span>{{'device.topic-publish-content' | translate}}</span>

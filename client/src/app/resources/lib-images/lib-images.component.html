@@ -3,7 +3,8 @@
     <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
     <div mat-dialog-content class="mat-dialog-content">
         <mat-accordion multi="true">
-            <mat-expansion-panel *ngFor="let grpImages of resImages" class="my-expansion-panel lib-image-panel">
+            @for (grpImages of resImages; track grpImages) {
+            <mat-expansion-panel class="my-expansion-panel lib-image-panel">
                 <mat-expansion-panel-header class="header" [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                     <mat-panel-title>
                         {{grpImages.name}}
@@ -12,24 +13,24 @@
 
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <div *ngFor="let
-                     item of grpImages.items"
-                     (click)="onSelect(item.path)"
-                     class="lib-image-item"
-                     matTooltip="{{item.name}}">
-
-                    <ng-container *ngIf="isVideo(item.path); else imageTemplate">
-                        <video width="300" height="auto" controls>
-                            <source [src]="item.path" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                    </ng-container>
-                    <ng-template #imageTemplate>
-                        <img [src]="item.path" [id]="item.path">
-                    </ng-template>
-                </div>
+                @for (item of grpImages.items; track item.path) {
+                    <div
+                         (click)="onSelect(item.path)"
+                         class="lib-image-item"
+                         matTooltip="{{item.name}}">
+                        @if (isVideo(item.path)) {
+                            <video width="300" height="auto" controls>
+                                <source [src]="item.path" type="video/mp4">
+                                Your browser does not support the video tag.
+                            </video>
+                        } @else {
+                            <img [src]="item.path" [id]="item.path">
+                        }
+                    </div>
+                }
 
             </mat-expansion-panel>
+            }
             <!-- <mat-expansion-panel class="my-expansion-panel">
                 <mat-expansion-panel-header class="header" [collapsedHeight]="'40px'" [expandedHeight]="'40px'">
                     <mat-panel-title>

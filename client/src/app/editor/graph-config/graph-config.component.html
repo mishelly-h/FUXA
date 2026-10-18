@@ -8,7 +8,8 @@
     </div>
     <div mat-dialog-content class="content">
         <div class="panelTop">
-            <div *ngFor="let graph of data.graphs; index as i" class="mychips" (click)="onSelectGraph(graph)" [ngClass]="isGraphSelected(graph)">
+            @for (graph of data.graphs; track graph; let i = $index) {
+<div class="mychips" (click)="onSelectGraph(graph)" [ngClass]="isGraphSelected(graph)">
                 <mat-icon (click)="onSelectGraph(graph);onRemoveGraph(i)">cancel</mat-icon>
                 <span>
                     {{graph.name}}
@@ -26,6 +27,7 @@
                     <button mat-menu-item (click)="onEditGraph(graph)" style="font-size: 14px;">{{'graph.config-rename' | translate}}</button>
                 </mat-menu>
             </div>
+}
         </div>
         <div class="panelBottom">
             <div class="section-panel section-category">
@@ -33,22 +35,30 @@
                     <span>{{'graph.property-xtype' | translate}}</span>
                 </div>
                 <div class="section-list">
-                    <div class="my-form-field section-item" *ngIf="isSelection()">
+                    @if (isSelection()) {
+<div class="my-form-field section-item">
                         <mat-select [(value)]="selectedGraph.property.xtype" (selectionChange)="onGraphXTypeChanged($event.value)"
                             placeholder="{{'graph.property-xtype' | translate}}">
                             <!-- <mat-option (click)="onAddGraphSource('tag');">{{'graph.config-category-tag' | translate}}</mat-option> -->
-                            <mat-option *ngFor="let ev of barXType | enumToArray" [value]="ev.key">
+                            @for (ev of barXType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                 {{ ev.value }}
                             </mat-option>
+}
                         </mat-select>
                     </div>
-                    <div class="my-form-field section-item" *ngIf="selectedGraph.property.xtype === xTypeDate">
+}
+                    @if (selectedGraph.property.xtype === xTypeDate) {
+<div class="my-form-field section-item">
                         <mat-select [(value)]="dateFunction.type" (selectionChange)="onGraphDateFunctionTypeChanged($event.value)" placeholder="{{'graph.property-fnctype' | translate}}">
-                            <mat-option *ngFor="let ev of barDateFunctionType | enumToArray" [value]="ev.key">
+                            @for (ev of barDateFunctionType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                 {{ ev.value }}
                             </mat-option>
+}
                         </mat-select>
                     </div>
+}
                 </div>
             </div>
             <div class="section-panel section-sources">
@@ -63,7 +73,8 @@
                 </div>
                 <div class="section-list">
                     <mat-list class="list">
-                        <mat-list-item *ngFor="let source of selectedGraph.sources" class="list-item list-item-hover" (click)="editGraphSource(source)">
+                        @for (source of selectedGraph.sources; track source) {
+<mat-list-item class="list-item list-item-hover" (click)="editGraphSource(source)">
                             <mat-icon (click)="$event.stopPropagation();removeGraphSource(source)" class="list-item-remove">delete</mat-icon>
                             <div class="list-item-text list-item-name">
                                 <span>{{getDeviceTagName(source)}}</span>
@@ -78,6 +89,7 @@
                                 &nbsp;
                             </div>
                         </mat-list-item>
+}
                     </mat-list>
                 </div>
             </div>

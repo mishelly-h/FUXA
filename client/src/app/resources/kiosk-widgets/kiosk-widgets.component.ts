@@ -2,7 +2,7 @@ import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { KioskWidgetsService } from './kiosk-widgets.service';
 import { map, Observable } from 'rxjs';
-import { ResourceItem, Resources, ResourceType, WidgetsResource } from '../../_models/resources';
+import { ResourceItem, Resources, ResourceType, WidgetResource, WidgetsResource } from '../../_models/resources';
 import { ResourcesService } from '../../_services/resources.service';
 import { TransferResult } from '../../_services/my-file.service';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
@@ -21,7 +21,7 @@ export class KioskWidgetsComponent implements OnInit {
 
 
     resourceWidgets$: Observable<WidgetsResource[]>;
-    groupContent: { [path: string]: WidgetsResource[] } = {};
+    groupContent: { [path: string]: WidgetItemType[] } = {};
     loadingGroups: { [path: string]: boolean } = {};
     existingWidgets: string[] = [];
     assetBaseUrl: string;
@@ -92,6 +92,6 @@ export class KioskWidgetsComponent implements OnInit {
     }
 }
 
-interface WidgetItemType extends ResourceItem {
-    exist?: boolean;
+interface WidgetItemType extends WidgetResource {
+    exist: boolean;
 }

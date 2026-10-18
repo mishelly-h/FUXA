@@ -1,23 +1,32 @@
 <div class="container">
     <h1 mat-dialog-title class="dialog-title"  mat-dialog-draggable>{{'script.property-title' | translate}}</h1>
     <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
-    <div mat-dialog-content *ngIf="data.editmode < 0">
+    @if (data.editmode < 0) {
+<div mat-dialog-content>
         {{msgRemoveScript}}
     </div>
-    <div mat-dialog-content *ngIf="data.editmode >= 0">
+}
+    @if (data.editmode >= 0) {
+<div mat-dialog-content>
         <div class="panel-header">
             <div class="panel-function">
-                <span *ngIf="!script.sync"
+                @if (!script.sync) {
+<span
                       class="function-text">async </span>
+}
                 <span class="function-text">function</span>
                 <span class="function-name"> {{script.name}}</span> (
-                <div *ngFor="let param of parameters; let i = index" style="display: inline-block;">
+                @for (param of parameters; track param; let i = $index) {
+<div style="display: inline-block;">
                     <div class="mychips">
                         <mat-icon (click)="onRemoveParameter(i)">cancel</mat-icon>
                         <span>{{param.name}}</span>
                     </div>
-                    <span *ngIf="i < parameters.length - 1">,</span>
+                    @if (i < parameters.length - 1) {
+<span>,</span>
+}
                 </div>
+}
                 ) &#123;
             </div>
             <div class="panel-toolbar">
@@ -30,7 +39,9 @@
                     <!-- <button mat-menu-item   (click)="onAddFunctionTag()" style="font-size: 14px;">{{'script.property-addfnc-tag'| translate}}</button> -->
                     <button mat-menu-item (click)="toggleSync()" style="font-size: 14px;" class="code-menu-sync-select">
                         <span>{{'script.property-async-function' | translate}}</span>
-                        <mat-icon *ngIf="!script.sync">done</mat-icon>
+                        @if (!script.sync) {
+<mat-icon>done</mat-icon>
+}
                     </button>
                 </mat-menu>
                 <button mat-icon-button (click)="sidePanel.toggle()" matTooltip="{{'script.property-systems' | translate}}">
@@ -40,9 +51,11 @@
         </div>
         <div>
             <mat-drawer-container class="panel-code">
-                <div *ngIf="ready">
+                @if (ready) {
+<div>
                     <ngx-codemirror #CodeMirror [(ngModel)]="codeMirrorContent" [options]="codeMirrorOptions" (ngModelChange)="onEditorContent($event)"></ngx-codemirror>
                 </div>
+}
                 <mat-drawer #sidePanel class="side-panel" mode="side" position="end" style="height: 100%; width:350px">
                     <!-- <button mat-icon-button (click)="sidePanel.toggle()" style="position: absolute; top: 3px; right: 3px;">
                         <mat-icon>close</mat-icon>
@@ -50,16 +63,20 @@
                     <mat-tab-group>
                         <mat-tab label="{{'script.property-systems' | translate}}" class="mat-tab-label">
                             <div style="margin-top: 10px; padding: 7px;">
-                                <div *ngFor="let sysfnc of systemFunctions.functions; index as i" class="system-function">
+                                @for (sysfnc of systemFunctions.functions; track sysfnc; let i = $index) {
+<div class="system-function">
                                     <button mat-raised-button (click)="onAddSystemFunction(sysfnc)" matTooltip="{{sysfnc.tooltip}}">{{sysfnc.text}}</button>
                                 </div>
+}
                             </div>
                         </mat-tab>
                         <mat-tab label="{{'script.property-templates' | translate}}">
                             <div style="margin-top: 10px; padding: 7px;">
-                                <div *ngFor="let code of templatesCode.functions; index as i" class="system-function">
+                                @for (code of templatesCode.functions; track code; let i = $index) {
+<div class="system-function">
                                     <button mat-raised-button (click)="onAddTemplateCode(code)" matTooltip="{{code.tooltip}}">{{code.text}}</button>
                                 </div>
+}
                             </div>
                         </mat-tab>
                         <mat-tab label="{{'script.property-test' | translate}}">
@@ -68,15 +85,19 @@
                                     <div class="test-parameters">
                                         <span class="header">{{'script.property-test-params' | translate}}</span>
                                         <div class="content">
-                                            <div *ngFor="let param of testParameters; index as i">
+                                            @for (param of testParameters; track param; let i = $index) {
+<div>
                                                 <div class="my-form-field">
                                                     <span>{{param.name}}</span>
                                                     <input [(ngModel)]="param.value" class="content-input">
-                                                    <button *ngIf="param.type === tagParamType" mat-raised-button (click)="onSetTestTagParam(param)" class="content-button">
+                                                    @if (param.type === tagParamType) {
+<button mat-raised-button (click)="onSetTestTagParam(param)" class="content-button">
                                                         {{'script.property-test-tag' | translate}}
                                                     </button>
+}
                                                 </div>
                                             </div>
+}
                                         </div>
                                     </div>
                                     <button mat-raised-button (click)="onRunTest()" color="accent" class="test-button">{{'script.property-test-run' | translate}}</button>
@@ -87,9 +108,11 @@
                                         <button mat-icon-button (click)="onConsoleClear()" class="small-icon-button" style="float: right">
                                             <mat-icon>delete_forever</mat-icon>
                                         </button>
-                                        <div *ngFor="let text of console; index as i" class="console-text">
+                                        @for (text of console; track text; let i = $index) {
+<div class="console-text">
                                             <span>>{{text}}</span>
                                         </div>
+}
                                     </div>
                                 </div>
                             </div>
@@ -102,6 +125,7 @@
             &#125;
         </div>
     </div>
+}
     <div mat-dialog-actions class="dialog-action">
         <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>
         <button mat-raised-button (click)="onOkClick()" [disabled]="!isValid()" color="primary">{{'dlg.ok' | translate}}</button>

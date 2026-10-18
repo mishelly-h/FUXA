@@ -20,17 +20,21 @@
                 </app-flex-device-tag>
                 <div class="my-form-field block mt5 static-image">
                     <span>{{'video.property-image' | translate}}</span>
-                    <ng-container *ngIf="property.options.initImage; else imageVoid">
+                    @if (property.options.initImage) {
+
                         <img src="{{property.options.initImage}}">
                         <button mat-icon-button (click)="onClearImage()">
                             <mat-icon>clear</mat-icon>
                         </button>
-                    </ng-container>
-                    <ng-template #imageVoid>
+
+} @else {
+
                         <mat-select placeholder="{{'video.property-image-placeholder' | translate}}" (click)="imagefile.click();">
                         </mat-select>
                         <input #imagefile type="file" style="display: none;" (change)="onSetImage($event)" accept="image/*" />
-                    </ng-template>
+
+}
+
                 </div>
                 <div class="video-options-row mt5 mb20">
                     <div class="my-form-field block tac item-slider">
@@ -57,7 +61,8 @@
                     </button>
                 </div>
                 <div class="mt30">
-                    <div *ngFor="let action of property?.actions; index as i" class="action-readonly-item">
+                    @for (action of property?.actions; track action; let i = $index) {
+<div class="action-readonly-item">
                         <div class="my-form-field tag">
                             <span>{{'action-settings-readonly-tag' | translate}}</span>
                             <input [value]="getActionTag(action)" type="text" readonly [disabled]="true">
@@ -77,6 +82,7 @@
                             </div>
                         </div>
                     </div>
+}
                 </div>
             </mat-tab>
         </mat-tab-group>

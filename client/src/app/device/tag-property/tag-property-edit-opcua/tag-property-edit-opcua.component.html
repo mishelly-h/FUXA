@@ -1,15 +1,20 @@
 <div>
     <h1 mat-dialog-title class="dialog-title" mat-dialog-draggable>
-        <ng-container *ngIf="data.tag; else mode">
+        @if (data.tag) {
+
             {{'device.tag-property-title' | translate}}
-        </ng-container>
-        <ng-template #mode>
+
+} @else {
+
             {{'device.browsetag-property-title' | translate}}
-        </ng-template>
+
+}
+
     </h1>
     <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
     <div mat-dialog-content>
-        <ng-container *ngIf="data.tag; else addTag">
+        @if (data.tag) {
+
             <div [formGroup]="formGroup" class="container">
                 <div class="my-form-field item-block">
                     <span>{{'device.tag-property-device' | translate}}</span>
@@ -22,9 +27,11 @@
                 <div class="my-form-field item-block mt10">
                     <span>{{'device.tag-property-type' | translate}}</span>
                     <mat-select formControlName="tagType">
-                        <mat-option *ngFor="let type of tagType | enumToArray" [value]="type.key">
+                        @for (type of tagType | enumToArray; track type) {
+<mat-option [value]="type.key">
                             {{ type.value }}
                         </mat-option>
+}
                     </mat-select>
                 </div>
                 <div class="my-form-field item-block mt10">
@@ -32,12 +39,15 @@
                     <input formControlName="tagDescription" type="text">
                 </div>
             </div>
-        </ng-container>
-        <ng-template #addTag>
+
+} @else {
+
             <div style="overflow: auto; margin: 0px 10px">
                 <ngx-treetable #treetable [config]="config" (expand)="queryNext($event)"></ngx-treetable>
             </div>
-        </ng-template>
+
+}
+
     </div>
     <div mat-dialog-actions class="dialog-action">
         <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>

@@ -5,9 +5,11 @@
         <div class="my-form-field">
             <span>{{'report.item-daterange' | translate}}</span>
             <mat-select [(value)]="data.range" style="width: 200px" [disabled]="true">
-                <mat-option *ngFor="let ev of dateRangeType | enumToArray" [value]="ev.key">
+                @for (ev of dateRangeType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                     {{ ev.value }}
                 </mat-option>
+}
             </mat-select>
         </div>
         <div class="chart">
@@ -15,9 +17,11 @@
                 <span>{{'report.chart-name' | translate}}</span>
                 <mat-select [formControl]="chartCtrl" (selectionChange)="onChartChanged()" style="width: 200px">
                     <mat-select-search [formControl]="chartFilterCtrl"></mat-select-search>
-                    <mat-option *ngFor="let chart of filteredChart | async" [value]="chart">
+                    @for (chart of filteredChart | async; track chart) {
+<mat-option [value]="chart">
                         {{ chart.name }}
                     </mat-option>
+}
                 </mat-select>
             </div>
             <div class="my-form-field ml20">

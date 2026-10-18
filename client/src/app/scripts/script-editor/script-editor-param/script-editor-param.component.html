@@ -9,13 +9,17 @@
         <div class="my-form-field mt10">
             <span>{{'script.param-type' | translate}}</span>
             <mat-select [(value)]="data.type" placeholder="{{'script.paramtype' | translate}}">
-                <mat-option *ngFor="let type of paramType" [value]="type">
+                @for (type of paramType; track type) {
+<mat-option [value]="type">
                     {{ 'script.paramtype-' + type | translate }}
                 </mat-option>
+}
             </mat-select>
         </div>
         <div style="display: block; color: red; height: 22px">
-            <span *ngIf="error">{{error}}</span>
+            @if (error) {
+<span>{{error}}</span>
+}
         </div>
     </div>
     <div mat-dialog-actions class="dialog-action">

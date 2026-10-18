@@ -14,17 +14,21 @@
             <div class="my-form-field partial-input">
                 <span>{{'chart.config-line-yaxis' | translate}}</span>
                 <mat-select formControlName="yaxis">
-                    <mat-option *ngFor="let yaxis of chartAxesType" [value]="yaxis">
+                    @for (yaxis of chartAxesType; track yaxis) {
+<mat-option [value]="yaxis">
                         {{ yaxis }}
                     </mat-option>
+}
                 </mat-select>
             </div>
             <div class="my-form-field ml20 partial-input">
                 <span>{{'chart.config-line-interpolation' | translate}}</span>
                 <mat-select formControlName="lineInterpolation">
-                    <mat-option *ngFor="let interpo of data.lineInterpolationType" [value]="interpo.value">
+                    @for (interpo of data.lineInterpolationType; track interpo) {
+<mat-option [value]="interpo.value">
                         {{ interpo.text }}
                     </mat-option>
+}
                 </mat-select>
             </div>
         </div>
@@ -59,7 +63,8 @@
             </div>
         </div>
         <div class="my-form-field block-zones mt10">
-            <div *ngFor="let zone of data.zones; index as i" class="mt5">
+            @for (zone of data.zones; track zone; let i = $index) {
+<div class="mt5">
                 <div class="my-form-field">
                     <span>{{'chart.config-line-zone-min' | translate}}</span>
                     <input numberOnly [(ngModel)]="zone.min" [ngModelOptions]="{ standalone: true }" style="width: 60px" type="number">
@@ -88,6 +93,7 @@
                     </button>
                 </div>
             </div>
+}
         </div>
     </div>
     <div mat-dialog-actions class="dialog-action">

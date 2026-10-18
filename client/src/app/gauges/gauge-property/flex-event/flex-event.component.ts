@@ -4,6 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import {
     GaugeEvent,
+    GaugeEventActionKey,
     GaugeEventActionType,
     GaugeEventRelativeFromType,
     GaugeEventSetValueType,
@@ -156,7 +157,7 @@ export class FlexEventComponent implements OnInit {
         return a > -1 && (a === b || a === c || a === d || a === e);
     }
 
-    withPosition(eventAction: GaugeEventActionType) {
+    withPosition(eventAction: GaugeEventActionKey) {
         return this.eventWithPosition.indexOf(eventAction) !== -1;
     }
 
@@ -217,7 +218,7 @@ export class FlexEventComponent implements OnInit {
         scriptParam.value = event.variableId;
     }
 
-    destinationWithHideClose(action: GaugeEventActionType) {
+    destinationWithHideClose(action: GaugeEventActionKey) {
         return action === Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onwindow) ||
             action === Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.ondialog);
     }

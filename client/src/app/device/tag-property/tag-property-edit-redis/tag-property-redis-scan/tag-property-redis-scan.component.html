@@ -24,14 +24,18 @@
             </button>
         </div>
 
-        <div *ngIf="loading" class="loading">
+        @if (loading) {
+<div class="loading">
             <mat-progress-spinner mode="indeterminate" diameter="28"></mat-progress-spinner>
             <span>{{'device.property-redis-scan-scanning' | translate}}</span>
         </div>
+}
 
-        <div *ngIf="!loading" style="opacity:.8; margin-bottom:6px;">
+        @if (!loading) {
+<div style="opacity:.8; margin-bottom:6px;">
             {{'device.property-redis-scan-found' | translate}}: <b>{{dataSource.data.length | number}}</b>
         </div>
+}
 
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" style="width:100%;">
             <ng-container matColumnDef="select">

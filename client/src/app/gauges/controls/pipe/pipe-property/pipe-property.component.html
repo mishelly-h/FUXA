@@ -92,7 +92,8 @@
                 <div class="element-property-header">
                     <span>{{'pipe.property-style-animation' | translate}}</span>
                 </div>
-                <ng-container *ngIf="options.imageAnimation; else imageAnimVoid">
+                @if (options.imageAnimation) {
+
                     <div class="my-form-field block mt5 image-animation">
                         <img src="{{options.imageAnimation.imageUrl}}" style="max-width: 80%;">
                         <button mat-icon-button (click)="onClearImage()" matTooltip="{{'pipe.property-style-animation-image-remove' | translate}}">
@@ -119,15 +120,18 @@
                                type="number"
                                class="style-size">
                     </div>
-                </ng-container>
-                <ng-template #imageAnimVoid>
+
+} @else {
+
                     <div class="my-form-field block mt5 image-animation">
                         <!-- <span>{{'pipe.property-style-animation' | translate}}</span> -->
                         <mat-select placeholder="{{'pipe.property-style-animation-image' | translate}}" (click)="imagefile.click();" >
                         </mat-select>
                         <input #imagefile type="file" style="display: none;" (change)="onSetImage($event)" accept=".svg,image/svg+xml" />
                     </div>
-                </ng-template>
+
+}
+
             </mat-tab>
             <!-- <mat-tab label="{{'editor.settings-events' | translate}}">
                 <div class="events-toolbox">
@@ -143,7 +147,8 @@
                     </button>
                 </div>
                 <div class="mt30">
-                    <div *ngFor="let action of property?.actions; index as i" class="action-readonly-item">
+                    @for (action of property?.actions; track action; let i = $index) {
+<div class="action-readonly-item">
                         <div class="my-form-field tag">
                             <span>{{'action-settings-readonly-tag' | translate}}</span>
                             <input [value]="getActionTag(action)" type="text" readonly [disabled]="true">
@@ -163,6 +168,7 @@
                             </div>
                         </div>
                     </div>
+}
                 </div>
             </mat-tab>
         </mat-tab-group>

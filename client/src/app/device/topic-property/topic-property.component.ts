@@ -30,7 +30,7 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
 
     editMode = false;
     topicSource = '#';
-    topicsList = {};
+    topicsList: Record<string, any> = {};
     topicContent: TopicContent[] = [];
     topicSelectedSubType = 'raw';
     discoveryError = '';

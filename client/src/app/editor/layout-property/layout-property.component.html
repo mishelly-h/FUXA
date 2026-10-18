@@ -9,9 +9,11 @@
                         <div class="my-form-field block">
                             <span>{{'dlg.layout-lbl-sview' | translate}}</span>
                             <mat-select [(value)]="data.layout.start" style="width: 400px">
-                                <mat-option *ngFor="let view of data.views" [value]="view.id">
+                                @for (view of data.views; track view) {
+<mat-option [value]="view.id">
                                     {{ view.name }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                         <div class="my-form-field block mt10">
@@ -21,36 +23,46 @@
                                 <mat-option [value]="false">{{'general.disabled' | translate}}</mat-option>
                             </mat-select>
                         </div>
-                        <div class="my-form-field block mt10" *ngIf="data.layout.loginonstart">
+                        @if (data.layout.loginonstart) {
+<div class="my-form-field block mt10">
                             <span>{{'dlg.layout-lbl-login-overlay-color' | translate}}</span>
                             <mat-select [(value)]="data.layout.loginoverlaycolor" style="width: 400px">
-                                <mat-option *ngFor="let color of loginOverlayColor | enumToArray" [value]="color.key">
+                                @for (color of loginOverlayColor | enumToArray; track color) {
+<mat-option [value]="color.key">
                                     {{ 'item.overlaycolor-' + color.value | translate }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
+}
                         <div class="my-form-field block mt10">
                             <span>{{'dlg.layout-lbl-zoom' | translate}}</span>
                             <mat-select [(value)]="data.layout.zoom" style="width: 400px">
-                                <mat-option *ngFor="let type of zoomMode | enumToArray" [value]="type.key">
+                                @for (type of zoomMode | enumToArray; track type) {
+<mat-option [value]="type.key">
                                     {{ type.value }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                         <div class="my-form-field block mt10">
                             <span>{{'dlg.layout-input-dialog' | translate}}</span>
                             <mat-select [(value)]="data.layout.inputdialog" style="width: 400px">
-                                <mat-option *ngFor="let type of inputMode | enumToArray" [value]="type.key">
+                                @for (type of inputMode | enumToArray; track type) {
+<mat-option [value]="type.key">
                                     {{ type.value }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                         <div class="my-form-field block mt10">
                             <span>{{'dlg.layout-navigation-mode' | translate}}</span>
                             <mat-select [(value)]="data.layout.hidenavigation" style="width: 400px">
-                                <mat-option *ngFor="let type of headerMode | enumToArray" [value]="type.key">
+                                @for (type of headerMode | enumToArray; track type) {
+<mat-option [value]="type.key">
                                     {{ type.value }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                         <div class="my-form-field block mt10">
@@ -92,41 +104,69 @@
                                 style="height: calc(100% - 50px);" [ngClass]="'sidenav-menu-' + data.layout.navigation.type">
                                 <mat-list class="dndList" style="padding-top: 10px; background-color: inherit;">
                                     <mat-list-item class="sidenav-header" style="display: flex; justify-content: center; height: 35px; font-weight: bold; padding-bottom: 10px;margin-bottom: 10px; width: unset">
-                                        <span [style.color]="data.layout.navigation.fgcolor"
+                                        @if (!data.layout.navigation.logo) {
+<span [style.color]="data.layout.navigation.fgcolor"
                                               class="sidenav-title"
-                                              *ngIf="!data.layout.navigation.logo; else hasLogo">
+                                             >
                                             {{'sidenav.title' | translate}}
                                         </span>
-                                        <ng-template #hasLogo><img src="{{data.layout.navigation.logo}}" style="max-width: 100%; max-height: 100%;"></ng-template>
+} @else {
+<img src="{{data.layout.navigation.logo}}" style="max-width: 100%; max-height: 100%;">
+}
+
                                     </mat-list-item>
-                                    <ng-container *ngFor="let item of draggableListLeft; let i = index">
+                                    @for (item of draggableListLeft; track item; let i = $index) {
+
                                         <mat-list-item [ngClass]="'menu-item-' + data.layout.navigation.type"
                                                        [style.color]="data.layout.header.fgcolor"
                                                        (click)="toggleSubMenu(item)"
                                                        style="width: unset">
                                             <button type="button" mat-button class="sidenav-btn sidenav-submenu-btn"
-                                                    [style.color]="data.layout.navigation.fgcolor"
-                                                    [ngSwitch]="data.layout.navigation.type">
-                                                <div *ngSwitchCase="'icon'" class="menu-item-content-icon">
-                                                    <img *ngIf="item.image" src="{{item.image}}">
-                                                    <mat-icon *ngIf="item.icon" [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
-                                                </div>
-                                                <div *ngSwitchCase="'text'" class="menu-item-content-text">
-                                                    <span [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
-                                                </div>
-                                                <div *ngSwitchCase="'block'" class="menu-item-content-block">
-                                                    <img *ngIf="item.image" src="{{item.image}}">
-                                                    <mat-icon *ngIf="item.icon" [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
-                                                    <span [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
-                                                </div>
-                                                <div *ngSwitchCase="'inline'" class="menu-item-content-inline">
-                                                    <img *ngIf="item.image" src="{{item.image}}">
-                                                    <mat-icon *ngIf="item.icon" [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
-                                                    <span style="display: inline-block" [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
-                                                </div>
-                                                <mat-icon *ngIf="isExpandable(item)" class="sidenav-submenu-icon">
+                                                    [style.color]="data.layout.navigation.fgcolor">
+                                                @switch (data.layout.navigation.type) {
+                                                    @case ('icon') {
+                                                        <div class="menu-item-content-icon">
+                                                            @if (item.image) {
+<img src="{{item.image}}">
+}
+                                                            @if (item.icon) {
+<mat-icon [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
+}
+                                                        </div>
+                                                    }
+                                                    @case ('text') {
+                                                        <div class="menu-item-content-text">
+                                                            <span [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
+                                                        </div>
+                                                    }
+                                                    @case ('block') {
+                                                        <div class="menu-item-content-block">
+                                                            @if (item.image) {
+<img src="{{item.image}}">
+}
+                                                            @if (item.icon) {
+<mat-icon [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
+}
+                                                            <span [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
+                                                        </div>
+                                                    }
+                                                    @case ('inline') {
+                                                        <div class="menu-item-content-inline">
+                                                            @if (item.image) {
+<img src="{{item.image}}">
+}
+                                                            @if (item.icon) {
+<mat-icon [style.color]="data.layout.navigation.fgcolor">{{item.icon}}</mat-icon>
+}
+                                                            <span style="display: inline-block" [style.color]="data.layout.navigation.fgcolor">{{item.text}}</span>
+                                                        </div>
+                                                    }
+                                                }
+                                                @if (isExpandable(item)) {
+<mat-icon class="sidenav-submenu-icon">
                                                     {{ isExpanded(item) ? 'expand_less' : 'expand_more' }}
                                                 </mat-icon>
+}
                                             </button>
                                             <div class="nav-item">
                                                 <div class="position">
@@ -145,34 +185,60 @@
                                             </div>
                                         </mat-list-item>
                                         <!-- Submenu -->
-                                        <mat-list *ngIf="isExpandable(item) && isExpanded(item)" class="submenu-list">
-                                            <mat-list-item *ngFor="let child of item.children" [ngClass]="'menu-item-' + data.layout.navigation.type"
+                                        @if (isExpandable(item) && isExpanded(item)) {
+<mat-list class="submenu-list">
+                                            @for (child of item.children; track child) {
+<mat-list-item [ngClass]="'menu-item-' + data.layout.navigation.type"
                                                            class="sidenav-submenu-item"
                                                            [style.color]="data.layout.navigation.fgcolor">
                                                 <button type="button" mat-button class="sidenav-btn"
-                                                           [style.color]="data.layout.navigation.fgcolor"
-                                                           [ngSwitch]="data.layout.navigation.type">
-                                                    <div *ngSwitchCase="'icon'" class="menu-item-content-icon">
-                                                        <img *ngIf="child.image" src="{{child.image}}">
-                                                        <mat-icon *ngIf="child.icon" [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
-                                                    </div>
-                                                    <div *ngSwitchCase="'text'" class="menu-item-content-text">
-                                                        <span [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
-                                                    </div>
-                                                    <div *ngSwitchCase="'block'" class="menu-item-content-block">
-                                                        <img *ngIf="child.image" src="{{child.image}}">
-                                                        <mat-icon *ngIf="child.icon" [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
-                                                        <span [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
-                                                    </div>
-                                                    <div *ngSwitchCase="'inline'" class="menu-item-content-inline">
-                                                        <img *ngIf="child.image" src="{{child.image}}">
-                                                        <mat-icon *ngIf="child.icon" [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
-                                                        <span style="display: inline-block" [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
-                                                    </div>
+                                                           [style.color]="data.layout.navigation.fgcolor">
+                                                    @switch (data.layout.navigation.type) {
+                                                        @case ('icon') {
+                                                            <div class="menu-item-content-icon">
+                                                                @if (child.image) {
+<img src="{{child.image}}">
+}
+                                                                @if (child.icon) {
+<mat-icon [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
+}
+                                                            </div>
+                                                        }
+                                                        @case ('text') {
+                                                            <div class="menu-item-content-text">
+                                                                <span [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
+                                                            </div>
+                                                        }
+                                                        @case ('block') {
+                                                            <div class="menu-item-content-block">
+                                                                @if (child.image) {
+<img src="{{child.image}}">
+}
+                                                                @if (child.icon) {
+<mat-icon [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
+}
+                                                                <span [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
+                                                            </div>
+                                                        }
+                                                        @case ('inline') {
+                                                            <div class="menu-item-content-inline">
+                                                                @if (child.image) {
+<img src="{{child.image}}">
+}
+                                                                @if (child.icon) {
+<mat-icon [style.color]="data.layout.navigation.fgcolor">{{child.icon}}</mat-icon>
+}
+                                                                <span style="display: inline-block" [style.color]="data.layout.navigation.fgcolor">{{child.text}}</span>
+                                                            </div>
+                                                        }
+                                                    }
                                                 </button>
                                             </mat-list-item>
+}
                                         </mat-list>
-                                    </ng-container>
+}
+
+}
                                 </mat-list>
                             </div>
                         </div>
@@ -180,17 +246,21 @@
                             <div class="my-form-field" style="display: block;">
                                 <span>{{'dlg.layout-lbl-smode' | translate}}</span>
                                 <mat-select [(value)]="data.layout.navigation.mode" style="width: 300px">
-                                    <mat-option *ngFor="let mode of navMode | enumToArray" [value]="mode.key">
+                                    @for (mode of navMode | enumToArray; track mode) {
+<mat-option [value]="mode.key">
                                         {{ mode.value }}
                                     </mat-option>
+}
                                 </mat-select>
                             </div>
                             <div class="my-form-field" style="display: block; margin-top: 10px">
                                 <span>{{'dlg.layout-lbl-type' | translate}}</span>
                                 <mat-select [(value)]="data.layout.navigation.type" style="width: 300px">
-                                    <mat-option *ngFor="let type of navType | enumToArray" [value]="type.key">
+                                    @for (type of navType | enumToArray; track type) {
+<mat-option [value]="type.key">
                                         {{ type.value }}
                                     </mat-option>
+}
                                 </mat-select>
                             </div>
                             <div style="display: block; margin-top: 10px">
@@ -211,9 +281,11 @@
                                 <span>{{'dlg.layout-lbl-logo' | translate}}</span>
                                 <mat-select [(value)]="data.layout.navigation.logo" style="width: 300px">
                                     <mat-option (click)="data.layout.navigation.logo = null;"></mat-option>
-                                    <mat-option *ngFor="let resource of resources" [value]="resource.path">
+                                    @for (resource of resources; track resource) {
+<mat-option [value]="resource.path">
                                         {{ resource.name }}
                                     </mat-option>
+}
                                 </mat-select>
                             </div>
                         </div>
@@ -237,8 +309,10 @@
                         <div class="header-items-button"
                              [style.textAlign]="data.layout.header.itemsAnchor"
                              [style.justifyContent]="data.layout.header.itemsAnchor === 'right' ? 'flex-end' : data.layout.header.itemsAnchor">
-                            <ng-container *ngFor="let item of headerItems; let i = index" [ngSwitch]="item.type">
-                                <ng-container *ngSwitchCase="'button'">
+                            @for (item of headerItems; track item; let i = $index) {
+
+                                @switch (item.type) {
+                                @case ('button') {
                                     <button mat-raised-button
                                             [style.--header-item-button-height]="item.height ? item.height + 'px' : null"
                                             [style.background-color]="item.bkcolor ?? data.layout.header.bkcolor"
@@ -247,17 +321,23 @@
                                             [style.fontSize]="data.layout.header.fontSize + 'px !important'"
                                             [style.marginLeft.px]="item.marginLeft"
                                             [style.marginRight.px]="item.marginRight">
-                                        <img *ngIf="item.image; else headerButtonIcon" class="header-item-button-image" [src]="item.image" alt="">
-                                        <ng-template #headerButtonIcon>
-                                            <mat-icon *ngIf="item.icon"
+                                        @if (item.image) {
+<img class="header-item-button-image" [src]="item.image" alt="">
+} @else {
+
+                                            @if (item.icon) {
+<mat-icon
                                                       class="header-item-icon">
                                                 {{item.icon}}
                                             </mat-icon>
-                                        </ng-template>
+}
+
+}
+
                                         {{ item.property?.text ?? item.type }}
                                     </button>
-                                </ng-container>
-                                <ng-container *ngSwitchCase="'label'">
+                                }
+                                @case ('label') {
                                     <button mat-button
                                             [style.--header-item-button-height]="item.height ? item.height + 'px' : null"
                                             [style.background-color]="item.bkcolor ?? data.layout.header.bkcolor"
@@ -266,27 +346,39 @@
                                             [style.fontSize]="data.layout.header.fontSize + 'px !important'"
                                             [style.marginLeft.px]="item.marginLeft"
                                             [style.marginRight.px]="item.marginRight">
-                                        <img *ngIf="item.image; else headerLabelIcon" class="header-item-label-image" [src]="item.image" alt="">
-                                        <ng-template #headerLabelIcon>
-                                            <mat-icon *ngIf="item.icon" class="header-item-icon">{{item.icon}}</mat-icon>
-                                        </ng-template>
+                                        @if (item.image) {
+<img class="header-item-label-image" [src]="item.image" alt="">
+} @else {
+
+                                            @if (item.icon) {
+<mat-icon class="header-item-icon">{{item.icon}}</mat-icon>
+}
+
+}
+
                                         {{ item.property?.text ?? item.type }}
                                     </button>
-                                </ng-container>
-                                <ng-container *ngSwitchCase="'image'">
+                                }
+                                @case ('image') {
                                     <button mat-icon-button
                                             [style.--header-item-button-height]="item.height ? item.height + 'px' : null"
                                             [style.background-color]="item.bkcolor ?? data.layout.header.bkcolor"
                                             [style.color]="item.fgcolor ?? data.layout.header.fgcolor"
                                             [style.marginLeft.px]="item.marginLeft"
                                             [style.marginRight.px]="item.marginRight">
-                                        <img *ngIf="item.image; else headerImageIcon" class="header-item-image" [src]="item.image" alt="">
-                                        <ng-template #headerImageIcon>
+                                        @if (item.image) {
+<img class="header-item-image" [src]="item.image" alt="">
+} @else {
+
                                             <mat-icon class="header-item-icon">{{ item.icon }}</mat-icon>
-                                        </ng-template>
+
+}
+
                                     </button>
-                                </ng-container>
-                            </ng-container>
+                                }
+                                }
+
+}
                         </div>
                         <div class="header-notify-button"
                              [style.background-color]="data.layout.header.bkcolor" [style.color]="data.layout.header.fgcolor">
@@ -300,13 +392,16 @@
                                     [style.color]="data.layout.header.fgcolor">
                                 <mat-icon aria-label="Info">error_outline</mat-icon>
                             </button>
-                            <div class="header-date-time"
-                                 *ngIf="data.layout.header.dateTimeDisplay"
+                            @if (data.layout.header.dateTimeDisplay) {
+<div class="header-date-time"
+
                                  [style.fontFamily]="data.layout.header.fontFamily"
                                  [style.fontSize]="data.layout.header.fontSize + 'px !important'">
                                 {{ currentDateTime | date: data.layout.header.dateTimeDisplay }}
                             </div>
-                            <div *ngIf="data.layout.header.language && data.layout.header.language !== 'nothing'" class="header-language">
+}
+                            @if (data.layout.header.language && data.layout.header.language !== 'nothing') {
+<div class="header-language">
                                 <button mat-icon-button class="inbk"
                                         [style.background-color]="data.layout.header.bkcolor"
                                         [style.color]="data.layout.header.fgcolor">
@@ -315,31 +410,38 @@
                                 <div class="inbk"
                                      [style.fontFamily]="data.layout.header.fontFamily"
                                      [style.fontSize]="data.layout.header.fontSize + 'px !important'">
-                                    <span *ngIf="data.layout.header.language === 'key'" class="inbk">EN</span>
-                                    <span *ngIf="data.layout.header.language === 'fullname'" class="inbk">English</span>
+                                    @if (data.layout.header.language === 'key') {
+<span class="inbk">EN</span>
+}
+                                    @if (data.layout.header.language === 'fullname') {
+<span class="inbk">English</span>
+}
                                 </div>
                             </div>
-                            <div *ngIf="!data.securityEnabled" class="header-login">
+}
+                            @if (!data.securityEnabled) {
+<div class="header-login">
                                 <button mat-icon-button
                                         [style.background-color]="data.layout.header.bkcolor"
                                         [style.color]="data.layout.header.fgcolor">
                                     <mat-icon aria-label="Login">account_circle</mat-icon>
                                 </button>
                                 <div class="info">
-                                    <ng-container [ngSwitch]="data.layout.header.loginInfo">
-                                        <ng-container *ngSwitchCase="'username'">
+                                    @switch (data.layout.header.loginInfo) {
+                                        @case ('username') {
                                             <span class="primary">username</span>
-                                        </ng-container>
-                                        <ng-container *ngSwitchCase="'fullname'">
+                                        }
+                                        @case ('fullname') {
                                             <span class="primary">Full Name</span>
-                                        </ng-container>
-                                        <ng-container *ngSwitchCase="'both'">
+                                        }
+                                        @case ('both') {
                                             <span class="primary">username</span>
                                             <span class="secondary">Full Name</span>
-                                        </ng-container>
-                                    </ng-container>
+                                        }
+                                    }
                                 </div>
                             </div>
+}
                         </div>
                     </div>
                     <div class="header-config ml20">
@@ -351,7 +453,8 @@
                             </div>
                             <div class="header-items">
                                 <mat-list>
-                                    <mat-list-item *ngFor="let item of headerItems; let i = index"
+                                    @for (item of headerItems; track item; let i = $index) {
+<mat-list-item
                                                    [ngClass]="'menu-item-' + data.layout.navigation.type">
                                         <div class="header-item">
                                             <div class="position mr15">
@@ -374,6 +477,7 @@
                                             </div>
                                         </div>
                                     </mat-list-item>
+}
                                 </mat-list>
                             </div>
                         </div>
@@ -381,18 +485,22 @@
                             <div class="my-form-field block">
                                 <span>{{'dlg.layout-lbl-login-info' | translate}}</span>
                                 <mat-select [(value)]="data.layout.header.loginInfo" style="width: 260px">
-                                    <mat-option *ngFor="let type of loginInfoType" [value]="type">
+                                    @for (type of loginInfoType; track type) {
+<mat-option [value]="type">
                                         {{ 'item.logininfo-type-' + type | translate }}
                                     </mat-option>
+}
                                 </mat-select>
                                 <mat-icon aria-label="Info">account_circle</mat-icon>
                             </div>
                             <div class="my-form-field block mt10">
                                 <span>{{'dlg.layout-lbl-show-language' | translate}}</span>
                                 <mat-select [(value)]="data.layout.header.language" style="width: 260px">
-                                    <mat-option *ngFor="let type of languageShowModeType" [value]="type">
+                                    @for (type of languageShowModeType; track type) {
+<mat-option [value]="type">
                                         {{ 'item.language-show-mode-' + type | translate }}
                                     </mat-option>
+}
                                 </mat-select>
                                 <mat-icon aria-label="Language">language</mat-icon>
                             </div>
@@ -403,18 +511,22 @@
                             <div class="my-form-field block mt10">
                                 <span>{{'dlg.layout-lbl-alarms' | translate}}</span>
                                 <mat-select [(value)]="data.layout.header.alarms" style="width: 260px">
-                                    <mat-option *ngFor="let mode of notifyMode | enumToArray" [value]="mode.key">
+                                    @for (mode of notifyMode | enumToArray; track mode) {
+<mat-option [value]="mode.key">
                                         {{ mode.value }}
                                     </mat-option>
+}
                                 </mat-select>
                                 <mat-icon aria-label="Alarms">notifications_none</mat-icon>
                             </div>
                             <div class="my-form-field block mt10">
                                 <span>{{'dlg.layout-lbl-infos' | translate}}</span>
                                 <mat-select [(value)]="data.layout.header.infos" style="width: 260px">
-                                    <mat-option *ngFor="let mode of notifyMode | enumToArray" [value]="mode.key">
+                                    @for (mode of notifyMode | enumToArray; track mode) {
+<mat-option [value]="mode.key">
                                         {{ mode.value }}
                                     </mat-option>
+}
                                 </mat-select>
                                 <mat-icon aria-label="Info">error_outline</mat-icon>
                             </div>
@@ -422,9 +534,11 @@
                                 <div class="my-form-field lbk">
                                     <span>{{'dlg.layout-lbl-font' | translate}}</span>
                                     <mat-select [(ngModel)]="data.layout.header.fontFamily" style="width: 180px">
-                                        <mat-option *ngFor="let font of fonts" [style.fontFamily]="font" [value]="font">
+                                        @for (font of fonts; track font) {
+<mat-option [style.fontFamily]="font" [value]="font">
                                             {{font}}
                                         </mat-option>
+}
                                     </mat-select>
                                 </div>
                                 <div class="my-form-field lbk ml15">
@@ -436,9 +550,11 @@
                                 <div class="my-form-field lbk">
                                     <span>{{'dlg.layout-lbl-anchor' | translate}}</span>
                                     <mat-select [(ngModel)]="data.layout.header.itemsAnchor" style="width: 180px">
-                                        <mat-option *ngFor="let type of anchorType" [value]="type">
+                                        @for (type of anchorType; track type) {
+<mat-option [value]="type">
                                             {{ 'item.headeranchor-' + type | translate }}
                                         </mat-option>
+}
                                     </mat-select>
                                 </div>
                                 <div class="my-form-field lbk ml15">

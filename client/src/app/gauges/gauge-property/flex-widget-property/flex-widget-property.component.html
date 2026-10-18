@@ -1,5 +1,6 @@
 <div class="container">
-    <div *ngFor="let varRef of property().varsToBind" class="var-ref">
+    @for (varRef of property().varsToBind; track varRef) {
+<div class="var-ref">
         <div class="my-form-field">
             <input type="text"
                    [value]="varRef.originalName"
@@ -16,4 +17,5 @@
             </flex-variable>
         </div>
     </div>
+}
 </div>

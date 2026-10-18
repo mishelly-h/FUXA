@@ -7,9 +7,11 @@
         <div [innerHTML]="data.message"></div>
     </div>
     <div class="dialog-actions">
-        <button type="button" class="cancel-btn" *ngIf="data.showCancel !== false" (click)="onCancel()">
+        @if (data.showCancel !== false) {
+<button type="button" class="cancel-btn" (click)="onCancel()">
             {{ 'dlg.cancel' | translate }}
         </button>
+}
         <button type="button" class="confirm-btn" (click)="onConfirm()">
             {{ data.confirmText || ('dlg.ok' | translate) }}
         </button>

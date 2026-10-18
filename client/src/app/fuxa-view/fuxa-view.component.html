@@ -1,6 +1,7 @@
 <div  [ngStyle]="{ visibility: viewLoaded ? 'visible' : 'hidden' }" #dataContainer class="view-container" id="content">
 </div>
-<div *ngFor="let card of cards; let i = index"
+@for (card of cards; track card; let i = $index) {
+<div
      (pointerdown)="bringCardToFront(card)"
      [style.zIndex]="card.zIndex ?? 1"
      [style.height]="getCardHeight(card.height) + 'px'"
@@ -13,9 +14,11 @@
      ngDraggable>
     <div #DemoHandle
          class="card-move-area">
-         <a (click)="onCloseCard(card);" class="card-close" *ngIf="!card.disableDefaultClose">
+         @if (!card.disableDefaultClose) {
+<a (click)="onCloseCard(card);" class="card-close">
             <i class="material-icons" style="font-size: 22px; cursor: pointer;">close</i>
         </a>
+}
     </div>
 
     <app-fuxa-view (onclose)="onCloseCard(card)"
@@ -28,7 +31,9 @@
                    [sourceDeviceId]="card.sourceDeviceId">
     </app-fuxa-view>
 </div>
-<div (rzResizing)="onIframeResizing(iframe, $event)" *ngFor="let iframe of iframes; let i = index" [handle]="iframeHandle" [style.height]="(iframe.height + 22) + 'px'"
+}
+@for (iframe of iframes; track iframe; let i = $index) {
+<div (rzResizing)="onIframeResizing(iframe, $event)" [handle]="iframeHandle" [style.height]="(iframe.height + 22) + 'px'"
     [style.left]="iframe.x + 'px'" [style.top]="iframe.y + 'px'" [style.width]="iframe.width + 'px'" class="fab-iframe" ngDraggable ngResizable>
     <div #iframeHandle class="iframe-header">
         <span>{{iframe.name}}</span>
@@ -39,6 +44,7 @@
     <app-iframe [link]="iframe.link" [style.height]="iframe.height + 'px'" [style.transform]="'scale(' + iframe.scale + ')'" [style.width]="iframe.width + 'px'"
         [style.zoom]="1 / iframe.scale" class="iframe-class"></app-iframe>
 </div>
+}
 <div #inputDialogRef [style.display]="(inputDialog.show) ? 'inline-block' : 'none'" class="dialog-input" [style.top.px]="inputDialog.y" [style.left.px]="inputDialog.x">
     <input matInput [(ngModel)]="gaugeInputCurrent" autocomplete="off" type="text" disabled>
     <input matInput #inputValueRef [(ngModel)]="gaugeInput" autocomplete="off" type="text" (focus)="toggleShowInputDialog(true)" (focusout)="toggleShowInputDialog(false)" (ngModelChange)="inputOnChange()">

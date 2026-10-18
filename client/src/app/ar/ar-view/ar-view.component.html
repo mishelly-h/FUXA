@@ -4,44 +4,66 @@
     <div class="ar-topbar">
         <div>
             <div class="ar-title">FUXA AR</div>
-            <div class="ar-status" *ngIf="isCameraActive && detectorAvailable">
+            @if (isCameraActive && detectorAvailable) {
+<div class="ar-status">
                 Camera active - marker scan supported
             </div>
-            <div class="ar-status" *ngIf="isCameraActive && !detectorAvailable">
+}
+            @if (isCameraActive && !detectorAvailable) {
+<div class="ar-status">
                 Camera active - marker scan unavailable in this browser
             </div>
-            <div class="ar-status" *ngIf="!isCameraActive && !cameraError">
+}
+            @if (!isCameraActive && !cameraError) {
+<div class="ar-status">
                 Starting camera...
             </div>
-            <div class="ar-status" *ngIf="debugEnabled">
+}
+            @if (debugEnabled) {
+<div class="ar-status">
                 AR markers: {{arViewService.getConfiguredMarkerCount()}}
             </div>
-            <div class="ar-status" *ngIf="debugEnabled">
+}
+            @if (debugEnabled) {
+<div class="ar-status">
                 Scanner: {{scannerMode}}
             </div>
+}
         </div>
     </div>
 
-    <div class="ar-error" *ngIf="cameraError">
+    @if (cameraError) {
+<div class="ar-error">
         {{cameraError}}
     </div>
+}
 
-    <div class="ar-message" *ngIf="isCameraActive && !hasConfiguredMarkers">
+    @if (isCameraActive && !hasConfiguredMarkers) {
+<div class="ar-message">
         No AR markers configured.
     </div>
+}
 
-    <div class="ar-message" *ngIf="isCameraActive && !detectorAvailable && hasConfiguredMarkers">
+    @if (isCameraActive && !detectorAvailable && hasConfiguredMarkers) {
+<div class="ar-message">
         QR detection is not available in this browser.
     </div>
+}
 
-    <div class="ar-debug-lines" *ngIf="debugEnabled && debugLines.length">
-        <div *ngFor="let line of debugLines">{{ line }}</div>
+    @if (debugEnabled && debugLines.length) {
+<div class="ar-debug-lines">
+        @for (line of debugLines; track line) {
+<div>{{ line }}</div>
+}
     </div>
+}
 
-    <div class="ar-marker-card" *ngFor="let marker of visibleMarkers">
+    @for (marker of visibleMarkers; track marker) {
+<div class="ar-marker-card">
         <!-- <div class="ar-marker-title">{{ marker.label }}</div> -->
 
-        <div class="ar-marker-view" *ngIf="getMarkerView(marker.viewId) as markerView; else missingMarkerView">
+        @if (getMarkerView(marker.viewId); as markerView) {
+<div class="ar-marker-view">
             <app-fuxa-view
                 [id]="'ar-' + marker.id"
                 [view]="markerView"
@@ -50,8 +72,12 @@
                 [child]="true">
             </app-fuxa-view>
         </div>
-        <ng-template #missingMarkerView>
+} @else {
+
             <div class="ar-marker-missing">View not found: {{ marker.viewId }}</div>
-        </ng-template>
+
+}
+
     </div>
+}
 </div>

@@ -1,14 +1,17 @@
 <div class="container">
-    <div class="filter" *ngIf="deviceSelected" style="color:var(--formInputColor)">
+    @if (deviceSelected) {
+<div class="filter" style="color:var(--formInputColor)">
         <button mat-icon-button title="Device Map" (click)="onGoBack()" style="margin-right:10px;margin-left:-10px;">
             <mat-icon aria-label="Show devices map">arrow_back</mat-icon>
         </button>
         <div class="my-form-field" style="padding-right: 10px;">
             <span>{{'device.list-device' | translate}}</span>
             <mat-select [(value)]="deviceSelected" style="width: 300px" (selectionChange)="onDeviceChange($event.source)">
-                <mat-option *ngFor="let device of devicesValue()" [value]="device">
+                @for (device of devicesValue(); track device) {
+<mat-option [value]="device">
                     {{ device.name }}
                 </mat-option>
+}
             </mat-select>
         </div>
         <div class="my-form-field" style="padding-right: 10px;">
@@ -16,21 +19,26 @@
             <input (keyup)="applyFilter($event.target.value)" style="width: 450px" type="text">
         </div>
     </div>
+}
     <div class="table-container">
         <div class="table-scroll">
             <mat-table #table [dataSource]="dataSource" matSort>
                 <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'selectidthClass'">
-                        <button *ngIf="!readonly() && isDeviceToEdit" mat-icon-button (click)="onAddTag()" class="remove" matTooltip="{{'device.list-add' | translate}}">
+                        @if (!readonly() && isDeviceToEdit) {
+<button mat-icon-button (click)="onAddTag()" class="remove" matTooltip="{{'device.list-add' | translate}}">
                             <mat-icon>add</mat-icon>
                         </button>
+}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'selectidthClass'">
-                        <button mat-icon-button (click)="onEditRow(element)" class="remove" matTooltip="{{'device.list-edit' | translate}}"
-                            *ngIf="!readonly() && isToEdit(deviceSelected.type, element)">
+                        @if (!readonly() && isToEdit(deviceSelected.type, element)) {
+<button mat-icon-button (click)="onEditRow(element)" class="remove" matTooltip="{{'device.list-edit' | translate}}"
+                           >
                             <mat-icon>edit</mat-icon>
                         </button>
+}
                     </mat-cell>
                 </ng-container>
 
@@ -90,7 +98,9 @@
                 <ng-container matColumnDef="uns">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        <mat-icon *ngIf="element.unsPath" [matTooltip]="element.unsPath" matTooltipPosition="left">account_tree</mat-icon>
+                        @if (element.unsPath) {
+<mat-icon [matTooltip]="element.unsPath" matTooltipPosition="left">account_tree</mat-icon>
+}
                     </mat-cell>
                 </ng-container>
 
@@ -98,17 +108,25 @@
                 <ng-container matColumnDef="logger">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        <div *ngIf="element.daq">
-                            <ng-container *ngIf="element.daq.restored">
+                        @if (element.daq) {
+<div>
+                            @if (element.daq.restored) {
+
                                 <mat-icon>settings_backup_restore</mat-icon>
-                            </ng-container>
-                            <ng-container *ngIf="element.daq.enabled">
+
+}
+                            @if (element.daq.enabled) {
+
                                 <mat-icon>storage</mat-icon>
-                                <span *ngIf="element.daq.interval" style="display: inline-block;vertical-align: super;">
+                                @if (element.daq.interval) {
+<span style="display: inline-block;vertical-align: super;">
                                     {{element.daq.interval}} s
                                 </span>
-                            </ng-container>
+}
+
+}
                         </div>
+}
                     </mat-cell>
                 </ng-container>
 
@@ -116,9 +134,11 @@
                 <ng-container matColumnDef="warning">
                     <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
                     <mat-cell *matCellDef="let element" [matTooltip]="element.error ? element.error : null" matTooltipPosition="left">
-                        <button mat-icon-button *ngIf="element.error" class="warning">
+                        @if (element.error) {
+<button mat-icon-button class="warning">
                             <mat-icon>warning_amber</mat-icon>
                         </button>
+}
                     </mat-cell>
                 </ng-container>
 
@@ -130,9 +150,11 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #options="matMenu" xPosition="before">
-                            <button *ngIf="!readonly() && isWithOptions" mat-menu-item class="context-menu" (click)="onEditOptions(element)">
+                            @if (!readonly() && isWithOptions) {
+<button mat-menu-item class="context-menu" (click)="onEditOptions(element)">
                                 {{'device.list-options' | translate}}
                             </button>
+}
                             <button mat-menu-item class="context-menu" (click)="onCopyTagToClipboard(element)">
                                 {{'device.list-clipboard' | translate}}
                             </button>
@@ -143,15 +165,19 @@
                 <!-- Button remove Column -->
                 <ng-container matColumnDef="remove">
                     <mat-header-cell *matHeaderCellDef>
-                        <button *ngIf="!readonly()" mat-icon-button (click)="onRemoveAll()" class="remove" matTooltip="{{'device.list-remove-all' | translate}}">
+                        @if (!readonly()) {
+<button mat-icon-button (click)="onRemoveAll()" class="remove" matTooltip="{{'device.list-remove-all' | translate}}">
                             <mat-icon>clear</mat-icon>
                         </button>
+}
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        <button *ngIf="!readonly()" mat-icon-button (click)="$event.stopPropagation();onRemoveRow(element)" class="remove"
+                        @if (!readonly()) {
+<button mat-icon-button (click)="$event.stopPropagation();onRemoveRow(element)" class="remove"
                             matTooltip="{{'device.list-remove' | translate}}">
                             <mat-icon>clear</mat-icon>
                         </button>
+}
                     </mat-cell>
                 </ng-container>
 

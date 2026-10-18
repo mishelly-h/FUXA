@@ -4,11 +4,14 @@
 </div>
 <div class="work-panel">
     <div class="container">
-        <div *ngIf="loading" class="loading-spinner">
+        @if (loading) {
+<div class="loading-spinner">
             <mat-spinner diameter="40"></mat-spinner>
         </div>
+}
 
-        <mat-table #table [dataSource]="dataSource" matSort class="mat-table" *ngIf="!loading">
+        @if (!loading) {
+<mat-table #table [dataSource]="dataSource" matSort class="mat-table">
             <!-- Edit Column -->
             <ng-container matColumnDef="select">
                 <mat-header-cell *matHeaderCellDef [ngClass]="'selectidthClass'">
@@ -88,11 +91,14 @@
             <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row"></mat-row>
         </mat-table>
+}
 
-        <div *ngIf="!loading && dataSource.data.length === 0" class="empty-state">
+        @if (!loading && dataSource.data.length === 0) {
+<div class="empty-state">
             <mat-icon>menu_book</mat-icon>
             <p>{{'recipes.no-recipes' | translate}}</p>
         </div>
+}
     </div>
     <input #fileInput type="file" accept=".json,.csv" (change)="onImportRecipe($event)" style="display:none" />
 </div>
