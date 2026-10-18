@@ -1,20 +1,21 @@
-import { Directive, Input, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 import { MatTooltip as MatTooltip } from '@angular/material/tooltip';
 
 @Directive({
     selector: '[jsonTooltip]',
-    providers: [MatTooltip],
-    standalone: false
+    providers: [MatTooltip]
 })
 export class JsonTooltipDirective {
-  @Input('jsonTooltip') tooltipData: any;
+  private tooltip = inject(MatTooltip);
+  private elementRef = inject(ElementRef);
 
-  constructor(private tooltip: MatTooltip, private elementRef: ElementRef) { }
+  readonly tooltipData = input<any>(undefined, { alias: "jsonTooltip" });
 
   @HostListener('mouseenter')
   onMouseEnter(): void {
-    if (this.tooltipData) {
-      this.tooltip.message = this.getObjectString(this.tooltipData);
+    const tooltipData = this.tooltipData();
+    if (tooltipData) {
+      this.tooltip.message = this.getObjectString(tooltipData);
       this.tooltip.show();
     }
   }

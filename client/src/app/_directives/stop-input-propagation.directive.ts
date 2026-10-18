@@ -1,12 +1,9 @@
-import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+import { AfterViewInit, Directive, ElementRef, inject } from '@angular/core';
 
-@Directive({
-    selector: '[stopInputPropagation]',
-    standalone: false
-})
+@Directive({ selector: '[stopInputPropagation]' })
 export class StopInputPropagationDirective implements AfterViewInit  {
+  private elementRef = inject(ElementRef);
 
-  constructor(private elementRef: ElementRef) { }
 
   ngAfterViewInit() {
     const container = this.elementRef.nativeElement;

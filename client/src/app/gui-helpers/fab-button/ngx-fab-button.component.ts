@@ -1,17 +1,7 @@
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { NgxFabItemButtonComponent } from './ngx-fab-item-button.component';
-import {
-    Component,
-    Input,
-    ContentChildren,
-    ElementRef,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    AfterContentInit,
-    OnDestroy,
-    Output,
-    OnChanges
-} from '@angular/core';
+import { Component, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, AfterContentInit, OnDestroy, Output, OnChanges, inject, input, contentChildren } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -73,46 +63,56 @@ import {
   `],
     template: `
     <div class="fab-menu" [class.active]="(state | async).display">
-        <a class="fab-toggle" (click)="toggle()" (touchend)="toggle()" [style.backgroundColor]="color">
-          <i class="material-icons" *ngIf="!opened"> {{icon}} </i>
-          <i class="material-icons" *ngIf="opened"> {{iconOpen}} </i>
+        <a class="fab-toggle" (click)="toggle()" (touchend)="toggle()" [style.backgroundColor]="color()">
+          @if (!opened) {
+<i class="material-icons"> {{icon()}} </i>
+}
+          @if (opened) {
+<i class="material-icons"> {{iconOpen()}} </i>
+}
         </a>
-        <ng-content></ng-content>
+        <ng-content />
     </div>
   `,
-    standalone: false
+    imports: [AsyncPipe]
 })
 
 export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnChanges {
+    private element = inject(ElementRef);
+    private cd = inject(ChangeDetectorRef);
+
     private elementref: HTMLElement;
     private subs: Subscription[] = [];
     public state: BehaviorSubject<any>;
 
-    @Input() icon: string;
-    @Input() iconOpen: string;
-    @Input() direction: string;
-    @Input() spaceBetweenButtons = 45;
-    @Input() open: Subject<boolean>;
-    @Input() color = '#dd0031';
-    @Input() disabled = false;
+    readonly icon = input<string>(undefined);
+    readonly iconOpen = input<string>(undefined);
+    readonly direction = input<string>(undefined);
+    readonly spaceBetweenButtons = input(45);
+    readonly open = input<Subject<boolean>>(undefined);
+    readonly color = input('#dd0031');
+    readonly disabled = input(false);
     @Output() events: Subject<any> = new Subject();
     @Output() opened = false;
-    @ContentChildren(NgxFabItemButtonComponent) buttons;
+    readonly buttons = contentChildren(NgxFabItemButtonComponent);
 
-    constructor(private element: ElementRef, private cd: ChangeDetectorRef) {
+    constructor() {
+        const element = this.element;
+
         this.elementref = element.nativeElement;
 
         this.state = new BehaviorSubject({
             display: false,
             direction: 'top',
             event: 'start',
-            spaceBetweenButtons: this.spaceBetweenButtons
+            spaceBetweenButtons: this.spaceBetweenButtons()
         });
     }
 
     public toggle() {
-        if (this.disabled) {
-            return this.disabled;
+        const disabled = this.disabled();
+        if (disabled) {
+            return disabled;
         }
         this.state.next({
             ...this.state.getValue(),
@@ -124,25 +124,28 @@ export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnCha
 
     // only top and bottom support content element
     private checkDirectionType() {
-        if (this.buttons.toArray()) {
+        const buttons = this.buttons();
+        if (buttons) {
             let display = 'block';
 
-            if (this.direction === 'right' || this.direction === 'left') {
+            const direction = this.direction();
+            if (direction === 'right' || direction === 'left') {
                 display = 'none';
             }
 
-            this.buttons.toArray().forEach(element => {
-                element.contentref.nativeElement.style.display = display;
+            buttons.forEach(element => {
+                element.contentref().nativeElement.style.display = display;
             });
         }
     }
 
     // transition
     private animateButtons(eventType) {
-        this.buttons.toArray().forEach((btn, i) => {
+        this.buttons().forEach((btn, i) => {
             i += 1;
-            if (btn.elementref) {
-                const style = btn.elementref.nativeElement.style;
+            const elementref = btn.elementref();
+            if (elementref) {
+                const style = elementref.nativeElement.style;
 
                 if (eventType !== 'directionChanged' && this.state.getValue().display) {
                     style['transform'] = 'scale(1)';
@@ -172,7 +175,7 @@ export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnCha
 
         let animation;
 
-        switch (this.direction) {
+        switch (this.direction()) {
             case 'right':
                 animation = `translate3d(${this.state.getValue().spaceBetweenButtons * i}px,0,0)`;
                 break;
@@ -191,7 +194,7 @@ export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnCha
     }
 
     ngAfterContentInit() {
-        if (this.direction) {
+        if (this.direction()) {
             // first time to check
             this.checkDirectionType();
         }
@@ -221,7 +224,7 @@ export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnCha
         }
 
         if (changes.open && changes.open.currentValue) {
-            const sub = this.open.subscribe(v => {
+            const sub = this.open().subscribe(v => {
                 if (v !== this.state.getValue().display) {
                     this.state.next({
                         ...this.state.getValue(),

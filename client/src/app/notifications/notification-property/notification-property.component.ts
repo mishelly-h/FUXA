@@ -1,21 +1,36 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
 import { AlarmsType } from '../../_models/alarm';
 import { Notification, NotificationMode, NotificationsType, NOTIFY_PREFIX } from '../../_models/notification';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Utils } from '../../_helpers/utils';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ProjectService } from '../../_services/project.service';
 import { APP_LANGUAGES } from '../../_models/language';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../_directives/number.directive';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-notification-property',
     templateUrl: './notification-property.component.html',
     styleUrls: ['./notification-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, NumberOnlyDirective, MatSlideToggle, MatCheckbox, MatDialogActions, MatButton, TranslatePipe]
 })
 export class NotificationPropertyComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<NotificationPropertyComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    data = inject<NotificationPropertyData>(MAT_DIALOG_DATA);
+
 
     notificationLanguages = APP_LANGUAGES;
 
@@ -30,11 +45,7 @@ export class NotificationPropertyComponent implements OnInit {
     notificationModeAll = NotificationMode.all;
     notificationModeSingle = NotificationMode.single;
 
-    constructor(public dialogRef: MatDialogRef<NotificationPropertyComponent>,
-        private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        @Inject(MAT_DIALOG_DATA) public data: NotificationPropertyData) {
+    constructor() {
             this.notification = this.data.notification ?? new Notification(Utils.getGUID(NOTIFY_PREFIX));
     }
 

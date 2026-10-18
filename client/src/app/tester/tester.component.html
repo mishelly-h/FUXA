@@ -1,4 +1,5 @@
-<div class="tester-panel" *ngIf="show" ngDraggable>
+@if (show) {
+<div class="tester-panel" ngDraggable>
     <style>
         pre {
             white-space: pre-line;
@@ -17,7 +18,8 @@
             <div class="_svg-property" mat-dialog-actions>
             </div>
             <br>
-            <div *ngFor="let item of items">
+            @for (item of items; track item) {
+<div>
                 <div class="svg-property">
                     <span>{{item.source}} - {{item.name}} :</span>
                     <input id="item.name" [(ngModel)]="item.value" type="text" class="no-spinners" />
@@ -26,11 +28,15 @@
                     </button>
                 </div>
             </div>
+}
         </div>
         <div class="tester-output">
-            <span *ngFor="let item of output; index as i" class="output-item">
+            @for (item of output; track item; let i = $index) {
+<span class="output-item">
                 {{item}}
             </span>
+}
         </div>
     </div>
 </div>
+}

@@ -24,20 +24,24 @@
                         </mat-select>
                     </div>
                     <div class="section-inline-margin2"></div>
-                    <ng-container *ngIf="tableTypeCtrl.value === tableType.history">
+                    @if (tableTypeCtrl.value === tableType.history) {
+
                         <div class="my-form-field inbk data-range">
                             <span>{{'table.property-date-last-range' | translate}}</span>
                             <mat-select [(value)]="options.lastRange" (selectionChange)="onTableChanged()">
-                                <mat-option *ngFor="let ev of lastRangeType | enumToArray" [value]="ev.key">
+                                @for (ev of lastRangeType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                                     {{ ev.value }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                         <div class="my-form-field inbk tac data-realtime">
                             <span>{{'table.property-type-with-realtime' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.realtime" (change)="onTableChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.realtime" (change)="onTableChanged()" />
                         </div>
-                    </ng-container>
+
+}
                 </div>
                 <div class="element-property-header">
                     <span>{{'table.property-header' | translate}}</span>
@@ -130,32 +134,35 @@
                     <div class="section-inline-margin"></div>
                     <div class="my-form-field section-inline-toggle slider-field">
                         <span>{{'table.property-header' | translate}}</span>
-                        <mat-slide-toggle color="primary" [(ngModel)]="options.header.show" (change)="onTableChanged()"></mat-slide-toggle>
+                        <mat-slide-toggle color="primary" [(ngModel)]="options.header.show" (change)="onTableChanged()" />
                     </div>
-                    <div *ngIf="tableTypeCtrl.value === tableType.history || tableTypeCtrl.value === tableType.alarmsHistory" style="display: inline-block;">
+                    @if (tableTypeCtrl.value === tableType.history || tableTypeCtrl.value === tableType.alarmsHistory) {
+<div style="display: inline-block;">
                         <div class="section-inline-margin2"></div>
                         <div class="my-form-field section-inline-toggle slider-field">
                             <span>{{'table.property-filter' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.filter.show" (change)="onTableChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.filter.show" (change)="onTableChanged()" />
                         </div>
                         <div class="section-inline-margin2"></div>
                         <div class="my-form-field section-inline-toggle slider-field">
                             <span>{{'table.property-paginator' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.paginator.show" (change)="onTableChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.paginator.show" (change)="onTableChanged()" />
                         </div>
                         <div class="section-inline-margin2"></div>
                         <div class="my-form-field section-inline-toggle slider-field">
                             <span>{{'table.property-daterange' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.daterange.show" (change)="onTableChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.daterange.show" (change)="onTableChanged()" />
                         </div>
                     </div>
+}
                 </div>
                 <div class="section-newline">&nbsp;</div>
                 <div style="position: relative">
                     <mat-tab-group class="tab-columns-rows" #grptabs>
                         <mat-tab label="{{'table.property-cols' | translate}}">
                             <div class="section-newline">&nbsp;</div>
-                            <div *ngFor="let column of getColumns(); index as x" class="cell-item column-item">
+                            @for (column of getColumns(); track column; let x = $index) {
+<div class="cell-item column-item">
                                 <div class="my-form-field section-inline">
                                     <span>{{'table.property-column-name' | translate}}</span>
                                     <input [(ngModel)]="column.label" type="text" [disabled]="true">
@@ -180,6 +187,7 @@
                                     </div>
                                 </div>
                             </div>
+}
                         </mat-tab>
                         <!-- <mat-tab *ngIf="tableTypeCtrl.value === tableType.data" label="{{'table.property-rows' | translate}}">
                             <div class="section-newline">&nbsp;</div>
@@ -215,22 +223,27 @@
                     </button>
                 </div>
                 <div class="events-section">
-                    <div *ngFor="let item of property?.events; index as i" class="event-item">
+                    @for (item of property?.events; track item; let i = $index) {
+<div class="event-item">
                         <div class="block">
                             <div class="my-form-field inbk mr10 event-type">
                                 <span>{{'gauges.property-event-type' | translate}}</span>
                                 <mat-select [(value)]="item.type" (selectionChange)="onTableChanged()">
-                                    <mat-option *ngFor="let evType of eventType" [value]="evType">
+                                    @for (evType of eventType; track evType) {
+<mat-option [value]="evType">
                                         {{ 'shapes.event-' + evType | translate }}
                                     </mat-option>
+}
                                 </mat-select>
                             </div>
                             <div class="my-form-field inbk ml10 event-action">
                                 <span>{{'gauges.property-event-action' | translate}}</span>
                                 <mat-select [(value)]="item.action" (change)="item.actparam = '';" (selectionChange)="item.actparam = ''; onTableChanged()">
-                                    <mat-option *ngFor="let type of selectActionType | enumToArray" [value]="type.key">
+                                    @for (type of selectActionType | enumToArray; track type) {
+<mat-option [value]="type.key">
                                         {{ type.value }}
                                     </mat-option>
+}
                                 </mat-select>
                             </div>
                             <div class="item-remove inbk event-remove">
@@ -239,15 +252,20 @@
                                 </button>
                             </div>
                         </div>
-                        <div [ngSwitch]="item.action" class="mt5 event-action-ext">
-                            <div *ngSwitchCase="actionRunScript" class="block event-script">
+                        <div class="mt5 event-action-ext">
+@switch (item.action) {
+                            @case (actionRunScript) {
+<div class="block event-script">
                                 <div class="my-form-field inbk script-selection">
                                     <span>{{'gauges.property-event-script' | translate}}</span>
                                     <mat-select [(value)]="item.actparam" (selectionChange)="onScriptChanged($event.value, item)">
-                                        <mat-option *ngFor="let script of scripts$ | async; index as i" [value]="script.id">{{script.name}}</mat-option>
+                                        @for (script of scripts$ | async; track script; let i = $index) {
+<mat-option [value]="script.id">{{script.name}}</mat-option>
+}
                                     </mat-select>
                                 </div>
-                                <div *ngFor="let scriptParam of item.actoptions['params']; index as i" class="block mt5">
+                                @for (scriptParam of item.actoptions['params']; track scriptParam; let i = $index) {
+<div class="block mt5">
                                     <div class="my-form-field inbk event-script-param">
                                         <span>{{'gauges.property-event-script-param-name' | translate}}</span>
                                         <input [(ngModel)]="scriptParam.name"
@@ -257,22 +275,29 @@
                                                 matTooltip="{{scriptParam.name}}"
                                                 [disabled]="true">
                                     </div>
-                                    <div class="my-form-field inbk event-script-value" *ngIf="scriptParam.type === 'value'">
+                                    @if (scriptParam.type === 'value') {
+<div class="my-form-field inbk event-script-value">
                                         <span>{{'gauges.property-event-script-param-value' | translate}}</span>
                                         <input [(ngModel)]="scriptParam.value"
                                                 (change)="onTableChanged()"
                                                 type="text">
                                     </div>
-                                    <div class="my-form-field inbk event-script-tag" *ngIf="scriptParam.type === 'tagid'">
+}
+                                    @if (scriptParam.type === 'tagid') {
+<div class="my-form-field inbk event-script-tag">
                                         <app-flex-device-tag class="block mt5 item-device-tag"
                                                             (onchange)="onTableChanged()"
-                                                            [variableId]="scriptParam.value">
-                                        </app-flex-device-tag>
+                                                            [variableId]="scriptParam.value" />
                                     </div>
+}
                                 </div>
+}
                             </div>
-                        </div>
+}
+                        }
+</div>
                     </div>
+}
                 </div>
             </mat-tab>
         </mat-tab-group>

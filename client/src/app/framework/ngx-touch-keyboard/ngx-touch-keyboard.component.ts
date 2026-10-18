@@ -1,19 +1,12 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Inject,
-  LOCALE_ID,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, LOCALE_ID, ViewEncapsulation, inject, output as output_1, forwardRef } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { fnButton } from './Locale/constants';
 import { Locale } from './Locale/type';
 import * as Locales from './Locale';
+import { Dir } from '@angular/cdk/bidi';
+import { NgClass } from '@angular/common';
+
 
 @Component({
     selector: 'ngx-touch-keyboard',
@@ -21,30 +14,25 @@ import * as Locales from './Locale';
     styleUrls: ['./ngx-touch-keyboard.component.scss'],
     encapsulation: ViewEncapsulation.None,
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [Dir, NgClass, forwardRef(() => NgxTouchKeyboardComponent)]
 })
 export class NgxTouchKeyboardComponent {
+  private _sanitizer = inject(DomSanitizer);
+  private _elementRef = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private _defaultLocale = inject(LOCALE_ID);
+
   locale: Locale = Locales.enUS;
   layoutMode = 'text';
   layoutName = 'alphabetic';
   debug = false;
   fullScreen = false;
 
-  @Output() closePanel = new EventEmitter<void>();
+  readonly closePanel = output_1<void>();
 
   private _activeButtonClass = 'active';
   private _caretPosition: number | null = null;
   private _caretPositionEnd: number | null = null;
   private _activeInputElement!: HTMLInputElement | HTMLTextAreaElement | null;
-
-  /**
-   * Constructor
-   */
-  constructor(
-    private _sanitizer: DomSanitizer,
-    private _elementRef: ElementRef<HTMLInputElement>,
-    @Inject(LOCALE_ID) private _defaultLocale: string
-  ) {}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Decorated methods

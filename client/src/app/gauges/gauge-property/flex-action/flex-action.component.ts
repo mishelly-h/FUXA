@@ -1,21 +1,32 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from '../../../_helpers/utils';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { Utils, EnumToArrayPipe } from '../../../_helpers/utils';
 
 import { GaugeProperty, GaugeAction, GaugeRangeProperty, GaugeActionsType, GaugeActionBlink, GaugeActionRotate, GaugeActionMove, GaugeActionMoveByTags, GaugeActionLoadImage } from '../../../_models/hmi';
+import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
+import { RangeNumberComponent } from '../../../gui-helpers/range-number/range-number.component';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
 
 @Component({
     selector: 'flex-action',
     templateUrl: './flex-action.component.html',
     styleUrls: ['./flex-action.component.css'],
-    standalone: false
+    imports: [FlexVariableComponent, RangeNumberComponent, MatSelect, MatOption, MatIconButton, MatIcon, ColorPickerDirective, FormsModule, NumberOnlyDirective, TranslatePipe, EnumToArrayPipe]
 })
 export class FlexActionComponent implements OnInit {
+    private translateService = inject(TranslateService);
 
-    @Input() data: any;
-    @Input() property: GaugeProperty;
-    @Input() withBitmask = false;
+
+    readonly data = input<any>(undefined);
+    readonly property = input<GaugeProperty>(undefined);
+    readonly withBitmask = input(false);
 
     actions: GaugeAction[];
     actionsSupported: any;
@@ -28,11 +39,10 @@ export class FlexActionComponent implements OnInit {
     slideView = true;
     defaultColor = Utils.defaultColor;
 
-    constructor(private translateService: TranslateService) { }
-
     ngOnInit() {
-        if (this.property) {
-            this.actions = this.property.actions;
+        const property = this.property();
+        if (property) {
+            this.actions = property.actions;
         }
         this.actions?.forEach(act => {
             if (this.isMoveByTags(act)) {
@@ -42,8 +52,9 @@ export class FlexActionComponent implements OnInit {
         if (!this.actions || this.actions.length <= 0) {
             this.onAddAction();
         }
-        if (this.data.withActions) {
-			this.actionsSupported = this.data.withActions;
+        const data = this.data();
+        if (data.withActions) {
+			this.actionsSupported = data.withActions;
 			Object.keys(this.actionsSupported).forEach(key => {
 				this.translateService.get(this.actionsSupported[key]).subscribe((txt: string) => { this.actionsSupported[key] = txt; });
 			});

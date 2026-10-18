@@ -1,29 +1,41 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Renderer2, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Renderer2, inject, input, viewChildren, output } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { GaugesManager } from '../gauges/gauges.component';
 import { Hmi, View, CardWidget, CardWidgetType, ViewType } from '../_models/hmi';
-import { GridsterConfig, GridsterItem, GridsterItemConfig, GridType, CompactType } from 'angular-gridster2';
+import { GridsterConfig, GridsterItem, GridsterItemConfig, GridType, CompactType, Gridster } from 'angular-gridster2';
 import { Utils } from '../_helpers/utils';
 import { FuxaViewComponent } from '../fuxa-view/fuxa-view.component';
 import { ProjectService } from '../_services/project.service';
+import { MapsViewComponent } from '../maps/maps-view/maps-view.component';
+import { AlarmViewComponent } from '../alarms/alarm-view/alarm-view.component';
+import { IframeComponent } from '../iframe/iframe.component';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../_directives/number.directive';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-cards-view',
     templateUrl: './cards-view.component.html',
     styleUrls: ['./cards-view.component.scss'],
-    standalone: false
+    imports: [Gridster, GridsterItem, MapsViewComponent, FuxaViewComponent, AlarmViewComponent, IframeComponent, FormsModule, NumberOnlyDirective, MatIconButton, MatIcon, TranslatePipe]
 })
 export class CardsViewComponent implements OnInit, AfterViewInit {
+    private renderer = inject(Renderer2);
+    private changeDetector = inject(ChangeDetectorRef);
+    private projectService = inject(ProjectService);
 
-    @Input() options: GridsterConfig;
-    @Input() edit = true;
+
+    readonly options = input<GridsterConfig>(undefined);
+    readonly edit = input(true);
     @Input() view: View;
-    @Input() hmi: Hmi;
-    @Input() gaugesManager: GaugesManager;        // gauges.component
-    @Output() editCard: EventEmitter<CardWidget> = new EventEmitter();
-    @Output() onGoTo: EventEmitter<string> = new EventEmitter<string>();
-    @ViewChildren(FuxaViewComponent) fuxaViews!: QueryList<FuxaViewComponent>;
+    readonly hmi = input<Hmi>(undefined);
+    readonly gaugesManager = input<GaugesManager>(undefined);        // gauges.component
+    readonly editCard = output<CardWidget>();
+    readonly onGoTo = output<string>();
+    readonly fuxaViews = viewChildren(FuxaViewComponent);
 
     gridOptions: GridsterConfig;
     dashboard: Array<GridsterItemConfig> = [];
@@ -31,16 +43,14 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
     mapsViewType = ViewType.maps;
     private loadOk = false;
 
-    constructor(private renderer: Renderer2,
-                private changeDetector: ChangeDetectorRef,
-                private projectService: ProjectService) {
+    constructor() {
         this.gridOptions = <GridsterConfig> new GridOptions();
         this.gridOptions.itemChangeCallback = this.itemChange;
         this.gridOptions.itemResizeCallback = CardsViewComponent.itemResizeTrigger;
     }
 
     ngOnInit() {
-        this.gridOptions = { ...this.gridOptions, ...this.options };
+        this.gridOptions = { ...this.gridOptions, ...this.options() };
     }
 
     ngAfterViewInit() {
@@ -56,7 +66,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
             if (this.view.profile.bkcolor) {
                 element.style.backgroundColor = this.view.profile.bkcolor;
             }
-            if (!this.edit) {
+            if (!this.edit()) {
                 this.renderer.setStyle(element?.parentElement, 'width', `100vw`);
             }
         }
@@ -104,8 +114,9 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
             if (card) {
                 if (card.type === this.cardType.view) {
                     let view = await this.projectService.ensureViewLoadedByName(card.data);
-                    if (!view && this.hmi?.views) {
-                        view = this.hmi.views.find((v) => v.name === card.data);
+                    const hmi = this.hmi();
+                    if (!view && hmi?.views) {
+                        view = hmi.views.find((v) => v.name === card.data);
                     }
                     if (view) {
                         if (view.svgcontent) {
@@ -152,7 +163,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
     }
 
     getFuxaView(index: number) {
-        return this.fuxaViews?.toArray()[index];
+        return this.fuxaViews[index];
     }
 
     private itemChange(item, itemComponent) {

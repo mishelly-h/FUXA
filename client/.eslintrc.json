@@ -20,8 +20,6 @@
             "rules": {
                 "max-len": "off",
                 "@angular-eslint/no-output-on-prefix": "off",
-                "@angular-eslint/prefer-inject": "off",
-                "@angular-eslint/prefer-standalone": "off",
                 "@typescript-eslint/member-ordering": "off",
                 "@typescript-eslint/member-delimiter-style": "off",
                 "@angular-eslint/no-input-rename": "off",
@@ -55,10 +53,7 @@
             ],
             "extends": [
                 "plugin:@angular-eslint/template/recommended"
-            ],
-            "rules": {
-                "@angular-eslint/template/prefer-control-flow": "off"
-            }
+            ]
         }
     ]
 }

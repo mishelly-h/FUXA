@@ -1,9 +1,9 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
-import { TranslateService } from '@ngx-translate/core';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subscription, concatMap, timer } from 'rxjs';
 import { Utils } from '../../_helpers/utils';
 import { Report, ReportSchedulingType, REPORT_PREFIX } from '../../_models/report';
@@ -13,6 +13,9 @@ import { ReportEditorComponent, ReportEditorData } from '../report-editor/report
 import * as FileSaver from 'file-saver';
 import { ReportsService } from '../../_services/reports.service';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-report-list',
@@ -25,9 +28,15 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/con
             transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
         ]),
     ],
-    standalone: false
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatIconButton, MatCellDef, MatCell, MatSortHeader, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFabButton, TranslatePipe]
 })
 export class ReportListComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private commandService = inject(CommandService);
+    private reportsService = inject(ReportsService);
+
 
     displayedColumns = ['select', 'name', 'receiver', 'scheduling', 'type', 'expand', 'create', 'remove'];
     dataSource = new MatTableDataSource([]);
@@ -37,14 +46,8 @@ export class ReportListComponent implements OnInit, AfterViewInit, OnDestroy {
     expandedElement: Report | null;
     currentDetails: string[];
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(public dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private commandService: CommandService,
-        private reportsService: ReportsService) { }
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadReports();
@@ -58,7 +61,7 @@ export class ReportListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

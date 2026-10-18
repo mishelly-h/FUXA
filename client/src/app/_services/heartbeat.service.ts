@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ResourceStorageService } from './rcgi/resource-storage.service';
 import { RcgiService } from './rcgi/rcgi.service';
 import { Subscription, interval } from 'rxjs';
@@ -10,16 +10,18 @@ import { Router } from '@angular/router';
 	providedIn: 'root'
 })
 export class HeartbeatService {
+	private authService = inject(AuthService);
+	private router = inject(Router);
+	private rcgiService = inject(RcgiService);
+
 
 	private heartbeatInterval = 5 * 60 * 1000;
 	private server: ResourceStorageService;
 	private heartbeatSubscription: Subscription;
 	private activity = false;
-	constructor(
-		private authService: AuthService,
-		private router: Router,
-		private rcgiService: RcgiService
-	) {
+	constructor() {
+		const rcgiService = this.rcgiService;
+
 		this.server = rcgiService.rcgi;
 	}
 

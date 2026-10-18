@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProjectService } from './project.service';
 import { Language, LANGUAGE_TEXT_KEY_PREFIX, Languages, LanguageText } from '../_models/language';
 import { BehaviorSubject } from 'rxjs';
@@ -9,16 +9,16 @@ import { AuthService } from './auth.service';
     providedIn: 'root'
 })
 export class LanguageService {
+    projectService = inject(ProjectService);
+    private authService = inject(AuthService);
+
     localStorageItem = 'currentLanguage';
     languages: Languages;
     languageConfig: LanguageConfiguration;
     languageConfig$ = new BehaviorSubject<LanguageConfiguration>(null);
     texts: { [id: string]: LanguageText } = {};
 
-    constructor(
-        public projectService: ProjectService,
-        private authService: AuthService
-    ) {
+    constructor() {
         this.projectService.onLoadHmi.subscribe(() => {
             let storageLanguage = this.getStorageLanguage();
             this.languages = this.projectService.getLanguages();

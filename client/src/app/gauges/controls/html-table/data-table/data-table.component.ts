@@ -1,12 +1,12 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
-import { MatRow as MatRow, MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
+import { MatRow as MatRow, MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatHeaderRow, MatRowDef } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatMenuTrigger as MatMenuTrigger } from '@angular/material/menu';
-import { MatSort } from '@angular/material/sort';
-import { Utils } from '../../../../_helpers/utils';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { Utils, EnumToArrayPipe } from '../../../../_helpers/utils';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { DaterangeDialogComponent } from '../../../../gui-helpers/daterange-dialog/daterange-dialog.component';
 import { IDateRange, DaqQuery, TableType, TableOptions, TableColumn, TableCellType, TableCell, TableRangeType, TableCellAlignType, GaugeEvent, GaugeEventType, TableFilter } from '../../../../_models/hmi';
@@ -25,20 +25,36 @@ import * as FileSaver from 'file-saver';
 import { CommandService } from '../../../../_services/command.service';
 import { LanguageService } from '../../../../_services/language.service';
 import { GaugeBaseComponent } from '../../../gauge-base/gauge-base.component';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { NgStyle, NgClass } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 declare const numeral: any;
 @Component({
     selector: 'app-data-table',
     templateUrl: './data-table.component.html',
     styleUrls: ['./data-table.component.scss'],
-    standalone: false
+    imports: [MatSelect, MatOption, MatButton, MatIcon, MatPaginator, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatSortHeader, MatCellDef, NgStyle, MatIconButton, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, NgClass, MatProgressSpinner, TranslatePipe, EnumToArrayPipe]
 })
 export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
+    private dataService = inject(DataConverterService);
+    private projectService = inject(ProjectService);
+    private hmiService = inject(HmiService);
+    private scriptService = inject(ScriptService);
+    private reportsService = inject(ReportsService);
+    private languageService = inject(LanguageService);
+    private commandService = inject(CommandService);
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
 
-    @ViewChild(MatTable, { static: false }) table: MatTable<any>;
-    @ViewChild(MatSort, { static: false }) sort: MatSort;
-    @ViewChild(MatMenuTrigger, { static: false }) trigger: MatMenuTrigger;
-    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly trigger = viewChild(MatMenuTrigger);
+    readonly paginator = viewChild(MatPaginator);
     onTimeRange$ = new BehaviorSubject<DaqQuery>(null);
 
     rxjsPollingTimer: Observable<number>;
@@ -77,17 +93,6 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
     dataFilter: TableFilter | AlarmsFilter | ReportsFilter;
     private lastRenderedSignature = '';
 
-    constructor(
-        private dataService: DataConverterService,
-        private projectService: ProjectService,
-        private hmiService: HmiService,
-        private scriptService: ScriptService,
-        private reportsService: ReportsService,
-        private languageService: LanguageService,
-        private commandService: CommandService,
-        public dialog: MatDialog,
-        private translateService: TranslateService) { }
-
     ngOnInit() {
         this.dataSource.data = this.data;
         Object.keys(this.lastRangeType).forEach(key => {
@@ -116,7 +121,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
     ngAfterViewInit() {
-        this.sort.disabled = this.type === TableType.data;
+        this.sort().disabled = this.type === TableType.data;
         this.bindTableControls();
     }
 
@@ -538,9 +543,9 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private bindTableControls(): void {
         if (this.type === TableType.history && this.tableOptions.paginator.show) {
-            this.dataSource.paginator = this.paginator;
+            this.dataSource.paginator = this.paginator();
         }
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
         this.dataSource.sortingDataAccessor = (data, sortHeaderId) => data[sortHeaderId].stringValue;
     }
 

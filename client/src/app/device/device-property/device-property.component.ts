@@ -1,25 +1,46 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatExpansionPanel } from '@angular/material/expansion';
+import { Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogContent, MatDialogTitle, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle } from '@angular/material/expansion';
 import { Subscription, delay } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { EndPointSettings, HmiService } from '../../_services/hmi.service';
 import { AppService } from '../../_services/app.service';
 import { ProjectService } from '../../_services/project.service';
 import { DeviceType, DeviceSecurity, MessageSecurityMode, SecurityPolicy, ModbusOptionType, ModbusReuseModeType, RedisReadModeType, RedisOptions } from './../../_models/device';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatRadioGroup, MatRadioButton } from '@angular/material/radio';
+import { MatSuffix } from '@angular/material/input';
+import { NumberOnlyDirective } from '../../_directives/number.directive';
+import { FileUploadComponent } from '../../framework/file-upload/file-upload.component';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { EnumToArrayPipe } from '../../_helpers/utils';
 
 @Component({
     selector: 'app-device-property',
     templateUrl: './device-property.component.html',
     styleUrls: ['./device-property.component.scss'],
-    standalone: false
+    imports: [CdkScrollable, MatDialogContent, MatDialogTitle, DialogDraggableDirective, MatIcon, FormsModule, MatSelect, MatOption, MatTooltip, MatSlideToggle, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatProgressSpinner, MatRadioGroup, MatRadioButton, MatSuffix, NumberOnlyDirective, FileUploadComponent, MatIconButton, MatDialogActions, MatButton, MatDialogClose, TranslatePipe, EnumToArrayPipe]
 })
 export class DevicePropertyComponent implements OnInit, OnDestroy {
+	private hmiService = inject(HmiService);
+	private translateService = inject(TranslateService);
+	private appService = inject(AppService);
+	dialogRef = inject<MatDialogRef<DevicePropertyComponent>>(MatDialogRef);
+	data = inject(MAT_DIALOG_DATA);
+
 
 	// @Input() name: any;
-	@ViewChild('panelProperty', { static: false }) panelProperty: MatExpansionPanel;
-	@ViewChild('panelCertificate', { static: false }) panelCertificate: MatExpansionPanel;
+	readonly panelProperty = viewChild<MatExpansionPanel>('panelProperty');
+	readonly panelCertificate = viewChild<MatExpansionPanel>('panelCertificate');
 
 	tableRadio: any;
 	databaseTables = [];
@@ -93,12 +114,9 @@ export class DevicePropertyComponent implements OnInit, OnDestroy {
 
 	private projectService: ProjectService;
 
-	constructor(
-		private hmiService: HmiService,
-		private translateService: TranslateService,
-		private appService: AppService,
-		public dialogRef: MatDialogRef<DevicePropertyComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: any) {
+	constructor() {
+		const data = this.data;
+
 		this.projectService = data.projectService;
 	}
 
@@ -360,13 +378,13 @@ export class DevicePropertyComponent implements OnInit, OnDestroy {
 			this.security.clientId = value.clientId;
 			this.security.grant_type = value.gt;
 			if (value.uid || value.pwd || value.clientId) {
-				this.panelProperty?.open();
+				this.panelProperty()?.open();
 			}
 			this.security.certificateFileName = value.cert;
 			this.security.privateKeyFileName = value.pkey;
 			this.security.caCertificateFileName = value.caCert;
 			if (value.cert || value.pkey || value.caCert) {
-				this.panelCertificate?.open();
+				this.panelCertificate()?.open();
 			}
 		}
 	}

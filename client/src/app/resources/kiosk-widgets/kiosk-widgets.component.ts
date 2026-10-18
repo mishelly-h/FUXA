@@ -1,33 +1,42 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { KioskWidgetsService } from './kiosk-widgets.service';
 import { map, Observable } from 'rxjs';
-import { ResourceItem, Resources, ResourceType, WidgetsResource } from '../../_models/resources';
+import { ResourceItem, Resources, ResourceType, WidgetResource, WidgetsResource } from '../../_models/resources';
 import { ResourcesService } from '../../_services/resources.service';
 import { TransferResult } from '../../_services/my-file.service';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription } from '@angular/material/expansion';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatButton } from '@angular/material/button';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-kiosk-widgets',
     templateUrl: './kiosk-widgets.component.html',
     styleUrls: ['./kiosk-widgets.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription, MatProgressSpinner, MatTooltip, MatDialogActions, MatButton, AsyncPipe, TranslatePipe]
 })
 export class KioskWidgetsComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<KioskWidgetsComponent>>(MatDialogRef);
+    private resourcesService = inject(ResourcesService);
+    private toastNotifier = inject(ToastNotifierService);
+    private kioskWidgetService = inject(KioskWidgetsService);
+
 
     resourceWidgets$: Observable<WidgetsResource[]>;
-    groupContent: { [path: string]: WidgetsResource[] } = {};
+    groupContent: { [path: string]: WidgetItemType[] } = {};
     loadingGroups: { [path: string]: boolean } = {};
     existingWidgets: string[] = [];
     assetBaseUrl: string;
     changed = false;
 
-    constructor(
-        public dialogRef: MatDialogRef<KioskWidgetsComponent>,
-        private resourcesService: ResourcesService,
-        private toastNotifier: ToastNotifierService,
-        private kioskWidgetService: KioskWidgetsService,
-    ) {
+    constructor() {
         this.assetBaseUrl = this.kioskWidgetService.widgetAssetBaseUrl;
     }
 
@@ -92,6 +101,6 @@ export class KioskWidgetsComponent implements OnInit {
     }
 }
 
-interface WidgetItemType extends ResourceItem {
-    exist?: boolean;
+interface WidgetItemType extends WidgetResource {
+    exist: boolean;
 }

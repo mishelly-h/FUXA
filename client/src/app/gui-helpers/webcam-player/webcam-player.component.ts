@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, OnInit, inject, input, viewChild, output } from '@angular/core';
 import Player from 'xgplayer';
 import LivePreset from 'xgplayer/es/presets/live';
 import FlvJsPlugin from 'xgplayer-flv.js';
@@ -9,24 +9,22 @@ import { HmiService } from '../../_services/hmi.service';
 @Component({
     selector: 'app-webcam-player',
     templateUrl: './webcam-player.component.html',
-    styleUrls: ['./webcam-player.component.css'],
-    standalone: false
+    styleUrls: ['./webcam-player.component.css']
 })
 export class WebcamPlayerComponent implements OnInit {
+    private hmiService = inject(HmiService);
 
-    @ViewChild('xgplayer', {static: true}) xgplayerRef: ElementRef;
-    @Input() data: WebcamPlayerDialogData;
-    @Output() onclose = new EventEmitter();
+
+    readonly xgplayerRef = viewChild<ElementRef>('xgplayer');
+    readonly data = input<WebcamPlayerDialogData>(undefined);
+    readonly onclose = output();
     player: Player;
 
-
-    constructor(private hmiService: HmiService) {
-    }
-
     ngOnInit(): void {
-        let url = this.data.ga.property.variableValue;
-        if (this.data.ga.property.variableId){
-            let variable = this.hmiService.getMappedVariable(this.data.ga.property.variableId, false);
+        let url = this.data().ga.property.variableValue;
+        const data = this.data();
+        if (data.ga.property.variableId){
+            let variable = this.hmiService.getMappedVariable(data.ga.property.variableId, false);
             if (!Utils.isNullOrUndefined(variable?.value)) {
                 url = '' + variable.value;
             }
@@ -37,7 +35,7 @@ export class WebcamPlayerComponent implements OnInit {
             plugins.push(FlvJsPlugin);
         }
         this.player = new Player({
-            el: this.xgplayerRef.nativeElement,
+            el: this.xgplayerRef().nativeElement,
             url,
             autoplay: true,
             presets: [LivePreset],

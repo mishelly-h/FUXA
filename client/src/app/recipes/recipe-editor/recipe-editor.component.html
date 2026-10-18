@@ -65,9 +65,11 @@
                 </table>
             </div>
 
-            <div *ngIf="dataSource.data.length === 0" class="no-entries">
+            @if (dataSource.data.length === 0) {
+<div class="no-entries">
                 No entries. Click "Add Entry" to select a tag.
             </div>
+}
         </div>
     </div>
 

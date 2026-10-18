@@ -1,38 +1,44 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit, inject } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { RecipeService } from '../../_services/recipe.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ProjectService } from '../../_services/project.service';
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../device/device-tag-selection/device-tag-selection.component';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatIconButton, MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-recipe-editor',
     templateUrl: './recipe-editor.component.html',
     styleUrls: ['./recipe-editor.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatIconButton, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatDialogActions, MatButton, TranslatePipe]
 })
 export class RecipeEditorComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<RecipeEditorComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+    private fb = inject(UntypedFormBuilder);
+    private recipeService = inject(RecipeService);
+    private projectService = inject(ProjectService);
+    private dialog = inject(MatDialog);
+    private translate = inject(TranslateService);
+    private toastr = inject(ToastrService);
+
     myForm: UntypedFormGroup;
     displayedColumns: string[] = ['tagName', 'deviceName', 'tagType', 'value', 'actions'];
     dataSource = new MatTableDataSource<any>([]);
     saving = false;
     isNew: boolean;
 
-    constructor(
-        public dialogRef: MatDialogRef<RecipeEditorComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        private fb: UntypedFormBuilder,
-        private recipeService: RecipeService,
-        private projectService: ProjectService,
-        private dialog: MatDialog,
-        private translate: TranslateService,
-        private toastr: ToastrService
-    ) {
+    constructor() {
+        const data = this.data;
+
         this.isNew = data?.newRecipe !== false;
         this.myForm = this.fb.group({
             name: [data?.recipe?.name || '', Validators.required],

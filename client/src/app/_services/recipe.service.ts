@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -9,11 +9,10 @@ import { Recipe, RecipeEntry } from '../_models/recipe';
     providedIn: 'root'
 })
 export class RecipeService {
+    private http = inject(HttpClient);
+
 
     private endPointConfig: string = EndPointApi.getURL();
-
-    constructor(private http: HttpClient) {
-    }
 
     /**
      * Cache-busting param: the server sends ETags, so the browser revalidates

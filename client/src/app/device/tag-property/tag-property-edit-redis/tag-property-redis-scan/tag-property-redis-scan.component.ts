@@ -1,20 +1,34 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject, viewChild } from '@angular/core';
 import { Subject, filter, takeUntil } from 'rxjs';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { MatTableDataSource, MatTable, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
 import { HmiService } from '../../../../_services/hmi.service';
 import { Device } from '../../../../_models/device';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatInput, MatSuffix } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { DecimalPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-tag-property-redis-scan',
     templateUrl: './tag-property-redis-scan.component.html',
     styleUrls: ['./tag-property-redis-scan.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatInput, FormsModule, MatIconButton, MatSuffix, MatButton, MatProgressSpinner, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCheckbox, MatCellDef, MatCell, MatSortHeader, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, MatDialogActions, DecimalPipe, TranslatePipe]
 })
 export class TagPropertyRedisScanComponent implements OnInit, OnDestroy {
+    private hmiService = inject(HmiService);
+    private dialogRef = inject<MatDialogRef<TagPropertyRedisScanComponent>>(MatDialogRef);
+    data = inject<TagPropertyRedisScanData>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<TagPropertyRedisResult>();
     private destroy$ = new Subject<void>();
 
@@ -34,18 +48,12 @@ export class TagPropertyRedisScanComponent implements OnInit, OnDestroy {
     allFilteredSelected = false;
     someFilteredSelected = false;
 
-    @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-    @ViewChild(MatSort, { static: true }) sort!: MatSort;
-
-    constructor(
-        private hmiService: HmiService,
-        private dialogRef: MatDialogRef<TagPropertyRedisScanComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyRedisScanData
-    ) { }
+    readonly paginator = viewChild.required(MatPaginator);
+    readonly sort = viewChild.required(MatSort);
 
     ngOnInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
 
         this.dataSource.filterPredicate = (row, filter) => {
             const f = (filter || '').trim().toLowerCase();

@@ -1,24 +1,36 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, inject, input, output } from '@angular/core';
 import { GaugeAction, GaugeVideoProperty } from '../../../../_models/hmi';
-import { FlexAuthValues } from '../../../gauge-property/flex-auth/flex-auth.component';
-import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { FlexAuthValues, FlexAuthComponent } from '../../../gauge-property/flex-auth/flex-auth.component';
+import { FlexDeviceTagValueType, FlexDeviceTagComponent } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
 import { ActionPropertiesData, ActionPropertiesDialogComponent } from '../../../gauge-property/action-properties-dialog/action-properties-dialog.component';
 import { Device, DevicesUtils } from '../../../../_models/device';
 import { ProjectService } from '../../../../_services/project.service';
 import { ActionPropertyService } from '../../../gauge-property/action-properties-dialog/action-property.service';
 import { UploadFile } from '../../../../_models/project';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-video-property',
     templateUrl: './video-property.component.html',
     styleUrls: ['./video-property.component.scss'],
-    standalone: false
+    imports: [MatTabGroup, MatTab, FlexAuthComponent, FormsModule, FlexDeviceTagComponent, MatIconButton, MatIcon, MatSelect, MatSlideToggle, MatTooltip, TranslatePipe]
 })
 export class VideoPropertyComponent implements OnInit {
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private actionPropertyService = inject(ActionPropertyService);
 
-    @Input() data: any;
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+
+    readonly data = input<any>(undefined);
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }
@@ -27,19 +39,13 @@ export class VideoPropertyComponent implements OnInit {
     name: string;
     devices: Device[] = [];
 
-    constructor(
-        private dialog: MatDialog,
-        private projectService: ProjectService,
-        private actionPropertyService: ActionPropertyService) {
-        }
-
     ngOnInit() {
         this.initFromInput();
     }
 
     initFromInput() {
-        this.name = this.data.settings.name;
-        this.property = <GaugeVideoProperty>this.data.settings.property || new GaugeVideoProperty();
+        this.name = this.data().settings.name;
+        this.property = <GaugeVideoProperty>this.data().settings.property || new GaugeVideoProperty();
         this.devices = this.projectService.getDeviceList();
     }
 
@@ -51,14 +57,16 @@ export class VideoPropertyComponent implements OnInit {
     }
 
     onVideoChanged() {
-        this.data.settings.name = this.name;
-        this.data.settings.property = this.property;
-        this.onPropChanged.emit(this.data.settings);
+        const data = this.data();
+        data.settings.name = this.name;
+        data.settings.property = this.property;
+        this.onPropChanged.emit(data.settings);
     }
 
     onTagChanged(daveiceTag: FlexDeviceTagValueType) {
-        this.data.settings.property.variableId = daveiceTag.variableId;
-        this.onPropChanged.emit(this.data.settings);
+        const data = this.data();
+        data.settings.property.variableId = daveiceTag.variableId;
+        this.onPropChanged.emit(data.settings);
     }
 
     getActionTag(action: GaugeAction) {
@@ -73,7 +81,7 @@ export class VideoPropertyComponent implements OnInit {
         let dialogRef = this.dialog.open(ActionPropertiesDialogComponent, {
             disableClose: true,
             data: <ActionPropertiesData>{
-                withActions: this.data.withActions,
+                withActions: this.data().withActions,
                 property: JSON.parse(JSON.stringify(this.property))
             },
             position: { top: '60px' }
@@ -127,7 +135,7 @@ export class VideoPropertyComponent implements OnInit {
     }
 
     private _reload() {
-        this.property = this.data?.settings?.property;
+        this.property = this.data()?.settings?.property;
         this.initFromInput();
     }
 }

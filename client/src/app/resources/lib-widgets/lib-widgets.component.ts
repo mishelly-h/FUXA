@@ -1,18 +1,27 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ResourceGroup, ResourceItem } from '../../_models/resources';
 import { LibWidgetsService } from './lib-widgets.service';
 import { RcgiService } from '../../_services/rcgi/rcgi.service';
-import { MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription, MatExpansionPanelContent } from '@angular/material/expansion';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-lib-widgets',
     templateUrl: './lib-widgets.component.html',
     styleUrls: ['./lib-widgets.component.scss'],
-    standalone: false
+    imports: [MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription, MatExpansionPanelContent, MatTooltip, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem, AsyncPipe, TranslatePipe]
 })
 export class LibWidgetsComponent implements OnInit, OnDestroy {
+    private libWidgetService = inject(LibWidgetsService);
+    private toastNotifier = inject(ToastNotifierService);
+    private rcgiService = inject(RcgiService);
+
 
     resourceWidgets$: Observable<ResourceGroup[]>;
     selectedWidgetPath: string;
@@ -21,13 +30,10 @@ export class LibWidgetsComponent implements OnInit, OnDestroy {
     contextMenuWidget: any = null;
     expandedGroups: { [groupName: string]: boolean } = {};
 
-    @ViewChild('menuTriggerButton') menuTrigger!: MatMenuTrigger;
-    @ViewChild('menuTriggerEl', { read: ElementRef }) triggerButtonRef!: ElementRef;
+    readonly menuTrigger = viewChild.required<MatMenuTrigger>('menuTriggerButton');
+    readonly triggerButtonRef = viewChild.required('menuTriggerEl', { read: ElementRef });
 
-    constructor(
-        private libWidgetService: LibWidgetsService,
-        private toastNotifier: ToastNotifierService,
-        private rcgiService: RcgiService) {
+    constructor() {
             this.rootPath = this.rcgiService.rcgi.endPointConfig;
         }
 

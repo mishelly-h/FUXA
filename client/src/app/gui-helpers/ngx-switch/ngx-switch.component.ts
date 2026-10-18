@@ -1,17 +1,16 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ElementRef, AfterViewInit, viewChild } from '@angular/core';
 
 @Component({
     selector: 'ngx-switch',
     templateUrl: './ngx-switch.component.html',
-    styleUrls: ['./ngx-switch.component.css'],
-    standalone: false
+    styleUrls: ['./ngx-switch.component.css']
 })
 export class NgxSwitchComponent implements AfterViewInit {
 
-    @ViewChild('switcher', {static: false}) public switcher: ElementRef;
-    @ViewChild('slider', {static: false}) public slider: ElementRef;
-    @ViewChild('toggler', {static: false}) public toggler: ElementRef;
+    public readonly switcher = viewChild<ElementRef>('switcher');
+    public readonly slider = viewChild<ElementRef>('slider');
+    public readonly toggler = viewChild<ElementRef>('toggler');
     options: SwitchOptions = new SwitchOptions();
     checked = false;
     onUpdate: any;
@@ -32,24 +31,27 @@ export class NgxSwitchComponent implements AfterViewInit {
     }
 
     onRefresh() {
-        this.checked = this.switcher.nativeElement.checked;
-        this.toggler.nativeElement.classList.toggle('active', this.checked);
-        if (this.switcher.nativeElement.checked) {
-            this.toggler.nativeElement.style.backgroundColor = this.options.onBackground;
-            this.slider.nativeElement.style.backgroundColor = this.options.onSliderColor;
-            this.slider.nativeElement.style.color = this.options.onTextColor;
-            this.slider.nativeElement.innerHTML = this.options.onText;
+        this.checked = this.switcher().nativeElement.checked;
+        this.toggler().nativeElement.classList.toggle('active', this.checked);
+        const switcher = this.switcher();
+        const toggler = this.toggler();
+        const slider = this.slider();
+        if (switcher.nativeElement.checked) {
+            toggler.nativeElement.style.backgroundColor = this.options.onBackground;
+            slider.nativeElement.style.backgroundColor = this.options.onSliderColor;
+            slider.nativeElement.style.color = this.options.onTextColor;
+            slider.nativeElement.innerHTML = this.options.onText;
         } else {
-            this.toggler.nativeElement.style.backgroundColor = this.options.offBackground;
-            this.slider.nativeElement.style.backgroundColor = this.options.offSliderColor;
-            this.slider.nativeElement.style.color = this.options.offTextColor;
-            this.slider.nativeElement.innerHTML = this.options.offText;
+            toggler.nativeElement.style.backgroundColor = this.options.offBackground;
+            slider.nativeElement.style.backgroundColor = this.options.offSliderColor;
+            slider.nativeElement.style.color = this.options.offTextColor;
+            slider.nativeElement.innerHTML = this.options.offText;
         }
-        this.slider.nativeElement.style.lineHeight = this.options.height + 'px';
+        slider.nativeElement.style.lineHeight = this.options.height + 'px';
 
-        this.switcher.nativeElement.disabled = this.disabled;
-        this.toggler.nativeElement.style.opacity = this.disabled ? '0.5' : '1';
-        this.toggler.nativeElement.style.pointerEvents = this.disabled ? 'none' : 'auto';
+        switcher.nativeElement.disabled = this.disabled;
+        toggler.nativeElement.style.opacity = this.disabled ? '0.5' : '1';
+        toggler.nativeElement.style.pointerEvents = this.disabled ? 'none' : 'auto';
     }
 
     setOptions(options: SwitchOptions, force = false): boolean {
@@ -66,7 +68,7 @@ export class NgxSwitchComponent implements AfterViewInit {
     }
 
     setValue(value: number) {
-        this.switcher.nativeElement.checked = (value) ? true : false;
+        this.switcher().nativeElement.checked = (value) ? true : false;
         this.onRefresh();
     }
 

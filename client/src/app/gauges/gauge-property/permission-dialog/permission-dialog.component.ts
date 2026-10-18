@@ -1,32 +1,35 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, inject, viewChild } from '@angular/core';
 import { Role, UserGroups } from '../../../_models/user';
 import { SelOptionType, SelOptionsComponent } from '../../../gui-helpers/sel-options/sel-options.component';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { SettingsService } from '../../../_services/settings.service';
 import { UserService } from '../../../_services/user.service';
 import { Subject, map, takeUntil } from 'rxjs';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-permission-dialog',
     templateUrl: './permission-dialog.component.html',
     styleUrls: ['./permission-dialog.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, SelOptionsComponent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class PermissionDialogComponent implements AfterViewInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<PermissionDialogComponent>>(MatDialogRef);
+    private userService = inject(UserService);
+    private cdr = inject(ChangeDetectorRef);
+    private settingsService = inject(SettingsService);
+    data = inject<PermissionData>(MAT_DIALOG_DATA);
+
     selected = [];
     extension = [];
     options = [];
     private destroy$ = new Subject<void>();
 
-    @ViewChild(SelOptionsComponent, { static: false }) seloptions: SelOptionsComponent;
-
-    constructor(
-        public dialogRef: MatDialogRef<PermissionDialogComponent>,
-        private userService: UserService,
-        private cdr: ChangeDetectorRef,
-        private settingsService: SettingsService,
-        @Inject(MAT_DIALOG_DATA) public data: PermissionData) {
-    }
+    readonly seloptions = viewChild(SelOptionsComponent);
 
     ngAfterViewInit() {
         if (this.isRolePermission()) {
@@ -66,19 +69,20 @@ export class PermissionDialogComponent implements AfterViewInit, OnDestroy {
             if (!this.data.permissionRoles) {
                 this.data.permissionRoles = { show: null, enabled: null };
             }
-            this.data.permissionRoles.enabled = this.seloptions.selected?.map(role => role.id);
+            const seloptions = this.seloptions();
+            this.data.permissionRoles.enabled = seloptions.selected?.map(role => role.id);
             if (this.data.mode === 'onlyShow') {
-                this.data.permissionRoles.show = this.seloptions.selected?.map(role => role.id);
+                this.data.permissionRoles.show = seloptions.selected?.map(role => role.id);
             } else {
-                this.data.permissionRoles.show = this.seloptions.extSelected?.map(role => role.id);
+                this.data.permissionRoles.show = seloptions.extSelected?.map(role => role.id);
             }
 
         } else {
-            this.data.permission = UserGroups.GroupsToValue(this.seloptions.selected);
+            this.data.permission = UserGroups.GroupsToValue(this.seloptions().selected);
             if (this.data.mode === 'onlyShow') {
-                this.data.permission += UserGroups.GroupsToValue(this.seloptions.selected, true);
+                this.data.permission += UserGroups.GroupsToValue(this.seloptions().selected, true);
             } else {
-                this.data.permission += UserGroups.GroupsToValue(this.seloptions.extSelected, true);
+                this.data.permission += UserGroups.GroupsToValue(this.seloptions().extSelected, true);
             }
         }
         this.dialogRef.close(this.data);

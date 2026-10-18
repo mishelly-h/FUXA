@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -9,10 +9,10 @@ import { ResourceItem, Resources, ResourceType } from '../_models/resources';
     providedIn: 'root'
 })
 export class ResourcesService {
+    private http = inject(HttpClient);
+
 
     private endPointConfig: string = EndPointApi.getURL();
-
-    constructor(private http: HttpClient) { }
 
     getResources(type: ResourceType): Observable<Resources> {
         let header = new HttpHeaders({ 'Content-Type': 'application/json' });

@@ -1,9 +1,9 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Inject, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 
 import { environment } from '../../environments/environment';
 
@@ -14,8 +14,13 @@ import { ThemeService } from '../_services/theme.service';
 
 import { HelpData, DEVICE_READONLY } from '../_models/hmi';
 import { TutorialComponent } from '../help/tutorial/tutorial.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { EditNameComponent } from '../gui-helpers/edit-name/edit-name.component';
+import { MatButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatIcon } from '@angular/material/icon';
+import { MatDivider } from '@angular/material/list';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 const editorModeRouteKey = ['/editor', '/device', '/messages', '/language', '/users', '/userRoles', '/notifications', '/scripts', '/recipes', '/reports', '/materials', '/logs', '/events', '/mapsLocations', '/arMarkers', '/flows', '/apikeys', '/plugins'];
 const saveFromEditorRouteKey = ['/device', '/messages', '/language', '/users', '/userRoles', '/notifications', '/scripts', '/reports', '/materials', '/logs', '/events', '/mapsLocations', '/arMarkers', '/flows', '/apikeys', '/plugins'];
@@ -24,13 +29,19 @@ const saveFromEditorRouteKey = ['/device', '/messages', '/language', '/users', '
     selector: 'app-header',
     templateUrl: 'header.component.html',
     styleUrls: ['header.component.scss'],
-    standalone: false
+    imports: [MatButton, MatMenuTrigger, MatIcon, MatMenu, MatMenuItem, MatDivider, TutorialComponent, TranslatePipe]
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
+    private router = inject(Router);
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private themeService = inject(ThemeService);
+    private projectService = inject(ProjectService);
 
-    @ViewChild('sidenav', {static: false})sidenav: any;
-    @ViewChild('tutorial', {static: false}) tutorial: TutorialComponent;
-    @ViewChild('fileImportInput', {static: false}) fileImportInput: any;
+
+    readonly sidenav = viewChild<any>('sidenav');
+    readonly tutorial = viewChild<TutorialComponent>('tutorial');
+    readonly fileImportInput = viewChild<any>('fileImportInput');
 
     darkTheme = true;
     editorMode = false;
@@ -38,12 +49,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     private subscriptionShowHelp: Subscription;
     private subscriptionLoad: Subscription;
 
-    constructor(private router: Router,
-                public dialog: MatDialog,
-                private translateService: TranslateService,
-                private themeService: ThemeService,
-                private projectService: ProjectService
-    ) {
+    constructor() {
         this.router.events.pipe(
             filter(val => val instanceof NavigationEnd),
         ).subscribe((routeKey: NavigationEnd) => {
@@ -96,7 +102,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
       }
 
     public onClick(targetElement) {
-        this.sidenav.close();
+        this.sidenav().close();
     }
 
     onShowHelp(page) {
@@ -115,7 +121,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 
     showHelp(data: HelpData) {
         if (data.page === 'help') {
-            this.tutorial.show = true;
+            this.tutorial().show = true;
         } else if (data.page === 'info') {
             this.showInfo();
         }
@@ -196,7 +202,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
             alert(msg);
         };
         reader.readAsText(input.files[0]);
-        this.fileImportInput.nativeElement.value = null;
+        this.fileImportInput().nativeElement.value = null;
     }
 
     /**
@@ -237,12 +243,12 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 @Component({
     selector: 'dialog-info',
     templateUrl: 'info.dialog.html',
-    standalone: false
+    imports: [MatDialogTitle, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
 })
 export class DialogInfo {
-    constructor(
-        public dialogRef: MatDialogRef<DialogInfo>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
+    dialogRef = inject<MatDialogRef<DialogInfo>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     onNoClick(): void {
         this.dialogRef.close();

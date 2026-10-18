@@ -1,12 +1,13 @@
 
-import { Inject, Injectable, DOCUMENT } from '@angular/core';
+import { Injectable, DOCUMENT, inject } from '@angular/core';
 import { THEMES } from '../_config/theme.config';
 
 @Injectable({
     providedIn: 'root'
 })
 export class ThemeService {
-    constructor(@Inject(DOCUMENT) private document: Document) { }
+    private document = inject<Document>(DOCUMENT);
+
 
     static ThemeType = { Dark: 'dark', Default: 'default' };
 

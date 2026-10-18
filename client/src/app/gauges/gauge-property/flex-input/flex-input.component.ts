@@ -1,24 +1,31 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, input, viewChild } from '@angular/core';
 import { GaugeProperty, GaugeRangeProperty } from '../../../_models/hmi';
 import { DevicesUtils, Tag } from '../../../_models/device';
 import { Utils } from '../../../_helpers/utils';
 import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
+import { RangeNumberComponent } from '../../../gui-helpers/range-number/range-number.component';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'flex-input',
     templateUrl: './flex-input.component.html',
     styleUrls: ['./flex-input.component.css'],
-    standalone: false
+    imports: [RangeNumberComponent, ColorPickerDirective, MatIconButton, MatIcon, FormsModule, NumberOnlyDirective, FlexVariableComponent, TranslatePipe]
 })
 export class FlexInputComponent implements OnInit {
-    @Input() data: any;
-    @Input() property: GaugeProperty;
+    readonly data = input<any>(undefined);
+    readonly property = input<GaugeProperty>(undefined);
     @Input() ranges: GaugeRangeProperty[];
-    @Input() type: string;
-    @Input() propertyType: PropertyType;
-    @Input() default: any;
-    @ViewChild('unit', {static: false}) varunit: FlexVariableComponent;
-    @ViewChild('digits', {static: false}) vardigits: FlexVariableComponent;
+    readonly type = input<string>(undefined);
+    readonly propertyType = input<PropertyType>(undefined);
+    readonly default = input<any>(undefined);
+    readonly varunit = viewChild<FlexVariableComponent>('unit');
+    readonly vardigits = viewChild<FlexVariableComponent>('digits');
 
 
     tag: Tag = null;
@@ -36,16 +43,16 @@ export class FlexInputComponent implements OnInit {
             this.ranges = [];
             let ip: GaugeRangeProperty = new GaugeRangeProperty();
             if (this.isWithStep()) {
-                ip.type = this.type;
+                ip.type = this.type();
                 ip.min = 1;
                 ip.max = 1;
             } else if (this.isMinMax()) {
-                ip.type = this.type;
+                ip.type = this.type();
                 ip.min = 0;
                 ip.max = 100;
                 ip.style = [true, true];
             } else {
-                ip.type = this.type;
+                ip.type = this.type();
                 ip.min = 20;
                 ip.max = 80;
             }
@@ -69,7 +76,7 @@ export class FlexInputComponent implements OnInit {
 
     onAddInput() {
         let gap: GaugeRangeProperty = new GaugeRangeProperty();
-        gap.type = this.type;
+        gap.type = this.type();
         gap.color = '';
         gap.stroke = '';
         this.addInput(gap);
@@ -86,7 +93,7 @@ export class FlexInputComponent implements OnInit {
     getRanges() {
         let result = [];
         this.ranges.forEach(element => {
-            element.type = this.propertyType;
+            element.type = this.propertyType();
             if (this.isWithStep()) {
                 element.max = element.min;
                 if (element.min !== null && element.max !== null) {
@@ -105,50 +112,53 @@ export class FlexInputComponent implements OnInit {
     }
 
     getColor(item) {
+        const defaultValue = this.default();
         if (item && item.color) {
             return item.color;
-        } else if (this.default && this.default.color) {
-            return this.default.color;
+        } else if (defaultValue && defaultValue.color) {
+            return defaultValue.color;
         }
     }
 
     changeTag(_tag) {
         this.tag = _tag;
         if (this.isOutputCtrl()) {
-            let device = DevicesUtils.getDeviceFromTagId(this.data.devices, _tag?.id);
+            let device = DevicesUtils.getDeviceFromTagId(this.data().devices, _tag?.id);
             if (device) {
-                if (this.varunit) {
-                    this.varunit.setVariable(DevicesUtils.getTagFromTagAddress(device, _tag.address + 'OpcEngUnit'));
+                const varunit = this.varunit();
+                if (varunit) {
+                    varunit.setVariable(DevicesUtils.getTagFromTagAddress(device, _tag.address + 'OpcEngUnit'));
                 }
-                if (this.vardigits) {
-                    this.vardigits.setVariable(DevicesUtils.getTagFromTagAddress(device, _tag.address + 'DecimalPlaces'));
+                const vardigits = this.vardigits();
+                if (vardigits) {
+                    vardigits.setVariable(DevicesUtils.getTagFromTagAddress(device, _tag.address + 'DecimalPlaces'));
                 }
             }
         }
     }
 
     isWithRange() {
-        return this.propertyType === PropertyType.range;
+        return this.propertyType() === PropertyType.range;
     }
 
     isMinMax() {
-        return this.propertyType === PropertyType.minmax;
+        return this.propertyType() === PropertyType.minmax;
     }
 
     isWithRangeColor() {
-        return this.propertyType === PropertyType.range;
+        return this.propertyType() === PropertyType.range;
     }
 
     isWithStep() {
-        return this.propertyType === PropertyType.step;
+        return this.propertyType() === PropertyType.step;
     }
 
     isOutputCtrl() {
-        return this.propertyType === PropertyType.output;
+        return this.propertyType() === PropertyType.output;
     }
 
     isInputMinMax(){
-        if (this.data.dlgType === 16) {  // GaugeDialogType.Input
+        if (this.data().dlgType === 16) {  // GaugeDialogType.Input
             return true;
         }
         return false;

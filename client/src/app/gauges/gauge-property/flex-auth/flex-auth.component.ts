@@ -1,30 +1,30 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, inject, input, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { PermissionData, PermissionDialogComponent, PermissionMode } from '../permission-dialog/permission-dialog.component';
 import { PermissionRoles } from '../../../_models/hmi';
 import { SettingsService } from '../../../_services/settings.service';
+import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'flex-auth',
     templateUrl: './flex-auth.component.html',
     styleUrls: ['./flex-auth.component.css'],
-    standalone: false
+    imports: [FormsModule, MatIcon, TranslatePipe]
 })
 export class FlexAuthComponent {
+    dialog = inject(MatDialog);
+    private settingsService = inject(SettingsService);
+    private cdr = inject(ChangeDetectorRef);
+
 
     @Input() name: string;
     @Input() permission: number;
     @Input() permissionRoles: PermissionRoles;
-    @Input() permissionMode: PermissionMode;
-    @Output() onChanged: EventEmitter<FlexAuthValues> = new EventEmitter();
-
-
-    constructor(public dialog: MatDialog,
-        private settingsService: SettingsService,
-        private cdr: ChangeDetectorRef) {
-
-    }
+    readonly permissionMode = input<PermissionMode>(undefined);
+    readonly onChanged = output<FlexAuthValues>();
 
     onEditPermission() {
         let permission = this.permission;
@@ -33,7 +33,7 @@ export class FlexAuthComponent {
             data: <PermissionData>{
                 permission: permission,
                 permissionRoles: this.permissionRoles,
-                mode: this.permissionMode
+                mode: this.permissionMode()
             }
         });
 

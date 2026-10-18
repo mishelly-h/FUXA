@@ -1,25 +1,35 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
 import { SchedulerData, ScriptScheduling, ScriptSchedulingMode } from '../../_models/script';
-import { FormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
+import { FormArray, UntypedFormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../_directives/number.directive';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { NgxSchedulerComponent } from '../../gui-helpers/ngx-scheduler/ngx-scheduler.component';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-script-scheduling',
     templateUrl: './script-scheduling.component.html',
     styleUrls: ['./script-scheduling.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, NumberOnlyDirective, MatIconButton, NgxSchedulerComponent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class ScriptSchedulingComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<ScriptSchedulingComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    data = inject<SchedulingData>(MAT_DIALOG_DATA);
+
 
     formGroup: UntypedFormGroup;
     scheduling = <ScriptScheduling>{ interval: 0 };
     schedulingMode = Object.keys(ScriptSchedulingMode);
 
-    constructor(
-        public dialogRef: MatDialogRef<ScriptSchedulingComponent>,
-        private fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) public data: SchedulingData) {
+    constructor() {
 
         if (this.data.scheduling) {
             this.scheduling = JSON.parse(JSON.stringify(this.data.scheduling));

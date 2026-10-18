@@ -1,9 +1,10 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import {
     GaugeEvent,
+    GaugeEventActionKey,
     GaugeEventActionType,
     GaugeEventRelativeFromType,
     GaugeEventSetValueType,
@@ -17,25 +18,37 @@ import {
 } from '../../../_models/hmi';
 import { Script, ScriptParam, SCRIPT_PARAMS_MAP } from '../../../_models/script';
 
-import { Utils } from '../../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../../_helpers/utils';
 import { HtmlInputComponent } from '../../controls/html-input/html-input.component';
 import { HtmlSelectComponent } from '../../controls/html-select/html-select.component';
 import { ProjectService } from '../../../_services/project.service';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { FlexVariablesMappingComponent } from '../flex-variables-mapping/flex-variables-mapping.component';
+import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
 
 
 @Component({
     selector: 'flex-event',
     templateUrl: './flex-event.component.html',
     styleUrls: ['./flex-event.component.css'],
-    standalone: false
+    imports: [MatIconButton, MatIcon, MatSelect, MatOption, FormsModule, NumberOnlyDirective, MatSlideToggle, FlexVariablesMappingComponent, FlexVariableComponent, TranslatePipe, EnumToArrayPipe]
 })
 export class FlexEventComponent implements OnInit {
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
 
-    @Input() property: GaugeProperty;
-    @Input() views: View[];
-    @Input() inputs: GaugeSettings[];
-    @Input() data: any;
-    @Input() scripts: Script[];
+
+    readonly property = input<GaugeProperty>(undefined);
+    readonly views = input<View[]>(undefined);
+    readonly inputs = input<GaugeSettings[]>(undefined);
+    readonly data = input<any>(undefined);
+    readonly scripts = input<Script[]>(undefined);
 
     eventRunScript = Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onRunScript);
 
@@ -58,21 +71,17 @@ export class FlexEventComponent implements OnInit {
     eventOnOpenTab = Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onOpenTab);
     eventOnIframe = Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.oniframe);
 
-    constructor(
-        private translateService: TranslateService,
-        private projectService: ProjectService) {
-    }
-
     ngOnInit() {
 
         // Events for view
-        if (this.data?.type === ViewType.svg) {
+        const data = this.data();
+        if (data?.type === ViewType.svg) {
             this.actionType = ViewEventActionType;
             this.eventType[Utils.getEnumKey(ViewEventType, ViewEventType.onopen)] = this.translateService.instant(ViewEventType.onopen);
             this.eventType[Utils.getEnumKey(ViewEventType, ViewEventType.onclose)] = this.translateService.instant(ViewEventType.onclose);
-        } else if (this.data.settings?.type === HtmlInputComponent.TypeTag) {
+        } else if (data.settings?.type === HtmlInputComponent.TypeTag) {
             this.eventType[Utils.getEnumKey(GaugeEventType, GaugeEventType.enter)] = this.translateService.instant(GaugeEventType.enter);
-        } else if (this.data.settings?.type === HtmlSelectComponent.TypeTag) {
+        } else if (data.settings?.type === HtmlSelectComponent.TypeTag) {
             this.eventType[Utils.getEnumKey(GaugeEventType, GaugeEventType.select)] = this.translateService.instant(GaugeEventType.select);
         } else {
             this.eventType[Utils.getEnumKey(GaugeEventType, GaugeEventType.click)] = this.translateService.instant(GaugeEventType.click);
@@ -82,7 +91,7 @@ export class FlexEventComponent implements OnInit {
             this.eventType[Utils.getEnumKey(GaugeEventType, GaugeEventType.mouseover)] = this.translateService.instant(GaugeEventType.mouseover);
             this.eventType[Utils.getEnumKey(GaugeEventType, GaugeEventType.mouseout)] = this.translateService.instant(GaugeEventType.mouseout);
         }
-        this.viewPanels = <PanelData[]>Object.values(this.data.view?.items ?? [])?.filter((item: any) => item.type === 'svg-ext-own_ctrl-panel');//#issue on build  PanelComponent.TypeTag);
+        this.viewPanels = <PanelData[]>Object.values(data.view?.items ?? [])?.filter((item: any) => item.type === 'svg-ext-own_ctrl-panel');//#issue on build  PanelComponent.TypeTag);
         this.enterActionType[Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onRunScript)] = this.translateService.instant(GaugeEventActionType.onRunScript);
 
         Object.keys(this.actionType).forEach(key => {
@@ -93,8 +102,9 @@ export class FlexEventComponent implements OnInit {
             this.translateService.get(this.setValueType[key]).subscribe((txt: string) => { this.setValueType[key] = txt; });
         });
 
-        if (this.property) {
-            this.events = this.property.events;
+        const property = this.property();
+        if (property) {
+            this.events = property.events;
             // compatibility with <= 1.0.4
             this.events.forEach(element => {
                 if (!element.actoptions || Object.keys(element.actoptions).length == 0) {
@@ -137,8 +147,9 @@ export class FlexEventComponent implements OnInit {
     }
 
     onScriptChanged(scriptId, event) {
-        if (event && this.scripts) {
-            let script = this.scripts.find(s => s.id === scriptId);
+        const scripts = this.scripts();
+        if (event && scripts) {
+            let script = scripts.find(s => s.id === scriptId);
             event.actoptions[SCRIPT_PARAMS_MAP] = [];
             if (script && script.parameters) {
                 event.actoptions[SCRIPT_PARAMS_MAP] = JSON.parse(JSON.stringify(script.parameters));
@@ -155,7 +166,7 @@ export class FlexEventComponent implements OnInit {
         return a > -1 && (a === b || a === c || a === d || a === e);
     }
 
-    withPosition(eventAction: GaugeEventActionType) {
+    withPosition(eventAction: GaugeEventActionKey) {
         return this.eventWithPosition.indexOf(eventAction) !== -1;
     }
 
@@ -207,7 +218,7 @@ export class FlexEventComponent implements OnInit {
     }
 
     getView(viewId: any) {
-        return this.views.find(function(item) {
+        return this.views().find(function(item) {
             return item.id === viewId;
         });
     }
@@ -216,7 +227,7 @@ export class FlexEventComponent implements OnInit {
         scriptParam.value = event.variableId;
     }
 
-    destinationWithHideClose(action: GaugeEventActionType) {
+    destinationWithHideClose(action: GaugeEventActionKey) {
         return action === Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onwindow) ||
             action === Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.ondialog);
     }

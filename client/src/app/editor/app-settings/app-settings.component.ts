@@ -1,22 +1,40 @@
-import { Component, OnInit } from '@angular/core';
-import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
 import { SettingsService } from '../../_services/settings.service';
 import { DiagnoseService } from '../../_services/diagnose.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { AlarmsRetentionType, AppSettings, DaqStore, DaqStoreRetentionType, DaqStoreType, MailMessage, SmtpSettings, StoreCredentials, LogsSettings, AlarmsSettings } from '../../_models/settings';
-import { Utils } from '../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { APP_LANGUAGES } from '../../_models/language';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../_directives/number.directive';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatSuffix } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-app-settings',
     templateUrl: './app-settings.component.html',
     styleUrls: ['./app-settings.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, MatSelect, MatOption, FormsModule, NumberOnlyDirective, MatTooltip, MatSlideToggle, MatSuffix, MatButton, MatDialogActions, TranslatePipe, EnumToArrayPipe]
 })
 export class AppSettingsComponent implements OnInit {
+    private settingsService = inject(SettingsService);
+    private diagnoseService = inject(DiagnoseService);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+    dialogRef = inject<MatDialogRef<AppSettingsComponent>>(MatDialogRef);
+
 
     languageType = APP_LANGUAGES.map(language => ({ ...language }));
 
@@ -49,12 +67,6 @@ export class AppSettingsComponent implements OnInit {
     alarmsRetationType = AlarmsRetentionType;
     logsRetationType = DaqStoreRetentionType;
     influxDB18 = Utils.getEnumKey(DaqStoreType, DaqStoreType.influxDB18);
-
-    constructor(private settingsService: SettingsService,
-        private diagnoseService: DiagnoseService,
-        private translateService: TranslateService,
-        private toastr: ToastrService,
-        public dialogRef: MatDialogRef<AppSettingsComponent>) { }
 
     ngOnInit() {
         this.settings = JSON.parse(JSON.stringify(this.settingsService.getSettings()));

@@ -1,29 +1,47 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
+import { Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { CodemirrorComponent, CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { ChangeDetectorRef } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 
 import { HmiService } from '../../_services/hmi.service';
 import { ScriptService } from '../../_services/script.service';
 import { EditNameComponent } from '../../gui-helpers/edit-name/edit-name.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Utils } from '../../_helpers/utils';
 import { ScriptParamType, Script, ScriptTest, SCRIPT_PREFIX, SystemFunctions, SystemFunction, ScriptParam, ScriptConsoleMessage, TemplatesCode, ScriptMode, ScriptParamFilterType } from '../../_models/script';
 import { DevicesUtils, DeviceType } from '../../_models/device';
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../device/device-tag-selection/device-tag-selection.component';
 import { ScriptEditorParamComponent } from './script-editor-param/script-editor-param.component';
 import { getJavaScriptSyntaxAnnotations } from './javascript-linter';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
+import { NgClass } from '@angular/common';
+import { MatDrawerContainer, MatDrawer } from '@angular/material/sidenav';
+import { FormsModule } from '@angular/forms';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
 
 @Component({
     selector: 'app-script-editor',
     templateUrl: './script-editor.component.html',
     styleUrls: ['./script-editor.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatTooltip, NgClass, MatDrawerContainer, CodemirrorModule, FormsModule, MatDrawer, MatTabGroup, MatTab, MatButton, MatDialogActions, TranslatePipe]
 })
 export class ScriptEditorComponent implements OnInit, OnDestroy {
-    @ViewChild(CodemirrorComponent, {static: false}) CodeMirror: CodemirrorComponent;
+    dialogRef = inject<MatDialogRef<ScriptEditorComponent>>(MatDialogRef);
+    dialog = inject(MatDialog);
+    private changeDetector = inject(ChangeDetectorRef);
+    private translateService = inject(TranslateService);
+    private hmiService = inject(HmiService);
+    private scriptService = inject(ScriptService);
+    data = inject(MAT_DIALOG_DATA);
+
+    readonly CodeMirror = viewChild(CodemirrorComponent);
     codeMirrorContent: string;
     codeMirrorOptions = {
         lineNumbers: true,
@@ -54,13 +72,9 @@ export class ScriptEditorComponent implements OnInit, OnDestroy {
         )
     };
 
-    constructor(public dialogRef: MatDialogRef<ScriptEditorComponent>,
-        public dialog: MatDialog,
-        private changeDetector: ChangeDetectorRef,
-        private translateService: TranslateService,
-        private hmiService: HmiService,
-        private scriptService: ScriptService,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
+            const data = this.data;
+
             this.script = data.script;
         this.dialogRef.afterOpened().subscribe(() => setTimeout(() => {this.ready = true; this.setCM();}, 0));
         this.systemFunctions = new SystemFunctions(this.script.mode);
@@ -99,7 +113,7 @@ export class ScriptEditorComponent implements OnInit, OnDestroy {
 
     setCM() {
         this.changeDetector.detectChanges();
-        const editor = this.CodeMirror?.codeMirror;
+        const editor = this.CodeMirror()?.codeMirror;
         if (!editor) {
             this.codeMirrorSetupTimer = window.setTimeout(() => this.setCM(), 50);
             return;
@@ -268,7 +282,7 @@ export class ScriptEditorComponent implements OnInit, OnDestroy {
 
     toggleSync() {
         this.script.sync = !this.script.sync;
-        this.CodeMirror?.codeMirror?.performLint();
+        this.CodeMirror()?.codeMirror?.performLint();
     }
 
     onConsoleClear() {
@@ -281,7 +295,7 @@ export class ScriptEditorComponent implements OnInit, OnDestroy {
     }
 
     private insertText(text: string) {
-        let doc = this.CodeMirror.codeMirror.getDoc();
+        let doc = this.CodeMirror().codeMirror.getDoc();
         var cursor = doc.getCursor(); // gets the line number in the cursor position
         doc.replaceRange(text, cursor);
     }

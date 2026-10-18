@@ -7,8 +7,7 @@ import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
 @Component({
     selector: 'gauge-progress',
     templateUrl: './gauge-progress.component.html',
-    styleUrls: ['./gauge-progress.component.css'],
-    standalone: false
+    styleUrls: ['./gauge-progress.component.css']
 })
 export class GaugeProgressComponent extends GaugeBaseComponent {
 

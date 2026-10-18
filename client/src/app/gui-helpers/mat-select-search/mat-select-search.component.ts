@@ -1,15 +1,14 @@
-import {
-    AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, ElementRef, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, QueryList,
-    ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, OnInit, QueryList, inject, viewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelect as MatSelect } from '@angular/material/select';
 import { MatOption as MatOption } from '@angular/material/core';
 import { Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { TranslateService } from '@ngx-translate/core';
+import { MatInput } from '@angular/material/input';
+import { NgClass } from '@angular/common';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 /**
  * Component providing an input field for searching MatSelect options.
@@ -99,9 +98,13 @@ import { TranslateService } from '@ngx-translate/core';
         }
     ],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [MatInput, NgClass, MatButton, MatIconButton, MatIcon]
 })
 export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
+    matSelect = inject<MatSelect>(MatSelect);
+    private translateService = inject(TranslateService);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+
 
     /** Label of the search placeholder */
     @Input() placeholderLabel = '';
@@ -110,7 +113,7 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
     @Input() noEntriesFoundLabel = '';
 
     /** Reference to the search input field */
-    @ViewChild('searchSelectInput', { read: ElementRef, static: true }) searchSelectInput: ElementRef;
+    readonly searchSelectInput = viewChild('searchSelectInput', { read: ElementRef });
 
     /** Current search value */
     get value(): string {
@@ -135,12 +138,6 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
 
     /** Subject that emits when the component has been destroyed. */
     private _onDestroy = new Subject<void>();
-
-
-    constructor(@Inject(MatSelect) public matSelect: MatSelect,
-        private translateService: TranslateService,
-        private changeDetectorRef: ChangeDetectorRef) {
-    }
 
     ngOnInit() {
         // set custom panel class
@@ -260,7 +257,8 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
      * @private
      */
     public _focus() {
-        if (!this.searchSelectInput) {
+        const searchSelectInput = this.searchSelectInput();
+        if (!searchSelectInput) {
             return;
         }
         // save and restore scrollTop of panel, since it will be reset by focus()
@@ -269,7 +267,7 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
         const scrollTop = panel.scrollTop;
 
         // focus
-        this.searchSelectInput.nativeElement.focus();
+        searchSelectInput.nativeElement.focus();
 
         panel.scrollTop = scrollTop;
     }
@@ -280,10 +278,11 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
      * @private
      */
     public _reset(focus?: boolean) {
-        if (!this.searchSelectInput) {
+        const searchSelectInput = this.searchSelectInput();
+        if (!searchSelectInput) {
             return;
         }
-        this.searchSelectInput.nativeElement.value = '';
+        searchSelectInput.nativeElement.value = '';
         this.onInputChange('');
         if (focus) {
             this._focus();
@@ -306,7 +305,7 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
             .subscribe((opened: boolean) => {
                 if (opened) {
                 // note: this is hacky, but currently there is no better way to do this
-                let element: HTMLElement = this.searchSelectInput.nativeElement;
+                let element: HTMLElement = this.searchSelectInput().nativeElement;
                 let overlayElement: HTMLElement;
                 while (element = element.parentElement) {
                     if (element.classList.contains('cdk-overlay-pane')) {

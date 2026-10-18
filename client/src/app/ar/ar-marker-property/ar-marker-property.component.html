@@ -20,10 +20,14 @@
                 <div class="my-form-field mt5">
                     <span>*{{'ar.marker-property-view' | translate}}</span>
                     <mat-select formControlName="viewId">
-                        <mat-option *ngIf="!views.length" disabled>{{'ar.marker-property-no-views' | translate}}</mat-option>
-                        <mat-option *ngFor="let view of views" [value]="view.id">
+                        @if (!views.length) {
+<mat-option disabled>{{'ar.marker-property-no-views' | translate}}</mat-option>
+}
+                        @for (view of views; track view) {
+<mat-option [value]="view.id">
                             {{ view.name || view.id }}
                         </mat-option>
+}
                     </mat-select>
                 </div>
                 <div class="my-form-field item-block mt5">
@@ -33,8 +37,12 @@
             </div>
             <div class="qr-preview">
                 <div class="qr-title">{{'ar.marker-property-qr' | translate}}</div>
-                <img *ngIf="qrDataUrl" [src]="qrDataUrl" alt="AR marker QR">
-                <div class="qr-error" *ngIf="qrError">{{qrError}}</div>
+                @if (qrDataUrl) {
+<img [src]="qrDataUrl" alt="AR marker QR">
+}
+                @if (qrError) {
+<div class="qr-error">{{qrError}}</div>
+}
             </div>
         </div>
     </div>

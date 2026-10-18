@@ -1,4 +1,5 @@
-<div class="svg-property-split2" *ngIf="settings">
+@if (settings) {
+<div class="svg-property-split2">
     <div class="svg-property" title="Gauge name">
         <span>{{'editor.interactivity-name' | translate}}</span>
         <input type="text" id="gaugename" [(ngModel)]="settings.name" type="text" readonly />
@@ -7,3 +8,4 @@
         <button mat-button color="primary" style="background-color: dimgrey;color:white; display: inline-block" (click)="onEdit()">{{'gauges.property-title' | translate}}</button>
     </div>
 </div>
+}

@@ -24,7 +24,8 @@
                             <mat-option [value]="viewType.maps">{{'editor.view-maps' | translate}}</mat-option>
                         </mat-select>
                     </div>
-                    <div *ngIf="formGroup.controls.type?.value === viewType.svg">
+                    @if (formGroup.controls.type?.value === viewType.svg) {
+<div>
                         <div class="block mt5">
                             <div class="my-form-field inbk">
                                 <span>{{'dlg.docproperty-width' | translate}}</span>
@@ -46,33 +47,41 @@
                             <span>{{'dlg.docproperty-size' | translate}}</span>
                             <mat-select placeholder="{{'dlg.docproperty-select' | translate}}"
                                         (selectionChange)="onSizeChange($event.value)">
-                                <mat-option *ngFor="let prop of propSizeType"
+                                @for (prop of propSizeType; track prop) {
+<mat-option
                                             [value]="prop.value">
                                     {{ prop.text }}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                         <div class="my-form-field block mt5">
                             <span>{{'dlg.docproperty-align' | translate}}</span>
                             <mat-select formControlName="align"
                                         placeholder="{{'dlg.docproperty-align-placeholder' | translate}}">
-                                <mat-option *ngFor="let align of alignType | enumToArray"
+                                @for (align of alignType | enumToArray; track align) {
+<mat-option
                                             [value]="align.key">
                                     {{'dlg.docproperty-align-' + align.value | translate}}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                     </div>
-                    <div *ngIf="formGroup.controls.type?.value === viewType.cards">
+}
+                    @if (formGroup.controls.type?.value === viewType.cards) {
+<div>
                         <div class="my-form-field inbk mt5"
                              style="width: 160px">
                             <span>{{'dlg.docproperty-gridtype' | translate}}</span>
                             <mat-select formControlName="gridType"
                                         placeholder="{{'dlg.docproperty-gridtype-placeholder' | translate}}">
-                                <mat-option *ngFor="let type of gridType | enumToArray"
+                                @for (type of gridType | enumToArray; track type) {
+<mat-option
                                             [value]="type.value">
                                     {{'dlg.docproperty-gridtype-' + type.value | translate}}
                                 </mat-option>
+}
                             </mat-select>
                         </div>
                         <div class="my-form-field inbk mt5 ftr">
@@ -86,7 +95,9 @@
                                    type="number">
                         </div>
                     </div>
-                    <div *ngIf="formGroup.controls.type?.value !== viewType.maps"
+}
+                    @if (formGroup.controls.type?.value !== viewType.maps) {
+<div
                          class="my-form-field block mt5">
                         <span>{{'dlg.docproperty-background' | translate}}</span>
                         <input style="width: 292px; border: 1px solid rgba(0,0,0,0.2); height:15px !important"
@@ -106,6 +117,7 @@
                                [cpOKButtonText]="'OK'"
                                [cpOKButtonClass]="'cpOKButtonClass'" />
                     </div>
+}
                     <div class="my-form-field block mt5">
                         <span>{{'dlg.docproperty-renderDelay' | translate}}</span>
                         <input numberOnly
@@ -132,7 +144,7 @@
                                     [property]="data.property"
                                     [scripts]="scripts"
                                     #flexevent
-                                    style="padding-bottom: 5px"></flex-event>
+                                    style="padding-bottom: 5px" />
                     </div>
                 </div>
             </mat-tab>

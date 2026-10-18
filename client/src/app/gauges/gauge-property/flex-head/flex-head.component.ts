@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation, input, viewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ReplaySubject, Subject } from 'rxjs';
 
@@ -6,6 +6,7 @@ import { FlexInputComponent, PropertyType } from '../flex-input/flex-input.compo
 import { GaugeProperty, IPropertyVariable, WidgetProperty } from '../../../_models/hmi';
 import { Device, Tag } from '../../../_models/device';
 import { Utils } from '../../../_helpers/utils';
+import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
 
 interface Variable {
     id: string;
@@ -17,15 +18,15 @@ interface Variable {
     templateUrl: './flex-head.component.html',
     styleUrls: ['./flex-head.component.css'],
     encapsulation: ViewEncapsulation.None,
-    standalone: false
+    imports: [FlexVariableComponent, FlexInputComponent]
 })
 export class FlexHeadComponent implements OnInit, OnDestroy {
 
-    @Input() data: any;
+    readonly data = input<any>(undefined);
     @Input() property: GaugeProperty | WidgetProperty;
-    @Input() withStaticValue = true;
-    @Input() withBitmask = false;
-    @ViewChild('flexinput', {static: false}) flexInput: FlexInputComponent;
+    readonly withStaticValue = input(true);
+    readonly withBitmask = input(false);
+    readonly flexInput = viewChild<FlexInputComponent>('flexinput');
     @Input() withProperty: PropertyType | null = null;
 
     variable: any;
@@ -65,7 +66,7 @@ export class FlexHeadComponent implements OnInit, OnDestroy {
 
     getProperty() {
         if (this.withProperty) {
-            this.property.ranges = this.flexInput.getRanges();
+            this.property.ranges = this.flexInput().getRanges();
         }
         return this.property;
     }
@@ -83,17 +84,18 @@ export class FlexHeadComponent implements OnInit, OnDestroy {
         this.property.variableValue = event.variableValue;
         this.property.bitmask = event.bitmask;
 
-        if (this.flexInput) {
-            this.flexInput.changeTag(event.variableRaw);
+        const flexInput = this.flexInput();
+        if (flexInput) {
+            flexInput.changeTag(event.variableRaw);
         }
     }
 
     onAddInput() {
-        this.flexInput.onAddInput();
+        this.flexInput().onAddInput();
     }
 
     onRangeViewToggle(slideView) {
-        this.flexInput.onRangeViewToggle(slideView);
-        this.flexInput.changeTag(this.currentTag);
+        this.flexInput().onRangeViewToggle(slideView);
+        this.flexInput().changeTag(this.currentTag);
     }
 }

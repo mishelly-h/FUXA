@@ -1,29 +1,36 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, input, output } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, map, of } from 'rxjs';
 import { Define } from '../../_helpers/define';
+import { MatSelect, MatSelectTrigger } from '@angular/material/select';
+import { NgStyle, AsyncPipe } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-icon-selector',
     templateUrl: './icon-selector.component.html',
     styleUrls: ['./icon-selector.component.scss'],
-    standalone: false
+    imports: [MatSelect, NgStyle, MatSelectTrigger, MatIcon, MatOption, MatInput, FormsModule, AsyncPipe, TranslatePipe]
 })
 export class IconSelectorComponent implements OnInit {
     @Input() value: string;
-    @Output() valueChange = new EventEmitter<string>();
-    @Output() selected = new EventEmitter<string>();
+    readonly valueChange = output<string>();
+    readonly selected = output<string>();
 
-    @Input() panelWidth = '310px';
-    @Input() panelClass = 'icon-selector-panel';
-    @Input() filterPlaceholder = 'dlg.headeritem-icons-filter';
-    @Input() width = '60px';
-    @Input() height = '30px';
+    readonly panelWidth = input('310px');
+    readonly panelClass = input('icon-selector-panel');
+    readonly filterPlaceholder = input('dlg.headeritem-icons-filter');
+    readonly width = input('60px');
+    readonly height = input('30px');
     @Input() image: string;
-    @Input() allowImage = false;
-    @Input() allowClear = true;
-    @Input() imageLabel = 'dlg.menuitem-image';
-    @Input() clearLabel = 'gauges.property-icon-none';
-    @Output() imageSelected = new EventEmitter<Event>();
+    readonly allowImage = input(false);
+    readonly allowClear = input(true);
+    readonly imageLabel = input('dlg.menuitem-image');
+    readonly clearLabel = input('gauges.property-icon-none');
+    readonly imageSelected = output<Event>();
 
     icons$: Observable<string[]>;
     filteredIcons$: Observable<string[]>;

@@ -1,8 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppSettings } from '../../_models/settings';
 import { SettingsService } from '../../_services/settings.service';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface SectionMessageDialogData {
     titleKey: string;
@@ -18,17 +25,15 @@ export interface SectionMessageDialogData {
     selector: 'app-section-message-dialog',
     templateUrl: './section-message-dialog.component.html',
     styleUrls: ['./section-message-dialog.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatCheckbox, FormsModule, MatDialogActions, MatButton, TranslatePipe]
 })
 export class SectionMessageDialogComponent implements OnInit {
-    hideMessage = false;
+    dialogRef = inject<MatDialogRef<SectionMessageDialogComponent>>(MatDialogRef);
+    data = inject<SectionMessageDialogData>(MAT_DIALOG_DATA);
+    private router = inject(Router);
+    private settingsService = inject(SettingsService);
 
-    constructor(
-        public dialogRef: MatDialogRef<SectionMessageDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: SectionMessageDialogData,
-        private router: Router,
-        private settingsService: SettingsService
-    ) { }
+    hideMessage = false;
 
     ngOnInit() {
         this.hideMessage = !!this.settingsService.getSettings()?.editorSectionMessages?.[this.data.settingKey];

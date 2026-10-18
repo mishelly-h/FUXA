@@ -1,22 +1,36 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, inject, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { PermissionData, PermissionDialogComponent } from '../../../gauge-property/permission-dialog/permission-dialog.component';
 import { GaugeEventActionType, GaugeSchedulerProperty, SchedulerDevice, SchedulerDeviceAction, View } from '../../../../_models/hmi';
 import { Script } from '../../../../_models/script';
 import { ProjectService } from '../../../../_services/project.service';
-import { TranslateService } from '@ngx-translate/core';
-import { FlexAuthValues } from '../../../gauge-property/flex-auth/flex-auth.component';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { FlexAuthValues, FlexAuthComponent } from '../../../gauge-property/flex-auth/flex-auth.component';
 import { Utils } from '../../../../_helpers/utils';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatSelect } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { MatOption } from '@angular/material/autocomplete';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { FlexDeviceTagComponent } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { NgTemplateOutlet, KeyValuePipe } from '@angular/common';
+import { FlexVariableComponent } from '../../../gauge-property/flex-variable/flex-variable.component';
 
 @Component({
     selector: 'app-scheduler-property',
     templateUrl: './scheduler-property.component.html',
     styleUrls: ['./scheduler-property.component.scss'],
-    standalone: false
+    imports: [MatTabGroup, MatTab, FlexAuthComponent, MatSelect, FormsModule, MatOption, ColorPickerDirective, MatIconButton, MatIcon, FlexDeviceTagComponent, NgTemplateOutlet, FlexVariableComponent, KeyValuePipe, TranslatePipe]
 })
 export class SchedulerPropertyComponent implements OnInit {
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+
     @Input() data: any;
-    @Output() onPropChanged = new EventEmitter<any>();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }
@@ -30,13 +44,6 @@ export class SchedulerPropertyComponent implements OnInit {
     actionTypeKeys: any = {};
     property: GaugeSchedulerProperty;
     defaultColor = Utils.defaultColor;
-
-    constructor(
-        private dialog?: MatDialog,
-        private projectService?: ProjectService,
-        private translateService?: TranslateService
-    ) {
-    }
 
     ngOnInit(): void {
         this._reload();

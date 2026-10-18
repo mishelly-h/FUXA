@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
 import { FlexHeadComponent } from '../../../gauge-property/flex-head/flex-head.component';
 import { FlexEventComponent } from '../../../gauge-property/flex-event/flex-event.component';
 import { FlexActionComponent } from '../../../gauge-property/flex-action/flex-action.component';
@@ -10,19 +10,39 @@ import { PermissionData, PermissionDialogComponent } from '../../../gauge-proper
 import { SettingsService } from '../../../../_services/settings.service';
 import { ProjectService } from '../../../../_services/project.service';
 import { Script } from '../../../../_models/script';
-import { MatSelectChange } from '@angular/material/select';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSelectChange, MatSelect } from '@angular/material/select';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
+import { FlexVariableComponent } from '../../../gauge-property/flex-variable/flex-variable.component';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
+import { EnumToArrayPipe } from '../../../../_helpers/utils';
 
 @Component({
     selector: 'app-input-property',
     templateUrl: './input-property.component.html',
     styleUrls: ['./input-property.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, FlexVariableComponent, MatSelect, MatOption, NumberOnlyDirective, MatSlideToggle, MatIconButton, MatTooltip, FlexEventComponent, FlexActionComponent, MatDialogActions, MatButton, MatDialogClose, TranslatePipe, EnumToArrayPipe]
 })
 export class InputPropertyComponent implements AfterViewInit {
-    @ViewChild('flexhead', { static: false }) flexHead: FlexHeadComponent;
-    @ViewChild('flexevent', { static: false }) flexEvent: FlexEventComponent;
-    @ViewChild('flexaction', { static: false }) flexAction: FlexActionComponent;
+    dialog = inject(MatDialog);
+    dialogRef = inject<MatDialogRef<InputPropertyComponent>>(MatDialogRef);
+    private settingsService = inject(SettingsService);
+    private projectService = inject(ProjectService);
+    private cdr = inject(ChangeDetectorRef);
+    data = inject<GaugePropertyData | any>(MAT_DIALOG_DATA);
+
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
+    readonly flexEvent = viewChild<FlexEventComponent>('flexevent');
+    readonly flexAction = viewChild<FlexActionComponent>('flexaction');
 
     slideView = true;
     slideActionView = true;
@@ -39,14 +59,7 @@ export class InputPropertyComponent implements AfterViewInit {
     inputConvertionType = InputConvertionType;
     inputActionEscType = InputActionEscType;
 
-    constructor(
-        public dialog: MatDialog,
-        public dialogRef: MatDialogRef<InputPropertyComponent>,
-        private settingsService: SettingsService,
-        private projectService: ProjectService,
-        private cdr: ChangeDetectorRef,
-        @Inject(MAT_DIALOG_DATA) public data: GaugePropertyData | any
-    ) {
+    constructor() {
         this.eventsSupported = this.data.withEvents;
         this.actionsSupported = this.data.withActions;
         this.property = JSON.parse(JSON.stringify(this.data.settings.property));
@@ -78,11 +91,13 @@ export class InputPropertyComponent implements AfterViewInit {
 
     onOkClick(): void {
         this.data.settings.property = this.property;
-        if (this.flexEvent) {
-            this.data.settings.property.events = this.flexEvent.getEvents();
+        const flexEvent = this.flexEvent();
+        if (flexEvent) {
+            this.data.settings.property.events = flexEvent.getEvents();
         }
-        if (this.flexAction) {
-            this.data.settings.property.actions = this.flexAction.getActions();
+        const flexAction = this.flexAction();
+        if (flexAction) {
+            this.data.settings.property.actions = flexAction.getActions();
         }
         if (this.property.readonly) {
             this.property.readonly = true;
@@ -92,19 +107,19 @@ export class InputPropertyComponent implements AfterViewInit {
     }
 
     onAddEvent() {
-        this.flexEvent.onAddEvent();
+        this.flexEvent().onAddEvent();
     }
 
     onAddAction() {
-        this.flexAction.onAddAction();
+        this.flexAction().onAddAction();
     }
 
     onRangeViewToggle() {
-        this.flexHead.onRangeViewToggle(this.slideView);
+        this.flexHead().onRangeViewToggle(this.slideView);
     }
 
     onActionRangeViewToggle() {
-        this.flexAction.onRangeViewToggle(this.slideActionView);
+        this.flexAction().onRangeViewToggle(this.slideActionView);
     }
 
     setVariable(event: IPropertyVariable) {

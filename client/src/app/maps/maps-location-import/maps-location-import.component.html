@@ -12,9 +12,11 @@
                 formControlName="location"
                 [matAutocomplete]="autoLocations">
             <mat-autocomplete #autoLocations="matAutocomplete" [displayWith]="displayFn"  (optionSelected)="onLocationSelected($event.option.value)">
-                <mat-option *ngFor="let location of locations$ | async" [value]="location" class="location-option-label">
+                @for (location of locations$ | async; track location) {
+<mat-option [value]="location" class="location-option-label">
                     <span>{{ location.name }}</span>
                 </mat-option>
+}
             </mat-autocomplete>
         </div>
     </div>

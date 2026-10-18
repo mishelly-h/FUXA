@@ -4,23 +4,23 @@
     <div mat-dialog-content>
         <div class="my-form-field block mb10">
             <span>{{'dlg.headeritem-icon' | translate}}</span>
-            <app-icon-selector
-                [(value)]="item.icon"
+            <app-icon-selector [(value)]="item.icon"
                 [image]="item.image"
                 [allowImage]="true"
                 [imageLabel]="'dlg.menuitem-image'"
                 [filterPlaceholder]="'dlg.headeritem-icons-filter'"
                 (selected)="item.image = ''"
-                (imageSelected)="onSetImage($event)">
-            </app-icon-selector>
+                (imageSelected)="onSetImage($event)" />
         </div>
         <div class="header-item-row mt10">
             <div class="my-form-field type-field">
                 <span>{{'dlg.layout-lbl-type' | translate}}</span>
                 <mat-select [(ngModel)]="item.type">
-                    <mat-option *ngFor="let type of headerType" [value]="type">
+                    @for (type of headerType; track type) {
+<mat-option [value]="type">
                         {{ 'item.headertype-' + type | translate }}
                     </mat-option>
+}
                 </mat-select>
             </div>
             <div class="my-form-field field-input-70">

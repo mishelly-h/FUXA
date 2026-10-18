@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import {Subject, Subscription, takeUntil} from 'rxjs';
 import {Router} from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -13,19 +13,32 @@ import {DEVICE_READONLY} from '../_models/hmi';
 import {Utils} from '../_helpers/utils';
 import { SettingsService } from '../_services/settings.service';
 import { SectionMessageDialogComponent } from '../editor/section-message-dialog/section-message-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/list';
+import { NgClass } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-device',
     templateUrl: './device.component.html',
     styleUrls: ['./device.component.scss'],
-    standalone: false
+    imports: [MatIcon, DeviceListComponent, DeviceMapComponent, MatIconButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, NgClass, MatTooltip, MatFabButton, TranslatePipe]
 })
 export class DeviceComponent implements OnInit, OnDestroy {
+    private router = inject(Router);
+    private projectService = inject(ProjectService);
+    private hmiService = inject(HmiService);
+    private settingsService = inject(SettingsService);
+    private dialog = inject(MatDialog);
 
-    @ViewChild('devicelist', {static: false}) deviceList: DeviceListComponent;
-    @ViewChild('devicemap', {static: false}) deviceMap: DeviceMapComponent;
-    @ViewChild('fileImportInput', {static: false}) fileImportInput: any;
-    @ViewChild('tplFileImportInput',{static: false}) tplFileImportInput: any;
+
+    readonly deviceList = viewChild<DeviceListComponent>('devicelist');
+    readonly deviceMap = viewChild<DeviceMapComponent>('devicemap');
+    readonly fileImportInput = viewChild<any>('fileImportInput');
+    readonly tplFileImportInput = viewChild<any>('tplFileImportInput');
 
     private subscriptionLoad: Subscription;
     private subscriptionDeviceChange: Subscription;
@@ -44,11 +57,7 @@ export class DeviceComponent implements OnInit, OnDestroy {
     readonly = false;
     reloadActive = false;
 
-    constructor(private router: Router,
-        private projectService: ProjectService,
-        private hmiService: HmiService,
-        private settingsService: SettingsService,
-        private dialog: MatDialog) {
+    constructor() {
         if (this.router.url.indexOf(DEVICE_READONLY) >= 0) {
             this.readonly = true;
         }
@@ -57,14 +66,14 @@ export class DeviceComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscriptionLoad = this.projectService.onLoadHmi.subscribe(res => {
-            this.deviceMap.loadCurrentProject();
-            this.deviceList.mapTags();
+            this.deviceMap().loadCurrentProject();
+            this.deviceList().mapTags();
         });
         this.subscriptionDeviceChange = this.hmiService.onDeviceChanged.subscribe(event => {
-            this.deviceMap.setDeviceStatus(event);
+            this.deviceMap().setDeviceStatus(event);
         });
         this.subscriptionVariableChange = this.hmiService.onVariableChanged.subscribe(event => {
-            this.deviceList.updateDeviceValue();
+            this.deviceList().updateDeviceValue();
         });
         this.askStatusTimer = setInterval(() => {
             this.hmiService.askDeviceStatus();
@@ -103,10 +112,10 @@ export class DeviceComponent implements OnInit, OnDestroy {
         // this.checkToSave();
         this.showMode = mode;
         if (this.showMode === this.tagsViewMode) {
-            this.deviceList.updateDeviceValue();
+            this.deviceList().updateDeviceValue();
             try {
-                if (Object.values(this.deviceMap.devicesValue()).length > 0) {
-                    this.deviceList.setSelectedDevice(this.deviceMap.devicesValue()[0]);
+                if (Object.values(this.deviceMap().devicesValue()).length > 0) {
+                    this.deviceList().setSelectedDevice(this.deviceMap().devicesValue()[0]);
                 }
             } catch (e) {
             }
@@ -131,14 +140,14 @@ export class DeviceComponent implements OnInit, OnDestroy {
     gotoList(device: Device) {
         this.onReload();
         this.show(this.tagsViewMode);
-        this.deviceList.setSelectedDevice(device);
+        this.deviceList().setSelectedDevice(device);
     }
 
     addItem() {
         if (this.showMode === this.tagsViewMode) {
-            this.deviceList.onAddTag();
+            this.deviceList().onAddTag();
         } else if (this.showMode.startsWith(this.devicesViewMode)) {
-            this.deviceMap.addDevice();
+            this.deviceMap().addDevice();
         }
     }
 

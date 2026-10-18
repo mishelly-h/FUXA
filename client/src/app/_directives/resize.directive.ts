@@ -1,19 +1,16 @@
-import { Directive, HostListener, Input, Output, EventEmitter, ElementRef, OnDestroy } from '@angular/core';
+import { Directive, HostListener, Input, ElementRef, OnDestroy, inject, output } from '@angular/core';
 
-@Directive({
-    selector: '[appResize]',
-    standalone: false
-})
+@Directive({ selector: '[appResize]' })
 export class ResizeDirective implements OnDestroy {
+    private el = inject(ElementRef);
+
     private oldY = 0;
     private isGrabbing = false;
     private resizeZoneHeight = 6;
 
     @Input() height: number;
-    @Output() heightChange = new EventEmitter<number>();
-    @Output() changeEnd = new EventEmitter<void>();
-
-    constructor(private el: ElementRef) { }
+    readonly heightChange = output<number>();
+    readonly changeEnd = output<void>();
 
     @HostListener('mousemove', ['$event'])
     onMouseMove(event: MouseEvent) {

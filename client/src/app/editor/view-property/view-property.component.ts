@@ -1,23 +1,38 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Utils } from '../../_helpers/utils';
+import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { Script } from '../../_models/script';
 import { DocAlignType, DocProfile, ViewProperty, ViewType } from '../../_models/hmi';
-import { TranslateService } from '@ngx-translate/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GridType } from 'angular-gridster2';
 import { FlexEventComponent } from '../../gauges/gauge-property/flex-event/flex-event.component';
 import { ProjectService } from '../../_services/project.service';
 import { Subject, startWith, takeUntil } from 'rxjs';
-import { MatTab as MatTab } from '@angular/material/tabs';
+import { MatTab as MatTab, MatTabGroup } from '@angular/material/tabs';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../_directives/number.directive';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-view-property',
     templateUrl: './view-property.component.html',
     styleUrls: ['./view-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, MatSelect, MatOption, NumberOnlyDirective, ColorPickerDirective, MatIconButton, MatTooltip, FlexEventComponent, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class ViewPropertyComponent implements OnInit, OnDestroy {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    dialogRef = inject<MatDialogRef<ViewPropertyComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
     defaultColor = Utils.defaultColor;
     viewType = ViewType;
     alignType = DocAlignType;
@@ -26,19 +41,15 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
     scripts: Script[];
     private destroy$ = new Subject<void>();
 
-    @ViewChild('flexevent', {static: false}) flexEvent: FlexEventComponent;
-    @ViewChild('tabEvents', {static: true}) tabEvents: MatTab;
+    readonly flexEvent = viewChild<FlexEventComponent>('flexevent');
+    readonly tabEvents = viewChild<MatTab>('tabEvents');
 
     propSizeType = [{ text: 'dlg.docproperty-size-320-240', value: { width: 320, height: 240 } }, { text: 'dlg.docproperty-size-460-360', value: { width: 460, height: 360 } },
     { text: 'dlg.docproperty-size-640-480', value: { width: 640, height: 480 } }, { text: 'dlg.docproperty-size-800-600', value: { width: 800, height: 600 } },
     { text: 'dlg.docproperty-size-1024-768', value: { width: 1024, height: 768 } }, { text: 'dlg.docproperty-size-1280-960', value: { width: 1280, height: 960 } },
     { text: 'dlg.docproperty-size-1600-1200', value: { width: 1600, height: 1200 } }, { text: 'dlg.docproperty-size-1920-1080', value: { width: 1920, height: 1080 } }];
 
-    constructor(private fb: UntypedFormBuilder,
-                private translateService: TranslateService,
-                private projectService: ProjectService,
-                public dialogRef: MatDialogRef<ViewPropertyComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: ViewPropertyType & { newView: boolean}) {
+    constructor() {
 
         this.scripts = this.projectService.getScripts();
         for (let i = 0; i < this.propSizeType.length; i++) {
@@ -70,7 +81,7 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
             takeUntil(this.destroy$),
             startWith(this.formGroup.controls.type.value)
         ).subscribe(type => {
-            this.tabEvents.disabled = type === ViewType.cards || type === ViewType.maps;
+            this.tabEvents().disabled = type === ViewType.cards || type === ViewType.maps;
             if (type === ViewType.cards && this.data.newView && this.data.profile.bkcolor === '#ffffffff') {
                 this.data.profile.bkcolor = '#E6E6E6';
             }
@@ -107,7 +118,7 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
         if (!this.data.property) {
 			this.data.property = new ViewProperty();
         }
-        this.data.property.events = this.flexEvent.getEvents();
+        this.data.property.events = this.flexEvent().getEvents();
         this.dialogRef.close(this.data);
     }
 
@@ -119,7 +130,7 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
     }
 
     onAddEvent() {
-        this.flexEvent.onAddEvent();
+        this.flexEvent().onAddEvent();
     }
 }
 

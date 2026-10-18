@@ -1,25 +1,33 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { ApiKey } from '../../_models/apikey';
 import { Utils } from '../../_helpers/utils';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatInput } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-api-key-property',
     templateUrl: './api-key-property.component.html',
     styleUrls: ['./api-key-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatInput, MatButton, MatSlideToggle, MatDialogActions, TranslatePipe]
 })
 export class ApiKeyPropertyComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<ApiKeyPropertyComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+
 
     formGroup: UntypedFormGroup;
     private original: ApiKey;
 
-    constructor(
-        public dialogRef: MatDialogRef<ApiKeyPropertyComponent>,
-        private fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) data: ApiKey
-    ) {
+    constructor() {
+        const data = inject<ApiKey>(MAT_DIALOG_DATA);
+
         this.original = data ? { ...data } : {} as ApiKey;
     }
 

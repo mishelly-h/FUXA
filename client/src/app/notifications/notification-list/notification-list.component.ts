@@ -1,23 +1,30 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { Subject, takeUntil } from 'rxjs';
 
 import { ProjectService } from '../../_services/project.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { NotificationPropertyComponent, NotificationPropertyData } from '../notification-property/notification-property.component';
 import { Notification, NotificationsType } from '../../_models/notification';
 import { AlarmsType } from '../../_models/alarm';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-notification-list',
     templateUrl: './notification-list.component.html',
     styleUrls: ['./notification-list.component.scss'],
-    standalone: false
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatIconButton, MatCellDef, MatCell, MatSortHeader, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFabButton, TranslatePipe]
 })
 export class NotificationListComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+
 
     displayedColumns = ['select', 'name', 'receiver', 'delay', 'interval', 'type', 'enabled', 'subscriptions', 'remove'];
     dataSource = new MatTableDataSource([]);
@@ -29,12 +36,8 @@ export class NotificationListComponent implements OnInit, AfterViewInit, OnDestr
 
     private destroy$ = new Subject<void>();
 
-    @ViewChild(MatTable, {static: true}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(public dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService) { }
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadNotifications();
@@ -49,7 +52,7 @@ export class NotificationListComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -15,18 +15,25 @@ import { AppService } from './app.service';
 
 @Injectable()
 export class UserService {
+    private http = inject(HttpClient);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+    private appService = inject(AppService);
+    private resewbApiService = inject(ResWebApiService);
+    private resDemoService = inject(ResDemoService);
+    private resClientService = inject(ResClientService);
+
 
     private endPointConfig: string = EndPointApi.getURL();
 
     private storage: ResourceStorageService;
 
-    constructor(private http: HttpClient,
-                private translateService: TranslateService,
-                private toastr: ToastrService,
-                private appService: AppService,
-                private resewbApiService: ResWebApiService,
-                private resDemoService: ResDemoService,
-                private resClientService: ResClientService) {
+    constructor() {
+        const appService = this.appService;
+        const resewbApiService = this.resewbApiService;
+        const resDemoService = this.resDemoService;
+        const resClientService = this.resClientService;
+
         this.storage = resewbApiService;
         if (!environment.serverEnabled || appService.isDemoApp) {
             this.storage = resDemoService;

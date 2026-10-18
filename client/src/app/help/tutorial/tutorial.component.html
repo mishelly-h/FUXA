@@ -1,4 +1,5 @@
-<div class="tutorial-panel" *ngIf="show" ngDraggable>
+@if (show) {
+<div class="tutorial-panel" ngDraggable>
     <style>
         pre {
             white-space: pre-line;
@@ -19,15 +20,15 @@
                     <mat-panel-title>
                         {{ 'tutorial.editor-keyboard-shortcuts' | translate }}
                     </mat-panel-title>
-                    <mat-panel-description>
-
-                    </mat-panel-description>
+                    <mat-panel-description />
                 </mat-expansion-panel-header>
                 <div class="tutorial-content">
                     <ul>
-                        <li *ngFor="let shortcut of shortcuts">
+                        @for (shortcut of shortcuts; track shortcut) {
+<li>
                             {{ shortcut.combo }}: {{ shortcut.description }}
                         </li>
+}
                     </ul>
                 </div>
             </mat-expansion-panel>
@@ -58,3 +59,4 @@
         </mat-accordion>
     </div>
 </div>
+}

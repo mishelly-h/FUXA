@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { EndPointApi } from '../_helpers/endpointapi';
@@ -14,15 +14,22 @@ import { ApiKey } from '../_models/apikey';
     providedIn: 'root'
 })
 export class ApiKeysService {
+    private appService = inject(AppService);
+    private resewbApiService = inject(ResWebApiService);
+    private resDemoService = inject(ResDemoService);
+    private resClientService = inject(ResClientService);
+
 
     private endPointConfig: string = EndPointApi.getURL();
 
     private storage: ResourceStorageService;
 
-    constructor(private appService: AppService,
-                private resewbApiService: ResWebApiService,
-                private resDemoService: ResDemoService,
-                private resClientService: ResClientService) {
+    constructor() {
+        const appService = this.appService;
+        const resewbApiService = this.resewbApiService;
+        const resDemoService = this.resDemoService;
+        const resClientService = this.resClientService;
+
         this.storage = resewbApiService;
         if (!environment.serverEnabled || appService.isDemoApp) {
             this.storage = resDemoService;

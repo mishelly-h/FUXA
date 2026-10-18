@@ -1,17 +1,23 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { ISvgElement } from '../../_models/hmi';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatIconButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-svg-selector',
     templateUrl: './svg-selector.component.html',
     styleUrls: ['./svg-selector.component.scss'],
-    standalone: false
+    imports: [MatInput, FormsModule, MatIcon, NgClass, MatIconButton, TranslatePipe]
 })
 export class SvgSelectorComponent {
 
-    @Output() onEdit: EventEmitter<ISvgElement> = new EventEmitter();
-    @Output() onSelect: EventEmitter<ISvgElement> = new EventEmitter();
-    @Output() onPreview: EventEmitter<IElementPreview> = new EventEmitter();
+    readonly onEdit = output<ISvgElement>();
+    readonly onSelect = output<ISvgElement>();
+    readonly onPreview = output<IElementPreview>();
     @Input('selected') set selected(element: ISvgElement) {
         this.svgElementSelected = element;
     }

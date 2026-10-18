@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, Inject, Input, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { Component, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, inject, input, viewChild } from '@angular/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 import { FlexHeadComponent } from './flex-head/flex-head.component';
 import { FlexEventComponent } from './flex-event/flex-event.component';
 import { FlexActionComponent } from './flex-action/flex-action.component';
@@ -11,20 +11,37 @@ import { PermissionData, PermissionDialogComponent } from './permission-dialog/p
 import { SettingsService } from '../../_services/settings.service';
 import { Device } from '../../_models/device';
 import { HtmlButtonComponent } from '../controls/html-button/html-button.component';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
+import { IconSelectorComponent } from '../../framework/icon-selector/icon-selector.component';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { FlexWidgetPropertyComponent } from './flex-widget-property/flex-widget-property.component';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'gauge-property',
     templateUrl: './gauge-property.component.html',
     styleUrls: ['./gauge-property.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, IconSelectorComponent, MatSlideToggle, MatIconButton, FlexWidgetPropertyComponent, FlexHeadComponent, MatTooltip, FlexEventComponent, FlexActionComponent, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
 })
 export class GaugePropertyComponent implements AfterViewInit {
+    dialog = inject(MatDialog);
+    dialogRef = inject<MatDialogRef<GaugePropertyComponent>>(MatDialogRef);
+    private settingsService = inject(SettingsService);
+    private cdr = inject(ChangeDetectorRef);
+    data = inject<GaugePropertyData | any>(MAT_DIALOG_DATA);
 
-    @Input() name: any;
-    @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
-    @ViewChild('flexevent', {static: false}) flexEvent: FlexEventComponent;
-    @ViewChild('flexaction', {static: false}) flexAction: FlexActionComponent;
+
+    readonly name = input<any>(undefined);
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
+    readonly flexEvent = viewChild<FlexEventComponent>('flexevent');
+    readonly flexAction = viewChild<FlexActionComponent>('flexaction');
 
     slideView = true;
     slideActionView = true;
@@ -38,11 +55,7 @@ export class GaugePropertyComponent implements AfterViewInit {
     inputs: GaugeSettings[];
     scripts: Script[];
 
-    constructor(public dialog: MatDialog,
-                public dialogRef: MatDialogRef<GaugePropertyComponent>,
-                private settingsService: SettingsService,
-                private cdr: ChangeDetectorRef,
-                @Inject(MAT_DIALOG_DATA) public data: GaugePropertyData | any) {
+    constructor() {
         this.dialogType = this.data.dlgType;
         this.eventsSupported = this.data.withEvents;
         this.actionsSupported = this.data.withActions;
@@ -59,18 +72,18 @@ export class GaugePropertyComponent implements AfterViewInit {
         this.defaultValue = this.data.default;
         if (!this.isWidget() && this.data.withProperty !== false) { // else undefined
             if (this.dialogType === GaugeDialogType.Input) {
-                this.flexHead.withProperty = PropertyType.input;
+                this.flexHead().withProperty = PropertyType.input;
             } else if (this.dialogType === GaugeDialogType.ValueAndUnit) {
-                this.flexHead.withProperty = PropertyType.output;
+                this.flexHead().withProperty = PropertyType.output;
             } else {
-                this.flexHead.defaultValue = this.defaultValue;
-                this.flexHead.withProperty = PropertyType.range;
+                this.flexHead().defaultValue = this.defaultValue;
+                this.flexHead().withProperty = PropertyType.range;
                 if (this.dialogType === GaugeDialogType.ValueWithRef) {
-                    this.flexHead.withProperty = PropertyType.text;
+                    this.flexHead().withProperty = PropertyType.text;
                 } else if (this.dialogType === GaugeDialogType.Step) {
-                    this.flexHead.withProperty = PropertyType.step;
+                    this.flexHead().withProperty = PropertyType.step;
                 } else if (this.dialogType === GaugeDialogType.MinMax) {
-                    this.flexHead.withProperty = PropertyType.minmax;
+                    this.flexHead().withProperty = PropertyType.minmax;
                 }
             }
         }
@@ -87,13 +100,15 @@ export class GaugePropertyComponent implements AfterViewInit {
         if (this.isWidget()) {
             this.data.settings.property = this.property;
         } else {
-            this.data.settings.property = this.flexHead?.getProperty();
+            this.data.settings.property = this.flexHead()?.getProperty();
         }
-        if (this.flexEvent) {
-            this.data.settings.property.events = this.flexEvent.getEvents();
+        const flexEvent = this.flexEvent();
+        if (flexEvent) {
+            this.data.settings.property.events = flexEvent.getEvents();
         }
-        if (this.flexAction) {
-            this.data.settings.property.actions = this.flexAction.getActions();
+        const flexAction = this.flexAction();
+        if (flexAction) {
+            this.data.settings.property.actions = flexAction.getActions();
         }
         if (this.property.readonly) {
             this.property.readonly = true;
@@ -103,23 +118,23 @@ export class GaugePropertyComponent implements AfterViewInit {
     }
 
     onAddInput() {
-        this.flexHead.onAddInput();
+        this.flexHead().onAddInput();
     }
 
     onAddEvent() {
-        this.flexEvent.onAddEvent();
+        this.flexEvent().onAddEvent();
     }
 
     onAddAction() {
-        this.flexAction.onAddAction();
+        this.flexAction().onAddAction();
     }
 
     onRangeViewToggle() {
-        this.flexHead.onRangeViewToggle(this.slideView);
+        this.flexHead().onRangeViewToggle(this.slideView);
     }
 
     onActionRangeViewToggle() {
-        this.flexAction.onRangeViewToggle(this.slideActionView);
+        this.flexAction().onRangeViewToggle(this.slideActionView);
     }
 
     isToolboxToShow() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef, ChangeDetectorRef, inject, viewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ProjectService } from '../_services/project.service';
@@ -7,6 +7,8 @@ import { Hmi, View } from '../_models/hmi';
 import { GaugesManager } from '../gauges/gauges.component';
 import { TesterService } from '../tester/tester.service';
 import { TesterComponent } from '../tester/tester.component';
+import { FuxaViewComponent } from '../fuxa-view/fuxa-view.component';
+import { MatMiniFabButton } from '@angular/material/button';
 
 declare var SVG: any;
 declare var Raphael: any;
@@ -14,13 +16,19 @@ declare var Raphael: any;
 @Component({
     templateUrl: 'lab.component.html',
     styleUrls: ['lab.component.css'],
-    standalone: false
+    imports: [FuxaViewComponent, MatMiniFabButton, TesterComponent]
 })
 
 export class LabComponent implements OnInit, OnDestroy {
+    private projectService = inject(ProjectService);
+    private appService = inject(AppService);
+    gaugesManager = inject(GaugesManager);
+    private changeDetector = inject(ChangeDetectorRef);
+    private testerService = inject(TesterService);
 
-    @ViewChild('messagecontainer', { read: ViewContainerRef, static: false }) entry: ViewContainerRef;
-    @ViewChild('tester', {static: false}) tester: TesterComponent;
+
+    readonly entry = viewChild('messagecontainer', { read: ViewContainerRef });
+    readonly tester = viewChild<TesterComponent>('tester');
 
     currentView: View = new View();
     hmi: Hmi = new Hmi();
@@ -30,13 +38,6 @@ export class LabComponent implements OnInit, OnDestroy {
 	backgroudColor = 'unset';
 
 	private subscriptionLoad: Subscription;
-
-    constructor(private projectService: ProjectService,
-        private appService: AppService,
-        public gaugesManager: GaugesManager,
-        private changeDetector: ChangeDetectorRef,
-        private testerService: TesterService) {
-    }
 
     ngOnInit() {
         try {
@@ -72,7 +73,7 @@ export class LabComponent implements OnInit, OnDestroy {
     }
 
     onTest() {
-        this.tester.setSignals(this.gaugesManager.getMappedGaugesSignals(true));
+        this.tester().setSignals(this.gaugesManager.getMappedGaugesSignals(true));
         this.testerService.toggle(true);
     }
 

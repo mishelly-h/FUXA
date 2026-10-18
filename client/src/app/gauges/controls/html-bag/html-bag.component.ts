@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, ViewContainerRef, ComponentFactoryResolver, inject } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, Variable, GaugeStatus } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -9,17 +9,14 @@ import { NgxGaugeComponent } from '../../../gui-helpers/ngx-gauge/ngx-gauge.comp
 @Component({
     selector: 'app-html-bag',
     templateUrl: './html-bag.component.html',
-    styleUrls: ['./html-bag.component.css'],
-    standalone: false
+    styleUrls: ['./html-bag.component.css']
 })
 export class HtmlBagComponent extends GaugeBaseComponent {
+    private resolver = inject(ComponentFactoryResolver);
+
     static TypeTag = 'svg-ext-html_bag';
     static LabelTag = 'HtmlBag';
     static prefixD = 'D-BAG_';
-
-    constructor(private resolver: ComponentFactoryResolver) {
-        super();
-    }
 
     static getSignals(pro: any) {
         let res: string[] = [];

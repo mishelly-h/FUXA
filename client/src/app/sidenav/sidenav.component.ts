@@ -1,24 +1,34 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
+import { Component, ChangeDetectorRef, AfterContentChecked, inject, input, output } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Location } from '@angular/common';
+import { Location, NgClass } from '@angular/common';
 
 import { LayoutSettings, NaviItem, NavigationSettings, LinkType, NaviItemType } from '../_models/hmi';
 import { Router } from '@angular/router';
 import { ProjectService } from '../_services/project.service';
 import { LanguageService } from '../_services/language.service';
 import { Utils } from '../_helpers/utils';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-sidenav',
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss'],
-    standalone: false
+    imports: [NgClass, MatList, MatListItem, MatButton, MatIcon, TranslatePipe]
 })
 export class SidenavComponent implements AfterContentChecked {
+    private location = inject(Location);
+    private router = inject(Router);
+    private projectService = inject(ProjectService);
+    private languageService = inject(LanguageService);
+    private changeDetector = inject(ChangeDetectorRef);
 
-    @Input() sidenav: MatSidenav;
-    @Output() goToPage: EventEmitter<string> = new EventEmitter();
-    @Output() goToLink: EventEmitter<string> = new EventEmitter();
+
+    readonly sidenav = input<MatSidenav>(undefined);
+    readonly goToPage = output<string>();
+    readonly goToLink = output<string>();
 
     viewAsLink = LinkType.address;
     viewAsAlarms = LinkType.alarms;
@@ -29,13 +39,6 @@ export class SidenavComponent implements AfterContentChecked {
     layoutNavigation = new NavigationSettings();
     expandedItems: Set<string> = new Set();
     private expandableNavItems = [Utils.getEnumKey(NaviItemType, NaviItemType.text), Utils.getEnumKey(NaviItemType, NaviItemType.inline)];
-
-    constructor(private location: Location,
-                private router: Router,
-                private projectService: ProjectService,
-                private languageService: LanguageService,
-                private changeDetector: ChangeDetectorRef) {
-    }
 
     ngAfterContentChecked(): void {
         this.showSidenav = (this.layout) ? true : false;

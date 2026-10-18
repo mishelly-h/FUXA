@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -7,16 +7,23 @@ import { ProjectService } from '../../_services/project.service';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { ArMarkerScannerMode, ArMarkerScannerService } from './ar-marker-scanner.service';
 import { ArViewService, ArVisibleMarker } from './ar-view.service';
+import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
 
 @Component({
     selector: 'app-ar',
     templateUrl: './ar-view.component.html',
     styleUrls: ['./ar-view.component.scss'],
     providers: [ArViewService, ArMarkerScannerService],
-    standalone: false
+    imports: [FuxaViewComponent]
 })
 export class ArViewComponent implements AfterViewInit, OnDestroy {
-    @ViewChild('video', { static: false }) videoRef: ElementRef<HTMLVideoElement>;
+    arViewService = inject(ArViewService);
+    private markerScanner = inject(ArMarkerScannerService);
+    gaugesManager = inject(GaugesManager);
+    projectService = inject(ProjectService);
+    private route = inject(ActivatedRoute);
+
+    readonly videoRef = viewChild<ElementRef<HTMLVideoElement>>('video');
 
     cameraError = '';
     detectorAvailable = false;
@@ -32,14 +39,6 @@ export class ArViewComponent implements AfterViewInit, OnDestroy {
     private readonly scanIntervalMs = 700;
     private hmiLoadSubscription: Subscription;
     private pendingMarkerId = '';
-
-    constructor(
-        public arViewService: ArViewService,
-        private markerScanner: ArMarkerScannerService,
-        public gaugesManager: GaugesManager,
-        public projectService: ProjectService,
-        private route: ActivatedRoute,
-    ) { }
 
     get visibleMarkers(): ArVisibleMarker[] {
         return this.arViewService.visibleMarkers;
@@ -96,7 +95,7 @@ export class ArViewComponent implements AfterViewInit, OnDestroy {
                 audio: false
             });
 
-            const video = this.videoRef?.nativeElement;
+            const video = this.videoRef()?.nativeElement;
             if (!video) {
                 return;
             }
@@ -146,7 +145,7 @@ export class ArViewComponent implements AfterViewInit, OnDestroy {
     }
 
     private async scan(): Promise<void> {
-        if (this.scanStopped || !this.markerScanner.available || !this.videoRef?.nativeElement) {
+        if (this.scanStopped || !this.markerScanner.available || !this.videoRef()?.nativeElement) {
             return;
         }
 
@@ -187,7 +186,7 @@ export class ArViewComponent implements AfterViewInit, OnDestroy {
     }
 
     private scanBarcodeMarkers(): Promise<DetectedBarcodeLike[]> {
-        return this.markerScanner.scan(this.videoRef.nativeElement);
+        return this.markerScanner.scan(this.videoRef().nativeElement);
     }
 
     private stopScanLoop(): void {

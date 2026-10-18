@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -12,11 +12,10 @@ import { LogsRequest } from '../_models/diagnose';
     providedIn: 'root'
 })
 export class DiagnoseService {
+    private http = inject(HttpClient);
+
 
     private endPointConfig: string = EndPointApi.getURL();
-
-    constructor(private http: HttpClient) {
-    }
 
     getLogsDir() {
         return this.http.get<string[]>(this.endPointConfig + '/api/logsdir');

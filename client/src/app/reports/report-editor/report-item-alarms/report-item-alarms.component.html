@@ -5,39 +5,46 @@
         <div class="my-form-field">
             <span>{{'report.item-daterange' | translate}}</span>
             <mat-select [(value)]="data.range" style="width: 200px" [disabled]="true">
-                <mat-option *ngFor="let ev of dateRangeType | enumToArray" [value]="ev.key">
+                @for (ev of dateRangeType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                     {{ ev.value }}
                 </mat-option>
+}
             </mat-select>
         </div>
         <div class="alarms">
             <div class="my-form-field">
                 <span>{{'report.alarms-priority' | translate}}</span>
-                <mat-checkbox *ngFor="let item of alarmsType" (change)="onPriorityChanged(item, $event.checked)" [checked]="getPriorityValue(item)" style="margin: 7px 10px 7px 10px;">
+                @for (item of alarmsType; track item) {
+<mat-checkbox (change)="onPriorityChanged(item, $event.checked)" [checked]="getPriorityValue(item)" style="margin: 7px 10px 7px 10px;">
                     {{'alarm.property-' + item | translate}}
                 </mat-checkbox>
+}
             </div>
             <div class="my-form-field block mt20">
                 <span>{{'report.alarms-column' | translate}}</span>
-                <mat-checkbox *ngFor="let item of alarmPropertyType" (change)="onPropertyChanged(item, $event.checked)" [checked]="getPropertyValue(item)" style="margin: 7px 10px 7px 10px;">
+                @for (item of alarmPropertyType; track item) {
+<mat-checkbox (change)="onPropertyChanged(item, $event.checked)" [checked]="getPropertyValue(item)" style="margin: 7px 10px 7px 10px;">
                     {{'alarms.view-' + item | translate}}
                 </mat-checkbox>
+}
             </div>            
         </div> 
         <div class="my-form-field alarms-filter">
             <div class="my-form-field list-header">
                 <span>{{'report.alarms-filter' | translate}}</span>
-                <mat-checkbox [checked]="alarmsListSelected.length === alarmsList.length" (change)="toggleAlarmFilterSelection($event)">
-                </mat-checkbox>
+                <mat-checkbox [checked]="alarmsListSelected.length === alarmsList.length" (change)="toggleAlarmFilterSelection($event)" />
             </div>
             <mat-selection-list class="alarm-list"
                                 [(ngModel)]="alarmsListSelected">
-                <mat-list-option *ngFor="let alarm of alarmsList" 
+                @for (alarm of alarmsList; track alarm) {
+<mat-list-option
                                  [value]="alarm"
                                  class="alarm-item">
                   <div class="alarm-name">{{alarm.name}}</div>
                   <div class="alarm-tag">{{alarm.variableName}}</div>
                 </mat-list-option>
+}
               </mat-selection-list>
         </div>
     </div>

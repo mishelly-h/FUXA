@@ -1,20 +1,27 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelectionList, MatListOption } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-bitmask',
     templateUrl: './bitmask.component.html',
     styleUrls: ['./bitmask.component.css'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelectionList, FormsModule, MatListOption, MatDialogActions, MatButton, TranslatePipe]
 })
 export class BitmaskComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<BitmaskComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     size = 32;
     bits: Bit[] = [];
     selected: Bit[] = [];
-
-    constructor(public dialogRef: MatDialogRef<BitmaskComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     ngOnInit() {
         this.size = this.data.size || 32;

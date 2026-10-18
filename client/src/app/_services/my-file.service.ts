@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { UploadFile } from '../_models/project';
 import { RcgiService } from './rcgi/rcgi.service';
 import { Observable, of } from 'rxjs';
@@ -7,10 +7,8 @@ import { Observable, of } from 'rxjs';
     providedIn: 'root'
 })
 export class MyFileService {
+    private rciService = inject(RcgiService);
 
-    constructor(private rciService: RcgiService) {
-
-    }
 
     upload(file: File, destination: string, fullPath?: string): Observable<TransferResult> {
         if (file) {

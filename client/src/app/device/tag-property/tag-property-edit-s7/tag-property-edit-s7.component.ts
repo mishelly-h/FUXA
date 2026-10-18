@@ -1,27 +1,34 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { Device, Tag, TagType } from '../../../_models/device';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatButton } from '@angular/material/button';
+import { EnumToArrayPipe } from '../../../_helpers/utils';
 
 @Component({
     selector: 'app-tag-property-edit-s7',
     templateUrl: './tag-property-edit-s7.component.html',
     styleUrls: ['./tag-property-edit-s7.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class TagPropertyEditS7Component implements OnInit {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditS7Component>>(MatDialogRef);
+    data = inject<TagProperty>(MAT_DIALOG_DATA);
+
 
     @Output() result = new EventEmitter<any>();
     formGroup: UntypedFormGroup;
     tagType = TagType;
     existingNames = [];
     error: string;
-
-    constructor(private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TagPropertyEditS7Component>,
-        @Inject(MAT_DIALOG_DATA) public data: TagProperty) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

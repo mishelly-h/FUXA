@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, lastValueFrom } from 'rxjs';
 
@@ -19,16 +19,17 @@ import { DeviceAdapterService } from '../device-adapter/device-adapter.service';
     providedIn: 'root'
 })
 export class ScriptService {
+    private http = inject(HttpClient);
+    private projectService = inject(ProjectService);
+    private hmiService = inject(HmiService);
+    private authService = inject(AuthService);
+    private deviceAdapaterService = inject(DeviceAdapterService);
+    private toastNotifier = inject(ToastNotifierService);
+
 
     private endPointConfig: string = EndPointApi.getURL();
 
-    constructor(private http: HttpClient,
-        private projectService: ProjectService,
-        private hmiService: HmiService,
-        private authService: AuthService,
-        private deviceAdapaterService: DeviceAdapterService,
-        private toastNotifier: ToastNotifierService
-    ) {
+    constructor() {
         this.projectService.onLoadClientAccess.subscribe(() => {
             this.loadScriptApi();
         });

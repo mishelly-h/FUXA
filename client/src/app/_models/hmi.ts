@@ -74,7 +74,7 @@ export class NavigationSettings {
     /** Side menu mode (over, push, fix) */
     mode: NaviModeType;
     /** Menu item show type (text, icon) */
-    type: NaviItemType;
+    type: NaviItemTypeKey;
     /** Menu background color */
     bkcolor = '#F4F5F7';
     /** Menu item text and icon color */
@@ -85,7 +85,7 @@ export class NavigationSettings {
     logo?: boolean = false;
     constructor() {
         this.mode = Object.keys(NaviModeType).find(key => NaviModeType[key] === NaviModeType.over) as NaviModeType;
-        this.type = Object.keys(NaviItemType).find(key => NaviItemType[key] === NaviItemType.block) as NaviItemType;
+        this.type = Object.keys(NaviItemType).find(key => NaviItemType[key] === NaviItemType.block) as NaviItemTypeKey;
     }
 }
 
@@ -108,6 +108,8 @@ export enum NaviItemType {
     block = 'item.navtype-icons-text-block',
     inline = 'item.navtype-icons-text-inline',
 }
+
+export type NaviItemTypeKey = keyof typeof NaviItemType;
 
 export class NaviItem {
 	id?: string;
@@ -144,6 +146,7 @@ export class HeaderSettings {
 export interface HeaderItem {
     id: string;
     type: HeaderItemType;
+    text?: string;
     icon: string;
     image: string;
     bkcolor: string;
@@ -299,7 +302,7 @@ export interface IPropertyVariable {
 }
 export class GaugeEvent {
     type: string;
-    action: string;
+    action: GaugeEventActionKey;
     actparam: string;
     actoptions = <any>{};
 }
@@ -431,6 +434,8 @@ export enum ViewEventActionType {
     onRunScript = 'shapes.event-onrunscript',
 }
 
+export type GaugeEventActionKey = keyof typeof GaugeEventActionType | keyof typeof ViewEventActionType;
+
 export enum GaugeEventRelativeFromType {
     window = 'window',
     mouse = 'mouse'
@@ -444,6 +449,8 @@ export enum GaugeEventSetValueType {
 export class GaugeRangeProperty {
     min: number;
     max: number;
+    fractionDigitsId?: string;
+    fractionDigits?: string | number;
     text: string;
     textId: string;
     color: string;

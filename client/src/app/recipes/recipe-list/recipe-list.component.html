@@ -4,11 +4,14 @@
 </div>
 <div class="work-panel">
     <div class="container">
-        <div *ngIf="loading" class="loading-spinner">
-            <mat-spinner diameter="40"></mat-spinner>
+        @if (loading) {
+<div class="loading-spinner">
+            <mat-spinner diameter="40" />
         </div>
+}
 
-        <mat-table #table [dataSource]="dataSource" matSort class="mat-table" *ngIf="!loading">
+        @if (!loading) {
+<mat-table #table [dataSource]="dataSource" matSort class="mat-table">
             <!-- Edit Column -->
             <ng-container matColumnDef="select">
                 <mat-header-cell *matHeaderCellDef [ngClass]="'selectidthClass'">
@@ -43,7 +46,7 @@
 
             <!-- Button edit options row -->
             <ng-container matColumnDef="options">
-                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-header-cell *matHeaderCellDef />
                 <mat-cell *matCellDef="let recipe">
                     <button mat-icon-button [matMenuTriggerFor]="menu" class="options">
                         <mat-icon>more_vert</mat-icon>
@@ -85,14 +88,17 @@
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" />
+            <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row" />
         </mat-table>
+}
 
-        <div *ngIf="!loading && dataSource.data.length === 0" class="empty-state">
+        @if (!loading && dataSource.data.length === 0) {
+<div class="empty-state">
             <mat-icon>menu_book</mat-icon>
             <p>{{'recipes.no-recipes' | translate}}</p>
         </div>
+}
     </div>
     <input #fileInput type="file" accept=".json,.csv" (change)="onImportRecipe($event)" style="display:none" />
 </div>

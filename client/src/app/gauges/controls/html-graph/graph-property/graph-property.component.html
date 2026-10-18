@@ -14,44 +14,54 @@
             <div class="my-form-field section-item section-item-block mt5">
                 <span>{{'graph.property-graph' | translate}}</span>
                 <mat-select [formControl]="graphCtrl" (selectionChange)="onGraphChanged()">
-                    <mat-select-search [formControl]="graphFilterCtrl"></mat-select-search>
+                    <mat-select-search [formControl]="graphFilterCtrl" />
                     <mat-option (click)="onEditNewGraph();">{{'graph.property-newgraph' | translate}}</mat-option>
-                    <mat-option *ngFor="let graph of filteredGraph | async" [value]="graph">
+                    @for (graph of filteredGraph | async; track graph) {
+<mat-option [value]="graph">
                         {{ graph.name }}
                     </mat-option>
+}
                 </mat-select>
             </div>
-            <ng-container *ngIf="graphType === graphBarType">
+            @if (graphType === graphBarType) {
+
                 <div class="my-form-field section-item mt5 inbk" style="width: 120px">
                     <span>{{'graph.property-date-last-range' | translate}}</span>
                     <mat-select [(value)]="options.lastRange" [disabled]="!isDateTime(graphCtrl.value)" (selectionChange)="onGraphChanged()">
-                        <mat-option *ngFor="let ev of lastRangeType | enumToArray" [value]="ev.key">
+                        @for (ev of lastRangeType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                             {{ 'graph.rangetype-' + ev.key | translate }}
                         </mat-option>
+}
                     </mat-select>
                 </div>
                 <div class="my-form-field section-item ml15" style="display: inline-block; width: 120px">
                     <span>{{'graph.property-date-group' | translate}}</span>
                     <mat-select [(value)]="options.dateGroup" [disabled]="!isDateTime(graphCtrl.value)" (selectionChange)="onGraphChanged()">
-                        <mat-option *ngFor="let ev of dateGroupType | enumToArray" [value]="ev.key">
+                        @for (ev of dateGroupType | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                             {{ 'graph.grouptype-' + ev.key | translate }}
                         </mat-option>
+}
                     </mat-select>
                 </div>
                 <div class="my-form-field section-inline-toggle slider-field ml10">
                     <span>{{'graph.property-offline' | translate}}</span>
                     <mat-slide-toggle color="primary" [checked]="!options.offline" (change)="options.offline = !options.offline;onGraphChanged();"
-                                    [disabled]="isDateTime(graphCtrl.value)">
-                    </mat-slide-toggle>
+                                    [disabled]="isDateTime(graphCtrl.value)" />
                 </div>
-            </ng-container>
+
+}
         </div>
-        <ng-container *ngIf="graphType === graphBarType">
+        @if (graphType === graphBarType) {
+
             <div class="element-property-header">
                 <span>{{'graph.property-general' | translate}}</span>
             </div>
-        </ng-container>
-        <ng-container *ngIf="graphType === graphBarType">
+
+}
+        @if (graphType === graphBarType) {
+
             <div class="my-form-field section-item section-item-block">
                 <span>{{'graph.property-graph-orientation' | translate}}</span>
                 <mat-select [(value)]="options.indexAxis" (selectionChange)="onGraphChanged()">
@@ -59,7 +69,8 @@
                     <mat-option value="y">{{'graph.property-ori-horizontal' | translate}}</mat-option>
                 </mat-select>
             </div>
-        </ng-container>
+
+}
         <div class="element-property-header">
             <span>{{'graph.property-title' | translate}}</span>
         </div>
@@ -70,10 +81,11 @@
             </div>
             <div class="my-form-field section-inline-toggle slider-field ml10">
                 <span>{{'graph.property-title-show' | translate}}</span>
-                <mat-slide-toggle color="primary" [(ngModel)]="options.plugins.title.display" (change)="onGraphChanged()"></mat-slide-toggle>
+                <mat-slide-toggle color="primary" [(ngModel)]="options.plugins.title.display" (change)="onGraphChanged()" />
             </div>
         </div>
-        <ng-container *ngIf="graphType === graphBarType">
+        @if (graphType === graphBarType) {
+
             <div class="element-property-header">
                 <span>{{'graph.property-yaxis' | translate}}</span>
             </div>
@@ -101,7 +113,7 @@
                 </div>
                 <div class="my-form-field section-inline-toggle slider-field ml10">
                     <span>{{'graph.property-yaxis-show' | translate}}</span>
-                    <mat-slide-toggle color="primary" [(ngModel)]="options.scales['y'].display" (change)="onGraphChanged()"></mat-slide-toggle>
+                    <mat-slide-toggle color="primary" [(ngModel)]="options.scales['y'].display" (change)="onGraphChanged()" />
                 </div>
             </div>
             <div class="element-property-header">
@@ -114,10 +126,11 @@
                 </div>
                 <div class="my-form-field section-inline-toggle slider-field ml10">
                     <span>{{'graph.property-xaxis-show' | translate}}</span>
-                    <mat-slide-toggle color="primary" [(ngModel)]="options.scales['x'].display" (change)="onGraphChanged()"></mat-slide-toggle>
+                    <mat-slide-toggle color="primary" [(ngModel)]="options.scales['x'].display" (change)="onGraphChanged()" />
                 </div>
             </div>
-        </ng-container>
+
+}
         <div class="element-property-header">
             <span>{{'graph.property-legend' | translate}}</span>
         </div>
@@ -145,10 +158,11 @@
             </div>
             <div class="my-form-field section-inline-toggle slider-field ml10">
                 <span>{{'graph.property-legend-show' | translate}}</span>
-                <mat-slide-toggle color="primary" [(ngModel)]="options.plugins.legend.display" (change)="onGraphChanged()"></mat-slide-toggle>
+                <mat-slide-toggle color="primary" [(ngModel)]="options.plugins.legend.display" (change)="onGraphChanged()" />
             </div>
         </div>
-        <ng-container *ngIf="graphType === graphBarType">
+        @if (graphType === graphBarType) {
+
             <div class="element-property-header">
                 <span>{{'graph.property-theme' | translate}}</span>
             </div>
@@ -161,7 +175,8 @@
                         <mat-option [value]="themeType.dark">{{'graph.property-theme-dark' | translate}}</mat-option>
                     </mat-select>
                 </div>
-                <div *ngIf="options.theme === themeType.customise" class="mt5">
+                @if (options.theme === themeType.customise) {
+<div class="mt5">
                     <div class="my-form-field section-inline-color color-field">
                         <span>{{'graph.property-title-color' | translate}}</span>
                         <input [(colorPicker)]="options.plugins.title.color" [cpAlphaChannel]="'always'" class="input-color" [style.background]="options.plugins.title.color"
@@ -207,8 +222,10 @@
                         </div>
                     </div>
                 </div>
+}
             </div>
-        </ng-container>
+
+}
         <div class="element-property-header">
             <span>{{'graph.property-layout' | translate}}</span>
         </div>
@@ -217,18 +234,21 @@
                 <span>{{'graph.property-border' | translate}}</span>
                 <input numberOnly [(ngModel)]="options.borderWidth" (change)="onGraphChanged()" (keyup.enter)="onGraphChanged()" type="number" min="0">
             </div>
-            <ng-container *ngIf="graphType === graphBarType">
+            @if (graphType === graphBarType) {
+
                 <div class="my-form-field section-inline-toggle slider-field ml10">
                     <span style="width: 60px">{{'graph.property-gridline' | translate}}</span>
-                    <mat-slide-toggle color="primary" [(ngModel)]="options.gridLinesShow" (change)="onGraphChanged()"></mat-slide-toggle>
+                    <mat-slide-toggle color="primary" [(ngModel)]="options.gridLinesShow" (change)="onGraphChanged()" />
                 </div>
-            </ng-container>
+
+}
             <div class="my-form-field section-inline-toggle section-inline-toggle-ext slider-field ml10">
                 <span>{{'graph.property-tooltip' | translate}}</span>
-                <mat-slide-toggle color="primary" [(ngModel)]="options.plugins.tooltip.enabled" (change)="onGraphChanged()"></mat-slide-toggle>
+                <mat-slide-toggle color="primary" [(ngModel)]="options.plugins.tooltip.enabled" (change)="onGraphChanged()" />
             </div>
         </div>
-        <ng-container *ngIf="graphType === graphBarType">
+        @if (graphType === graphBarType) {
+
             <div class="element-property-header">
                 <span>{{'graph.property-datalabels' | translate}}</span>
             </div>
@@ -247,9 +267,10 @@
                 </div>
                 <div class="my-form-field section-inline-toggle slider-field ml10">
                     <span>{{'graph.property-datalabels-show' | translate}}</span>
-                    <mat-slide-toggle color="primary" [(ngModel)]="options.plugins.datalabels.display" (change)="onGraphChanged()"></mat-slide-toggle>
+                    <mat-slide-toggle color="primary" [(ngModel)]="options.plugins.datalabels.display" (change)="onGraphChanged()" />
                 </div>
             </div>
-        </ng-container>
+
+}
     </div>
 </div>

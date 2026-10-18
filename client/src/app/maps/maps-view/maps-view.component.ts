@@ -1,20 +1,23 @@
-import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, Injector, Input, OnDestroy, inject, input, viewChild, output } from '@angular/core';
 import * as L from 'leaflet';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
 import { ProjectService } from '../../_services/project.service';
-import { MatMenuTrigger as MatMenuTrigger } from '@angular/material/menu';
+import { MatMenuTrigger as MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { GaugeAction, GaugeRangeProperty, Hmi, View, ViewProperty } from '../../_models/hmi';
 import { filter, Subject, takeUntil } from 'rxjs';
 import { MapsLocation, MAPSLOCATION_PREFIX } from '../../_models/maps';
 import { MapsLocationPropertyComponent } from '../maps-location-property/maps-location-property.component';
 import { Utils } from '../../_helpers/utils';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { MapsLocationImportComponent } from '../maps-location-import/maps-location-import.component';
 import { MapsFabButtonMenuComponent } from './maps-fab-button-menu/maps-fab-button-menu.component';
 import { HmiService } from '../../_services/hmi.service';
+import { NgStyle } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { MatDivider } from '@angular/material/list';
 
 interface MarkerBinding {
     nodeIds: string[];
@@ -30,20 +33,29 @@ interface MarkerBinding {
     selector: 'app-maps-view',
     templateUrl: './maps-view.component.html',
     styleUrls: ['./maps-view.component.scss'],
-    standalone: false
+    imports: [NgStyle, MatButton, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, TranslatePipe]
 })
 export class MapsViewComponent implements AfterViewInit, OnDestroy {
+    private resolver = inject(ComponentFactoryResolver);
+    private hmiService = inject(HmiService);
+    private injector = inject(Injector);
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private appRef = inject(ApplicationRef);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+
 
     @Input() view: View;
     @Input() hmi: Hmi;
-    @Input() gaugesManager: GaugesManager;        // gauges.component
-    @Input() editMode: boolean;
-    @Output() onGoTo: EventEmitter<string> = new EventEmitter<string>();
+    readonly gaugesManager = input<GaugesManager>(undefined);        // gauges.component
+    readonly editMode = input<boolean>(undefined);
+    readonly onGoTo = output<string>();
 
-    @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
-    @ViewChild('menuTrigger', { read: ElementRef }) menuTriggerButton!: ElementRef;
+    readonly menuTrigger = viewChild.required(MatMenuTrigger);
+    readonly menuTriggerButton = viewChild.required('menuTrigger', { read: ElementRef });
 
-    @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef;
+    readonly mapContainer = viewChild.required<ElementRef>('mapContainer');
     private map: L.Map | null = null;
 
     private destroy$ = new Subject<void>();
@@ -57,17 +69,6 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
 
     private openPopups = [];
     private currentPopup: L.Popup | null = null;
-
-    constructor(
-        private resolver: ComponentFactoryResolver,
-        private hmiService: HmiService,
-        private injector: Injector,
-        private dialog: MatDialog,
-        private projectService: ProjectService,
-        private appRef: ApplicationRef,
-        private translateService: TranslateService,
-        private toastr: ToastrService
-    ) { }
 
     ngAfterViewInit(): void {
         let startLocation: L.LatLngExpression = [46.9466746335407, 7.444236656153662]; // Bern
@@ -92,11 +93,11 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
             this.initMapEvents();
             this.map.invalidateSize();
 
-            if (!this.editMode) {
+            if (!this.editMode()) {
                 this.initWatch();
             }
             try {
-                this.gaugesManager.emitBindedSignals(this.view.id);
+                this.gaugesManager().emitBindedSignals(this.view.id);
             } catch (err) {
                 console.error(err);
             }
@@ -117,7 +118,7 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
             this.showContextMenu(event);
         });
         this.map.on('click', () => {
-            this.menuTrigger.closeMenu();
+            this.menuTrigger().closeMenu();
         });
     }
 
@@ -197,13 +198,13 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
             }
             e.popup = null;
         });
-        if (!this.editMode) {
+        if (!this.editMode()) {
             this.subscribeMarkerTags();
         }
     }
 
     initWatch() {
-        this.gaugesManager.onchange.pipe(
+        this.gaugesManager().onchange.pipe(
             takeUntil(this.destroy$),
             filter(varTag => this.markerItemsMap.has(varTag.id))
         ).subscribe(varTag => {
@@ -257,12 +258,12 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
         const mapContainer = this.map.getContainer().getBoundingClientRect();
         const posX = event.originalEvent.clientX - mapContainer.left;
         const posY = event.originalEvent.clientY - mapContainer.top;
-        const triggerButton = this.menuTriggerButton.nativeElement;
+        const triggerButton = this.menuTriggerButton().nativeElement;
         triggerButton.style.left = `${posX}px`;
         triggerButton.style.top = `${posY}px`;
         triggerButton.style.position = 'absolute';
         triggerButton.style.display = 'block';
-        this.menuTrigger.openMenu();
+        this.menuTrigger().openMenu();
     }
 
     onClickMarker(location: MapsLocation, marker: L.Marker) {
@@ -343,7 +344,7 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
             const factory = this.resolver.resolveComponentFactory(FuxaViewComponent);
             const componentRef = factory.create(this.injector);
 
-            componentRef.instance.gaugesManager = this.gaugesManager;
+            componentRef.instance.gaugesManager = this.gaugesManager();
             componentRef.instance.hmi = this.hmi;
             componentRef.instance.view = this.hmi.views.find(view => view.id === location.viewId);
             componentRef.instance.child = true;

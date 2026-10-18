@@ -1,19 +1,23 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, input, output } from '@angular/core';
 
 import { View } from '../../../_models/hmi';
-import { VariableMapItemType } from '../flex-variable-map/flex-variable-map.component';
+import { VariableMapItemType, FlexVariableMapComponent } from '../flex-variable-map/flex-variable-map.component';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'flex-variables-mapping',
     templateUrl: './flex-variables-mapping.component.html',
     styleUrls: ['./flex-variables-mapping.component.scss'],
-    standalone: false
+    imports: [MatIconButton, MatIcon, FlexVariableMapComponent, MatTooltip, TranslatePipe]
 })
 export class FlexVariablesMappingComponent implements OnInit, OnChanges {
-    @Input() view: View;
+    readonly view = input<View>(undefined);
     @Input() mapping: any;
-    @Input() data: any;
-    @Output() mappingChange: EventEmitter<any> = new EventEmitter();
+    readonly data = input<any>(undefined);
+    readonly mappingChange = output<any>();
 
     public placeholders;
 
@@ -37,8 +41,9 @@ export class FlexVariablesMappingComponent implements OnInit, OnChanges {
             return this.placeholders;
         }
         let viewVariables = {};
-        if (this.view) {
-            Object.values(this.view.items).forEach((item) => {
+        const view = this.view();
+        if (view) {
+            Object.values(view.items).forEach((item) => {
                 if (item && item.property) {
                     if (item.property.variableId) {
                         this.assignVariableTo(item.property, viewVariables);

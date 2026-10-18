@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, inject, input, viewChild, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { GaugeAction, GaugeProperty, View } from '../../../../_models/hmi';
@@ -14,6 +14,15 @@ import { ProjectService } from '../../../../_services/project.service';
 import { Device, DevicesUtils } from '../../../../_models/device';
 import { ActionPropertyService } from '../../../gauge-property/action-properties-dialog/action-property.service';
 import { UploadFile } from '../../../../_models/project';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import { TranslatePipe } from '@ngx-translate/core';
 
 declare var SVG: any;
 
@@ -21,19 +30,23 @@ declare var SVG: any;
     selector: 'app-pipe-property',
     templateUrl: './pipe-property.component.html',
     styleUrls: ['./pipe-property.component.scss'],
-    standalone: false
+    imports: [MatTabGroup, MatTab, FlexAuthComponent, FormsModule, NumberOnlyDirective, ColorPickerDirective, MatIconButton, MatTooltip, MatIcon, MatSelect, TranslatePipe]
 })
 export class PipePropertyComponent implements OnInit  {
-    @Input() data: PipePropertyData;
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private actionPropertyService = inject(ActionPropertyService);
+
+    readonly data = input<PipePropertyData>(undefined);
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }
 
-	@ViewChild('flexauth', {static: false}) flexAuth: FlexAuthComponent;
-    @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
-    @ViewChild('flexevent', {static: false}) flexEvent: FlexEventComponent;
-    @ViewChild('flexaction', {static: false}) flexAction: FlexActionComponent;
+	readonly flexAuth = viewChild<FlexAuthComponent>('flexauth');
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
+    readonly flexEvent = viewChild<FlexEventComponent>('flexevent');
+    readonly flexAction = viewChild<FlexActionComponent>('flexaction');
     property: GaugeProperty;
     options: PipeOptions;
     views: View[];
@@ -42,20 +55,15 @@ export class PipePropertyComponent implements OnInit  {
     pipepath = { bk: null, fg: null, hp: null };
     devices: Device[] = [];
 
-    constructor(
-        private dialog: MatDialog,
-        private projectService: ProjectService,
-        private actionPropertyService: ActionPropertyService) {
-    }
-
     ngOnInit() {
         this.initFromInput();
     }
 
     initFromInput() {
-        let emitChange = Utils.isNullOrUndefined(this.data.settings.property) || Utils.isNullOrUndefined(this.data.settings.property.options);
-        this.name = this.data.settings.name;
-        this.property = this.data.settings.property || new GaugeProperty();
+        const data = this.data();
+        let emitChange = Utils.isNullOrUndefined(data.settings.property) || Utils.isNullOrUndefined(data.settings.property.options);
+        this.name = this.data().settings.name;
+        this.property = this.data().settings.property || new GaugeProperty();
         if (!this.property) {
             this.property = new GaugeProperty();
         }
@@ -77,17 +85,18 @@ export class PipePropertyComponent implements OnInit  {
     }
 
     onPipeChanged() {
-        this.data.settings.name = this.name;
-        this.data.settings.property = this.property;
-        this.data.settings.property.options = this.options;
-        this.onPropChanged.emit(this.data.settings);
+        const data = this.data();
+        data.settings.name = this.name;
+        data.settings.property = this.property;
+        data.settings.property.options = this.options;
+        this.onPropChanged.emit(data.settings);
     }
 
     onEditActions() {
         let dialogRef = this.dialog.open(ActionPropertiesDialogComponent, {
             disableClose: true,
             data: <ActionPropertiesData>{
-                withActions: this.data.withActions,
+                withActions: this.data().withActions,
                 property: JSON.parse(JSON.stringify(this.property))
             },
             position: { top: '60px' }
@@ -121,11 +130,11 @@ export class PipePropertyComponent implements OnInit  {
     }
 
     onAddEvent() {
-		this.flexEvent.onAddEvent();
+		this.flexEvent().onAddEvent();
 	}
 
 	onAddAction() {
-		this.flexAction.onAddAction();
+		this.flexAction().onAddAction();
 	}
 
     getActionTag(action: GaugeAction) {
@@ -168,7 +177,7 @@ export class PipePropertyComponent implements OnInit  {
     }
 
     private _reload() {
-        this.property = this.data?.settings?.property;
+        this.property = this.data()?.settings?.property;
         this.initFromInput();
     }
 }

@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent } from '@angular/material/dialog';
 
 import { ProjectService } from '../../_services/project.service';
 import { AppService } from '../../_services/app.service';
@@ -12,6 +12,12 @@ import { AppSettingsComponent } from '../../editor/app-settings/app-settings.com
 import { ClientScriptAccessComponent } from '../client-script-access/client-script-access.component';
 import { PluginService } from '../../_services/plugin.service';
 import { catchError, Observable, of, shareReplay } from 'rxjs';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 const clientOnlyToDisable = ['messages', 'users', 'userRoles', 'plugins', 'notifications', 'scripts', 'reports', 'materials', 'logs', 'events', 'language'];
 
@@ -19,18 +25,20 @@ const clientOnlyToDisable = ['messages', 'users', 'userRoles', 'plugins', 'notif
     selector: 'app-setup',
     templateUrl: './setup.component.html',
     styleUrls: ['./setup.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatButton, AsyncPipe, TranslatePipe]
 })
 export class SetupComponent {
+    private router = inject(Router);
+    private appService = inject(AppService);
+    dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private plugins = inject(PluginService);
+    dialogRef = inject<MatDialogRef<SetupComponent>>(MatDialogRef);
+
 
     nodeRedExists$: Observable<boolean>;
 
-    constructor(private router: Router,
-                private appService: AppService,
-                public dialog: MatDialog,
-                private projectService: ProjectService,
-                private plugins: PluginService,
-                public dialogRef: MatDialogRef<SetupComponent>) {
+    constructor() {
 
         this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; };
 

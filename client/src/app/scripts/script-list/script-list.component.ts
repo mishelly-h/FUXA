@@ -1,10 +1,10 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ProjectService } from '../../_services/project.service';
 import { ScriptEditorComponent } from '../script-editor/script-editor.component';
 import { ScriptSchedulingComponent, SchedulingData } from '../script-scheduling/script-scheduling.component';
@@ -12,26 +12,31 @@ import { Script, SCRIPT_PREFIX, ScriptMode, ScriptScheduling, ScriptSchedulingMo
 import { Utils } from '../../_helpers/utils';
 import { ScriptPermissionComponent, ScriptPermissionData } from '../script-permission/script-permission.component';
 import { ScriptModeComponent, ScriptModeType } from '../script-mode/script-mode.component';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-script-list',
     templateUrl: './script-list.component.html',
     styleUrls: ['./script-list.component.scss'],
-    standalone: false
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatIconButton, MatCellDef, MatCell, MatSortHeader, MatMenuTrigger, MatTooltip, MatMenu, MatMenuItem, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFabButton, TranslatePipe]
 })
 export class ScriptListComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+
 
     displayedColumns = ['select', 'name', 'params', 'scheduling', 'mode', 'options', 'remove'];
     dataSource = new MatTableDataSource([]);
 
     private subscriptionLoad: Subscription;
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(public dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService) { }
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
 
     ngOnInit() {
@@ -42,7 +47,7 @@ export class ScriptListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

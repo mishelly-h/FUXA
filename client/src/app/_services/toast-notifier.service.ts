@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 
@@ -6,12 +6,9 @@ import { ToastrService } from 'ngx-toastr';
     providedIn: 'root'
 })
 export class ToastNotifierService {
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
 
-    constructor(
-        private translateService: TranslateService,
-        private toastr: ToastrService) {
-
-    }
 
     notifyError(msgKey: string, err = '', closeButton = true, disableTimeOut = true) {
         this.translateService.get(msgKey).subscribe((txt: string) => {

@@ -1,16 +1,30 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TableCell, TableCellType, TableType } from '../../../../../_models/hmi';
 import { ProjectService } from '../../../../../_services/project.service';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { DialogDraggableDirective } from '../../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../../../../_directives/number.directive';
+import { FlexVariableComponent } from '../../../../gauge-property/flex-variable/flex-variable.component';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-table-customizer-cell-edit',
     templateUrl: './table-customizer-cell-edit.component.html',
     styleUrls: ['./table-customizer-cell-edit.component.css'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, FormsModule, MatSelect, MatOption, NumberOnlyDirective, FlexVariableComponent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class TableCustomizerCellEditComponent {
+    private projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TableCustomizerCellEditComponent>>(MatDialogRef);
+    data = inject<TableCustomizerCellType>(MAT_DIALOG_DATA);
+
 
     tableType = TableType;
     cellType = TableCustomizerCellRowType;
@@ -18,11 +32,7 @@ export class TableCustomizerCellEditComponent {
     devicesValues = { devices: null };
     dateTimeFormatsLabel = '';
 
-    constructor(
-        private projectService: ProjectService,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TableCustomizerCellEditComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TableCustomizerCellType) {
+    constructor() {
 
         this.devicesValues.devices = Object.values(this.projectService.getDevices());
         this.dateTimeFormatsLabel = this.translateService.instant('table.cell-ts-format');

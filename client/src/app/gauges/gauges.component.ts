@@ -1,4 +1,4 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, Output, EventEmitter, inject } from '@angular/core';
 import { HmiService } from '../_services/hmi.service';
 import { ChartRangeType, ChartViewType } from '../_models/chart';
 
@@ -42,6 +42,10 @@ import { HtmlVideoComponent } from './controls/html-video/html-video.component';
 
 @Injectable()
 export class GaugesManager {
+    private hmiService = inject(HmiService);
+    private authService = inject(AuthService);
+    private winRef = inject(WindowRef);
+
 
     private static readonly SvgShapeElements = 'path, rect, circle, ellipse, line, polyline, polygon, text, image, use';
     private static readonly ShapeTypeTags = [
@@ -83,9 +87,7 @@ export class GaugesManager {
         PipeComponent, SliderComponent, HtmlSwitchComponent, HtmlGraphComponent, HtmlIframeComponent, HtmlTableComponent,
         HtmlImageComponent, PanelComponent, HtmlVideoComponent, HtmlSchedulerComponent, HtmlRecipeComponent];
 
-    constructor(private hmiService: HmiService,
-        private authService: AuthService,
-        private winRef: WindowRef) {
+    constructor() {
         // subscription to the change of variable value, then emit to the gauges of fuxa-view
         this.hmiService.onVariableChanged.subscribe(sig => {
             try {

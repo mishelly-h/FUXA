@@ -1,4 +1,4 @@
-import { Component, ViewContainerRef, ComponentFactoryResolver } from '@angular/core';
+import { Component, ViewContainerRef, ComponentFactoryResolver, inject } from '@angular/core';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings, Variable, GaugeStatus } from '../../../_models/hmi';
 import { Utils } from '../../../_helpers/utils';
@@ -10,17 +10,14 @@ import { ChartOptions } from '../../../gui-helpers/ngx-uplot/ngx-uplot.component
 @Component({
     selector: 'html-chart',
     templateUrl: './html-chart.component.html',
-    styleUrls: ['./html-chart.component.css'],
-    standalone: false
+    styleUrls: ['./html-chart.component.css']
 })
 export class HtmlChartComponent extends GaugeBaseComponent {
+    private resolver = inject(ComponentFactoryResolver);
+
     static TypeTag = 'svg-ext-html_chart';
     static LabelTag = 'HtmlChart';
     static prefixD = 'D-HXC_';
-
-    constructor(private resolver: ComponentFactoryResolver) {
-        super();
-    }
 
     static getSignals(pro: any) {
         return pro.variableIds;

@@ -1,23 +1,5 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
-import {
-  Directive,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  ElementRef,
-  HostListener,
-  forwardRef,
-  ChangeDetectorRef,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  Input,
-  DoCheck,
-  KeyValueDiffer,
-  KeyValueDiffers,
-  Output,
-  EventEmitter,
-  Renderer2
-} from '@angular/core';
+import { Directive, ViewContainerRef, ComponentFactoryResolver, ElementRef, HostListener, forwardRef, ChangeDetectorRef, OnInit, OnChanges, SimpleChanges, Input, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2, inject, input, output } from '@angular/core';
 import { DaterangepickerComponent } from './daterangepicker.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _moment from 'moment';
@@ -37,74 +19,55 @@ const moment = _moment;
             provide: NG_VALUE_ACCESSOR,
             useExisting: forwardRef(() => DaterangepickerDirective), multi: true
         }
-    ],
-    standalone: false
+    ]
 })
 export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
+  viewContainerRef = inject(ViewContainerRef);
+  _changeDetectorRef = inject(ChangeDetectorRef);
+  private _componentFactoryResolver = inject(ComponentFactoryResolver);
+  private _el = inject(ElementRef);
+  private _renderer = inject(Renderer2);
+  private differs = inject(KeyValueDiffers);
+  private _localeService = inject(LocaleService);
+
   public picker: DaterangepickerComponent;
   private _onChange = Function.prototype;
   private _onTouched = Function.prototype;
   private _validatorChange = Function.prototype;
   private _value: any;
   private localeDiffer: KeyValueDiffer<string, any>;
-  @Input()
-  minDate: _moment.Moment;
-  @Input()
-  maxDate: _moment.Moment;
-  @Input()
-  autoApply: boolean;
-  @Input()
-  alwaysShowCalendars: boolean;
-  @Input()
-  showCustomRangeLabel: boolean;
-  @Input()
-  linkedCalendars: boolean;
-  @Input()
-  dateLimit: number = null;
-  @Input()
-  singleDatePicker: boolean;
-  @Input()
-  showWeekNumbers: boolean;
-  @Input()
-  showISOWeekNumbers: boolean;
-  @Input()
-  showDropdowns: boolean;
-  @Input()
-  isInvalidDate: Function;
-  @Input()
-  isCustomDate: Function;
-  @Input()
-  showClearButton: boolean;
-  @Input()
-  ranges: any;
+  readonly minDate = input<_moment.Moment>(undefined);
+  readonly maxDate = input<_moment.Moment>(undefined);
+  readonly autoApply = input<boolean>(undefined);
+  readonly alwaysShowCalendars = input<boolean>(undefined);
+  readonly showCustomRangeLabel = input<boolean>(undefined);
+  readonly linkedCalendars = input<boolean>(undefined);
+  readonly dateLimit = input<number>(null);
+  readonly singleDatePicker = input<boolean>(undefined);
+  readonly showWeekNumbers = input<boolean>(undefined);
+  readonly showISOWeekNumbers = input<boolean>(undefined);
+  readonly showDropdowns = input<boolean>(undefined);
+  readonly isInvalidDate = input<Function>(undefined);
+  readonly isCustomDate = input<Function>(undefined);
+  readonly showClearButton = input<boolean>(undefined);
+  readonly ranges = input<any>(undefined);
   @Input()
   opens: string;
   @Input()
   drops: string;
   firstMonthDayClass: string;
-  @Input()
-  lastMonthDayClass: string;
-  @Input()
-  emptyWeekRowClass: string;
-  @Input()
-  firstDayOfNextMonthClass: string;
-  @Input()
-  lastDayOfPreviousMonthClass: string;
-  @Input()
-  keepCalendarOpeningWithRange: boolean;
-  @Input()
-  showRangeLabelOnInput: boolean;
-  @Input()
-  showCancel = false;
+  readonly lastMonthDayClass = input<string>(undefined);
+  readonly emptyWeekRowClass = input<string>(undefined);
+  readonly firstDayOfNextMonthClass = input<string>(undefined);
+  readonly lastDayOfPreviousMonthClass = input<string>(undefined);
+  readonly keepCalendarOpeningWithRange = input<boolean>(undefined);
+  readonly showRangeLabelOnInput = input<boolean>(undefined);
+  readonly showCancel = input(false);
   // timepicker variables
-  @Input()
-  timePicker: Boolean = false;
-  @Input()
-  timePicker24Hour: Boolean = false;
-  @Input()
-  timePickerIncrement = 1;
-  @Input()
-  timePickerSeconds: Boolean = false;
+  readonly timePicker = input<Boolean>(false);
+  readonly timePicker24Hour = input<Boolean>(false);
+  readonly timePickerIncrement = input(1);
+  readonly timePickerSeconds = input<Boolean>(false);
   _locale: LocaleConfig = {};
   @Input() set locale(value) {
     this._locale = {...this._localeService.config, ...value};
@@ -143,19 +106,13 @@ export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
     this._onChange(val);
     this._changeDetectorRef.markForCheck();
   }
-  @Output('change') onChange: EventEmitter<Object> = new EventEmitter();
-  @Output('rangeClicked') rangeClicked: EventEmitter<Object> = new EventEmitter();
-  @Output('datesUpdated') datesUpdated: EventEmitter<Object> = new EventEmitter();
+  readonly onChange = output<Object>({ alias: 'change' });
+  readonly rangeClicked = output<Object>({ alias: 'rangeClicked' });
+  readonly datesUpdated = output<Object>({ alias: 'datesUpdated' });
 
-  constructor(
-    public viewContainerRef: ViewContainerRef,
-    public _changeDetectorRef: ChangeDetectorRef,
-    private _componentFactoryResolver: ComponentFactoryResolver,
-    private _el: ElementRef,
-    private _renderer: Renderer2,
-    private differs: KeyValueDiffers,
-    private _localeService: LocaleService
-  ) {
+  constructor() {
+    const viewContainerRef = this.viewContainerRef;
+
     this.drops = 'down';
     this.opens = 'right';
     const componentFactory = this._componentFactoryResolver.resolveComponentFactory(DaterangepickerComponent);
@@ -184,10 +141,10 @@ export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
       }
     });
     this.picker.firstMonthDayClass = this.firstMonthDayClass;
-    this.picker.lastMonthDayClass = this.lastMonthDayClass;
-    this.picker.emptyWeekRowClass = this.emptyWeekRowClass;
-    this.picker.firstDayOfNextMonthClass = this.firstDayOfNextMonthClass;
-    this.picker.lastDayOfPreviousMonthClass = this.lastDayOfPreviousMonthClass;
+    this.picker.lastMonthDayClass = this.lastMonthDayClass();
+    this.picker.emptyWeekRowClass = this.emptyWeekRowClass();
+    this.picker.firstDayOfNextMonthClass = this.firstDayOfNextMonthClass();
+    this.picker.lastDayOfPreviousMonthClass = this.lastDayOfPreviousMonthClass();
     this.picker.drops = this.drops;
     this.picker.opens = this.opens;
     this.localeDiffer = this.differs.find(this.locale).create();
@@ -270,7 +227,7 @@ export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
     setPosition() {
       let style;
       let containerTop;
-      const container = this.picker.pickerContainer.nativeElement;
+      const container = this.picker.pickerContainer().nativeElement;
       const element = this._el.nativeElement;
       if (this.drops && this.drops == 'up') {
         containerTop = (element.offsetTop - container.clientHeight) + 'px';

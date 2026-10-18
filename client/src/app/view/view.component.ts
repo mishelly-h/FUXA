@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, ElementRef, inject, viewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,12 +13,17 @@ import panzoom from 'panzoom';
     selector: 'app-view',
     templateUrl: './view.component.html',
     styleUrls: ['./view.component.scss'],
-    standalone: false
+    imports: [FuxaViewComponent]
 })
 export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
+    private projectService = inject(ProjectService);
+    private route = inject(ActivatedRoute);
+    private changeDetector = inject(ChangeDetectorRef);
+    gaugesManager = inject(GaugesManager);
 
-    @ViewChild('fuxaview', {static: true}) fuxaview: FuxaViewComponent;
-	@ViewChild('container', {read: ElementRef, static: true}) container: ElementRef;
+
+    readonly fuxaview = viewChild<FuxaViewComponent>('fuxaview');
+	readonly container = viewChild('container', { read: ElementRef });
 
     startView: View = new View();
     hmi: Hmi = new Hmi();
@@ -26,11 +31,6 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewName: string;
 
     private subscriptionLoad: Subscription;
-
-    constructor(private projectService: ProjectService,
-        private route: ActivatedRoute,
-        private changeDetector: ChangeDetectorRef,
-        public gaugesManager: GaugesManager) { }
 
     ngOnInit() {
         this.viewName = this.route.snapshot.queryParamMap.get('name');
@@ -71,8 +71,9 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
         if (this.hmi && this.hmi.views && this.hmi.views.length > 0) {
             this.startView = this.hmi.views.find(x => x.name === this.viewName);
             this.setBackground();
-            if (this.startView && this.fuxaview) {
-                this.fuxaview.loadHmi(this.startView);
+            const fuxaview = this.fuxaview();
+            if (this.startView && fuxaview) {
+                fuxaview.loadHmi(this.startView);
             }
             if (this.hmi.layout && this.hmi.layout.zoom && ZoomModeType[this.hmi.layout.zoom] === ZoomModeType.enabled) {
                 setTimeout(() => {
@@ -82,7 +83,7 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
                             bounds: true,
                             boundsPadding: 0.05,
                         });
-                        this.container.nativeElement.style.overflow = 'hidden';
+                        this.container().nativeElement.style.overflow = 'hidden';
                     }
                 }, 1000);
             }

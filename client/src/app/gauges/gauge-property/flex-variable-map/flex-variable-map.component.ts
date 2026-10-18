@@ -1,18 +1,19 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, input, output } from '@angular/core';
 import { IPropertyVariable, View } from '../../../_models/hmi';
+import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
 
 @Component({
     selector: 'flex-variable-map',
     templateUrl: './flex-variable-map.component.html',
     styleUrls: ['./flex-variable-map.component.scss'],
-    standalone: false
+    imports: [FlexVariableComponent]
 })
 export class FlexVariableMapComponent implements OnInit {
-    @Input() view: View;
-    @Input() data: any;
+    readonly view = input<View>(undefined);
+    readonly data = input<any>(undefined);
     @Input() value: any;
-    @Input() placeholders: any = [];
-    @Output() valueChange: EventEmitter<any> = new EventEmitter();
+    readonly placeholders = input<any>([]);
+    readonly valueChange = output<any>();
 
     constructor() {
     }

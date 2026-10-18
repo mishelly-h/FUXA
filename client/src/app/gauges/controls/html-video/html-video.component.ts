@@ -8,8 +8,7 @@ import { EndPointApi } from '../../../_helpers/endpointapi';
 @Component({
     selector: 'app-html-video',
     templateUrl: './html-video.component.html',
-    styleUrls: ['./html-video.component.css'],
-    standalone: false
+    styleUrls: ['./html-video.component.css']
 })
 export class HtmlVideoComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-own_ctrl-video';

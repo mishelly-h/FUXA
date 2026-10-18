@@ -1,26 +1,40 @@
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { HeaderItem, HeaderItemType } from '../../../_models/hmi';
 import { ProjectService } from '../../../_services/project.service';
 import { Utils } from '../../../_helpers/utils';
 import { UploadFile } from '../../../_models/project';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { IconSelectorComponent } from '../../../framework/icon-selector/icon-selector.component';
+import { MatSelect } from '@angular/material/select';
+import { FormsModule } from '@angular/forms';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-layout-header-item-property',
     templateUrl: './layout-header-item-property.component.html',
     styleUrls: ['./layout-header-item-property.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, IconSelectorComponent, MatSelect, FormsModule, MatOption, NumberOnlyDirective, ColorPickerDirective, MatDialogActions, MatButton, TranslatePipe]
 })
 export class LayoutHeaderItemPropertyComponent {
+    projectService = inject(ProjectService);
+    private cdr = inject(ChangeDetectorRef);
+    dialogRef = inject<MatDialogRef<LayoutHeaderItemPropertyComponent>>(MatDialogRef);
+    data = inject<HeaderItem>(MAT_DIALOG_DATA);
+
     item: HeaderItem;
     headerType = <HeaderItemType[]>['button', 'label', 'image'];
     defaultColor = Utils.defaultColor;
 
-    constructor(
-        public projectService: ProjectService,
-        private cdr: ChangeDetectorRef,
-        public dialogRef: MatDialogRef<LayoutHeaderItemPropertyComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: HeaderItem) {
+    constructor() {
+        const data = this.data;
+
 
         this.item = data;
     }

@@ -8,14 +8,12 @@ import { LocaleConfig, LOCALE_CONFIG } from './daterangepicker.config';
 import { LocaleService } from './locale.service';
 
 @NgModule({
-    declarations: [
-        DaterangepickerComponent,
-        DaterangepickerDirective
-    ],
     imports: [
         CommonModule,
         FormsModule,
-        ReactiveFormsModule
+        ReactiveFormsModule,
+        DaterangepickerComponent,
+        DaterangepickerDirective
     ],
     providers: [],
     exports: [

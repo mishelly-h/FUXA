@@ -16,7 +16,8 @@
                 <input matInput formControlName="defaultName" placeholder="{{'language.settings-name-placeholder' | translate}}" type="text" style="width: 200px;">
             </div>
         </div>
-        <div *ngFor="let lang of languages.controls; let i = index" formArrayName="languages">
+        @for (lang of languages.controls; track lang; let i = $index) {
+<div formArrayName="languages">
             <div [formGroupName]="i" class="language-item">
                 <div class="my-form-field inbk">
                     <span>*{{'language.settings-id' | translate}}</span>
@@ -31,6 +32,7 @@
                 </button>
             </div>
         </div>
+}
     </div>
     <div mat-dialog-actions class="dialog-action mt10">
         <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>

@@ -1,14 +1,11 @@
-import {
-    Input, Directive, ViewContainerRef,
-    OnInit, TemplateRef, DoCheck,
-    IterableDiffers, IterableDiffer
-} from '@angular/core';
+import { Input, Directive, ViewContainerRef, OnInit, TemplateRef, DoCheck, IterableDiffers, IterableDiffer, inject } from '@angular/core';
 
-@Directive({
-    selector: '[lazyFor]',
-    standalone: false
-})
+@Directive({ selector: '[lazyFor]' })
 export class LazyForDirective implements DoCheck, OnInit {
+    private vcr = inject(ViewContainerRef);
+    private tpl = inject<TemplateRef<any>>(TemplateRef);
+    private iterableDiffers = inject(IterableDiffers);
+
 
     lazyForContainer: HTMLElement;
 
@@ -41,10 +38,6 @@ export class LazyForDirective implements DoCheck, OnInit {
     private differ: IterableDiffer<any>;
 
     private lastChangeTriggeredByScroll = false;
-
-    constructor(private vcr: ViewContainerRef,
-        private tpl: TemplateRef<any>,
-        private iterableDiffers: IterableDiffers) { }
 
     ngOnInit() {
         this.templateElem = this.vcr.element.nativeElement;

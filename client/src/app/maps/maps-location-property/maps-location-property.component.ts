@@ -1,37 +1,49 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { ChangeDetectorRef, Component, OnInit, inject, viewChild } from '@angular/core';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ProjectService } from '../../_services/project.service';
 import { MapsLocation, MAPSLOCATION_PREFIX } from '../../_models/maps';
 import { Utils } from '../../_helpers/utils';
 import { GaugeAction, GaugeRangeProperty, View, ViewType } from '../../_models/hmi';
-import { FlexDeviceTagValueType } from '../../gauges/gauge-property/flex-device-tag/flex-device-tag.component';
+import { FlexDeviceTagValueType, FlexDeviceTagComponent } from '../../gauges/gauge-property/flex-device-tag/flex-device-tag.component';
 import { FlexActionsStandaloneComponent } from '../../gauges/gauge-property/flex-actions-standalone/flex-actions-standalone.component';
 import { UploadFile } from '../../_models/project';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { IconSelectorComponent } from '../../framework/icon-selector/icon-selector.component';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-maps-location-property',
     templateUrl: './maps-location-property.component.html',
     styleUrls: ['./maps-location-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, MatSelect, MatOption, MatSlideToggle, IconSelectorComponent, ColorPickerDirective, FlexDeviceTagComponent, MatIconButton, MatTooltip, FlexActionsStandaloneComponent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class MapsLocationPropertyComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<MapsLocationPropertyComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private cdr = inject(ChangeDetectorRef);
+    data = inject<MapsLocation>(MAT_DIALOG_DATA);
+
 
     location: MapsLocation;
     formGroup: UntypedFormGroup;
     views: View[] = [];
     actions: GaugeAction[] = [];
     defaultColor = Utils.defaultColor;
-    @ViewChild('flexActionsStandalone', { static: false }) flexActionsStandalone: FlexActionsStandaloneComponent;
+    readonly flexActionsStandalone = viewChild<FlexActionsStandaloneComponent>('flexActionsStandalone');
 
-    constructor(
-        public dialogRef: MatDialogRef<MapsLocationPropertyComponent>,
-        private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private cdr: ChangeDetectorRef,
-        @Inject(MAT_DIALOG_DATA) public data: MapsLocation) {
+    constructor() {
             this.location = this.data ?? new MapsLocation(Utils.getGUID(MAPSLOCATION_PREFIX));
     }
 
@@ -63,7 +75,7 @@ export class MapsLocationPropertyComponent implements OnInit {
     }
 
     onOkClick(): void {
-        const actions = this.flexActionsStandalone?.getActions() || [];
+        const actions = this.flexActionsStandalone()?.getActions() || [];
         this.location = {...this.location, ...this.formGroup.getRawValue(), actions };
         this.dialogRef.close(this.location);
     }

@@ -1,15 +1,17 @@
 import { TranslateService } from '@ngx-translate/core';
 import { MatPaginatorIntl as MatPaginatorIntl } from '@angular/material/paginator';
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 @Injectable()
 export class CustomMatPaginatorIntl extends MatPaginatorIntl implements OnDestroy {
+    private translateService = inject(TranslateService);
+
     private ofLabel = 'of';
     private unsubscribe: Subject<void> = new Subject<void>();
 
-    constructor(private translateService: TranslateService) {
+    constructor() {
         super();
 
         this.translateService.onLangChange

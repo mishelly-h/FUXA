@@ -1,27 +1,34 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, inject, viewChild } from '@angular/core';
 
-import { UntypedFormControl } from '@angular/forms';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 
 import { DiagnoseService } from '../_services/diagnose.service';
 import { AppService } from '../_services/app.service';
 import { LogsRequest } from '../_models/diagnose';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { DatePipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-logs-view',
     templateUrl: './logs-view.component.html',
     styleUrls: ['./logs-view.component.css'],
-    standalone: false
+    imports: [MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatSortHeader, FormsModule, ReactiveFormsModule, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, MatSelect, MatOption, DatePipe, TranslatePipe]
 })
 export class LogsViewComponent implements AfterViewInit {
+    private diagnoseService = inject(DiagnoseService);
+    private appService = inject(AppService);
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-    @ViewChild('workPanel', {static: false}) workPanel: ElementRef;
-    @ViewChild('textContent', {static: false}) textContent: ElementRef;
+
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly paginator = viewChild(MatPaginator);
+    readonly workPanel = viewChild<ElementRef>('workPanel');
+    readonly textContent = viewChild<ElementRef>('textContent');
 
     dataSource = new MatTableDataSource([]);
     ontimeFilter = new UntypedFormControl();
@@ -37,9 +44,6 @@ export class LogsViewComponent implements AfterViewInit {
     tableView = false;
     content = '';
     logs = { selected: 'fuxa.log', files: [] };
-
-    constructor(private diagnoseService: DiagnoseService,
-                private appService: AppService) { }
 
     ngAfterViewInit() {
         this.diagnoseService.getLogsDir().subscribe(result => {
@@ -63,18 +67,22 @@ export class LogsViewComponent implements AfterViewInit {
     }
 
     scrollToTop() {
-        if (this.tableView && this.workPanel) {
-            this.workPanel.nativeElement.scrollTop = 0;
-        } else if (!this.tableView && this.textContent) {
-            this.textContent.nativeElement.scrollTop = 0;
+        const workPanel = this.workPanel();
+        const textContent = this.textContent();
+        if (this.tableView && workPanel) {
+            workPanel.nativeElement.scrollTop = 0;
+        } else if (!this.tableView && textContent) {
+            textContent.nativeElement.scrollTop = 0;
         }
     }
 
     scrollToBottom() {
-        if (this.tableView && this.workPanel) {
-            this.workPanel.nativeElement.scrollTop = this.workPanel.nativeElement.scrollHeight;
-        } else if (!this.tableView && this.textContent) {
-            this.textContent.nativeElement.scrollTop = this.textContent.nativeElement.scrollHeight;
+        const workPanel = this.workPanel();
+        const textContent = this.textContent();
+        if (this.tableView && workPanel) {
+            workPanel.nativeElement.scrollTop = workPanel.nativeElement.scrollHeight;
+        } else if (!this.tableView && textContent) {
+            textContent.nativeElement.scrollTop = textContent.nativeElement.scrollHeight;
         }
     }
 }

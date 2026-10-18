@@ -1,36 +1,42 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, inject, viewChild } from '@angular/core';
 import { HmiService } from '../../../_services/hmi.service';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Device, OpcUaTagType, Tag } from '../../../_models/device';
 import { Subject, takeUntil } from 'rxjs';
 import { TreetableComponent, Node, NodeType } from '../../../gui-helpers/treetable/treetable.component';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
+import { EnumToArrayPipe } from '../../../_helpers/utils';
 
 @Component({
     selector: 'app-tag-property-edit-opcua',
     templateUrl: './tag-property-edit-opcua.component.html',
     styleUrls: ['./tag-property-edit-opcua.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, FormsModule, ReactiveFormsModule, MatSelect, MatOption, TreetableComponent, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class TagPropertyEditOpcuaComponent implements OnInit, OnDestroy {
+    private fb = inject(UntypedFormBuilder);
+    private hmiService = inject(HmiService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditOpcuaComponent>>(MatDialogRef);
+    data = inject<TagPropertyOpcUaData>(MAT_DIALOG_DATA);
+
 
     formGroup: UntypedFormGroup;
     @Output() result = new EventEmitter<any>();
     private destroy$ = new Subject<void>();
-    @ViewChild(TreetableComponent, {static: false}) treetable: TreetableComponent;
+    readonly treetable = viewChild(TreetableComponent);
     tagType = OpcUaTagType;
 
     config = {
         height: '640px',
         width: '1000px'
     };
-
-    constructor(
-        private fb: UntypedFormBuilder,
-        private hmiService: HmiService,
-        public dialogRef: MatDialogRef<TagPropertyEditOpcuaComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyOpcUaData) {
-        }
 
     ngOnInit() {
         if (this.data.tag) {
@@ -62,7 +68,7 @@ export class TagPropertyEditOpcuaComponent implements OnInit, OnDestroy {
                         if (values.node.attribute[14]) {    // datatype
                             values.node.type = values.node.attribute[14];
                         }
-                        this.treetable.setNodeProperty(values.node, this.attributeToString(values.node.attribute));
+                        this.treetable().setNodeProperty(values.node, this.attributeToString(values.node.attribute));
                     }
                 }
             });
@@ -97,12 +103,12 @@ export class TagPropertyEditOpcuaComponent implements OnInit, OnDestroy {
                         enabled = false;
                     }
                 }
-                this.treetable.addNode(node, parent, enabled, false);
+                this.treetable().addNode(node, parent, enabled, false);
                 if (node.class === NodeType.Variable) {
                     this.hmiService.askNodeAttributes(this.data.device.id, n);
                 }
             });
-            this.treetable.update();
+            this.treetable().update();
         }
     }
 
@@ -142,10 +148,10 @@ export class TagPropertyEditOpcuaComponent implements OnInit, OnDestroy {
             this.result.emit(this.formGroup.getRawValue());
         } else {
             this.data.nodes = [];
-            Object.keys(this.treetable.nodes).forEach((key) => {
-                let n: Node = this.treetable.nodes[key];
+            Object.keys(this.treetable().nodes).forEach((key) => {
+                let n: Node = this.treetable().nodes[key];
                 if (n.checked && n.enabled && (n.type || !n.childs || n.childs.length == 0)) {
-                    this.data.nodes.push(this.treetable.nodes[key]);
+                    this.data.nodes.push(this.treetable().nodes[key]);
                 }
             });
             this.result.emit(this.data);

@@ -1,28 +1,32 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { FormControl, UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { ProjectService } from '../../_services/project.service';
 import { Language, LanguageText } from '../../_models/language';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatInput } from '@angular/material/input';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-language-text-property',
     templateUrl: './language-text-property.component.html',
     styleUrls: ['./language-text-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatInput, MatDialogActions, MatButton, TranslatePipe]
 })
 export class LanguageTextPropertyComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<LanguageTextPropertyComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    private projectService = inject(ProjectService);
+    data = inject<LanguageTextPropertyData>(MAT_DIALOG_DATA);
+
 
     formGroup: UntypedFormGroup;
     languages: Language[] = [];
     defaultLanguage: Language;
     nameExists: boolean = false;
-
-    constructor(
-        public dialogRef: MatDialogRef<LanguageTextPropertyComponent>,
-        private fb: UntypedFormBuilder,
-        private projectService: ProjectService,
-        @Inject(MAT_DIALOG_DATA) public data: LanguageTextPropertyData) {
-    }
 
     ngOnInit() {
         let controls = {

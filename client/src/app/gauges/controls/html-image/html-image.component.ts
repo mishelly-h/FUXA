@@ -21,8 +21,7 @@ declare var SVG: any;
 @Component({
     selector: 'app-html-image',
     templateUrl: './html-image.component.html',
-    styleUrls: ['./html-image.component.css'],
-    standalone: false
+    styleUrls: ['./html-image.component.css']
 })
 export class HtmlImageComponent extends GaugeBaseComponent {
 

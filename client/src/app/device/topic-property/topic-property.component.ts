@@ -1,31 +1,48 @@
-import { Component, OnInit, OnDestroy, Inject, ViewChild } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy, inject, viewChild, forwardRef } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatTabGroup as MatTabGroup, MatTab as MatTab } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
 
 import { HmiService } from '../../_services/hmi.service';
-import { TranslateService } from '@ngx-translate/core';
-import { Utils } from '../../_helpers/utils';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { Device, Tag, TAG_PREFIX } from '../../_models/device';
 import { JsonUtils } from '../../_helpers/json-utils';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { NgClass, KeyValuePipe } from '@angular/common';
+import { MatButtonToggleGroup, MatButtonToggle } from '@angular/material/button-toggle';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { FlexVariableComponent } from '../../gauges/gauge-property/flex-variable/flex-variable.component';
 
 @Component({
     selector: 'app-topic-property',
     templateUrl: './topic-property.component.html',
     styleUrls: ['./topic-property.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, MatIconButton, MatProgressSpinner, NgClass, MatButtonToggleGroup, MatButtonToggle, MatButton, MatCheckbox, MatSelect, MatOption, forwardRef(() => FlexVariableComponent), MatDialogActions, KeyValuePipe, TranslatePipe, EnumToArrayPipe]
 })
 export class TopicPropertyComponent implements OnInit, OnDestroy {
+    private hmiService = inject(HmiService);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TopicPropertyComponent>>(MatDialogRef);
+    data = inject<TopicPropertyData>(MAT_DIALOG_DATA);
 
-    @ViewChild('grptabs', { static: true }) grptabs: MatTabGroup;
-    @ViewChild('tabsub', { static: true }) tabsub: MatTab;
-    @ViewChild('tabpub', { static: true }) tabpub: MatTab;
+
+    readonly grptabs = viewChild<MatTabGroup>('grptabs');
+    readonly tabsub = viewChild<MatTab>('tabsub');
+    readonly tabpub = viewChild<MatTab>('tabpub');
 
     private subscriptionBrowse: Subscription;
 
     editMode = false;
     topicSource = '#';
-    topicsList = {};
+    topicsList: Record<string, any> = {};
     topicContent: TopicContent[] = [];
     topicSelectedSubType = 'raw';
     discoveryError = '';
@@ -49,13 +66,6 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
     itemStatic = Utils.getEnumKey(MqttItemType, MqttItemType.static);
     editSubscription = false;
     allChecked: boolean = false;
-
-    constructor(
-        private hmiService: HmiService,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TopicPropertyComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TopicPropertyData) {
-    }
 
     ngOnInit() {
         this.subscriptionBrowse = this.hmiService.onDeviceBrowse.subscribe(value => {
@@ -88,8 +98,8 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
                 if (tag.options.subs) {
                     // sure a subscription
                     this.editSubscription = true;
-                    this.grptabs.selectedIndex = 0;
-                    this.tabpub.disabled = true;
+                    this.grptabs().selectedIndex = 0;
+                    this.tabpub().disabled = true;
                     this.topicSelectedSubType = tag.type;
                     this.editMode = true;
                     var topic: Topic = {
@@ -114,8 +124,8 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
                     this.selectTopic(topic);
                 } else {
                     // publish topic
-                    this.grptabs.selectedIndex = 1;
-                    this.tabsub.disabled = true;
+                    this.grptabs().selectedIndex = 1;
+                    this.tabsub().disabled = true;
                     this.publishTopicPath = tag.address;
                     this.publishTopicName = tag.name;
                     this.topicSelectedPubType = tag.type;

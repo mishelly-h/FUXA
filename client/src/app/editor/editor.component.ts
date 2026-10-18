@@ -1,10 +1,10 @@
 ﻿/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewContainerRef, ComponentFactoryResolver, ElementRef, inject, viewChild } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { MatDrawer } from '@angular/material/sidenav';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { MatDrawer, MatDrawerContainer, MatDrawerContent } from '@angular/material/sidenav';
 import { Subject, Subscription, switchMap, takeUntil } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { ProjectService, SaveMode } from '../_services/project.service';
 import { Hmi, View, GaugeSettings, SelElement, LayoutSettings, ViewType, ISvgElement, GaugeProperty, DocProfile } from '../_models/hmi';
@@ -30,19 +30,42 @@ import { HtmlSwitchPropertyComponent } from '../gauges/controls/html-switch/html
 import { GridsterItemConfig } from 'angular-gridster2';
 import { CardConfigComponent, CardConfigType } from './card-config/card-config.component';
 import { CardsViewComponent } from '../cards-view/cards-view.component';
-import { IElementPreview } from './svg-selector/svg-selector.component';
+import { IElementPreview, SvgSelectorComponent } from './svg-selector/svg-selector.component';
 import { TagIdRef, TagsIdsConfigComponent, TagsIdsData } from './tags-ids-config/tags-ids-config.component';
 import { UploadFile } from '../_models/project';
 import { ViewPropertyComponent, ViewPropertyType } from './view-property/view-property.component';
 import { HtmlImageComponent } from '../gauges/controls/html-image/html-image.component';
 import { LibWidgetsService } from '../resources/lib-widgets/lib-widgets.service';
-import { PipePropertyData } from '../gauges/controls/pipe/pipe-property/pipe-property.component';
+import { PipePropertyData, PipePropertyComponent } from '../gauges/controls/pipe/pipe-property/pipe-property.component';
 import { MapsViewComponent } from '../maps/maps-view/maps-view.component';
 import { KioskWidgetsComponent } from '../resources/kiosk-widgets/kiosk-widgets.component';
 import { ResourcesService } from '../_services/resources.service';
 import { InputPropertyComponent } from '../gauges/controls/html-input/input-property/input-property.component';
 import { SettingsService } from '../_services/settings.service';
 import { OnboardingWizardComponent } from './onboarding-wizard/onboarding-wizard.component';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatIconButton, MatButton, MatFabButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { ChartPropertyComponent } from '../gauges/controls/html-chart/chart-property/chart-property.component';
+import { GraphPropertyComponent } from '../gauges/controls/html-graph/graph-property/graph-property.component';
+import { IframePropertyComponent } from '../gauges/controls/html-iframe/iframe-property/iframe-property.component';
+import { TablePropertyComponent } from '../gauges/controls/html-table/table-property/table-property.component';
+import { PanelPropertyComponent } from '../gauges/controls/panel/panel-property/panel-property.component';
+import { VideoPropertyComponent } from '../gauges/controls/html-video/video-property/video-property.component';
+import { SchedulerPropertyComponent } from '../gauges/controls/html-scheduler/scheduler-property/scheduler-property.component';
+import { RecipePropertyComponent } from '../gauges/controls/html-recipe/recipe-property/recipe-property.component';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelContent } from '@angular/material/expansion';
+import { MatTooltip } from '@angular/material/tooltip';
+import { ResizeDirective } from '../_directives/resize.directive';
+import { EditorViewsListComponent } from './editor-views-list/editor-views-list.component';
+import { NgClass } from '@angular/common';
+import { LibWidgetsComponent } from '../resources/lib-widgets/lib-widgets.component';
+import { NumberOnlyDirective } from '../_directives/number.directive';
+import { FormsModule } from '@angular/forms';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { DialogDraggableDirective } from '../_directives/dialog-draggable.directive';
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 declare var Gauge: any;
 
@@ -59,17 +82,29 @@ declare var mysvgeditor: any;
 @Component({
     templateUrl: 'editor.component.html',
     styleUrls: ['editor.component.css'],
-    standalone: false
+    imports: [MatProgressBar, MatDrawer, MatIconButton, MatIcon, SvgSelectorComponent, ChartPropertyComponent, GraphPropertyComponent, IframePropertyComponent, TablePropertyComponent, PanelPropertyComponent, PipePropertyComponent, VideoPropertyComponent, SchedulerPropertyComponent, RecipePropertyComponent, MatDrawerContainer, MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatTooltip, ResizeDirective, EditorViewsListComponent, NgClass, MatExpansionPanelContent, LibWidgetsComponent, MatDrawerContent, NumberOnlyDirective, FormsModule, GaugeBaseComponent, MatButton, MatMenuTrigger, MatMenu, MatMenuItem, ColorPickerDirective, CardsViewComponent, MatFabButton, MapsViewComponent, TranslatePipe]
 })
 
 export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild('gaugepanel', {static: false}) gaugePanelComponent: GaugeBaseComponent;
-    @ViewChild('viewFileImportInput', {static: false}) viewFileImportInput: any;
-    @ViewChild('cardsview', {static: false}) cardsview: CardsViewComponent;
-    @ViewChild('sidePanel', {static: false}) sidePanel: MatDrawer;
-    @ViewChild('svgSelectorPanel', {static: false}) svgSelectorPanel: MatDrawer;
-    @ViewChild('svgpreview', {static: false}) svgPreview: ElementRef;
-    @ViewChild('mapsView', {static: false}) mapsView: MapsViewComponent;
+    private projectService = inject(ProjectService);
+    private winRef = inject(WindowRef);
+    dialog = inject(MatDialog);
+    private changeDetector = inject(ChangeDetectorRef);
+    private translateService = inject(TranslateService);
+    gaugesManager = inject(GaugesManager);
+    private viewContainerRef = inject(ViewContainerRef);
+    private resolver = inject(ComponentFactoryResolver);
+    private resourcesService = inject(ResourcesService);
+    private libWidgetsService = inject(LibWidgetsService);
+    private settingsService = inject(SettingsService);
+
+    readonly gaugePanelComponent = viewChild<GaugeBaseComponent>('gaugepanel');
+    readonly viewFileImportInput = viewChild<any>('viewFileImportInput');
+    readonly cardsview = viewChild<CardsViewComponent>('cardsview');
+    readonly sidePanel = viewChild<MatDrawer>('sidePanel');
+    readonly svgSelectorPanel = viewChild<MatDrawer>('svgSelectorPanel');
+    readonly svgPreview = viewChild<ElementRef>('svgpreview');
+    readonly mapsView = viewChild<MapsViewComponent>('mapsView');
 
     svgElementSelected: ISvgElement = null;
     svgElements: ISvgElement[] = [];
@@ -129,19 +164,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private destroy$ = new Subject<void>();
     private onboardingWizardHandled = false;
     private onboardingWizardOpened = false;
-
-    constructor(private projectService: ProjectService,
-        private winRef: WindowRef,
-        public dialog: MatDialog,
-        private changeDetector: ChangeDetectorRef,
-        private translateService: TranslateService,
-        public gaugesManager: GaugesManager,
-        private viewContainerRef: ViewContainerRef,
-        private resolver: ComponentFactoryResolver,
-        private resourcesService: ResourcesService,
-        private libWidgetsService: LibWidgetsService,
-        private settingsService: SettingsService) {
-    }
 
     //#region Implemented onInit / onAfterInit event
     /**
@@ -330,13 +352,14 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     onSvgElementPreview(value: IElementPreview) {//value: ISvgElement, preview: boolean) {
         let elem = document.getElementById(value.element?.id);
         let rect: DOMRect = elem?.getBoundingClientRect();
+        const svgPreview = this.svgPreview();
         if (elem && rect) {
-            this.svgPreview.nativeElement.style.width = `${rect.width}px`;
-            this.svgPreview.nativeElement.style.height = `${rect.height}px`;
-            this.svgPreview.nativeElement.style.top = `${rect.top}px`;
-            this.svgPreview.nativeElement.style.left = `${rect.left}px`;
+            svgPreview.nativeElement.style.width = `${rect.width}px`;
+            svgPreview.nativeElement.style.height = `${rect.height}px`;
+            svgPreview.nativeElement.style.top = `${rect.top}px`;
+            svgPreview.nativeElement.style.left = `${rect.left}px`;
         }
-        this.svgPreview.nativeElement.style.display = (value.preview) ? 'flex' : 'none';
+        svgPreview.nativeElement.style.display = (value.preview) ? 'flex' : 'none';
     }
 
     /**
@@ -394,7 +417,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private getContent() {
         if (this.currentView.type === ViewType.cards) {
-            this.currentView.svgcontent = this.cardsview.getContent();
+            this.currentView.svgcontent = this.cardsview().getContent();
             return this.currentView.svgcontent;
             // let temp = JSON.parse(JSON.stringify(this.dashboard));
             // for (let i = 0; i < temp.length; i++) {
@@ -550,6 +573,8 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private loadView(view: View) {
         if (view) {
             this.clearEditor();
+            const cardsview = this.cardsview();
+            const mapsView = this.mapsView();
             if (this.isSvgEditMode(this.editorMode)) {
                 let svgcontent = '';
                 let v = this.getView(view.name);
@@ -582,12 +607,12 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.checkSvgElementsMap(true);
                     this.winRef.nativeWindow.svgEditor.resetUndoStack();
                 }, 500);
-            } else if (this.isCardsEditMode(this.editorMode) && this.cardsview) {
-                this.cardsview.view = view;
-                this.cardsview.reload();
-            } else if (this.isMapsEditMode(this.editorMode) && this.mapsView) {
-                this.mapsView.view = view;
-                this.mapsView.reload();
+            } else if (this.isCardsEditMode(this.editorMode) && cardsview) {
+                cardsview.view = view;
+                cardsview.reload();
+            } else if (this.isMapsEditMode(this.editorMode) && mapsView) {
+                mapsView.view = view;
+                mapsView.reload();
             }
         }
     }
@@ -627,7 +652,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //#region Cards Widget
     editCardsWidget(item: any) {
-        let exist: string[] = this.cardsview.getWindgetViewName();
+        let exist: string[] = this.cardsview().getWindgetViewName();
         if (item.card.data && exist.indexOf(item.card.data) >= 0) {
             exist = exist.filter((n) => n !== item.card.data);
         }
@@ -644,13 +669,13 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             if (result) {
                 item.card = result.card;
                 this.onSaveProject();
-                this.cardsview.render();
+                this.cardsview().render();
             }
         });
     }
 
     addCard() {
-        this.cardsview.addCardsWidget();
+        this.cardsview().addCardsWidget();
     }
 
     saveCards(dashboard) {
@@ -717,8 +742,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         }
         this.checkSvgElementsMap(false);
-        if (this.sidePanel.opened) {
-            this.sidePanel.toggle();
+        const sidePanel = this.sidePanel();
+        if (sidePanel.opened) {
+            sidePanel.toggle();
         }
     }
 
@@ -1240,7 +1266,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             alert(msg);
         };
         reader.readAsText(input.files[0]);
-        this.viewFileImportInput.nativeElement.value = null;
+        this.viewFileImportInput().nativeElement.value = null;
     }
     //#endregion
 
@@ -1285,7 +1311,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
      * @param event
      */
     onGaugeEdit(event) {
-        this.openEditGauge(this.gaugePanelComponent?.settings, data => {
+        this.openEditGauge(this.gaugePanelComponent()?.settings, data => {
             this.setGaugeSettings(data);
         });
     }
@@ -1295,7 +1321,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     onGaugeEditEx() {
         setTimeout(() => {
-            this.gaugePanelComponent.onEdit();
+            this.gaugePanelComponent().onEdit();
         }, 500);
     }
 
@@ -1339,8 +1365,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 views: hmi.views, dlgType: dlgType, charts: this.projectService.getCharts(),
                 names: names
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1351,8 +1378,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 views: hmi.views, dlgType: dlgType, graphs: this.projectService.getGraphs(),
                 names: names
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1361,8 +1389,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.gaugeDialog.data = {
                 settings: tempsettings, dlgType: dlgType, names: names
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1383,8 +1412,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 withEvents: eventsSupported,
                 withActions: actionsSupported,
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1415,8 +1445,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.gaugeDialog.data = {
                 settings: tempsettings, dlgType: dlgType, names: names
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1428,8 +1459,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 names: names,
                 withActions: actionsSupported
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1456,8 +1488,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 withActions: actionsSupported,
                 languageTextEnabled: !!this.isSelectedElementToEnableLanguageTextSettings()
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1470,8 +1503,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 withBitmask: false,
                 languageTextEnabled: false
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1752,12 +1786,12 @@ interface CopiedAndPasted {
 @Component({
     selector: 'dialog-link-property',
     templateUrl: 'linkproperty.dialog.html',
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, FormsModule, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
 })
 export class DialogLinkProperty {
-    constructor(
-        public dialogRef: MatDialogRef<DialogLinkProperty>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
+    dialogRef = inject<MatDialogRef<DialogLinkProperty>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     onNoClick(): void {
         this.dialogRef.close();

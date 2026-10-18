@@ -1,22 +1,30 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, ViewChild, ElementRef, ChangeDetectorRef, ViewEncapsulation, AfterViewInit, NgZone } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, ElementRef, ChangeDetectorRef, ViewEncapsulation, AfterViewInit, NgZone, inject, viewChild } from '@angular/core';
 import { fromEvent, Subject, take, takeUntil } from 'rxjs';
 import { HmiService } from '../../../../_services/hmi.service';
 import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../../../_services/auth.service';
 import { Utils } from '../../../../_helpers/utils';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-scheduler',
     templateUrl: './scheduler.component.html',
     styleUrls: ['./scheduler.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    standalone: false
+    imports: [FormsModule, TranslatePipe]
 })
 export class SchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
-    @ViewChild('schedulerContainer', { static: true }) schedulerContainer: ElementRef;
-    @ViewChild('deviceScrollContainer', { static: false }) deviceScrollContainer: ElementRef;
-    @ViewChild('overviewScrollContainer', { static: false }) overviewScrollContainer: ElementRef;
+    private hmiService = inject(HmiService);
+    private cdr = inject(ChangeDetectorRef);
+    private dialog = inject(MatDialog);
+    private authService = inject(AuthService);
+    private translateService = inject(TranslateService);
+    private ngZone = inject(NgZone);
+
+    readonly schedulerContainer = viewChild<ElementRef>('schedulerContainer');
+    readonly deviceScrollContainer = viewChild<ElementRef>('deviceScrollContainer');
+    readonly overviewScrollContainer = viewChild<ElementRef>('overviewScrollContainer');
     @Input() property: any;
     @Input() isEditor: boolean = false;
     @Input() id: string;
@@ -179,15 +187,6 @@ export class SchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterVi
         return `${item.deviceName}-${item.startTime}-${index}`;
     }
 
-    constructor(
-        private hmiService: HmiService,
-        private cdr: ChangeDetectorRef,
-        private dialog: MatDialog,
-        private authService: AuthService,
-        private translateService: TranslateService,
-        private ngZone: NgZone
-    ) { }
-
     ngOnInit() {
 
         this.initializeDevices();
@@ -306,8 +305,9 @@ export class SchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterVi
             let changed = false;
 
             // Check device scroll container
-            if (this.deviceScrollContainer && this.deviceScrollContainer.nativeElement) {
-                const element = this.deviceScrollContainer.nativeElement;
+            const deviceScrollContainer = this.deviceScrollContainer();
+            if (deviceScrollContainer && deviceScrollContainer.nativeElement) {
+                const element = deviceScrollContainer.nativeElement;
                 const wasScrolling = this.needsScrolling;
                 this.needsScrolling = element.scrollHeight > element.clientHeight;
                 if (wasScrolling !== this.needsScrolling) {
@@ -316,8 +316,9 @@ export class SchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterVi
             }
 
             // Check overview scroll container
-            if (this.overviewScrollContainer && this.overviewScrollContainer.nativeElement) {
-                const element = this.overviewScrollContainer.nativeElement;
+            const overviewScrollContainer = this.overviewScrollContainer();
+            if (overviewScrollContainer && overviewScrollContainer.nativeElement) {
+                const element = overviewScrollContainer.nativeElement;
                 const wasOverviewScrolling = this.overviewNeedsScrolling;
                 this.overviewNeedsScrolling = element.scrollHeight > element.clientHeight;
                 if (wasOverviewScrolling !== this.overviewNeedsScrolling) {

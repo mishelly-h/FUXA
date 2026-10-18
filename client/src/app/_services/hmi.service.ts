@@ -1,4 +1,4 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, Output, EventEmitter, inject } from '@angular/core';
 import { io } from 'socket.io-client';
 
 import { environment } from '../../environments/environment';
@@ -17,6 +17,13 @@ import { HttpClient } from '@angular/common/http';
 
 @Injectable()
 export class HmiService {
+    projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+    private authService = inject(AuthService);
+    private deviceAdapaterService = inject(DeviceAdapterService);
+    private http = inject(HttpClient);
+    private toastr = inject(ToastrService);
+
 
     @Output() onVariableChanged: EventEmitter<Variable> = new EventEmitter();
     @Output() onDeviceChanged: EventEmitter<boolean> = new EventEmitter();
@@ -63,12 +70,7 @@ export class HmiService {
 
     getGaugeMapped: (gaugeName: string) => void; // function binded in GaugeManager
 
-    constructor(public projectService: ProjectService,
-        private translateService: TranslateService,
-        private authService: AuthService,
-        private deviceAdapaterService: DeviceAdapterService,
-        private http: HttpClient,
-        private toastr: ToastrService) {
+    constructor() {
 
         this.initSocket();
 

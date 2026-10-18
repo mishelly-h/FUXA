@@ -1,7 +1,7 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, Inject, DOCUMENT } from '@angular/core';
-import { Location } from '@angular/common';
-import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, DOCUMENT, inject, viewChild } from '@angular/core';
+import { Location, NgClass, AsyncPipe } from '@angular/common';
+import { Router, RouterOutlet } from '@angular/router';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Observable, Subject, Subscription, combineLatest, fromEvent, map, merge, of, startWith, switchMap, takeUntil, timer } from 'rxjs';
 
 import { environment } from '../environments/environment';
@@ -13,40 +13,47 @@ import { AppService } from './_services/app.service';
 import { HeartbeatService } from './_services/heartbeat.service';
 import { AuthService } from './_services/auth.service';
 import { HmiService } from './_services/hmi.service';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { HeaderComponent } from './header/header.component';
+import { NgxFabButtonComponent } from './gui-helpers/fab-button/ngx-fab-button.component';
+import { NgxFabItemButtonComponent } from './gui-helpers/fab-button/ngx-fab-item-button.component';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss'],
-    standalone: false
+    imports: [MatIcon, MatProgressBar, HeaderComponent, NgClass, RouterOutlet, NgxFabButtonComponent, NgxFabItemButtonComponent, AsyncPipe, TranslatePipe]
 })
 
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
+	private document = inject<Document>(DOCUMENT);
+	private router = inject(Router);
+	private appService = inject(AppService);
+	private projectService = inject(ProjectService);
+	private settingsService = inject(SettingsService);
+	private translateService = inject(TranslateService);
+	private heartbeatService = inject(HeartbeatService);
+	private cdr = inject(ChangeDetectorRef);
+	private hmiService = inject(HmiService);
+	private authService = inject(AuthService);
+
 	title = 'app';
 	location: Location;
 	showdev = false;
 	isLoading = false;
 	serverErrorBanner$: Observable<boolean>;
 
-	@ViewChild('fabmenu', {static: false}) fabmenu: any;
+	readonly fabmenu = viewChild<any>('fabmenu');
 
 	private subscriptionLoad: Subscription;
 	private subscriptionShowLoading: Subscription;
 	private destroy$ = new Subject<void>();
     private securityEnabled = false;
 
-	constructor(@Inject(DOCUMENT) private document: Document,
-		private router: Router,
-		private appService: AppService,
-		private projectService: ProjectService,
-		private settingsService: SettingsService,
-		private translateService: TranslateService,
-		private heartbeatService: HeartbeatService,
-		private cdr: ChangeDetectorRef,
-		private hmiService: HmiService,
-		private authService: AuthService,
-		location: Location
-	) {
+	constructor() {
+		const location = inject(Location);
+
 		this.location = location;
 	}
 
@@ -182,7 +189,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	onGoTo(goto) {
 		this.router.navigate([goto]);
-		this.fabmenu.toggle();
+		this.fabmenu().toggle();
 		//TODO!
         if (!this.location.path().includes(goto) && ['home', 'lab'].indexOf(goto) !== -1) {
 			if (goto === 'lab') {

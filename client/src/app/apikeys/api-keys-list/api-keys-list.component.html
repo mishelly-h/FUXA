@@ -52,7 +52,7 @@
                 <mat-cell *matCellDef="let element">{{element.enabled}} </mat-cell>
             </ng-container>
             <ng-container matColumnDef="remove">
-                <mat-header-cell *matHeaderCellDef> </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef />
                 <mat-cell *matCellDef="let element">
                     <button mat-icon-button (click)="$event.stopPropagation();onRemoveApiKey(element)" class="remove">
                         <mat-icon>clear</mat-icon>
@@ -60,8 +60,8 @@
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;" class="my-mat-row"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" />
+            <mat-row *matRowDef="let row; columns: displayedColumns;" class="my-mat-row" />
         </mat-table>
     </div>
 </div>

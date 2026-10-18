@@ -1,21 +1,25 @@
-import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, inject } from '@angular/core';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-edit-placeholder',
     templateUrl: './edit-placeholder.component.html',
     styleUrls: ['./edit-placeholder.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class EditPlaceholderComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<EditPlaceholderComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    data = inject(MAT_DIALOG_DATA);
+
 
     formGroup: UntypedFormGroup;
-
-    constructor(
-        public dialogRef: MatDialogRef<EditPlaceholderComponent>,
-        private fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

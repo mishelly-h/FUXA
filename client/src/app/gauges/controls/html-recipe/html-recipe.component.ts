@@ -1,4 +1,4 @@
-import { Component, Input, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnInit, OnDestroy, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings } from '../../../_models/hmi';
@@ -8,11 +8,14 @@ import { RecipeService } from '../../../_services/recipe.service';
 import { HmiService } from '../../../_services/hmi.service';
 import { AuthService } from '../../../_services/auth.service';
 import { SettingsService } from '../../../_services/settings.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Recipe, RecipeEntry, RecipeProgressEvent, RecipeCompleteEvent } from '../../../_models/recipe';
 import { Subscription } from 'rxjs';
 import { HtmlRecipeNewDialogComponent } from './html-recipe-new-dialog/html-recipe-new-dialog.component';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../../gui-helpers/confirm-dialog/confirm-dialog.component';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { FormsModule } from '@angular/forms';
+import { MatProgressBar } from '@angular/material/progress-bar';
 
 /**
  * Runtime view component for the HTML recipe widget.
@@ -23,9 +26,16 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../gui-helpers/
     selector: 'html-recipe-view',
     templateUrl: './html-recipe.component.html',
     styleUrls: ['./html-recipe.component.scss'],
-    standalone: false
+    imports: [MatProgressSpinner, FormsModule, MatProgressBar, TranslatePipe]
 })
 export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
+    private recipeService = inject(RecipeService);
+    private hmiService = inject(HmiService);
+    private dialog = inject(MatDialog);
+    private authService = inject(AuthService);
+    private settingsService = inject(SettingsService);
+    private translateService = inject(TranslateService);
+
 
     /** Editor mode — permission checks are bypassed (factory sets from isview) */
     @Input() isEditor: boolean = false;
@@ -93,9 +103,6 @@ export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
     private subscriptionUploadComplete!: Subscription;
     private subscriptionUploadError!: Subscription;
     private subscriptionCanceled!: Subscription;
-
-    constructor(private recipeService: RecipeService, private hmiService: HmiService, private dialog: MatDialog,
-        private authService: AuthService, private settingsService: SettingsService, private translateService: TranslateService) { }
 
     ngOnInit() {
         this.permission = this._checkPermission();
@@ -591,10 +598,7 @@ export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
  * This is the factory class that the gauge system uses to instantiate
  * HtmlRecipeViewComponent inside SVG editor canvases.
  */
-@Component({
-    template: '',
-    standalone: false
-})
+@Component({ template: '' })
 export class HtmlRecipeComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-own_ctrl-recipe';
     static LabelTag = 'HtmlRecipe';

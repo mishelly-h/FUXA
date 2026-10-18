@@ -1,11 +1,17 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, inject, input, output } from '@angular/core';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { Observable, map, startWith } from 'rxjs';
 import { ProjectService } from '../../../_services/project.service';
 import { Device, DevicesUtils, PlaceholderDevice, Tag } from '../../../_models/device';
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../../device/device-tag-selection/device-tag-selection.component';
 import { Utils } from '../../../_helpers/utils';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { MatAutocompleteTrigger, MatAutocomplete, MatOptgroup, MatOption } from '@angular/material/autocomplete';
+import { AsyncPipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export const _filter = (opt: DeviceTagOption[], value: string): DeviceTagOption[] => {
     const filterValue = value.toLowerCase();
@@ -16,25 +22,24 @@ export const _filter = (opt: DeviceTagOption[], value: string): DeviceTagOption[
     selector: 'app-flex-device-tag',
     templateUrl: './flex-device-tag.component.html',
     styleUrls: ['./flex-device-tag.component.scss'],
-    standalone: false
+    imports: [MatIconButton, MatIcon, MatInput, FormsModule, MatAutocompleteTrigger, ReactiveFormsModule, MatAutocomplete, MatOptgroup, MatOption, AsyncPipe, TranslatePipe]
 })
 export class FlexDeviceTagComponent implements OnInit, OnChanges {
+    private projectService = inject(ProjectService);
+    dialog = inject(MatDialog);
 
-    @Input() tagTitle = '';
-    @Input() readonly = false;
+
+    readonly tagTitle = input('');
+    readonly readonly = input(false);
     @Input() variableId: string;
     @Input() deviceTagValue: FlexDeviceTagValueType;
 
-    @Output() onchange: EventEmitter<FlexDeviceTagValueType> = new EventEmitter();
+    readonly onchange = output<FlexDeviceTagValueType>();
 
     devicesGroups: DeviceGroup[] = [];
     devicesTags$: Observable<DeviceGroup[]>;
     tagFilter = new UntypedFormControl();
     devices: Device[] = [];
-
-    constructor(private projectService: ProjectService,
-        public dialog: MatDialog) {
-    }
 
     ngOnInit() {
         if (!this.deviceTagValue) {

@@ -1,27 +1,32 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Role } from '../../_models/user';
 import { UserService } from '../../_services/user.service';
 import { Utils } from '../../_helpers/utils';
 import { Subject, takeUntil } from 'rxjs';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-users-role-edit',
     templateUrl: './users-role-edit.component.html',
     styleUrls: ['./users-role-edit.component.css'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class UsersRoleEditComponent implements OnInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<UsersRoleEditComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    data = inject<Role>(MAT_DIALOG_DATA);
+    private userService = inject(UserService);
+
     formGroup: UntypedFormGroup;
 
 	roles: Role[] = [];
     private destroy$ = new Subject<void>();
-
-    constructor(public dialogRef: MatDialogRef<UsersRoleEditComponent>,
-        private fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) public data: Role,
-        private userService: UserService) { }
 
     ngOnInit() {
         this.userService.getRoles().pipe(

@@ -90,13 +90,15 @@
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" />
+            <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row" />
         </mat-table>
     </div>
-    <div *ngIf="importingAlarms" class="spinner-overlay">
-        <mat-spinner style="margin: auto" diameter="40" class="spinner"></mat-spinner>
+    @if (importingAlarms) {
+<div class="spinner-overlay">
+        <mat-spinner style="margin: auto" diameter="40" class="spinner" />
     </div>
+}
     <input type="file" #fileImportInput style="display: none" id="alarmsConfigFileUpload" (change)="onAlarmFileChangeListener($event)" accept=".json" />
 </div>
 <button mat-fab color="primary" (click)="onAddAlarm()" class="fab-add" [disabled]="importingAlarms">

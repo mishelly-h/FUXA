@@ -1,16 +1,28 @@
-import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { Component, inject } from '@angular/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { ReportColumns, ReportsFilter } from '../../../../_models/report';
 import { TableFilter, TableType } from '../../../../_models/hmi';
 import { ProjectService } from '../../../../_services/project.service';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-table-reports',
     templateUrl: './table-reports.component.html',
     styleUrls: ['./table-reports.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatCheckbox, FormsModule, MatDialogActions, MatButton, TranslatePipe]
 })
 export class TableReportsComponent {
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    dialogRef = inject<MatDialogRef<TableReportsComponent>>(MatDialogRef);
+    data = inject<TableReportsType>(MAT_DIALOG_DATA);
+
 
     reportsColumns = ReportColumns;
     reportsFilter: ReportsFilter = {
@@ -18,11 +30,7 @@ export class TableReportsComponent {
         count: ''
     };
 
-    constructor(
-        private dialog: MatDialog,
-        private projectService: ProjectService,
-        public dialogRef: MatDialogRef<TableReportsComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TableReportsType) {
+    constructor() {
             this.reportsFilter.name = this.data.filter?.filterA[0];
             this.reportsFilter.count = this.data.filter?.filterA[1];
     }

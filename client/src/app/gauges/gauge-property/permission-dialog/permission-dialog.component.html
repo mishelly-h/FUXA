@@ -3,10 +3,14 @@
     <mat-icon (click)="onNoClick()" class="dialog-close-btn">clear</mat-icon>
     <div mat-dialog-content>
         <div class="my-form-field block mb10">
-            <span *ngIf="!data.mode || data.mode === 'onlyShow'" class="label label-show">{{'dlg.gauge-permission-show' | translate}}</span>
-            <span *ngIf="!data.mode || data.mode === 'onlyEnable'" class="label label-enable">{{'dlg.gauge-permission-enabled' | translate}}</span>
+            @if (!data.mode || data.mode === 'onlyShow') {
+<span class="label label-show">{{'dlg.gauge-permission-show' | translate}}</span>
+}
+            @if (!data.mode || data.mode === 'onlyEnable') {
+<span class="label label-enable">{{'dlg.gauge-permission-enabled' | translate}}</span>
+}
             <span class="label">{{'dlg.gauge-permission-label' | translate}}</span>
-            <sel-options class="block" #seloptions [selected]="selected" [options]="options" [extSelected]="extension"></sel-options>
+            <sel-options class="block" #seloptions [selected]="selected" [options]="options" [extSelected]="extension" />
         </div>
     </div>
     <div mat-dialog-actions class="dialog-action">

@@ -1,27 +1,42 @@
-import { Component, AfterViewInit, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, OnInit, inject, viewChild } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Utils } from '../../../../_helpers/utils';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { Utils, EnumToArrayPipe } from '../../../../_helpers/utils';
 import { GaugeProperty } from '../../../../_models/hmi';
 import { FlexHeadComponent } from '../../../gauge-property/flex-head/flex-head.component';
 import { FlexAuthComponent } from '../../../gauge-property/flex-auth/flex-auth.component';
 import { NgxNouisliderComponent, NgxNouisliderOptions } from '../../../../gui-helpers/ngx-nouislider/ngx-nouislider.component';
 import { Define } from '../../../../_helpers/define';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-slider-property',
     templateUrl: './slider-property.component.html',
     styleUrls: ['./slider-property.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FlexAuthComponent, FlexHeadComponent, NgxNouisliderComponent, MatSelect, MatOption, ColorPickerDirective, FormsModule, NumberOnlyDirective, MatDialogActions, MatButton, MatDialogClose, TranslatePipe, EnumToArrayPipe]
 })
 export class SliderPropertyComponent implements OnInit, AfterViewInit {
+    dialogRef = inject<MatDialogRef<SliderPropertyComponent>>(MatDialogRef);
+    private translateService = inject(TranslateService);
+    private changeDetector = inject(ChangeDetectorRef);
+    data = inject(MAT_DIALOG_DATA);
 
-    @ViewChild('flexauth', {static: false}) flexAuth: FlexAuthComponent;
-    @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
-    @ViewChild('slider', {static: false}) slider: NgxNouisliderComponent;
+
+    readonly flexAuth = viewChild<FlexAuthComponent>('flexauth');
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
+    readonly slider = viewChild<NgxNouisliderComponent>('slider');
     property: GaugeProperty;
     options = new NgxNouisliderOptions();
     defaultColor = Utils.defaultColor;
@@ -36,10 +51,7 @@ export class SliderPropertyComponent implements OnInit, AfterViewInit {
     staticScala = '';
 
 
-    constructor(public dialogRef: MatDialogRef<SliderPropertyComponent>,
-        private translateService: TranslateService,
-        private changeDetector: ChangeDetectorRef,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
 
         this.property = JSON.parse(JSON.stringify(this.data.settings.property));
         if (!this.property) {
@@ -89,9 +101,9 @@ export class SliderPropertyComponent implements OnInit, AfterViewInit {
 
     onOkClick(): void {
         this.data.settings.property = this.property;
-        this.data.settings.property.permission = this.flexAuth.permission;
+        this.data.settings.property.permission = this.flexAuth().permission;
         this.data.settings.property.options = this.options;
-        this.data.settings.name = this.flexAuth.name;
+        this.data.settings.name = this.flexAuth().name;
     }
 
     onChangeOptions(opt, value) {
@@ -126,8 +138,8 @@ export class SliderPropertyComponent implements OnInit, AfterViewInit {
         this.sliderLayout = (this.options.orientation === 'vertical') ? this.layoutVertical : this.layoutHorizontal;
         this.changeDetector.detectChanges();
         let opt = JSON.parse(JSON.stringify(this.options));
-        this.slider.setOptions(opt);
-        this.slider.resize(this.sliderLayout.height, this.sliderLayout.width);
+        this.slider().setOptions(opt);
+        this.slider().resize(this.sliderLayout.height, this.sliderLayout.width);
     }
 
 }

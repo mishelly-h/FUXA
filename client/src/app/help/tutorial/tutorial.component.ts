@@ -1,4 +1,7 @@
 import { Component } from '@angular/core';
+import { AngularDraggableModule } from 'angular2-draggable';
+import { MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription } from '@angular/material/expansion';
+import { TranslatePipe } from '@ngx-translate/core';
 
 interface TutorialShortcut {
     combo: string;
@@ -9,7 +12,7 @@ interface TutorialShortcut {
     selector: 'app-tutorial',
     templateUrl: './tutorial.component.html',
     styleUrls: ['./tutorial.component.css'],
-    standalone: false
+    imports: [AngularDraggableModule, MatAccordion, MatExpansionPanel, MatExpansionPanelHeader, MatExpansionPanelTitle, MatExpansionPanelDescription, TranslatePipe]
 })
 export class TutorialComponent {
 

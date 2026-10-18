@@ -1,4 +1,4 @@
-import { Injectable, Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform, inject } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 
 declare const numeral: any;
@@ -700,10 +700,7 @@ export class Utils {
     }
 }
 
-@Pipe({
-    name: 'enumToArray',
-    standalone: false
-})
+@Pipe({ name: 'enumToArray' })
 export class EnumToArrayPipe implements PipeTransform {
 
     transform(value): any {
@@ -720,12 +717,11 @@ export class EnumToArrayPipe implements PipeTransform {
 }
 
 @Pipe({
-    name: 'keepHtml', pure: false,
-    standalone: false
+    name: 'keepHtml', pure: false
 })
 export class EscapeHtmlPipe implements PipeTransform {
-    constructor(private sanitizer: DomSanitizer) {
-    }
+    private sanitizer = inject(DomSanitizer);
+
 
     transform(content) {
         return this.sanitizer.bypassSecurityTrustHtml(content);

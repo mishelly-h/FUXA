@@ -1,10 +1,10 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, Input, inject, input, viewChild, output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { TranslateService } from '@ngx-translate/core';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { DevicePropertyComponent } from './../device-property/device-property.component';
 import { ProjectService } from '../../_services/project.service';
@@ -13,17 +13,28 @@ import { Device, DeviceType, DeviceNetProperty, DEVICE_PREFIX, DeviceViewModeTyp
 import { Utils } from '../../_helpers/utils';
 import { AppService } from '../../_services/app.service';
 import { DeviceWebapiPropertyDialogComponent } from './device-webapi-property-dialog/device-webapi-property-dialog.component';
+import { MatIconButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass, NgStyle } from '@angular/common';
 
 @Component({
     selector: 'app-device-map',
     templateUrl: './device-map.component.html',
     styleUrls: ['./device-map.component.scss'],
-    standalone: false
+    imports: [MatIconButton, MatTooltip, MatIcon, NgClass, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatSortHeader, MatHeaderRowDef, MatHeaderRow, NgStyle, MatRowDef, MatRow, MatPaginator, TranslatePipe]
 })
 export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
+    private dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private elementRef = inject(ElementRef);
+    private appService = inject(AppService);
+    private pluginService = inject(PluginService);
+    private projectService = inject(ProjectService);
 
-    @Output() goto: EventEmitter<Device> = new EventEmitter();
-    @Input() mode: string;
+
+    readonly goto = output<Device>();
+    readonly mode = input<string>(undefined);
     @Input() readonly = false;
     private subscriptionPluginsChange: Subscription;
 
@@ -35,9 +46,9 @@ export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
     dataSource = new MatTableDataSource([]);
     tableWidth = 1200;
 
-    @ViewChild(MatTable, { static: false }) table: MatTable<any>;
-    @ViewChild(MatSort, { static: false }) sort: MatSort;
-    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly paginator = viewChild(MatPaginator);
 
     flowBorder = 5;
     flowWidth = 160;
@@ -65,12 +76,7 @@ export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
     dirty = false;
     domArea: any;
 
-    constructor(private dialog: MatDialog,
-        private translateService: TranslateService,
-        private elementRef: ElementRef,
-        private appService: AppService,
-        private pluginService: PluginService,
-        private projectService: ProjectService) {
+    constructor() {
         this.domArea = this.elementRef.nativeElement.parent;
     }
 
@@ -94,8 +100,8 @@ export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
             this.lineFlowHeight = 0;
         }
 
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

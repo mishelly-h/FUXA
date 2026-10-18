@@ -7,8 +7,10 @@
             [type]="barChartType">
     </canvas>
 </div>
-<div class="graph-toolbar" *ngIf="barChartOptions.offline">
+@if (barChartOptions.offline) {
+<div class="graph-toolbar">
     <button mat-icon-button (click)="onRefresh(true)" class="small-icon-button default-color" [style.color]="barChartOptions.plugins?.title?.color || 'black'">
         <mat-icon  [ngClass]="{'reload-active': reloadActive}">autorenew</mat-icon>
     </button>
 </div>
+}

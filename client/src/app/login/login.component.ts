@@ -1,22 +1,33 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 
 import { AuthService } from '../_services/auth.service';
 import { ProjectService } from '../_services/project.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { NgxTouchKeyboardDirective } from '../framework/ngx-touch-keyboard/ngx-touch-keyboard.directive';
 import { LoginOverlayColorType } from '../_models/hmi';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatError, MatSuffix } from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    standalone: false
+    imports: [FormsModule, MatDialogTitle, CdkScrollable, MatDialogContent, ReactiveFormsModule, MatError, MatIcon, MatSuffix, MatProgressSpinner, MatDialogActions, MatButton, MatDialogClose, NgxTouchKeyboardDirective, TranslatePipe]
 })
 export class LoginComponent {
+    private authService = inject(AuthService);
+    private projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+    private dialogRef = inject<MatDialogRef<LoginComponent>>(MatDialogRef);
+    private data = inject(MAT_DIALOG_DATA);
 
-    @ViewChild('touchKeyboard', {static: false}) touchKeyboard: NgxTouchKeyboardDirective;
+
+    readonly touchKeyboard = viewChild<NgxTouchKeyboardDirective>('touchKeyboard');
 
 	loading = false;
 	showPassword = false;
@@ -27,11 +38,7 @@ export class LoginComponent {
 	errorEnabled = false;
 	disableCancel = false;
 
-	constructor(private authService: AuthService,
-				private projectService: ProjectService,
-				private translateService: TranslateService,
-				private dialogRef: MatDialogRef<LoginComponent>,
-				@Inject(MAT_DIALOG_DATA) private data: any) {
+	constructor() {
 		const hmi = this.projectService.getHmi();
 		this.disableCancel = hmi?.layout?.loginonstart && hmi.layout?.loginoverlaycolor !== LoginOverlayColorType.none;
 	}
@@ -72,13 +79,14 @@ export class LoginComponent {
 	onFocus(event: FocusEvent) {
 		const hmi = this.projectService.getHmi();
 		if (hmi?.layout?.inputdialog?.includes('keyboard')) {
-			if (hmi.layout.inputdialog === 'keyboardFullScreen') {
-				this.touchKeyboard.ngxTouchKeyboardFullScreen = true;
+			const touchKeyboard = this.touchKeyboard();
+   if (hmi.layout.inputdialog === 'keyboardFullScreen') {
+				touchKeyboard.ngxTouchKeyboardFullScreen = true;
 			}
-			this.touchKeyboard.closePanel();
+			touchKeyboard.closePanel();
 			const targetElement = event.target as HTMLInputElement;
 			const elementRef = new ElementRef<HTMLInputElement>(targetElement);
-			this.touchKeyboard.openPanel(elementRef);
+			touchKeyboard.openPanel(elementRef);
 		}
     }
 }

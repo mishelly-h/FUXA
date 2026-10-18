@@ -1,24 +1,41 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
 import { FlexHeadComponent } from '../../gauges/gauge-property/flex-head/flex-head.component';
 import { FlexAuthComponent } from '../../gauges/gauge-property/flex-auth/flex-auth.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AlarmProperty, AlarmAckMode, AlarmSubProperty, AlarmSubActions, AlarmAction, AlarmActionsType } from '../../_models/alarm';
-import { Utils } from '../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { SCRIPT_PARAMS_MAP, Script, ScriptMode, ScriptParam } from '../../_models/script';
 import { ProjectService } from '../../_services/project.service';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatAutocomplete, MatOption, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { NumberOnlyDirective, NonNegativeIntegerOnlyDirective } from '../../_directives/number.directive';
+import { RangeNumberComponent } from '../../gui-helpers/range-number/range-number.component';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { FlexVariableComponent } from '../../gauges/gauge-property/flex-variable/flex-variable.component';
 
 @Component({
     selector: 'app-alarm-property',
     templateUrl: './alarm-property.component.html',
     styleUrls: ['./alarm-property.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, FlexAuthComponent, FlexHeadComponent, MatAutocomplete, MatOption, MatTabGroup, MatTab, MatSlideToggle, FormsModule, MatSelect, NumberOnlyDirective, RangeNumberComponent, NonNegativeIntegerOnlyDirective, MatAutocompleteTrigger, MatIconButton, FlexVariableComponent, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class AlarmPropertyComponent implements OnInit {
+	dialogRef = inject<MatDialogRef<AlarmPropertyComponent>>(MatDialogRef);
+	private projectService = inject(ProjectService);
+	private translateService = inject(TranslateService);
+	data = inject(MAT_DIALOG_DATA);
 
-	@ViewChild('flexauth', {static: false}) flexAuth: FlexAuthComponent;
-    @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
+
+	readonly flexAuth = viewChild<FlexAuthComponent>('flexauth');
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
 
     scripts: Script[];
 
@@ -38,11 +55,9 @@ export class AlarmPropertyComponent implements OnInit {
     existtexts = [];
     existgroups = [];
 
-    constructor(
-        public dialogRef: MatDialogRef<AlarmPropertyComponent>,
-        private projectService: ProjectService,
-        private translateService: TranslateService,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
+        const data = this.data;
+
         if (this.data.alarm.property) {
            this.property = <AlarmProperty>JSON.parse(JSON.stringify(this.data.alarm.property));
         } else {
@@ -117,16 +132,16 @@ export class AlarmPropertyComponent implements OnInit {
             this.dialogRef.close(this.data.alarm);
         } else if (this.checkValid()) {
             this.data.alarm.property = this.property;
-            this.data.alarm.property.permission = this.flexAuth.permission;
-            this.data.alarm.property.permissionRoles = this.flexAuth.permissionRoles;
-            this.data.alarm.name = this.flexAuth.name;
+            this.data.alarm.property.permission = this.flexAuth().permission;
+            this.data.alarm.property.permissionRoles = this.flexAuth().permissionRoles;
+            this.data.alarm.name = this.flexAuth().name;
             this.dialogRef.close(this.data.alarm);
         }
     }
 
     checkValid() {
-        this.errorMissingValue = !this.flexAuth.name;
-        this.errorExist = (this.existnames.find((a) => a.name === this.flexAuth.name)) ? true : false;
+        this.errorMissingValue = !this.flexAuth().name;
+        this.errorExist = (this.existnames.find((a) => a.name === this.flexAuth().name)) ? true : false;
         return !(this.errorMissingValue || this.errorExist);
     }
 

@@ -1,20 +1,23 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 import { WidgetProperty } from '../../../_models/hmi';
 import { ProjectService } from '../../../_services/project.service';
 import { SvgUtils } from '../../../_helpers/svg-utils';
+import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
 
 @Component({
     selector: 'flex-widget-property',
     templateUrl: './flex-widget-property.component.html',
     styleUrls: ['./flex-widget-property.component.scss'],
-    standalone: false
+    imports: [FlexVariableComponent]
 })
 export class FlexWidgetPropertyComponent implements OnInit {
+    private projectService = inject(ProjectService);
 
-    @Input() property: WidgetProperty;
+
+    readonly property = input<WidgetProperty>(undefined);
     dataDevices = { devices: []};
 
-    constructor(private projectService: ProjectService) {
+    constructor() {
         this.dataDevices = {
             devices: Object.values(this.projectService.getDevices())
         };
@@ -22,10 +25,11 @@ export class FlexWidgetPropertyComponent implements OnInit {
 
     ngOnInit() {
         // Populate defaults from SVG script if available
-        if (this.property?.varsToBind?.length && this.property?.scriptContent?.content) {
-            this.property.varsToBind = SvgUtils.populateDefaults(
-                this.property.scriptContent.content,
-                this.property.varsToBind
+        const property = this.property();
+        if (property?.varsToBind?.length && property?.scriptContent?.content) {
+            property.varsToBind = SvgUtils.populateDefaults(
+                property.scriptContent.content,
+                property.varsToBind
             );
         }
     }

@@ -1,17 +1,27 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+import { Component, OnInit, ElementRef, input, viewChild, output } from '@angular/core';
+import { LazyForDirective } from '../../_directives/lazyFor.directive';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { NgStyle } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'ngx-treetable',
     templateUrl: './treetable.component.html',
     styleUrls: ['./treetable.component.scss'],
-    standalone: false
+    imports: [LazyForDirective, MatIconButton, MatIcon, NgStyle, MatProgressSpinner, MatCheckbox, FormsModule, MatSelect, MatOption, TranslatePipe]
 })
 export class TreetableComponent implements OnInit {
 
-    @Input() config: any;
-    @Output() expand = new EventEmitter();
-    @ViewChild('treetable', {static: true}) treetable: ElementRef;
+    readonly config = input<any>(undefined);
+    readonly expand = output<Node>();
+    readonly treetable = viewChild<ElementRef>('treetable');
 
 
     TypeOfTree = TreeType;
@@ -26,21 +36,22 @@ export class TreetableComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        if (this.config) {
-            if (this.config.width) {
-                this.containerProperty.width = this.config.width;
+        const config = this.config();
+        if (config) {
+            if (config.width) {
+                this.containerProperty.width = config.width;
             }
-            if (this.config.height) {
-                this.containerProperty.height = this.config.height;
+            if (config.height) {
+                this.containerProperty.height = config.height;
             }
-            if (this.config.type === TreeType.ToDefine) {
+            if (config.type === TreeType.ToDefine) {
                 this.treeType = TreeType.ToDefine;
             }
         }
     }
 
     onExpandToggle(node: Node) {
-        const currentPosition = this.treetable.nativeElement.scrollTop;
+        const currentPosition = this.treetable().nativeElement.scrollTop;
         node.expanded = (node.expanded) ? false : true;
         if (node.expanded) {
             if (!node.childs.length) {
@@ -51,7 +62,7 @@ export class TreetableComponent implements OnInit {
             this.hideNode(node, false);
         }
         this.list = this.nodeToItems((this.treeType === TreeType.ToDefine) ? false : true);
-        setTimeout(() => { this.treetable.nativeElement.scrollTop = currentPosition; }, 1);
+        setTimeout(() => { this.treetable().nativeElement.scrollTop = currentPosition; }, 1);
     }
 
     hideNode(node: Node, visible: boolean) {

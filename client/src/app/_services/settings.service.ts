@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, tap } from 'rxjs/operators';
@@ -13,6 +13,11 @@ import { AppSettings, DaqStore, EditorSectionMessagesSettings, SmtpSettings } fr
     providedIn: 'root'
 })
 export class SettingsService {
+    private http = inject(HttpClient);
+    private fuxaLanguage = inject(TranslateService);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+
 
     private appSettings = new AppSettings();
     settings$ = new BehaviorSubject<AppSettings>(this.appSettings);
@@ -20,12 +25,6 @@ export class SettingsService {
     private endPointConfig: string = EndPointApi.getURL();
 
     private editModeLocked = false;
-
-    constructor(private http: HttpClient,
-        private fuxaLanguage: TranslateService,
-        private translateService: TranslateService,
-        private toastr: ToastrService) {
-    }
 
     init() {
         // this language will be used as a fallback when a translation isn't found in the current language

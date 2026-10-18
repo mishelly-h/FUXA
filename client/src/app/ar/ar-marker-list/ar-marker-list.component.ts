@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { TranslateService } from '@ngx-translate/core';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { MatTable, MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subject, takeUntil } from 'rxjs';
 
 import { ArMarker, ArSettings } from '../../_models/ar';
@@ -12,14 +12,22 @@ import { SectionMessageDialogComponent } from '../../editor/section-message-dial
 import { ProjectService } from '../../_services/project.service';
 import { ArMarkerPropertyComponent } from '../ar-marker-property/ar-marker-property.component';
 import { createQrSvg, createQrSvgDataUrl } from '../ar-marker-property/qr-code-generator';
+import { MatIcon } from '@angular/material/icon';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-ar-marker-list',
     templateUrl: './ar-marker-list.component.html',
     styleUrls: ['./ar-marker-list.component.scss'],
-    standalone: false
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatIconButton, MatCellDef, MatCell, MatSortHeader, MatTooltip, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFabButton, TranslatePipe]
 })
 export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {
+    private dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private settingsService = inject(SettingsService);
+
     displayedColumns = ['select', 'id', 'label', 'view', 'ttlMs', 'download', 'remove'];
     dataSource = new MatTableDataSource<ArMarker>([]);
     arSettings: ArSettings;
@@ -28,15 +36,8 @@ export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {
     private sectionMessageHandled = false;
     private sectionMessageOpened = false;
 
-    @ViewChild(MatTable, { static: true }) table: MatTable<ArMarker>;
-    @ViewChild(MatSort, { static: false }) sort: MatSort;
-
-    constructor(
-        private dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private settingsService: SettingsService
-    ) { }
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadMarkers();
@@ -47,7 +48,7 @@ export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

@@ -1,26 +1,34 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { Device, RedisTagType, Tag } from '../../../_models/device';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
-import { TranslateService } from '@ngx-translate/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { MatButton } from '@angular/material/button';
+import { EnumToArrayPipe } from '../../../_helpers/utils';
 
 @Component({
     selector: 'app-tag-property-edit-redis',
     templateUrl: './tag-property-edit-redis.component.html',
     styleUrls: ['./tag-property-edit-redis.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, NumberOnlyDirective, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class TagPropertyEditRedisComponent implements OnInit {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditRedisComponent>>(MatDialogRef);
+    data = inject<TagPropertyRedisData>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     formGroup: UntypedFormGroup;
     tagType = RedisTagType;
     existingNames = [];
     error: string;
-
-    constructor(private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TagPropertyEditRedisComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyRedisData) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

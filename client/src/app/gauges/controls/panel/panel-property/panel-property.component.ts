@@ -1,17 +1,22 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, output } from '@angular/core';
 import { GaugePanelProperty, PropertyScaleModeType } from '../../../../_models/hmi';
-import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { FlexDeviceTagValueType, FlexDeviceTagComponent } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { TranslatePipe } from '@ngx-translate/core';
+import { EnumToArrayPipe } from '../../../../_helpers/utils';
 
 @Component({
     selector: 'app-panel-property',
     templateUrl: './panel-property.component.html',
     styleUrls: ['./panel-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, FlexDeviceTagComponent, MatSelect, MatOption, TranslatePipe, EnumToArrayPipe]
 })
 export class PanelPropertyComponent implements OnInit {
 
     @Input() data: any;
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }

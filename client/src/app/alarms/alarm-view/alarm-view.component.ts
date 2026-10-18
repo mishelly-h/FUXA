@@ -1,27 +1,39 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter } from '@angular/core';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, inject, input, viewChild, output } from '@angular/core';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { Subject, timer, empty } from 'rxjs';
 import { takeUntil, switchMap, catchError, delay } from 'rxjs/operators';
 
 import { HmiService } from '../../_services/hmi.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AlarmBaseType, AlarmColumns, AlarmHistoryColumns, AlarmPriorityType, AlarmQuery, AlarmStatusType } from '../../_models/alarm';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import * as moment from 'moment';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { LanguageService } from '../../_services/language.service';
+import { NgStyle, DatePipe } from '@angular/common';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatDateRangeInput, MatStartDate, MatEndDate, MatDateRangePicker, MatDatepickerActions, MatDatepickerCancel, MatDatepickerApply } from '@angular/material/datepicker';
 
 @Component({
     selector: 'app-alarm-view',
     templateUrl: './alarm-view.component.html',
     styleUrls: ['./alarm-view.component.scss'],
-    standalone: false
+    imports: [NgStyle, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatSortHeader, MatCellDef, MatCell, MatIconButton, MatTooltip, MatIcon, MatMenuTrigger, MatMenu, MatMenuItem, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, MatProgressSpinner, MatDateRangeInput, FormsModule, ReactiveFormsModule, MatStartDate, MatEndDate, MatDateRangePicker, MatDatepickerActions, MatButton, MatDatepickerCancel, MatDatepickerApply, DatePipe, TranslatePipe]
 })
 export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
+    private translateService = inject(TranslateService);
+    private dialog = inject(MatDialog);
+    private languageService = inject(LanguageService);
+    private hmiService = inject(HmiService);
+
 
     alarmsColumns = AlarmColumns;
     historyColumns = AlarmHistoryColumns;
@@ -38,23 +50,20 @@ export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
     alarmsLoading = false;
     dateRange: FormGroup;
 
-    @Input() autostart = false;
+    readonly autostart = input(false);
     @Input() showInContainer = false;
-    @Input() fullview = true;
-    @Output() showMode: EventEmitter<string> = new EventEmitter();
+    readonly fullview = input(true);
+    readonly showMode = output<string>();
 
     dataSource = new MatTableDataSource([]);
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly paginator = viewChild(MatPaginator);
 
     private rxjsPollingTimer = timer(0, 2000);
     private destroy = new Subject<void>();
 
-    constructor(private translateService: TranslateService,
-                private dialog: MatDialog,
-                private languageService: LanguageService,
-                private hmiService: HmiService) {
+    constructor() {
         const today = moment();
         this.dateRange = new FormGroup({
             endDate: new FormControl(today.set({hour: 23, minute: 59, second: 59, millisecond: 999}).toDate()),
@@ -73,10 +82,10 @@ export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngAfterViewInit() {
         this.displayColumns = this.alarmsColumns;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.table.renderRows();
-        if (this.autostart) {
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
+        this.table().renderRows();
+        if (this.autostart()) {
             this.startAskAlarmsValues();
         }
     }

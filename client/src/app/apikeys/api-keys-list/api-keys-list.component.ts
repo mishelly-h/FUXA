@@ -1,23 +1,33 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
+import { MatTable, MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatDialog} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { Subject, takeUntil } from 'rxjs';
 import { ProjectService } from '../../_services/project.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ApiKey } from '../../_models/apikey';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
 import { ApiKeyPropertyComponent } from '../api-key-property/api-key-property.component';
 import { ApiKeysService } from '../../_services/apikeys.service';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass, DatePipe } from '@angular/common';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-api-keys-list',
     templateUrl: './api-keys-list.component.html',
     styleUrls: ['./api-keys-list.component.scss'],
-    standalone: false
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatIconButton, MatCellDef, MatCell, MatSortHeader, MatTooltip, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFabButton, DatePipe, TranslatePipe]
 })
 export class ApiKeysListComponent implements OnInit, AfterViewInit, OnDestroy {
+    private dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private apiKeysService = inject(ApiKeysService);
+    private snackBar = inject(MatSnackBar);
+
 
     displayedColumns = ['select', 'name', 'key', 'description', 'created', 'expires', 'enabled', 'remove'];
     id: string;
@@ -32,16 +42,8 @@ export class ApiKeysListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private destroy$ = new Subject<void>();
 
-    @ViewChild(MatTable, {static: true}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(
-        private dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private apiKeysService: ApiKeysService,
-        private snackBar: MatSnackBar
-    ) { }
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadApiKeys();
@@ -53,7 +55,7 @@ export class ApiKeysListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

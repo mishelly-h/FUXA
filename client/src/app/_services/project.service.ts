@@ -1,5 +1,5 @@
 
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, Output, EventEmitter, inject } from '@angular/core';
 import { Observable, Subject, firstValueFrom, of } from 'rxjs';
 
 import { environment } from '../../environments/environment';
@@ -29,6 +29,13 @@ import { ArMarker, ArSettings } from '../_models/ar';
 
 @Injectable()
 export class ProjectService {
+    private resewbApiService = inject(ResWebApiService);
+    private resDemoService = inject(ResDemoService);
+    private resClientService = inject(ResClientService);
+    private appService = inject(AppService);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+
 
     @Output() onSaveCurrent: EventEmitter<SaveMode> = new EventEmitter();
     @Output() onLoadHmi: EventEmitter<boolean> = new EventEmitter();
@@ -46,12 +53,12 @@ export class ProjectService {
     private projectLoadRequestId = 0;
     public static MainViewName = 'MainView';
 
-    constructor(private resewbApiService: ResWebApiService,
-        private resDemoService: ResDemoService,
-        private resClientService: ResClientService,
-        private appService: AppService,
-        private translateService: TranslateService,
-        private toastr: ToastrService) {
+    constructor() {
+        const resewbApiService = this.resewbApiService;
+        const resDemoService = this.resDemoService;
+        const resClientService = this.resClientService;
+        const appService = this.appService;
+
 
         this.storage = resewbApiService;
         if (!environment.serverEnabled || appService.isDemoApp) {

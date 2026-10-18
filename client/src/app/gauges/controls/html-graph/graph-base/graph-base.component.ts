@@ -1,14 +1,11 @@
 
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, output } from '@angular/core';
 import { GraphSource, GraphRangeType, GraphDateGroupType } from '../../../../_models/graph';
 import { ChartOptions, GridLineOptions, ChartType } from 'chart.js';
 import { DaqQuery } from '../../../../_models/hmi';
-@Component({
-    template: '',
-    standalone: false
-})
+@Component({ template: '' })
 export class GraphBaseComponent {
-    @Output() onReload: EventEmitter<DaqQuery> = new EventEmitter();
+    readonly onReload = output<DaqQuery>();
 
     id: string;
     isEditor: boolean;

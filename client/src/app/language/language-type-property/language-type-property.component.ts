@@ -1,24 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Language, Languages } from '../../_models/language';
-import { AbstractControl, FormArray, FormGroup, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { AbstractControl, FormArray, FormGroup, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { ProjectService } from '../../_services/project.service';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-language-type-property',
     templateUrl: './language-type-property.component.html',
     styleUrls: ['./language-type-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, CdkScrollable, MatDialogContent, MatIconButton, MatTooltip, MatIcon, MatInput, MatDialogActions, MatButton, TranslatePipe]
 })
 export class LanguageTypePropertyComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<LanguageTypePropertyComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    private projectService = inject(ProjectService);
+
 
     languagesForm: UntypedFormGroup;
-
-    constructor(
-        public dialogRef: MatDialogRef<LanguageTypePropertyComponent>,
-        private fb: UntypedFormBuilder,
-        private projectService: ProjectService) {
-    }
 
     ngOnInit(): void {
         const languages = this.projectService.getLanguages();

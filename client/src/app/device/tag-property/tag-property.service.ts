@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { Device, TAG_PREFIX, Tag, ServerTagType } from '../../_models/device';
 import { Utils } from '../../_helpers/utils';
@@ -27,11 +27,11 @@ import { TagPropertyRedisScanComponent, TagPropertyRedisScanData } from './tag-p
     providedIn: 'root'
 })
 export class TagPropertyService {
+    private dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private toastService = inject(ToastrService);
+    private projectService = inject(ProjectService);
 
-    constructor(private dialog: MatDialog,
-        private translateService: TranslateService,
-        private toastService: ToastrService,
-        private projectService: ProjectService) { }
 
     public editTagPropertyS7(device: Device, tag: Tag, checkToAdd: boolean): Observable<any> {
         let oldTagId = tag.id;

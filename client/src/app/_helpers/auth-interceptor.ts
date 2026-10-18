@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { Injectable, Injector } from '@angular/core';
+import { Injectable, Injector, inject } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -12,9 +12,8 @@ const USER_HEADER_KEY = 'x-auth-user';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
+    private injector = inject(Injector);
 
-    constructor(private injector: Injector) {
-    }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const skipAuth = req.headers.has('Skip-Auth');

@@ -1,23 +1,33 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
-import { MatSort } from '@angular/material/sort';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { Subscription } from 'rxjs';
 
 import { ProjectService } from '../../_services/project.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AlarmPropertyComponent } from '../alarm-property/alarm-property.component';
 import { Alarm, AlarmSubProperty, AlarmSubActions } from '../../_models/alarm';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
 import { AlarmImportDialogComponent, AlarmImportMode } from './alarm-import-dialog/alarm-import-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'app-alarm-list',
     templateUrl: './alarm-list.component.html',
     styleUrls: ['./alarm-list.component.scss'],
-    standalone: false
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatIconButton, MatCellDef, MatCell, MatSortHeader, MatMenuTrigger, MatMenu, MatMenuItem, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatProgressSpinner, MatFabButton, TranslatePipe]
 })
 export class AlarmListComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private toastNotifyService = inject(ToastNotifierService);
+
 
     displayedColumns = ['select', 'name', 'device', 'highhigh', 'high', 'low', 'info', 'actions', 'remove'];
     dataSource = new MatTableDataSource([]);
@@ -26,14 +36,9 @@ export class AlarmListComponent implements OnInit, AfterViewInit, OnDestroy {
     private subscriptionLoad: Subscription;
     private enabledText = '';
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-    @ViewChild('fileImportInput', {static: false}) fileImportInput: any;
-
-    constructor(public dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private toastNotifyService: ToastNotifierService) { }
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly fileImportInput = viewChild<any>('fileImportInput');
 
     ngOnInit() {
         this.loadAlarms();
@@ -44,7 +49,7 @@ export class AlarmListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

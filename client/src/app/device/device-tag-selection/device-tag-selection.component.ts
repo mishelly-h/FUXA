@@ -1,26 +1,38 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { AfterViewInit, Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { Device, DeviceType, TAG_PREFIX, Tag } from '../../_models/device';
 import { ProjectService } from '../../_services/project.service';
 import { Subject, takeUntil } from 'rxjs';
 import { Utils } from '../../_helpers/utils';
 import { TagPropertyService } from '../tag-property/tag-property.service';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-device-tag-selection',
     templateUrl: './device-tag-selection.component.html',
     styleUrls: ['./device-tag-selection.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatIconButton, MatCellDef, MatCell, MatCheckbox, FormsModule, MatSortHeader, ReactiveFormsModule, MatMenuTrigger, MatMenu, MatMenuItem, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, MatDialogActions, MatButton, TranslatePipe]
 })
 export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<DeviceTagSelectionComponent>>(MatDialogRef);
+    private projectService = inject(ProjectService);
+    private tagPropertyService = inject(TagPropertyService);
+    data = inject<DeviceTagSelectionData>(MAT_DIALOG_DATA);
 
-    @ViewChild(MatTable, { static: false }) table: MatTable<any>;
-    @ViewChild(MatSort, { static: false }) sort: MatSort;
-    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly paginator = viewChild(MatPaginator);
 
     private destroy$ = new Subject<void>();
 
@@ -37,10 +49,7 @@ export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDes
     readonly defColumns = ['toogle', 'name', 'address', 'device', 'select'];
     deviceTagNotEditable = [DeviceType.MQTTclient, DeviceType.ODBC];
 
-    constructor(public dialogRef: MatDialogRef<DeviceTagSelectionComponent>,
-        private projectService: ProjectService,
-        private tagPropertyService: TagPropertyService,
-        @Inject(MAT_DIALOG_DATA) public data: DeviceTagSelectionData) {
+    constructor() {
         this.loadDevicesTags();
     }
 
@@ -85,8 +94,8 @@ export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDes
     }
 
     ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
     }
 
     onToogle(element: TagElement) {
@@ -224,8 +233,8 @@ export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDes
             );
         }
         this.dataSource.data = this.tags;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
 
         if (newTag && deviceName) {
             this.onSelect(<TagElement>{ id: newTag.id }, deviceName);

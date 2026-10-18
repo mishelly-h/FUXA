@@ -1,17 +1,19 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
+import { MatSelectionList, MatListOption } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'sel-options',
     templateUrl: './sel-options.component.html',
     styleUrls: ['./sel-options.component.css'],
-    standalone: false
+    imports: [MatSelectionList, FormsModule, MatListOption]
 })
 export class SelOptionsComponent {
 
-    @Input() disabled: any;
+    readonly disabled = input<any>(undefined);
     @Input() selected = [];
-    @Input() options = [];
+    readonly options = input([]);
     @Input() extSelected;
 
     constructor() { }

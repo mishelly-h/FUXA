@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, viewChild, output } from '@angular/core';
 
 import { GraphBaseComponent, GraphOptions, GraphThemeType } from '../graph-base/graph-base.component';
 import { GraphBarProperty, GraphBarXType, GraphSource, GraphRangeType, GraphBarFunction, GraphBarDateFunctionType, GraphDateGroupType } from '../../../../_models/graph';
@@ -8,18 +8,21 @@ import { ChartType, ChartDataset } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { DaqQuery, DaqValue } from '../../../../_models/hmi';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'graph-bar',
     templateUrl: './graph-bar.component.html',
     styleUrls: ['./graph-bar.component.scss'],
-    standalone: false
+    imports: [BaseChartDirective, MatIconButton, MatIcon, NgClass]
 })
 export class GraphBarComponent extends GraphBaseComponent implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild(BaseChartDirective, {static: false}) public chart?: BaseChartDirective;
+    public readonly chart = viewChild(BaseChartDirective);
     @Input() height = 240;
     @Input() width = 380;
-    @Output() onReload: EventEmitter<DaqQuery> = new EventEmitter();
+    readonly onReload = output<DaqQuery>();
 
     public barChartOptions: GraphOptions = {
         responsive: true,
@@ -141,7 +144,7 @@ export class GraphBarComponent extends GraphBaseComponent implements OnInit, Aft
 
             this.barChartOptions.plugins.title.text = GraphBaseComponent.getTitle(options, this.title);
 
-            this.chart.update();
+            this.chart().update();
             if (!this.isEditor) {
                 setTimeout(() => {
                     this.onRefresh();
@@ -174,7 +177,7 @@ export class GraphBarComponent extends GraphBaseComponent implements OnInit, Aft
             let dataset = this.sourceMap[sigid];
             if (this.property.xtype === this.xTypeValue) {
                 dataset.data[0] = parseFloat(sigvalue).toFixed(this.barChartOptions.decimals);
-                this.chart.update();
+                this.chart().update();
             }
         }
     }
@@ -205,7 +208,7 @@ export class GraphBarComponent extends GraphBaseComponent implements OnInit, Aft
                         let dataset = <ChartDataset>this.sourceMap[sigsid[i]];
                         dataset.data = data;
                         this.fullDataSetAttribute(dataset);
-                        this.chart.update();
+                        this.chart().update();
                     }
                 }
             }

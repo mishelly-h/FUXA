@@ -1,19 +1,22 @@
-<div *ngFor="let item of actions; index as i" class="item">
-    <app-flex-device-tag
-        class="item-head"
+@for (item of actions; track item; let i = $index) {
+<div class="item">
+    <app-flex-device-tag class="item-head"
         [variableId]="item.variableId"
-        (onchange)="setVariable(i, $event)">
-    </app-flex-device-tag>
+        (onchange)="setVariable(i, $event)" />
     <div class="action-content">
-        <div *ngIf="slideView" class="item-range">
-            <range-number [range]="item.range"></range-number>
+        @if (slideView) {
+<div class="item-range">
+            <range-number [range]="item.range" />
         </div>
+}
         <div class="my-form-field" style="width: 278px;">
             <span>{{'gauges.property-action-type' | translate}}</span>
             <mat-select [(value)]="item.type" (selectionChange)="onCheckActionType(item.type, item)">
-                <mat-option *ngFor="let ev of actionsSupported | enumToArray" [value]="ev.key">
+                @for (ev of actionsSupported | enumToArray; track ev) {
+<mat-option [value]="ev.key">
                     {{ ev.value }}
                 </mat-option>
+}
             </mat-select>
         </div>
         <div class="item-remove">
@@ -21,8 +24,10 @@
                 <mat-icon>clear</mat-icon>
             </button>
         </div>
-        <div [ngSwitch]="item.type">
-            <div *ngSwitchCase="actionBlink" class="action-params">
+        <div>
+@switch (item.type) {
+            @case (actionBlink) {
+<div class="action-params">
                 <div class="my-form-field">
                     <span>{{'gauges.property-input-color' | translate}}</span>
                     <input [(colorPicker)]="item.options.fillA" [value]="item.options.fillA" [style.background]="item.options.fillA" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true"
@@ -52,7 +57,9 @@
                         style="width:70px;" [cpPosition]="'auto'" [cpAlphaChannel]="'always'" [cpOutputFormat]="'hex'"/>
                 </div>
             </div>
-            <div *ngSwitchCase="actionColor" class="action-params">
+}
+            @case (actionColor) {
+<div class="action-params">
                 <div class="my-form-field">
                     <span>{{'gauges.property-input-color' | translate}}</span>
                     <input [(colorPicker)]="item.options.fillA" [value]="item.options.fillA" [style.background]="item.options.fillA" [cpPresetColors]="defaultColor" [cpOKButton]="true" [cpCancelButton]="true"
@@ -66,6 +73,9 @@
                         style="width:70px;" [cpPosition]="'auto'" [cpAlphaChannel]="'always'" [cpOutputFormat]="'hex'"/>
                 </div>
             </div>
-        </div>
+}
+        }
+</div>
     </div>
 </div>
+}

@@ -24,26 +24,28 @@
             </button>
         </div>
 
-        <div *ngIf="loading" class="loading">
-            <mat-progress-spinner mode="indeterminate" diameter="28"></mat-progress-spinner>
+        @if (loading) {
+<div class="loading">
+            <mat-progress-spinner mode="indeterminate" diameter="28" />
             <span>{{'device.property-redis-scan-scanning' | translate}}</span>
         </div>
+}
 
-        <div *ngIf="!loading" style="opacity:.8; margin-bottom:6px;">
+        @if (!loading) {
+<div style="opacity:.8; margin-bottom:6px;">
             {{'device.property-redis-scan-found' | translate}}: <b>{{dataSource.data.length | number}}</b>
         </div>
+}
 
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z2" style="width:100%;">
             <ng-container matColumnDef="select">
                 <th mat-header-cell *matHeaderCellDef style="width:48px;">
                     <mat-checkbox [disabled]="selectableCountFiltered===0" [checked]="allFilteredSelected" [indeterminate]="someFilteredSelected && !allFilteredSelected"
-                        (change)="toggleSelectAllFiltered()">
-                    </mat-checkbox>
+                        (change)="toggleSelectAllFiltered()" />
                 </th>
                 <td mat-cell *matCellDef="let row">
                     <mat-checkbox (click)="$event.stopPropagation()" (change)="toggleRow(row)" [disabled]="!isRowSelectable(row)"
-                        [checked]="!isRowSelectable(row) ? true : selection.isSelected(row)">
-                    </mat-checkbox>
+                        [checked]="!isRowSelectable(row) ? true : selection.isSelected(row)" />
                 </td>
             </ng-container>
 
@@ -63,8 +65,7 @@
             <tr mat-row *matRowDef="let r; columns: displayedColumns; trackBy: trackByAddr" (click)="toggleRow(r)"></tr>
         </table>
 
-        <mat-paginator [length]="dataSource.data.length" [pageSize]="50" [pageSizeOptions]="[25,50,100,250,500]" showFirstLastButtons>
-        </mat-paginator>
+        <mat-paginator [length]="dataSource.data.length" [pageSize]="50" [pageSizeOptions]="[25,50,100,250,500]" showFirstLastButtons />
     </div>
     <div mat-dialog-actions class="dialog-action" style="margin-top:12px;">
         <button mat-raised-button (click)="onNoClick()">{{'dlg.cancel' | translate}}</button>

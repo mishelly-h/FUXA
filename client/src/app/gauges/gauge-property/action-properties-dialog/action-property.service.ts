@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { GaugeActionsType, GaugeRangeProperty } from '../../../_models/hmi';
 import { PipeActionsType } from '../../controls/pipe/pipe.component';
 import { Utils } from '../../../_helpers/utils';
@@ -8,10 +8,8 @@ import { TranslateService } from '@ngx-translate/core';
     providedIn: 'root'
 })
 export class ActionPropertyService {
+    private translateService = inject(TranslateService);
 
-    constructor(
-        private translateService: TranslateService,
-    ) { }
 
     private getRange(range: GaugeRangeProperty): string {
         return `range(${range?.min} - ${range?.max})`;

@@ -3,5 +3,7 @@
               class="pointer">upload</mat-icon>
     <input type="file" #file (change)="onChange($event)" style="display: none" (click)="$event.stopPropagation()"/>
     <span>{{ fileName }}</span>
-    <mat-icon *ngIf="fileName" (click)="removeFile()" class="clear pointer">clear</mat-icon>
+    @if (fileName) {
+<mat-icon (click)="removeFile()" class="clear pointer">clear</mat-icon>
+}
 </div>

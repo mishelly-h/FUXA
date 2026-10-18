@@ -1,13 +1,13 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, AfterViewInit, ViewChild, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy, inject, input, viewChild, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
-import { MatMenuTrigger as MatMenuTrigger } from '@angular/material/menu';
-import { MatSort } from '@angular/material/sort';
+import { MatMenuTrigger as MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { TagOptionType, TagOptionsComponent } from './../tag-options/tag-options.component';
 import { Tag, Device, DeviceType, TAG_PREFIX } from '../../_models/device';
@@ -16,15 +16,28 @@ import { HmiService } from '../../_services/hmi.service';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
 import { Utils } from '../../_helpers/utils';
 import { TagPropertyService } from '../tag-property/tag-property.service';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { NgClass, NgStyle, DatePipe } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-device-list',
     templateUrl: './device-list.component.html',
     styleUrls: ['./device-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [MatIconButton, MatIcon, MatSelect, MatOption, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatTooltip, MatCellDef, MatCell, MatSortHeader, MatMenuTrigger, MatMenu, MatMenuItem, MatHeaderRowDef, MatHeaderRow, NgStyle, MatRowDef, MatRow, MatPaginator, DatePipe, TranslatePipe]
 })
 export class DeviceListComponent implements OnInit, AfterViewInit {
+    private dialog = inject(MatDialog);
+    private hmiService = inject(HmiService);
+    private translateService = inject(TranslateService);
+    private changeDetector = inject(ChangeDetectorRef);
+    private projectService = inject(ProjectService);
+    private tagPropertyService = inject(TagPropertyService);
+
 
     readonly defAllColumns = ['select', 'name', 'address', 'device', 'type', 'value', 'timestamp', 'description', 'warning', 'uns', 'logger', 'options', 'remove'];
     readonly defAllExtColumns = ['select', 'name', 'address', 'device', 'type', 'value', 'timestamp', 'quality', 'description', 'warning', 'uns', 'logger', 'options', 'remove'];
@@ -47,22 +60,14 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     isDeviceToEdit = true;
     isWithOptions = true;
 
-    @Input() readonly = false;
-    @Output() save = new EventEmitter();
-    @Output() goto = new EventEmitter();
+    readonly readonly = input(false);
+    readonly save = output();
+    readonly goto = output();
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-    @ViewChild(MatMenuTrigger, {static: false}) trigger: MatMenuTrigger;
-    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-
-    constructor(private dialog: MatDialog,
-        private hmiService: HmiService,
-        private translateService: TranslateService,
-        private changeDetector: ChangeDetectorRef,
-        private projectService: ProjectService,
-        private tagPropertyService: TagPropertyService
-        ) { }
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly trigger = viewChild(MatMenuTrigger);
+    readonly paginator = viewChild(MatPaginator);
 
     ngOnInit() {
         this.devices = this.projectService.getDevices();
@@ -72,8 +77,8 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
     }
 
     mapTags() {

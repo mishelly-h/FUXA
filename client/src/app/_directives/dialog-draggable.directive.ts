@@ -1,14 +1,14 @@
-import { Directive, HostListener, AfterViewInit } from '@angular/core';
+import { Directive, HostListener, AfterViewInit, inject } from '@angular/core';
 import { MatDialogContainer as MatDialogContainer, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { fromEvent } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Position } from './modal-position.cache';
 
-@Directive({
-    selector: '[mat-dialog-draggable]',
-    standalone: false
-})
+@Directive({ selector: '[mat-dialog-draggable]' })
 export class DialogDraggableDirective implements AfterViewInit {
+    private matDialogRef = inject<MatDialogRef<any>>(MatDialogRef);
+    private container = inject(MatDialogContainer);
+
 
     // private _subscription: Subscription;
 
@@ -17,12 +17,6 @@ export class DialogDraggableDirective implements AfterViewInit {
     mouseDelta: Position;
 
     offset: Position;
-
-    constructor(
-        private matDialogRef: MatDialogRef<any>,
-        private container: MatDialogContainer,
-        // private positionCache: ModalPositionCache
-    ) { }
 
     ngAfterViewInit() {
         const dialogType = this.matDialogRef.componentInstance.constructor;

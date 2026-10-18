@@ -9,8 +9,7 @@ declare var SVG: any;
 @Component({
     selector: 'html-select',
     templateUrl: './html-select.component.html',
-    styleUrls: ['./html-select.component.css'],
-    standalone: false
+    styleUrls: ['./html-select.component.css']
 })
 export class HtmlSelectComponent extends GaugeBaseComponent {
 

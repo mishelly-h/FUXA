@@ -1,31 +1,34 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, inject, viewChild } from '@angular/core';
 import { HmiService } from '../../../_services/hmi.service';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { BACnetObjectType, Device, Tag } from '../../../_models/device';
 import { Subject, takeUntil } from 'rxjs';
 import { TreetableComponent, Node, NodeType } from '../../../gui-helpers/treetable/treetable.component';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-tag-property-edit-bacnet',
     templateUrl: './tag-property-edit-bacnet.component.html',
     styleUrls: ['./tag-property-edit-bacnet.component.css'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, TreetableComponent, MatDialogActions, MatButton, TranslatePipe]
 })
 export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
+    private hmiService = inject(HmiService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditBacnetComponent>>(MatDialogRef);
+    data = inject<TagPropertyBacNetData>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     private destroy$ = new Subject<void>();
-    @ViewChild(TreetableComponent, { static: false }) treetable: TreetableComponent;
+    readonly treetable = viewChild(TreetableComponent);
 
     config = {
         height: '640px',
         width: '1000px'
     };
-
-    constructor(
-        private hmiService: HmiService,
-        public dialogRef: MatDialogRef<TagPropertyEditBacnetComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyBacNetData) {
-    }
 
     ngOnInit() {
         this.hmiService.onDeviceBrowse.pipe(
@@ -49,7 +52,7 @@ export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
                     if (values.node.attribute[14]) {    // datatype
                         values.node.type = values.node.attribute[14];
                     }
-                    this.treetable.setNodeProperty(values.node, this.attributeToString(values.node.attribute));
+                    this.treetable().setNodeProperty(values.node, this.attributeToString(values.node.attribute));
                 }
             }
         });
@@ -89,9 +92,9 @@ export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
                         enabled = false;
                     }
                 }
-                this.treetable.addNode(node, parent, enabled, false);
+                this.treetable().addNode(node, parent, enabled, false);
             });
-            this.treetable.update();
+            this.treetable().update();
         }
     }
 
@@ -128,10 +131,10 @@ export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
 
     onOkClick(): void {
         this.data.nodes = [];
-        Object.keys(this.treetable.nodes).forEach((key) => {
-            let n: Node = this.treetable.nodes[key];
+        Object.keys(this.treetable().nodes).forEach((key) => {
+            let n: Node = this.treetable().nodes[key];
             if (n.checked && n.enabled && (n.type || !n.childs || n.childs.length == 0)) {
-                this.data.nodes.push(this.treetable.nodes[key]);
+                this.data.nodes.push(this.treetable().nodes[key]);
             }
         });
         this.result.emit(this.data);

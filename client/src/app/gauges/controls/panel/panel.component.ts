@@ -1,4 +1,4 @@
-import { Component, ComponentFactoryResolver, ViewContainerRef } from '@angular/core';
+import { Component, ComponentFactoryResolver, ViewContainerRef, inject } from '@angular/core';
 import { GaugeActionsType, GaugeSettings, GaugeStatus, Hmi, Variable } from '../../../_models/hmi';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeDialogType } from '../../gauge-property/gauge-property.component';
@@ -10,20 +10,17 @@ import { ProjectService } from '../../../_services/project.service';
 @Component({
     selector: 'app-panel',
     templateUrl: './panel.component.html',
-    styleUrls: ['./panel.component.css'],
-    standalone: false
+    styleUrls: ['./panel.component.css']
 })
 export class PanelComponent extends GaugeBaseComponent {
+    private projectService = inject(ProjectService);
+
     static TypeTag = 'svg-ext-own_ctrl-panel';
     static LabelTag = 'Panel';
     static prefixD = 'D-OXC_';
 
     static actionsType = { hide: GaugeActionsType.hide, show: GaugeActionsType.show };
     static hmi: Hmi;
-
-    constructor(private projectService: ProjectService) {
-        super();
-    }
 
     static getSignals(pro: any) {
         let res: string[] = [];

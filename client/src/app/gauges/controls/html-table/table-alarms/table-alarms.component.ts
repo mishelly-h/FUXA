@@ -1,18 +1,31 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TableFilter, TableType } from '../../../../_models/hmi';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { AlarmColumns, AlarmColumnsType, AlarmHistoryColumns, AlarmHistoryColumnsType, AlarmsFilter, AlarmsType } from '../../../../_models/alarm';
 import { ProjectService } from '../../../../_services/project.service';
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../../../device/device-tag-selection/device-tag-selection.component';
 import { DeviceType } from '../../../../_models/device';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatList, MatListItem } from '@angular/material/list';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-table-alarms',
     templateUrl: './table-alarms.component.html',
     styleUrls: ['./table-alarms.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatCheckbox, FormsModule, MatIconButton, MatList, MatListItem, MatDialogActions, MatButton, TranslatePipe]
 })
 export class TableAlarmsComponent {
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    dialogRef = inject<MatDialogRef<TableAlarmsComponent>>(MatDialogRef);
+    data = inject<TableAlarmsType>(MAT_DIALOG_DATA);
+
 
     alarmsColumns = AlarmColumns.filter(column => column !== AlarmColumnsType.history);
     historyColumns = AlarmHistoryColumns.filter(column => column !== AlarmHistoryColumnsType.history);
@@ -25,11 +38,7 @@ export class TableAlarmsComponent {
         tagIds: []
     };
 
-    constructor(
-        private dialog: MatDialog,
-        private projectService: ProjectService,
-        public dialogRef: MatDialogRef<TableAlarmsComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TableAlarmsType) {
+    constructor() {
             this.alarmsFilter.priority = this.data.filter?.filterA || [];
             this.alarmsFilter.text = this.data.filter?.filterB[0];
             this.alarmsFilter.group = this.data.filter?.filterB[1];

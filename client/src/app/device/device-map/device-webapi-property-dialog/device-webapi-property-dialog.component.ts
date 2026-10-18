@@ -1,31 +1,35 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
 import { Device } from '../../../_models/device';
 import { HmiService } from '../../../_services/hmi.service';
 import { ProjectService } from '../../../_services/project.service';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-device-webapi-property-dialog',
     templateUrl: './device-webapi-property-dialog.component.html',
     styleUrls: ['./device-webapi-property-dialog.component.css'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSlideToggle, FormsModule, MatDialogActions, MatButton, TranslatePipe]
 })
 export class DeviceWebapiPropertyDialogComponent implements OnInit, OnDestroy {
+    private projectService = inject(ProjectService);
+    private hmiService = inject(HmiService);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<DeviceWebapiPropertyDialogComponent>>(MatDialogRef);
+    data = inject<IDataDevice>(MAT_DIALOG_DATA);
+
 
     private cacheDevice: Device;
 	private subscriptionDeviceTagsRequest: Subscription;
 
     message = '';
-
-	constructor(
-		private projectService: ProjectService,
-        private hmiService: HmiService,
-        private translateService: TranslateService,
-		public dialogRef: MatDialogRef<DeviceWebapiPropertyDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: IDataDevice) {
-        }
 
     ngOnInit() {
         this.cacheDevice = JSON.parse(JSON.stringify(this.data.device));
