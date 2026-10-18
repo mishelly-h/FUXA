@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -58,7 +58,7 @@ export class LayoutPropertyComponent implements OnInit, OnDestroy {
     logo = null;
     loginOverlayColor = LoginOverlayColorType;
     ready = false;
-    @ViewChild(CodemirrorComponent, {static: false}) CodeMirror: CodemirrorComponent;
+    readonly CodeMirror = viewChild(CodemirrorComponent);
     codeMirrorContent: string;
     codeMirrorOptions = {
         lineNumbers: true,
@@ -124,7 +124,7 @@ export class LayoutPropertyComponent implements OnInit, OnDestroy {
     onTabChanged(event: MatTabChangeEvent): void {
         if (event.index == 3) {
             this.changeDetector.detectChanges();
-            this.CodeMirror?.codeMirror?.refresh();
+            this.CodeMirror()?.codeMirror?.refresh();
         } else if (event.index == 2) {
             this.checkTimer();
         }

@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, Output, ViewChild, ElementRef, EventEmitter, input } from '@angular/core';
+import { Component, OnInit, Output, ElementRef, EventEmitter, input, viewChild } from '@angular/core';
 
 @Component({
     selector: 'ngx-treetable',
@@ -11,7 +11,7 @@ export class TreetableComponent implements OnInit {
 
     readonly config = input<any>(undefined);
     @Output() expand = new EventEmitter();
-    @ViewChild('treetable', {static: true}) treetable: ElementRef;
+    readonly treetable = viewChild<ElementRef>('treetable');
 
 
     TypeOfTree = TreeType;
@@ -41,7 +41,7 @@ export class TreetableComponent implements OnInit {
     }
 
     onExpandToggle(node: Node) {
-        const currentPosition = this.treetable.nativeElement.scrollTop;
+        const currentPosition = this.treetable().nativeElement.scrollTop;
         node.expanded = (node.expanded) ? false : true;
         if (node.expanded) {
             if (!node.childs.length) {
@@ -52,7 +52,7 @@ export class TreetableComponent implements OnInit {
             this.hideNode(node, false);
         }
         this.list = this.nodeToItems((this.treeType === TreeType.ToDefine) ? false : true);
-        setTimeout(() => { this.treetable.nativeElement.scrollTop = currentPosition; }, 1);
+        setTimeout(() => { this.treetable().nativeElement.scrollTop = currentPosition; }, 1);
     }
 
     hideNode(node: Node, visible: boolean) {

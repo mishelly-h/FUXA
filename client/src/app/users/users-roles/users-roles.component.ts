@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, inject, viewChild } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Role } from '../../_models/user';
 import { MatDialog as MatDialog} from '@angular/material/dialog';
@@ -25,15 +25,15 @@ export class UsersRolesComponent implements OnInit, AfterViewInit {
 
 	roles: Role[];
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-	@ViewChild(MatSort, {static: false}) sort: MatSort;
+    readonly table = viewChild(MatTable);
+	readonly sort = viewChild(MatSort);
 
     ngOnInit() {
 		this.loadRoles();
     }
 
     ngAfterViewInit() {
-		this.dataSource.sort = this.sort;
+		this.dataSource.sort = this.sort();
 	}
 
     onAddRole() {

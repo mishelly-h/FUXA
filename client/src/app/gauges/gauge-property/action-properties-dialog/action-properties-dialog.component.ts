@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { ProjectService } from '../../../_services/project.service';
 import { Device } from '../../../_models/device';
@@ -17,7 +17,7 @@ export class ActionPropertiesDialogComponent implements OnInit {
     data = inject<ActionPropertiesData>(MAT_DIALOG_DATA);
 
 
-    @ViewChild('flexaction', {static: false}) flexAction: FlexActionComponent;
+    readonly flexAction = viewChild<FlexActionComponent>('flexaction');
     property: GaugeProperty;
 
     ngOnInit() {
@@ -32,12 +32,12 @@ export class ActionPropertiesDialogComponent implements OnInit {
     }
 
     onOkClick(): void {
-        this.data.property.actions = this.flexAction.getActions();
+        this.data.property.actions = this.flexAction().getActions();
         this.dialogRef.close(this.data);
     }
 
     onAddAction() {
-        this.flexAction.onAddAction();
+        this.flexAction().onAddAction();
     }
 }
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -38,8 +38,8 @@ export class ApiKeysListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private destroy$ = new Subject<void>();
 
-    @ViewChild(MatTable, {static: true}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadApiKeys();
@@ -51,7 +51,7 @@ export class ApiKeysListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

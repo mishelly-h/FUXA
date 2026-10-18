@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Subscription, delay } from 'rxjs';
@@ -24,8 +24,8 @@ export class DevicePropertyComponent implements OnInit, OnDestroy {
 
 
 	// @Input() name: any;
-	@ViewChild('panelProperty', { static: false }) panelProperty: MatExpansionPanel;
-	@ViewChild('panelCertificate', { static: false }) panelCertificate: MatExpansionPanel;
+	readonly panelProperty = viewChild<MatExpansionPanel>('panelProperty');
+	readonly panelCertificate = viewChild<MatExpansionPanel>('panelCertificate');
 
 	tableRadio: any;
 	databaseTables = [];
@@ -363,13 +363,13 @@ export class DevicePropertyComponent implements OnInit, OnDestroy {
 			this.security.clientId = value.clientId;
 			this.security.grant_type = value.gt;
 			if (value.uid || value.pwd || value.clientId) {
-				this.panelProperty?.open();
+				this.panelProperty()?.open();
 			}
 			this.security.certificateFileName = value.cert;
 			this.security.privateKeyFileName = value.pkey;
 			this.security.caCertificateFileName = value.caCert;
 			if (value.cert || value.pkey || value.caCert) {
-				this.panelCertificate?.open();
+				this.panelCertificate()?.open();
 			}
 		}
 	}

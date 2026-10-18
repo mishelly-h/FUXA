@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
@@ -33,8 +33,8 @@ export class NotificationListComponent implements OnInit, AfterViewInit, OnDestr
 
     private destroy$ = new Subject<void>();
 
-    @ViewChild(MatTable, {static: true}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadNotifications();
@@ -49,7 +49,7 @@ export class NotificationListComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

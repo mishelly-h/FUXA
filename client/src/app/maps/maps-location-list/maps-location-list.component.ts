@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatDialog as MatDialog} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
@@ -28,8 +28,8 @@ export class MapsLocationListComponent implements OnInit, AfterViewInit, OnDestr
     viewNameMap: { [key: string]: string } = {};
     private destroy$ = new Subject<void>();
 
-    @ViewChild(MatTable, {static: true}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadLocations();
@@ -41,7 +41,7 @@ export class MapsLocationListComponent implements OnInit, AfterViewInit, OnDestr
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
 import { FlexHeadComponent } from '../../../gauge-property/flex-head/flex-head.component';
 import { FlexEventComponent } from '../../../gauge-property/flex-event/flex-event.component';
 import { FlexActionComponent } from '../../../gauge-property/flex-action/flex-action.component';
@@ -27,9 +27,9 @@ export class InputPropertyComponent implements AfterViewInit {
     private cdr = inject(ChangeDetectorRef);
     data = inject<GaugePropertyData | any>(MAT_DIALOG_DATA);
 
-    @ViewChild('flexhead', { static: false }) flexHead: FlexHeadComponent;
-    @ViewChild('flexevent', { static: false }) flexEvent: FlexEventComponent;
-    @ViewChild('flexaction', { static: false }) flexAction: FlexActionComponent;
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
+    readonly flexEvent = viewChild<FlexEventComponent>('flexevent');
+    readonly flexAction = viewChild<FlexActionComponent>('flexaction');
 
     slideView = true;
     slideActionView = true;
@@ -78,11 +78,13 @@ export class InputPropertyComponent implements AfterViewInit {
 
     onOkClick(): void {
         this.data.settings.property = this.property;
-        if (this.flexEvent) {
-            this.data.settings.property.events = this.flexEvent.getEvents();
+        const flexEvent = this.flexEvent();
+        if (flexEvent) {
+            this.data.settings.property.events = flexEvent.getEvents();
         }
-        if (this.flexAction) {
-            this.data.settings.property.actions = this.flexAction.getActions();
+        const flexAction = this.flexAction();
+        if (flexAction) {
+            this.data.settings.property.actions = flexAction.getActions();
         }
         if (this.property.readonly) {
             this.property.readonly = true;
@@ -92,19 +94,19 @@ export class InputPropertyComponent implements AfterViewInit {
     }
 
     onAddEvent() {
-        this.flexEvent.onAddEvent();
+        this.flexEvent().onAddEvent();
     }
 
     onAddAction() {
-        this.flexAction.onAddAction();
+        this.flexAction().onAddAction();
     }
 
     onRangeViewToggle() {
-        this.flexHead.onRangeViewToggle(this.slideView);
+        this.flexHead().onRangeViewToggle(this.slideView);
     }
 
     onActionRangeViewToggle() {
-        this.flexAction.onRangeViewToggle(this.slideActionView);
+        this.flexAction().onRangeViewToggle(this.slideActionView);
     }
 
     setVariable(event: IPropertyVariable) {

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabGroup as MatTabGroup, MatTab as MatTab } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
@@ -22,9 +22,9 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
     data = inject<TopicPropertyData>(MAT_DIALOG_DATA);
 
 
-    @ViewChild('grptabs', { static: true }) grptabs: MatTabGroup;
-    @ViewChild('tabsub', { static: true }) tabsub: MatTab;
-    @ViewChild('tabpub', { static: true }) tabpub: MatTab;
+    readonly grptabs = viewChild<MatTabGroup>('grptabs');
+    readonly tabsub = viewChild<MatTab>('tabsub');
+    readonly tabpub = viewChild<MatTab>('tabpub');
 
     private subscriptionBrowse: Subscription;
 
@@ -86,8 +86,8 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
                 if (tag.options.subs) {
                     // sure a subscription
                     this.editSubscription = true;
-                    this.grptabs.selectedIndex = 0;
-                    this.tabpub.disabled = true;
+                    this.grptabs().selectedIndex = 0;
+                    this.tabpub().disabled = true;
                     this.topicSelectedSubType = tag.type;
                     this.editMode = true;
                     var topic: Topic = {
@@ -112,8 +112,8 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
                     this.selectTopic(topic);
                 } else {
                     // publish topic
-                    this.grptabs.selectedIndex = 1;
-                    this.tabsub.disabled = true;
+                    this.grptabs().selectedIndex = 1;
+                    this.tabsub().disabled = true;
                     this.publishTopicPath = tag.address;
                     this.publishTopicName = tag.name;
                     this.topicSelectedPubType = tag.type;

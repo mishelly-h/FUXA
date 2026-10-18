@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, AfterViewInit, ChangeDetectorRef, inject, viewChild } from '@angular/core';
 import { Utils } from '../../../../_helpers/utils';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -22,8 +22,8 @@ export class BagPropertyComponent implements AfterViewInit {
     data = inject(MAT_DIALOG_DATA);
 
 
-    @ViewChild('ngauge', {static: false}) ngauge: NgxGaugeComponent;
-	@ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
+    readonly ngauge = viewChild<NgxGaugeComponent>('ngauge');
+	readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
 
     gauge = {
         value: 30
@@ -75,7 +75,7 @@ export class BagPropertyComponent implements AfterViewInit {
     }
 
     onOkClick(): void {
-        this.data.settings.property = this.flexHead.getProperty();
+        this.data.settings.property = this.flexHead().getProperty();
         this.options.type = this.gaugeType;
         this.data.settings.property.options = this.options;
     }
@@ -112,7 +112,7 @@ export class BagPropertyComponent implements AfterViewInit {
     }
 
     onChangeValue(value) {
-        this.ngauge.setValue(value);
+        this.ngauge().setValue(value);
     }
 
     onChangeOptions(opt, value) {
@@ -231,28 +231,28 @@ export class BagPropertyComponent implements AfterViewInit {
     private initGauge() {
         this.setGaugeOptions();
         this.options = this.optionsGauge;
-        this.ngauge.init(GaugeType.Gauge);
+        this.ngauge().init(GaugeType.Gauge);
     }
 
     private initDonut() {
         this.setGaugeOptions();
         this.options = this.optionsDonut;
-        this.ngauge.init(GaugeType.Donut);
+        this.ngauge().init(GaugeType.Donut);
     }
 
     private initZones() {
         this.setGaugeOptions();
         this.options = this.optionsZones;
-        this.ngauge.init(GaugeType.Zones);
+        this.ngauge().init(GaugeType.Zones);
     }
 
     private setGaugeOptions() {
         if (this.gaugeType === GaugeType.Donut) {
-            this.ngauge.setOptions(this.optionsDonut);
+            this.ngauge().setOptions(this.optionsDonut);
         } else if (this.gaugeType === GaugeType.Zones) {
-            this.ngauge.setOptions(this.optionsZones);
+            this.ngauge().setOptions(this.optionsZones);
         } else {
-            this.ngauge.setOptions(this.optionsGauge);
+            this.ngauge().setOptions(this.optionsGauge);
         }
     }
 

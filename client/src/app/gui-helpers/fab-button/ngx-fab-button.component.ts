@@ -1,6 +1,6 @@
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { NgxFabItemButtonComponent } from './ngx-fab-item-button.component';
-import { Component, ContentChildren, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, AfterContentInit, OnDestroy, Output, OnChanges, inject, input } from '@angular/core';
+import { Component, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, AfterContentInit, OnDestroy, Output, OnChanges, inject, input, contentChildren } from '@angular/core';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -89,7 +89,7 @@ export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnCha
     readonly disabled = input(false);
     @Output() events: Subject<any> = new Subject();
     @Output() opened = false;
-    @ContentChildren(NgxFabItemButtonComponent) buttons;
+    readonly buttons = contentChildren(NgxFabItemButtonComponent);
 
     constructor() {
         const element = this.element;
@@ -119,7 +119,8 @@ export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnCha
 
     // only top and bottom support content element
     private checkDirectionType() {
-        if (this.buttons.toArray()) {
+        const buttons = this.buttons();
+        if (buttons) {
             let display = 'block';
 
             const direction = this.direction();
@@ -127,18 +128,19 @@ export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnCha
                 display = 'none';
             }
 
-            this.buttons.toArray().forEach(element => {
-                element.contentref.nativeElement.style.display = display;
+            buttons.forEach(element => {
+                element.contentref().nativeElement.style.display = display;
             });
         }
     }
 
     // transition
     private animateButtons(eventType) {
-        this.buttons.toArray().forEach((btn, i) => {
+        this.buttons().forEach((btn, i) => {
             i += 1;
-            if (btn.elementref) {
-                const style = btn.elementref.nativeElement.style;
+            const elementref = btn.elementref();
+            if (elementref) {
+                const style = elementref.nativeElement.style;
 
                 if (eventType !== 'directionChanged' && this.state.getValue().display) {
                     style['transform'] = 'scale(1)';

@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -43,8 +43,8 @@ export class ReportListComponent implements OnInit, AfterViewInit, OnDestroy {
     expandedElement: Report | null;
     currentDetails: string[];
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadReports();
@@ -58,7 +58,7 @@ export class ReportListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

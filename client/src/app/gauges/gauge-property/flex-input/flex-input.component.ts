@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild, input } from '@angular/core';
+import { Component, Input, OnInit, input, viewChild } from '@angular/core';
 import { GaugeProperty, GaugeRangeProperty } from '../../../_models/hmi';
 import { DevicesUtils, Tag } from '../../../_models/device';
 import { Utils } from '../../../_helpers/utils';
@@ -17,8 +17,8 @@ export class FlexInputComponent implements OnInit {
     readonly type = input<string>(undefined);
     readonly propertyType = input<PropertyType>(undefined);
     readonly default = input<any>(undefined);
-    @ViewChild('unit', {static: false}) varunit: FlexVariableComponent;
-    @ViewChild('digits', {static: false}) vardigits: FlexVariableComponent;
+    readonly varunit = viewChild<FlexVariableComponent>('unit');
+    readonly vardigits = viewChild<FlexVariableComponent>('digits');
 
 
     tag: Tag = null;
@@ -118,11 +118,13 @@ export class FlexInputComponent implements OnInit {
         if (this.isOutputCtrl()) {
             let device = DevicesUtils.getDeviceFromTagId(this.data().devices, _tag?.id);
             if (device) {
-                if (this.varunit) {
-                    this.varunit.setVariable(DevicesUtils.getTagFromTagAddress(device, _tag.address + 'OpcEngUnit'));
+                const varunit = this.varunit();
+                if (varunit) {
+                    varunit.setVariable(DevicesUtils.getTagFromTagAddress(device, _tag.address + 'OpcEngUnit'));
                 }
-                if (this.vardigits) {
-                    this.vardigits.setVariable(DevicesUtils.getTagFromTagAddress(device, _tag.address + 'DecimalPlaces'));
+                const vardigits = this.vardigits();
+                if (vardigits) {
+                    vardigits.setVariable(DevicesUtils.getTagFromTagAddress(device, _tag.address + 'DecimalPlaces'));
                 }
             }
         }

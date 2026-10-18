@@ -3,9 +3,10 @@ import {
   Input,
   Output,
   EventEmitter,
-  ViewChild,
+  ElementRef,
   ChangeDetectionStrategy,
-  input
+  input,
+  viewChild
 } from '@angular/core';
 
 @Component({
@@ -113,8 +114,9 @@ export class NgxFabItemButtonComponent {
     @Output() clicked: EventEmitter<any> = new EventEmitter();
     @Output() exclicked: EventEmitter<any> = new EventEmitter();
     readonly disabled = input(false);
-    @ViewChild('elementref', {static: true}) elementref;
-    @ViewChild('contentref', {static: true}) contentref;
+    readonly elementref = viewChild<ElementRef<HTMLElement>>('elementref');
+    readonly contentref = viewChild<ElementRef<HTMLElement>>('contentref');
+    timeout: ReturnType<typeof setTimeout>;
 
     emitClickEvent($event: Event) {
         const disabled = this.disabled();

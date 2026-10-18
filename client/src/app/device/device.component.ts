@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import {Subject, Subscription, takeUntil} from 'rxjs';
 import {Router} from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -28,10 +28,10 @@ export class DeviceComponent implements OnInit, OnDestroy {
     private dialog = inject(MatDialog);
 
 
-    @ViewChild('devicelist', {static: false}) deviceList: DeviceListComponent;
-    @ViewChild('devicemap', {static: false}) deviceMap: DeviceMapComponent;
-    @ViewChild('fileImportInput', {static: false}) fileImportInput: any;
-    @ViewChild('tplFileImportInput',{static: false}) tplFileImportInput: any;
+    readonly deviceList = viewChild<DeviceListComponent>('devicelist');
+    readonly deviceMap = viewChild<DeviceMapComponent>('devicemap');
+    readonly fileImportInput = viewChild<any>('fileImportInput');
+    readonly tplFileImportInput = viewChild<any>('tplFileImportInput');
 
     private subscriptionLoad: Subscription;
     private subscriptionDeviceChange: Subscription;
@@ -59,14 +59,14 @@ export class DeviceComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscriptionLoad = this.projectService.onLoadHmi.subscribe(res => {
-            this.deviceMap.loadCurrentProject();
-            this.deviceList.mapTags();
+            this.deviceMap().loadCurrentProject();
+            this.deviceList().mapTags();
         });
         this.subscriptionDeviceChange = this.hmiService.onDeviceChanged.subscribe(event => {
-            this.deviceMap.setDeviceStatus(event);
+            this.deviceMap().setDeviceStatus(event);
         });
         this.subscriptionVariableChange = this.hmiService.onVariableChanged.subscribe(event => {
-            this.deviceList.updateDeviceValue();
+            this.deviceList().updateDeviceValue();
         });
         this.askStatusTimer = setInterval(() => {
             this.hmiService.askDeviceStatus();
@@ -105,10 +105,10 @@ export class DeviceComponent implements OnInit, OnDestroy {
         // this.checkToSave();
         this.showMode = mode;
         if (this.showMode === this.tagsViewMode) {
-            this.deviceList.updateDeviceValue();
+            this.deviceList().updateDeviceValue();
             try {
-                if (Object.values(this.deviceMap.devicesValue()).length > 0) {
-                    this.deviceList.setSelectedDevice(this.deviceMap.devicesValue()[0]);
+                if (Object.values(this.deviceMap().devicesValue()).length > 0) {
+                    this.deviceList().setSelectedDevice(this.deviceMap().devicesValue()[0]);
                 }
             } catch (e) {
             }
@@ -133,14 +133,14 @@ export class DeviceComponent implements OnInit, OnDestroy {
     gotoList(device: Device) {
         this.onReload();
         this.show(this.tagsViewMode);
-        this.deviceList.setSelectedDevice(device);
+        this.deviceList().setSelectedDevice(device);
     }
 
     addItem() {
         if (this.showMode === this.tagsViewMode) {
-            this.deviceList.onAddTag();
+            this.deviceList().onAddTag();
         } else if (this.showMode.startsWith(this.devicesViewMode)) {
-            this.deviceMap.addDevice();
+            this.deviceMap().addDevice();
         }
     }
 

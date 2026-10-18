@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewContainerRef, ChangeDetectorRef, inject, viewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ProjectService } from '../_services/project.service';
@@ -25,8 +25,8 @@ export class LabComponent implements OnInit, OnDestroy {
     private testerService = inject(TesterService);
 
 
-    @ViewChild('messagecontainer', { read: ViewContainerRef, static: false }) entry: ViewContainerRef;
-    @ViewChild('tester', {static: false}) tester: TesterComponent;
+    readonly entry = viewChild('messagecontainer', { read: ViewContainerRef });
+    readonly tester = viewChild<TesterComponent>('tester');
 
     currentView: View = new View();
     hmi: Hmi = new Hmi();
@@ -71,7 +71,7 @@ export class LabComponent implements OnInit, OnDestroy {
     }
 
     onTest() {
-        this.tester.setSignals(this.gaugesManager.getMappedGaugesSignals(true));
+        this.tester().setSignals(this.gaugesManager.getMappedGaugesSignals(true));
         this.testerService.toggle(true);
     }
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject, viewChild } from '@angular/core';
 import { Subject, filter, takeUntil } from 'rxjs';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -38,12 +38,12 @@ export class TagPropertyRedisScanComponent implements OnInit, OnDestroy {
     allFilteredSelected = false;
     someFilteredSelected = false;
 
-    @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
-    @ViewChild(MatSort, { static: true }) sort!: MatSort;
+    readonly paginator = viewChild.required(MatPaginator);
+    readonly sort = viewChild.required(MatSort);
 
     ngOnInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
 
         this.dataSource.filterPredicate = (row, filter) => {
             const f = (filter || '').trim().toLowerCase();

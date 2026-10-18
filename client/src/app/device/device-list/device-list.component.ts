@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, AfterViewInit, ViewChild, Output, EventEmitter, ChangeDetectionStrategy, inject, input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Output, EventEmitter, ChangeDetectionStrategy, inject, input, viewChild } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -58,10 +58,10 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     @Output() save = new EventEmitter();
     @Output() goto = new EventEmitter();
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-    @ViewChild(MatMenuTrigger, {static: false}) trigger: MatMenuTrigger;
-    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly trigger = viewChild(MatMenuTrigger);
+    readonly paginator = viewChild(MatPaginator);
 
     ngOnInit() {
         this.devices = this.projectService.getDevices();
@@ -71,8 +71,8 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     }
 
     ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
     }
 
     mapTags() {

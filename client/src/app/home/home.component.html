@@ -20,7 +20,7 @@
 			 [style.color]="layoutHeader.fgcolor">
 			<div *ngIf="showSidenav && showSidenav !== 'side'" class="header-menu">
 				<button mat-icon-button
-					(click)="$event.stopPropagation(); (matsidenav.opened) ? matsidenav.close() : matsidenav.open()">
+					(click)="$event.stopPropagation(); (matsidenav().opened) ? matsidenav().close() : matsidenav().open()">
 					<mat-icon aria-label="Menu">menu</mat-icon>
 				</button>
 			</div>

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, inject, viewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -22,7 +22,7 @@ export class ArViewComponent implements AfterViewInit, OnDestroy {
     projectService = inject(ProjectService);
     private route = inject(ActivatedRoute);
 
-    @ViewChild('video', { static: false }) videoRef: ElementRef<HTMLVideoElement>;
+    readonly videoRef = viewChild<ElementRef<HTMLVideoElement>>('video');
 
     cameraError = '';
     detectorAvailable = false;
@@ -94,7 +94,7 @@ export class ArViewComponent implements AfterViewInit, OnDestroy {
                 audio: false
             });
 
-            const video = this.videoRef?.nativeElement;
+            const video = this.videoRef()?.nativeElement;
             if (!video) {
                 return;
             }
@@ -144,7 +144,7 @@ export class ArViewComponent implements AfterViewInit, OnDestroy {
     }
 
     private async scan(): Promise<void> {
-        if (this.scanStopped || !this.markerScanner.available || !this.videoRef?.nativeElement) {
+        if (this.scanStopped || !this.markerScanner.available || !this.videoRef()?.nativeElement) {
             return;
         }
 
@@ -185,7 +185,7 @@ export class ArViewComponent implements AfterViewInit, OnDestroy {
     }
 
     private scanBarcodeMarkers(): Promise<DetectedBarcodeLike[]> {
-        return this.markerScanner.scan(this.videoRef.nativeElement);
+        return this.markerScanner.scan(this.videoRef().nativeElement);
     }
 
     private stopScanLoop(): void {

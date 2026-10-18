@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, ElementRef, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { interval, Observable, Subject, Subscription } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -59,13 +59,13 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     gaugesManager = inject(GaugesManager);
 
 
-    @ViewChild('sidenav', { static: false }) sidenav: SidenavComponent;
-    @ViewChild('matsidenav', { static: false }) matsidenav: MatSidenav;
-    @ViewChild('fuxaview', { static: false }) fuxaview: FuxaViewComponent;
-    @ViewChild('cardsview', { static: false }) cardsview: CardsViewComponent;
-    @ViewChild('alarmsview', { static: false }) alarmsview: AlarmViewComponent;
-    @ViewChild('container', { static: false }) container: ElementRef;
-    @ViewChild('header', { static: false }) header: ElementRef;
+    readonly sidenav = viewChild<SidenavComponent>('sidenav');
+    readonly matsidenav = viewChild<MatSidenav>('matsidenav');
+    readonly fuxaview = viewChild<FuxaViewComponent>('fuxaview');
+    readonly cardsview = viewChild<CardsViewComponent>('cardsview');
+    readonly alarmsview = viewChild<AlarmViewComponent>('alarmsview');
+    readonly container = viewChild<ElementRef>('container');
+    readonly header = viewChild<ElementRef>('header');
 
     iframes: IiFrame[] = [];
     isLoading = true;
@@ -125,7 +125,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             });
             this.subscriptionOpen = this.hmiService.onOpen.subscribe((viewToOpen: ScriptOpenCard) => {
                 const viewId = this.projectService.getViewId(viewToOpen.viewName);
-                this.fuxaview.onOpenCard(viewId, null, viewId, viewToOpen.options);
+                this.fuxaview().onOpenCard(viewId, null, viewId, viewToOpen.options);
             });
             this.subscriptionWriteUnauthorized = this.hmiService.onWriteUnauthorized.subscribe(() => {
                 if (!this.isLoggedIn()) {
@@ -211,10 +211,11 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     async onGoToPage(viewId: string, force: boolean = false, options: any = {}) {
+        const fuxaview = this.fuxaview();
         if (viewId === this.viewAsAlarms) {
             this.onAlarmsShowMode('expand');
             this.checkToCloseSideNav();
-        } else if (!this.homeView || viewId !== this.homeView?.id || force || this.fuxaview?.view?.id !== viewId || this.hasPageOptions(options)) {
+        } else if (!this.homeView || viewId !== this.homeView?.id || force || fuxaview?.view?.id !== viewId || this.hasPageOptions(options)) {
             const view = await this.projectService.ensureViewLoaded(viewId);
             this.setIframe();
             this.showHomeLink = false;
@@ -223,13 +224,14 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.homeView = view;
                 this.changeDetector.detectChanges();
                 this.setBackground();
+                const cardsview = this.cardsview();
                 if (this.homeView.type !== this.cardViewType && this.homeView.type !== this.mapsViewType) {
                     this.checkZoom();
-                    this.fuxaview.hmi.layout = this.hmi.layout;
+                    fuxaview.hmi.layout = this.hmi.layout;
                     this.applyPageOptions(options);
-                    this.fuxaview.loadHmi(this.homeView);
-                } else if (this.cardsview) {
-                    this.cardsview.reload();
+                    fuxaview.loadHmi(this.homeView);
+                } else if (cardsview) {
+                    cardsview.reload();
                 }
             }
             this.onAlarmsShowMode('close');
@@ -242,11 +244,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private applyPageOptions(options: any = {}) {
-        if (!this.fuxaview) {
+        const fuxaview = this.fuxaview();
+        if (!fuxaview) {
             return;
         }
-        this.fuxaview.sourceDeviceId = options?.sourceDeviceId;
-        this.fuxaview.loadVariableMapping(options?.variablesMapping ?? []);
+        fuxaview.sourceDeviceId = options?.sourceDeviceId;
+        fuxaview.loadVariableMapping(options?.variablesMapping ?? []);
     }
 
     onGoToLink(event: string) {
@@ -293,8 +296,9 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     checkToCloseSideNav() {
         if (this.hmi.layout) {
             let nvoid = NaviModeType[this.hmi.layout.navigation.mode];
-            if (nvoid !== NaviModeType.fix && this.matsidenav) {
-                this.matsidenav.close();
+            const matsidenav = this.matsidenav();
+            if (nvoid !== NaviModeType.fix && matsidenav) {
+                matsidenav.close();
             }
         }
     }
@@ -364,18 +368,19 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     onAlarmsShowMode(mode: string) {
-        if (Utils.getEnumKey(NaviModeType, NaviModeType.fix) === this.hmi.layout.navigation.mode && this.matsidenav) {
-            this.alarmPanelWidth = `calc(100% - ${this.matsidenav._getWidth()}px)`;
+        const matsidenav = this.matsidenav();
+        if (Utils.getEnumKey(NaviModeType, NaviModeType.fix) === this.hmi.layout.navigation.mode && matsidenav) {
+            this.alarmPanelWidth = `calc(100% - ${matsidenav._getWidth()}px)`;
         }
         let ele = document.getElementById('alarms-panel');
         if (mode === 'expand') {
             ele.classList.add('is-full-active');
             // ele.classList.remove('is-active');
-            this.alarmsview.startAskAlarmsValues();
+            this.alarmsview().startAskAlarmsValues();
         } else if (mode === 'collapse') {
             ele.classList.add('is-active');
             ele.classList.remove('is-full-active');
-            this.alarmsview.startAskAlarmsValues();
+            this.alarmsview().startAskAlarmsValues();
         } else {
             // ele.classList.toggle("is-active");
             ele.classList.remove('is-active');
@@ -393,7 +398,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             if (item.status.variablesValue[varTag.id] !== varTag.value) {
                 HtmlButtonComponent.processValue(
                     <GaugeSettings>{ property: item.property },
-                    item.element ?? Utils.findElementByIdRecursive(this.header.nativeElement, item.id),
+                    item.element ?? Utils.findElementByIdRecursive(this.header().nativeElement, item.id),
                     varTag,
                     item.status,
                     item.type === 'label'
@@ -439,11 +444,12 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                         this.showSidenav = 'over';
                     } else if (nvoid === NaviModeType.fix) {
                         this.showSidenav = 'side';
-                        if (this.matsidenav) {this.matsidenav.open();}
+                        const matsidenav = this.matsidenav();
+                        if (matsidenav) {matsidenav.open();}
                     } else if (nvoid === NaviModeType.push) {
                         this.showSidenav = 'push';
                     }
-                    this.sidenav.setLayout(this.hmi.layout);
+                    this.sidenav().setLayout(this.hmi.layout);
                 }
                 if (this.hmi.layout.header) {
                     this.title = this.hmi.layout.header.title;
@@ -461,9 +467,10 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.checkZoom();
             }
         }
-        if (this.homeView && this.fuxaview) {
-            this.fuxaview.hmi.layout = this.hmi.layout;
-            this.fuxaview.loadHmi(this.homeView);
+        const fuxaview = this.fuxaview();
+        if (this.homeView && fuxaview) {
+            fuxaview.hmi.layout = this.hmi.layout;
+            fuxaview.loadHmi(this.homeView);
         }
         this.isLoading = false;
         this.securityEnabled = this.projectService.isSecurityEnabled();
@@ -482,7 +489,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
                         boundsPadding: 0.05,
                     });
                 }
-                this.container.nativeElement.style.overflow = 'hidden';
+                this.container().nativeElement.style.overflow = 'hidden';
             }, 1000);
         }
     }
@@ -496,7 +503,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             item.status = item.status ?? new GaugeStatus();
             item.status.onlyChange = true;
             item.status.variablesValue = {};
-            item.element = Utils.findElementByIdRecursive(this.header.nativeElement, item.id);
+            item.element = Utils.findElementByIdRecursive(this.header().nativeElement, item.id);
             (item as any).text = this.languageService.getTranslation(item.property?.text) ?? item.property?.text;
             const signalsIds = HtmlButtonComponent.getSignals(item.property);
             signalsIds.forEach(sigId => {
@@ -549,7 +556,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
             this.onGoToPage(event.actparam, this.hasPageOptions(event.actoptions), event.actoptions);
         });
         const fuxaViewEvents = events.filter(event => event.action !== 'onpage');
-        let fuxaviewRef = this.fuxaview ?? this.cardsview?.getFuxaView(0);
+        let fuxaviewRef = this.fuxaview() ?? this.cardsview()?.getFuxaView(0);
         if (!fuxaviewRef) {
             return;
         }
@@ -593,7 +600,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
         if (actions) {
             actions.forEach(act => {
                 if (act.type === Utils.getEnumKey(AlarmActionsType, AlarmActionsType.popup)) {
-                    this.fuxaview.openDialog(null, act.params, {});
+                    this.fuxaview().openDialog(null, act.params, {});
                 } else if (act.type === Utils.getEnumKey(AlarmActionsType, AlarmActionsType.setView)) {
                     this.onGoToPage(act.params);
                 } else if (act.type === Utils.getEnumKey(AlarmActionsType, AlarmActionsType.toastMessage)) {

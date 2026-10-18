@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation, input } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation, input, viewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ReplaySubject, Subject } from 'rxjs';
 
@@ -25,7 +25,7 @@ export class FlexHeadComponent implements OnInit, OnDestroy {
     @Input() property: GaugeProperty | WidgetProperty;
     readonly withStaticValue = input(true);
     readonly withBitmask = input(false);
-    @ViewChild('flexinput', {static: false}) flexInput: FlexInputComponent;
+    readonly flexInput = viewChild<FlexInputComponent>('flexinput');
     @Input() withProperty: PropertyType | null = null;
 
     variable: any;
@@ -65,7 +65,7 @@ export class FlexHeadComponent implements OnInit, OnDestroy {
 
     getProperty() {
         if (this.withProperty) {
-            this.property.ranges = this.flexInput.getRanges();
+            this.property.ranges = this.flexInput().getRanges();
         }
         return this.property;
     }
@@ -83,17 +83,18 @@ export class FlexHeadComponent implements OnInit, OnDestroy {
         this.property.variableValue = event.variableValue;
         this.property.bitmask = event.bitmask;
 
-        if (this.flexInput) {
-            this.flexInput.changeTag(event.variableRaw);
+        const flexInput = this.flexInput();
+        if (flexInput) {
+            flexInput.changeTag(event.variableRaw);
         }
     }
 
     onAddInput() {
-        this.flexInput.onAddInput();
+        this.flexInput().onAddInput();
     }
 
     onRangeViewToggle(slideView) {
-        this.flexInput.onRangeViewToggle(slideView);
-        this.flexInput.changeTag(this.currentTag);
+        this.flexInput().onRangeViewToggle(slideView);
+        this.flexInput().changeTag(this.currentTag);
     }
 }

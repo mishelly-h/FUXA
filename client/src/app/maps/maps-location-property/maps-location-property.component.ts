@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, inject, viewChild } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -30,7 +30,7 @@ export class MapsLocationPropertyComponent implements OnInit {
     views: View[] = [];
     actions: GaugeAction[] = [];
     defaultColor = Utils.defaultColor;
-    @ViewChild('flexActionsStandalone', { static: false }) flexActionsStandalone: FlexActionsStandaloneComponent;
+    readonly flexActionsStandalone = viewChild<FlexActionsStandaloneComponent>('flexActionsStandalone');
 
     constructor() {
             this.location = this.data ?? new MapsLocation(Utils.getGUID(MAPSLOCATION_PREFIX));
@@ -64,7 +64,7 @@ export class MapsLocationPropertyComponent implements OnInit {
     }
 
     onOkClick(): void {
-        const actions = this.flexActionsStandalone?.getActions() || [];
+        const actions = this.flexActionsStandalone()?.getActions() || [];
         this.location = {...this.location, ...this.formGroup.getRawValue(), actions };
         this.dialogRef.close(this.location);
     }

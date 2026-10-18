@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild, ViewContainerRef, inject, input } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewContainerRef, inject, input, viewChild } from '@angular/core';
 import { Subject, Subscription, take } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -52,10 +52,10 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
     @Output() onclose = new EventEmitter();
     @Output() ongoto: EventEmitter<string> = new EventEmitter();
 
-    @ViewChild('dataContainer', {static: false}) dataContainer: ElementRef;
-    @ViewChild('inputDialogRef', {static: false}) inputDialogRef: ElementRef;
-    @ViewChild('inputValueRef', {static: false}) inputValueRef: ElementRef;
-    @ViewChild('touchKeyboard', {static: false}) touchKeyboard: NgxTouchKeyboardDirective;
+    readonly dataContainer = viewChild<ElementRef>('dataContainer');
+    readonly inputDialogRef = viewChild<ElementRef>('inputDialogRef');
+    readonly inputValueRef = viewChild<ElementRef>('inputValueRef');
+    readonly touchKeyboard = viewChild<NgxTouchKeyboardDirective>('touchKeyboard');
 
     eventViewToPanel = Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onViewToPanel);
     eventRunScript = Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onRunScript);
@@ -118,8 +118,9 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
             if (this['subscriptionOnGaugeEvent']) {
                 this['subscriptionOnGaugeEvent'].unsubscribe();
             }
-            if (this.inputDialogRef) {
-                this.inputDialogRef.nativeElement.style.display = 'none';
+            const inputDialogRef = this.inputDialogRef();
+            if (inputDialogRef) {
+                inputDialogRef.nativeElement.style.display = 'none';
             }
             // Execute onClose script
             this.view?.property?.events?.forEach(event => {
@@ -197,12 +198,13 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
             if (!this.hmi) {
                 this.hmi = this.projectService.getHmi();
             }
+            const dataContainer = this.dataContainer();
             if (this.id) {
                 try {
                     this.gaugesManager.unbindGauge(this.id);
                     this.clearGaugeStatus();
                     this.viewContainerRef.clear();
-                    this.dataContainer.nativeElement.innerHTML = '';
+                    dataContainer.nativeElement.innerHTML = '';
                 } catch (err) {
                     console.error(err);
                 }
@@ -217,13 +219,13 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
                     console.warn(`View '${view.name || view.id}' has no SVG content. Render skipped.`);
                     return;
                 } else {
-                    this.dataContainer.nativeElement.innerHTML = view.svgcontent.replace('<title>Layer 1</title>', '');
+                    dataContainer.nativeElement.innerHTML = view.svgcontent.replace('<title>Layer 1</title>', '');
                 }
                 if (view.profile?.bkcolor && (this.child || legacyProfile)) {
-                    this.dataContainer.nativeElement.style.backgroundColor = view.profile.bkcolor;
+                    dataContainer.nativeElement.style.backgroundColor = view.profile.bkcolor;
                 }
                 if (view.profile?.align && !this.child) {
-                    FuxaViewComponent.setAlignStyle(view.profile.align, this.dataContainer.nativeElement);
+                    FuxaViewComponent.setAlignStyle(view.profile.align, dataContainer.nativeElement);
                 }
             }
             this.changeDetector.detectChanges();
@@ -255,7 +257,7 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
     onResize(event?) {
         let hmi = this.projectService.getHmi();
         if (hmi && hmi.layout && ZoomModeType[hmi.layout.zoom] === ZoomModeType.autoresize && !this.child) {
-            Utils.resizeViewRev(this.dataContainer.nativeElement, this.dataContainer.nativeElement.parentElement?.parentElement, 'stretch');
+            Utils.resizeViewRev(this.dataContainer().nativeElement, this.dataContainer().nativeElement.parentElement?.parentElement, 'stretch');
         }
     }
 
@@ -632,7 +634,7 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
         let self = this;
         // let htmlevent = this.getHtmlElement(ga.id);
         if (this.hmi.layout?.inputdialog === 'keyboardFullScreen') {
-            this.touchKeyboard.ngxTouchKeyboardFullScreen = true;
+            this.touchKeyboard().ngxTouchKeyboardFullScreen = true;
         }
         if (htmlevent.type === 'key-enter') {
             let submittingByEnter = false;
@@ -680,14 +682,14 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
                         for (let i = 0; i < ev.currentTarget.attributes.length; i++)  {
                             if (ev.currentTarget.attributes['style']) {
-                                self.setInputDialogStyle(self.inputDialogRef.nativeElement, ev.currentTarget.attributes['style'].textContent, inputRect);
+                                self.setInputDialogStyle(self.inputDialogRef().nativeElement, ev.currentTarget.attributes['style'].textContent, inputRect);
                             }
                         }
                         self.gaugeInputCurrent = htmlevent.dom.value;
-                        document.body.appendChild(self.inputDialogRef.nativeElement);
-                        HtmlInputComponent.checkInputType(self.inputValueRef.nativeElement, htmlevent.ga.property?.options);
+                        document.body.appendChild(self.inputDialogRef().nativeElement);
+                        HtmlInputComponent.checkInputType(self.inputValueRef().nativeElement, htmlevent.ga.property?.options);
                         setTimeout(() => {
-                            self.inputValueRef.nativeElement.focus();
+                            self.inputValueRef().nativeElement.focus();
                         }, 300);
                     }
                 };
@@ -696,14 +698,14 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
                 // When input dialog is enabled, these event gets overridden (by binding of HtmlEvent) and are not called.
                 if (this.hmi.layout?.inputdialog.startsWith('keyboard') && htmlevent.ga?.type === HtmlInputComponent.TypeTag) {
                     htmlevent.dom.onfocus = function(ev) {
-                        self.touchKeyboard.closePanel();
+                        self.touchKeyboard().closePanel();
                         let eleRef = new ElementRef(htmlevent.dom);
                         if (htmlevent.ga?.property?.options?.numeric || htmlevent.ga?.property?.options?.type === InputOptionType.number) {
                             eleRef.nativeElement.inputMode = 'decimal';
                         }
                         if (htmlevent.ga?.property?.options?.type !== InputOptionType.datetime && htmlevent.ga?.property?.options?.type !== InputOptionType.date &&
                             htmlevent.ga?.property?.options?.type !== InputOptionType.time) {
-                            self.touchKeyboard.openPanel(eleRef).pipe(
+                            self.touchKeyboard().openPanel(eleRef).pipe(
                                 take(1)
                             ).subscribe(() => {
                                 htmlevent.dom.blur();
@@ -871,7 +873,7 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
             this.sourceDeviceId = options.sourceDeviceId;
             this.loadHmi(view, true);
             if (param?.scaleMode) {
-                Utils.resizeViewRev(this.dataContainer.nativeElement, this.dataContainer.nativeElement.parentElement?.parentElement, param.scaleMode);
+                Utils.resizeViewRev(this.dataContainer().nativeElement, this.dataContainer().nativeElement.parentElement?.parentElement, param.scaleMode);
             }
         }
     }
@@ -1181,17 +1183,17 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
     inputOnChange(){
         // Remove any error message when input changes
-        this.inputValueRef.nativeElement.setCustomValidity('');
+        this.inputValueRef().nativeElement.setCustomValidity('');
     }
 
     onOkClick(evintput) {
         if (this.inputDialog.target.dom) {
             let res = HtmlInputComponent.validateValue(evintput, this.inputDialog.target.ga);
             if(!res.valid) {
-                this.setInputValidityMessage(res, this.inputValueRef.nativeElement);
+                this.setInputValidityMessage(res, this.inputValueRef().nativeElement);
             }
             else {
-                this.inputValueRef.nativeElement.setCustomValidity('');
+                this.inputValueRef().nativeElement.setCustomValidity('');
                 this.inputDialog.target.dom.value = evintput;
                 this.inputDialog.target.dbg = 'key pressed ' + this.inputDialog.target.dom.id + ' ' + this.inputDialog.target.dom.value;
                 this.inputDialog.target.id = this.inputDialog.target.dom.id;

@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, inject, input } from '@angular/core';
+import { Component, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, inject, input, viewChild } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { FlexHeadComponent } from './flex-head/flex-head.component';
 import { FlexEventComponent } from './flex-event/flex-event.component';
@@ -28,9 +28,9 @@ export class GaugePropertyComponent implements AfterViewInit {
 
 
     readonly name = input<any>(undefined);
-    @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
-    @ViewChild('flexevent', {static: false}) flexEvent: FlexEventComponent;
-    @ViewChild('flexaction', {static: false}) flexAction: FlexActionComponent;
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
+    readonly flexEvent = viewChild<FlexEventComponent>('flexevent');
+    readonly flexAction = viewChild<FlexActionComponent>('flexaction');
 
     slideView = true;
     slideActionView = true;
@@ -61,18 +61,18 @@ export class GaugePropertyComponent implements AfterViewInit {
         this.defaultValue = this.data.default;
         if (!this.isWidget() && this.data.withProperty !== false) { // else undefined
             if (this.dialogType === GaugeDialogType.Input) {
-                this.flexHead.withProperty = PropertyType.input;
+                this.flexHead().withProperty = PropertyType.input;
             } else if (this.dialogType === GaugeDialogType.ValueAndUnit) {
-                this.flexHead.withProperty = PropertyType.output;
+                this.flexHead().withProperty = PropertyType.output;
             } else {
-                this.flexHead.defaultValue = this.defaultValue;
-                this.flexHead.withProperty = PropertyType.range;
+                this.flexHead().defaultValue = this.defaultValue;
+                this.flexHead().withProperty = PropertyType.range;
                 if (this.dialogType === GaugeDialogType.ValueWithRef) {
-                    this.flexHead.withProperty = PropertyType.text;
+                    this.flexHead().withProperty = PropertyType.text;
                 } else if (this.dialogType === GaugeDialogType.Step) {
-                    this.flexHead.withProperty = PropertyType.step;
+                    this.flexHead().withProperty = PropertyType.step;
                 } else if (this.dialogType === GaugeDialogType.MinMax) {
-                    this.flexHead.withProperty = PropertyType.minmax;
+                    this.flexHead().withProperty = PropertyType.minmax;
                 }
             }
         }
@@ -89,13 +89,15 @@ export class GaugePropertyComponent implements AfterViewInit {
         if (this.isWidget()) {
             this.data.settings.property = this.property;
         } else {
-            this.data.settings.property = this.flexHead?.getProperty();
+            this.data.settings.property = this.flexHead()?.getProperty();
         }
-        if (this.flexEvent) {
-            this.data.settings.property.events = this.flexEvent.getEvents();
+        const flexEvent = this.flexEvent();
+        if (flexEvent) {
+            this.data.settings.property.events = flexEvent.getEvents();
         }
-        if (this.flexAction) {
-            this.data.settings.property.actions = this.flexAction.getActions();
+        const flexAction = this.flexAction();
+        if (flexAction) {
+            this.data.settings.property.actions = flexAction.getActions();
         }
         if (this.property.readonly) {
             this.property.readonly = true;
@@ -105,23 +107,23 @@ export class GaugePropertyComponent implements AfterViewInit {
     }
 
     onAddInput() {
-        this.flexHead.onAddInput();
+        this.flexHead().onAddInput();
     }
 
     onAddEvent() {
-        this.flexEvent.onAddEvent();
+        this.flexEvent().onAddEvent();
     }
 
     onAddAction() {
-        this.flexAction.onAddAction();
+        this.flexAction().onAddAction();
     }
 
     onRangeViewToggle() {
-        this.flexHead.onRangeViewToggle(this.slideView);
+        this.flexHead().onRangeViewToggle(this.slideView);
     }
 
     onActionRangeViewToggle() {
-        this.flexAction.onRangeViewToggle(this.slideActionView);
+        this.flexAction().onRangeViewToggle(this.slideActionView);
     }
 
     isToolboxToShow() {

@@ -1,4 +1,4 @@
-import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild, inject, input } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, inject, input, viewChild } from '@angular/core';
 import * as L from 'leaflet';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
@@ -49,10 +49,10 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
     readonly editMode = input<boolean>(undefined);
     @Output() onGoTo: EventEmitter<string> = new EventEmitter<string>();
 
-    @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
-    @ViewChild('menuTrigger', { read: ElementRef }) menuTriggerButton!: ElementRef;
+    readonly menuTrigger = viewChild.required(MatMenuTrigger);
+    readonly menuTriggerButton = viewChild.required('menuTrigger', { read: ElementRef });
 
-    @ViewChild('mapContainer', { static: false }) mapContainer!: ElementRef;
+    readonly mapContainer = viewChild.required<ElementRef>('mapContainer');
     private map: L.Map | null = null;
 
     private destroy$ = new Subject<void>();
@@ -115,7 +115,7 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
             this.showContextMenu(event);
         });
         this.map.on('click', () => {
-            this.menuTrigger.closeMenu();
+            this.menuTrigger().closeMenu();
         });
     }
 
@@ -255,12 +255,12 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
         const mapContainer = this.map.getContainer().getBoundingClientRect();
         const posX = event.originalEvent.clientX - mapContainer.left;
         const posY = event.originalEvent.clientY - mapContainer.top;
-        const triggerButton = this.menuTriggerButton.nativeElement;
+        const triggerButton = this.menuTriggerButton().nativeElement;
         triggerButton.style.left = `${posX}px`;
         triggerButton.style.top = `${posY}px`;
         triggerButton.style.position = 'absolute';
         triggerButton.style.display = 'block';
-        this.menuTrigger.openMenu();
+        this.menuTrigger().openMenu();
     }
 
     onClickMarker(location: MapsLocation, marker: L.Marker) {

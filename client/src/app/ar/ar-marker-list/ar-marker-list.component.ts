@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -33,8 +33,8 @@ export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {
     private sectionMessageHandled = false;
     private sectionMessageOpened = false;
 
-    @ViewChild(MatTable, { static: true }) table: MatTable<ArMarker>;
-    @ViewChild(MatSort, { static: false }) sort: MatSort;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadMarkers();
@@ -45,7 +45,7 @@ export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnChanges, ViewChild, HostListener, ElementRef, Input, SimpleChanges, OnDestroy, input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnChanges, HostListener, ElementRef, Input, SimpleChanges, OnDestroy, input, viewChild } from '@angular/core';
 
 import { GaugeOptions, GaugeType } from './gaugeOptions';
 import { Utils } from '../../_helpers/utils';
@@ -27,9 +27,9 @@ export class NgxGaugeComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     public readonly id = input<string>(undefined);
     @Input() public options: GaugeOptions;
     public readonly value = input<any>(undefined);
-    @ViewChild('panel', {static: false}) public panel: ElementRef;
-    @ViewChild('gauge', {static: false}) public canvas: ElementRef;
-    @ViewChild('gaugetext', {static: false}) public gaugetext: ElementRef;
+    public readonly panel = viewChild<ElementRef>('panel');
+    public readonly canvas = viewChild<ElementRef>('gauge');
+    public readonly gaugetext = viewChild<ElementRef>('gaugetext');
 
     private destroy$ = new Subject<void>();
 
@@ -78,19 +78,19 @@ export class NgxGaugeComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
 
     @HostListener('window:resize', ['$event'])
     onResize(event) {
-        let canvas = this.canvas.nativeElement;
+        let canvas = this.canvas().nativeElement;
         let w = canvas.parentNode.clientWidth;
         let h = canvas.parentNode.clientHeight;
         if (w < h) {h = w;}
-        this.canvas.nativeElement.height = h;
-        this.canvas.nativeElement.width = w;
+        canvas.height = h;
+        canvas.width = w;
         this.reini();
     }
 
     resize(height?, width?) {
         if (height && width) {
-            this.canvas.nativeElement.height = height;
-            this.canvas.nativeElement.width = width;
+            this.canvas().nativeElement.height = height;
+            this.canvas().nativeElement.width = width;
             this.reini();
         } else {
             this.onResize(null);
@@ -127,14 +127,14 @@ export class NgxGaugeComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
         this.gauge.animationSpeed = options.animationSpeed;
         this.gauge.minValue = options.minValue;
         this.gauge.maxValue = options.maxValue;
-        this.gaugetext.nativeElement.style.fontSize = options.fontSize + 'px';
+        this.gaugetext().nativeElement.style.fontSize = options.fontSize + 'px';
         if (options.fontFamily) {
-            this.gaugetext.nativeElement.style.fontFamily = options.fontFamily;
+            this.gaugetext().nativeElement.style.fontFamily = options.fontFamily;
         }
         if (options.pointer && options.pointer.color) {
-            this.gaugetext.nativeElement.style.color = options.pointer.color;
+            this.gaugetext().nativeElement.style.color = options.pointer.color;
         }
-        this.gaugetext.nativeElement.style.top = options.textFilePosition + '%';
+        this.gaugetext().nativeElement.style.top = options.textFilePosition + '%';
         this.render();
     }
 
@@ -146,14 +146,14 @@ export class NgxGaugeComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
         this.type = type;
         const { Gauge: GaugeClass, Donut: DonutClass } = getGaugeClasses();
         if (type === GaugeType.Gauge) {
-            this.gauge = new GaugeClass(this.canvas.nativeElement);
-            this.gauge.setTextField(this.gaugetext.nativeElement);
+            this.gauge = new GaugeClass(this.canvas().nativeElement);
+            this.gauge.setTextField(this.gaugetext().nativeElement);
         } else if (type === GaugeType.Zones) {
-            this.gauge = new GaugeClass(this.canvas.nativeElement);
-            this.gauge.setTextField(this.gaugetext.nativeElement);
+            this.gauge = new GaugeClass(this.canvas().nativeElement);
+            this.gauge.setTextField(this.gaugetext().nativeElement);
         } else if (type === GaugeType.Donut) {
-            this.gauge = new DonutClass(this.canvas.nativeElement);
-            this.gauge.setTextField(this.gaugetext.nativeElement);
+            this.gauge = new DonutClass(this.canvas().nativeElement);
+            this.gauge.setTextField(this.gaugetext().nativeElement);
         }
         const value = Number(this.options.minValue) + 1;
         this.setOptions(this.options);

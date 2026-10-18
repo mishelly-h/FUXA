@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, inject, viewChild } from '@angular/core';
 import { Role, UserGroups } from '../../../_models/user';
 import { SelOptionType, SelOptionsComponent } from '../../../gui-helpers/sel-options/sel-options.component';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -24,7 +24,7 @@ export class PermissionDialogComponent implements AfterViewInit, OnDestroy {
     options = [];
     private destroy$ = new Subject<void>();
 
-    @ViewChild(SelOptionsComponent, { static: false }) seloptions: SelOptionsComponent;
+    readonly seloptions = viewChild(SelOptionsComponent);
 
     ngAfterViewInit() {
         if (this.isRolePermission()) {
@@ -64,19 +64,20 @@ export class PermissionDialogComponent implements AfterViewInit, OnDestroy {
             if (!this.data.permissionRoles) {
                 this.data.permissionRoles = { show: null, enabled: null };
             }
-            this.data.permissionRoles.enabled = this.seloptions.selected?.map(role => role.id);
+            const seloptions = this.seloptions();
+            this.data.permissionRoles.enabled = seloptions.selected?.map(role => role.id);
             if (this.data.mode === 'onlyShow') {
-                this.data.permissionRoles.show = this.seloptions.selected?.map(role => role.id);
+                this.data.permissionRoles.show = seloptions.selected?.map(role => role.id);
             } else {
-                this.data.permissionRoles.show = this.seloptions.extSelected?.map(role => role.id);
+                this.data.permissionRoles.show = seloptions.extSelected?.map(role => role.id);
             }
 
         } else {
-            this.data.permission = UserGroups.GroupsToValue(this.seloptions.selected);
+            this.data.permission = UserGroups.GroupsToValue(this.seloptions().selected);
             if (this.data.mode === 'onlyShow') {
-                this.data.permission += UserGroups.GroupsToValue(this.seloptions.selected, true);
+                this.data.permission += UserGroups.GroupsToValue(this.seloptions().selected, true);
             } else {
-                this.data.permission += UserGroups.GroupsToValue(this.seloptions.extSelected, true);
+                this.data.permission += UserGroups.GroupsToValue(this.seloptions().extSelected, true);
             }
         }
         this.dialogRef.close(this.data);

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy, inject } from '@angular/core';
+import { AfterViewInit, Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
@@ -23,9 +23,9 @@ export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDes
     data = inject<DeviceTagSelectionData>(MAT_DIALOG_DATA);
 
 
-    @ViewChild(MatTable, { static: false }) table: MatTable<any>;
-    @ViewChild(MatSort, { static: false }) sort: MatSort;
-    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly paginator = viewChild(MatPaginator);
 
     private destroy$ = new Subject<void>();
 
@@ -87,8 +87,8 @@ export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDes
     }
 
     ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
     }
 
     onToogle(element: TagElement) {
@@ -226,8 +226,8 @@ export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDes
             );
         }
         this.dataSource.data = this.tags;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
 
         if (newTag && deviceName) {
             this.onSelect(<TagElement>{ id: newTag.id }, deviceName);

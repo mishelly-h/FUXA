@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { Role, User, UserGroups } from '../../_models/user';
 import { SelOptionType, SelOptionsComponent } from '../../gui-helpers/sel-options/sel-options.component';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
@@ -33,7 +33,7 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     userInfo: UserInfo;
     languages: Languages;
 
-    @ViewChild(SelOptionsComponent, { static: false }) seloptions: SelOptionsComponent;
+    readonly seloptions = viewChild(SelOptionsComponent);
 
     private destroy$ = new Subject<void>();
 
@@ -83,11 +83,12 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
 
     onOkClick(): void {
         let roles;
-        if (this.seloptions) {
+        const seloptions = this.seloptions();
+        if (seloptions) {
             if (this.isRolePermission()) {
-                roles = this.seloptions.selected?.map(role => role.id);
+                roles = seloptions.selected?.map(role => role.id);
             } else {
-                this.data.user.groups = UserGroups.GroupsToValue(this.seloptions.selected);
+                this.data.user.groups = UserGroups.GroupsToValue(seloptions.selected);
             }
         }
         this.data.user.username = this.formGroup.controls.username.value;

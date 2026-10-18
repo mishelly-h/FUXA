@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -30,8 +30,8 @@ export class ScriptListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private subscriptionLoad: Subscription;
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
 
 
     ngOnInit() {
@@ -42,7 +42,7 @@ export class ScriptListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

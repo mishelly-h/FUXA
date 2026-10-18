@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit, AfterViewInit, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, inject, viewChild } from '@angular/core';
 
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GaugeProperty } from '../../../../_models/hmi';
@@ -22,10 +22,10 @@ export class HtmlSwitchPropertyComponent implements OnInit, AfterViewInit {
     data = inject(MAT_DIALOG_DATA);
 
 
-    @ViewChild('switcher', {static: false}) switcher: NgxSwitchComponent;
-	@ViewChild('flexhead', {static: false}) flexhead: FlexHeadComponent;
-    @ViewChild('flexauth', {static: false}) flexauth: FlexAuthComponent;
-    @ViewChild('flexevent', {static: false}) flexEvent: FlexEventComponent;
+    readonly switcher = viewChild<NgxSwitchComponent>('switcher');
+	readonly flexhead = viewChild<FlexHeadComponent>('flexhead');
+    readonly flexauth = viewChild<FlexAuthComponent>('flexauth');
+    readonly flexEvent = viewChild<FlexEventComponent>('flexevent');
 
     property: GaugeProperty;
     options: SwitchOptions;
@@ -70,20 +70,21 @@ export class HtmlSwitchPropertyComponent implements OnInit, AfterViewInit {
 
     onOkClick(): void {
         this.data.settings.property = this.property;
-        this.data.settings.property.permission = this.flexauth.permission;
-        this.data.settings.property.permissionRoles = this.flexauth.permissionRoles;
+        this.data.settings.property.permission = this.flexauth().permission;
+        this.data.settings.property.permissionRoles = this.flexauth().permissionRoles;
         this.data.settings.property.options = this.options;
-        this.data.settings.name = this.flexauth.name;
-        if (this.flexEvent) {
-            this.data.settings.property.events = this.flexEvent.getEvents();
+        this.data.settings.name = this.flexauth().name;
+        const flexEvent = this.flexEvent();
+        if (flexEvent) {
+            this.data.settings.property.events = flexEvent.getEvents();
         }
     }
 
     onAddEvent() {
-        this.flexEvent.onAddEvent();
+        this.flexEvent().onAddEvent();
     }
 
     updateOptions() {
-        this.switcher?.setOptions(this.options);
+        this.switcher()?.setOptions(this.options);
     }
 }

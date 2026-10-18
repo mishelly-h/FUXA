@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -31,9 +31,9 @@ export class AlarmListComponent implements OnInit, AfterViewInit, OnDestroy {
     private subscriptionLoad: Subscription;
     private enabledText = '';
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-    @ViewChild('fileImportInput', {static: false}) fileImportInput: any;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly fileImportInput = viewChild<any>('fileImportInput');
 
     ngOnInit() {
         this.loadAlarms();
@@ -44,7 +44,7 @@ export class AlarmListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     ngAfterViewInit() {
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

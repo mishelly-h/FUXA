@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { FlexHeadComponent } from '../../gauges/gauge-property/flex-head/flex-head.component';
@@ -22,8 +22,8 @@ export class AlarmPropertyComponent implements OnInit {
 	data = inject(MAT_DIALOG_DATA);
 
 
-	@ViewChild('flexauth', {static: false}) flexAuth: FlexAuthComponent;
-    @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
+	readonly flexAuth = viewChild<FlexAuthComponent>('flexauth');
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
 
     scripts: Script[];
 
@@ -120,16 +120,16 @@ export class AlarmPropertyComponent implements OnInit {
             this.dialogRef.close(this.data.alarm);
         } else if (this.checkValid()) {
             this.data.alarm.property = this.property;
-            this.data.alarm.property.permission = this.flexAuth.permission;
-            this.data.alarm.property.permissionRoles = this.flexAuth.permissionRoles;
-            this.data.alarm.name = this.flexAuth.name;
+            this.data.alarm.property.permission = this.flexAuth().permission;
+            this.data.alarm.property.permissionRoles = this.flexAuth().permissionRoles;
+            this.data.alarm.name = this.flexAuth().name;
             this.dialogRef.close(this.data.alarm);
         }
     }
 
     checkValid() {
-        this.errorMissingValue = !this.flexAuth.name;
-        this.errorExist = (this.existnames.find((a) => a.name === this.flexAuth.name)) ? true : false;
+        this.errorMissingValue = !this.flexAuth().name;
+        this.errorExist = (this.existnames.find((a) => a.name === this.flexAuth().name)) ? true : false;
         return !(this.errorMissingValue || this.errorExist);
     }
 

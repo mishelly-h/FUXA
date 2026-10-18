@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef, inject } from '@angular/core';
+import { Component, AfterViewInit, ElementRef, inject, viewChild } from '@angular/core';
 
 import { UntypedFormControl } from '@angular/forms';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -20,11 +20,11 @@ export class LogsViewComponent implements AfterViewInit {
     private appService = inject(AppService);
 
 
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-    @ViewChild('workPanel', {static: false}) workPanel: ElementRef;
-    @ViewChild('textContent', {static: false}) textContent: ElementRef;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly paginator = viewChild(MatPaginator);
+    readonly workPanel = viewChild<ElementRef>('workPanel');
+    readonly textContent = viewChild<ElementRef>('textContent');
 
     dataSource = new MatTableDataSource([]);
     ontimeFilter = new UntypedFormControl();
@@ -63,18 +63,22 @@ export class LogsViewComponent implements AfterViewInit {
     }
 
     scrollToTop() {
-        if (this.tableView && this.workPanel) {
-            this.workPanel.nativeElement.scrollTop = 0;
-        } else if (!this.tableView && this.textContent) {
-            this.textContent.nativeElement.scrollTop = 0;
+        const workPanel = this.workPanel();
+        const textContent = this.textContent();
+        if (this.tableView && workPanel) {
+            workPanel.nativeElement.scrollTop = 0;
+        } else if (!this.tableView && textContent) {
+            textContent.nativeElement.scrollTop = 0;
         }
     }
 
     scrollToBottom() {
-        if (this.tableView && this.workPanel) {
-            this.workPanel.nativeElement.scrollTop = this.workPanel.nativeElement.scrollHeight;
-        } else if (!this.tableView && this.textContent) {
-            this.textContent.nativeElement.scrollTop = this.textContent.nativeElement.scrollHeight;
+        const workPanel = this.workPanel();
+        const textContent = this.textContent();
+        if (this.tableView && workPanel) {
+            workPanel.nativeElement.scrollTop = workPanel.nativeElement.scrollHeight;
+        } else if (!this.tableView && textContent) {
+            textContent.nativeElement.scrollTop = textContent.nativeElement.scrollHeight;
         }
     }
 }

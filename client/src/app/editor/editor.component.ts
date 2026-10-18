@@ -1,5 +1,5 @@
 ﻿/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewContainerRef, ComponentFactoryResolver, ElementRef, inject, viewChild } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -75,13 +75,13 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private libWidgetsService = inject(LibWidgetsService);
     private settingsService = inject(SettingsService);
 
-    @ViewChild('gaugepanel', {static: false}) gaugePanelComponent: GaugeBaseComponent;
-    @ViewChild('viewFileImportInput', {static: false}) viewFileImportInput: any;
-    @ViewChild('cardsview', {static: false}) cardsview: CardsViewComponent;
-    @ViewChild('sidePanel', {static: false}) sidePanel: MatDrawer;
-    @ViewChild('svgSelectorPanel', {static: false}) svgSelectorPanel: MatDrawer;
-    @ViewChild('svgpreview', {static: false}) svgPreview: ElementRef;
-    @ViewChild('mapsView', {static: false}) mapsView: MapsViewComponent;
+    readonly gaugePanelComponent = viewChild<GaugeBaseComponent>('gaugepanel');
+    readonly viewFileImportInput = viewChild<any>('viewFileImportInput');
+    readonly cardsview = viewChild<CardsViewComponent>('cardsview');
+    readonly sidePanel = viewChild<MatDrawer>('sidePanel');
+    readonly svgSelectorPanel = viewChild<MatDrawer>('svgSelectorPanel');
+    readonly svgPreview = viewChild<ElementRef>('svgpreview');
+    readonly mapsView = viewChild<MapsViewComponent>('mapsView');
 
     svgElementSelected: ISvgElement = null;
     svgElements: ISvgElement[] = [];
@@ -329,13 +329,14 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     onSvgElementPreview(value: IElementPreview) {//value: ISvgElement, preview: boolean) {
         let elem = document.getElementById(value.element?.id);
         let rect: DOMRect = elem?.getBoundingClientRect();
+        const svgPreview = this.svgPreview();
         if (elem && rect) {
-            this.svgPreview.nativeElement.style.width = `${rect.width}px`;
-            this.svgPreview.nativeElement.style.height = `${rect.height}px`;
-            this.svgPreview.nativeElement.style.top = `${rect.top}px`;
-            this.svgPreview.nativeElement.style.left = `${rect.left}px`;
+            svgPreview.nativeElement.style.width = `${rect.width}px`;
+            svgPreview.nativeElement.style.height = `${rect.height}px`;
+            svgPreview.nativeElement.style.top = `${rect.top}px`;
+            svgPreview.nativeElement.style.left = `${rect.left}px`;
         }
-        this.svgPreview.nativeElement.style.display = (value.preview) ? 'flex' : 'none';
+        svgPreview.nativeElement.style.display = (value.preview) ? 'flex' : 'none';
     }
 
     /**
@@ -393,7 +394,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private getContent() {
         if (this.currentView.type === ViewType.cards) {
-            this.currentView.svgcontent = this.cardsview.getContent();
+            this.currentView.svgcontent = this.cardsview().getContent();
             return this.currentView.svgcontent;
             // let temp = JSON.parse(JSON.stringify(this.dashboard));
             // for (let i = 0; i < temp.length; i++) {
@@ -549,6 +550,8 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private loadView(view: View) {
         if (view) {
             this.clearEditor();
+            const cardsview = this.cardsview();
+            const mapsView = this.mapsView();
             if (this.isSvgEditMode(this.editorMode)) {
                 let svgcontent = '';
                 let v = this.getView(view.name);
@@ -581,12 +584,12 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                     this.checkSvgElementsMap(true);
                     this.winRef.nativeWindow.svgEditor.resetUndoStack();
                 }, 500);
-            } else if (this.isCardsEditMode(this.editorMode) && this.cardsview) {
-                this.cardsview.view = view;
-                this.cardsview.reload();
-            } else if (this.isMapsEditMode(this.editorMode) && this.mapsView) {
-                this.mapsView.view = view;
-                this.mapsView.reload();
+            } else if (this.isCardsEditMode(this.editorMode) && cardsview) {
+                cardsview.view = view;
+                cardsview.reload();
+            } else if (this.isMapsEditMode(this.editorMode) && mapsView) {
+                mapsView.view = view;
+                mapsView.reload();
             }
         }
     }
@@ -626,7 +629,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     //#region Cards Widget
     editCardsWidget(item: any) {
-        let exist: string[] = this.cardsview.getWindgetViewName();
+        let exist: string[] = this.cardsview().getWindgetViewName();
         if (item.card.data && exist.indexOf(item.card.data) >= 0) {
             exist = exist.filter((n) => n !== item.card.data);
         }
@@ -643,13 +646,13 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             if (result) {
                 item.card = result.card;
                 this.onSaveProject();
-                this.cardsview.render();
+                this.cardsview().render();
             }
         });
     }
 
     addCard() {
-        this.cardsview.addCardsWidget();
+        this.cardsview().addCardsWidget();
     }
 
     saveCards(dashboard) {
@@ -716,8 +719,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         }
         this.checkSvgElementsMap(false);
-        if (this.sidePanel.opened) {
-            this.sidePanel.toggle();
+        const sidePanel = this.sidePanel();
+        if (sidePanel.opened) {
+            sidePanel.toggle();
         }
     }
 
@@ -1239,7 +1243,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             alert(msg);
         };
         reader.readAsText(input.files[0]);
-        this.viewFileImportInput.nativeElement.value = null;
+        this.viewFileImportInput().nativeElement.value = null;
     }
     //#endregion
 
@@ -1284,7 +1288,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
      * @param event
      */
     onGaugeEdit(event) {
-        this.openEditGauge(this.gaugePanelComponent?.settings, data => {
+        this.openEditGauge(this.gaugePanelComponent()?.settings, data => {
             this.setGaugeSettings(data);
         });
     }
@@ -1294,7 +1298,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
      */
     onGaugeEditEx() {
         setTimeout(() => {
-            this.gaugePanelComponent.onEdit();
+            this.gaugePanelComponent().onEdit();
         }, 500);
     }
 
@@ -1338,8 +1342,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 views: hmi.views, dlgType: dlgType, charts: this.projectService.getCharts(),
                 names: names
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1350,8 +1355,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 views: hmi.views, dlgType: dlgType, graphs: this.projectService.getGraphs(),
                 names: names
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1360,8 +1366,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.gaugeDialog.data = {
                 settings: tempsettings, dlgType: dlgType, names: names
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1382,8 +1389,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 withEvents: eventsSupported,
                 withActions: actionsSupported,
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1414,8 +1422,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
             this.gaugeDialog.data = {
                 settings: tempsettings, dlgType: dlgType, names: names
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1427,8 +1436,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 names: names,
                 withActions: actionsSupported
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1455,8 +1465,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 withActions: actionsSupported,
                 languageTextEnabled: !!this.isSelectedElementToEnableLanguageTextSettings()
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;
@@ -1469,8 +1480,9 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
                 withBitmask: false,
                 languageTextEnabled: false
             };
-            if (!this.sidePanel.opened) {
-                this.sidePanel.toggle();
+            const sidePanel = this.sidePanel();
+            if (!sidePanel.opened) {
+                sidePanel.toggle();
             }
             this.reloadGaugeDialog = !this.reloadGaugeDialog;
             return;

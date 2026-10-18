@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -31,7 +31,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
     loading = false;
     private subscription: Subscription = new Subscription();
 
-    @ViewChild(MatSort) sort: MatSort;
+    readonly sort = viewChild(MatSort);
 
     ngOnInit() {
         this.loadRecipes();
@@ -55,7 +55,7 @@ export class RecipeListComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.recipeService.getRecipeTypes().subscribe(result => {
             this.dataSource.data = result.recipes || [];
-            this.dataSource.sort = this.sort;
+            this.dataSource.sort = this.sort();
             this.loading = false;
         }, err => {
             console.error(err);

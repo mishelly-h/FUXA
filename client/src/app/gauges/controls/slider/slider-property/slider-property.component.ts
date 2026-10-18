@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, AfterViewInit, OnInit, inject, viewChild } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -24,9 +24,9 @@ export class SliderPropertyComponent implements OnInit, AfterViewInit {
     data = inject(MAT_DIALOG_DATA);
 
 
-    @ViewChild('flexauth', {static: false}) flexAuth: FlexAuthComponent;
-    @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
-    @ViewChild('slider', {static: false}) slider: NgxNouisliderComponent;
+    readonly flexAuth = viewChild<FlexAuthComponent>('flexauth');
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
+    readonly slider = viewChild<NgxNouisliderComponent>('slider');
     property: GaugeProperty;
     options = new NgxNouisliderOptions();
     defaultColor = Utils.defaultColor;
@@ -91,9 +91,9 @@ export class SliderPropertyComponent implements OnInit, AfterViewInit {
 
     onOkClick(): void {
         this.data.settings.property = this.property;
-        this.data.settings.property.permission = this.flexAuth.permission;
+        this.data.settings.property.permission = this.flexAuth().permission;
         this.data.settings.property.options = this.options;
-        this.data.settings.name = this.flexAuth.name;
+        this.data.settings.name = this.flexAuth().name;
     }
 
     onChangeOptions(opt, value) {
@@ -128,8 +128,8 @@ export class SliderPropertyComponent implements OnInit, AfterViewInit {
         this.sliderLayout = (this.options.orientation === 'vertical') ? this.layoutVertical : this.layoutHorizontal;
         this.changeDetector.detectChanges();
         let opt = JSON.parse(JSON.stringify(this.options));
-        this.slider.setOptions(opt);
-        this.slider.resize(this.sliderLayout.height, this.sliderLayout.width);
+        this.slider().setOptions(opt);
+        this.slider().resize(this.sliderLayout.height, this.sliderLayout.width);
     }
 
 }

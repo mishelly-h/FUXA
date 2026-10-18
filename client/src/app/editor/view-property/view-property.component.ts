@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { Utils } from '../../_helpers/utils';
 import { Script } from '../../_models/script';
 import { DocAlignType, DocProfile, ViewProperty, ViewType } from '../../_models/hmi';
@@ -32,8 +32,8 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
     scripts: Script[];
     private destroy$ = new Subject<void>();
 
-    @ViewChild('flexevent', {static: false}) flexEvent: FlexEventComponent;
-    @ViewChild('tabEvents', {static: true}) tabEvents: MatTab;
+    readonly flexEvent = viewChild<FlexEventComponent>('flexevent');
+    readonly tabEvents = viewChild<MatTab>('tabEvents');
 
     propSizeType = [{ text: 'dlg.docproperty-size-320-240', value: { width: 320, height: 240 } }, { text: 'dlg.docproperty-size-460-360', value: { width: 460, height: 360 } },
     { text: 'dlg.docproperty-size-640-480', value: { width: 640, height: 480 } }, { text: 'dlg.docproperty-size-800-600', value: { width: 800, height: 600 } },
@@ -72,7 +72,7 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
             takeUntil(this.destroy$),
             startWith(this.formGroup.controls.type.value)
         ).subscribe(type => {
-            this.tabEvents.disabled = type === ViewType.cards || type === ViewType.maps;
+            this.tabEvents().disabled = type === ViewType.cards || type === ViewType.maps;
             if (type === ViewType.cards && this.data.newView && this.data.profile.bkcolor === '#ffffffff') {
                 this.data.profile.bkcolor = '#E6E6E6';
             }
@@ -109,7 +109,7 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
         if (!this.data.property) {
 			this.data.property = new ViewProperty();
         }
-        this.data.property.events = this.flexEvent.getEvents();
+        this.data.property.events = this.flexEvent().getEvents();
         this.dialogRef.close(this.data);
     }
 
@@ -121,7 +121,7 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
     }
 
     onAddEvent() {
-        this.flexEvent.onAddEvent();
+        this.flexEvent().onAddEvent();
     }
 }
 

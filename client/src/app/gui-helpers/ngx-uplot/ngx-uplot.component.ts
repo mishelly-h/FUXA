@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Input, input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, Input, input, viewChild } from '@angular/core';
 import { Utils } from '../../_helpers/utils';
 
 import { Series, Options, Legend } from './uPlot';
@@ -43,7 +43,7 @@ export class NgxUplotComponent implements OnInit, OnDestroy {
 
     public readonly id = input<string>(undefined);
     @Input() public options: NgxOptions;
-    @ViewChild('graph', {static: true}) public graph: ElementRef;
+    public readonly graph = viewChild<ElementRef>('graph');
     @Input() onChartClick: (x: number, y: number ) => void;
 
     readonly lineInterpolations = {
@@ -181,7 +181,7 @@ export class NgxUplotComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.options = this.defOptions;
-        this.uplot = new uPlot(this.defOptions, this.sampleData, this.graph.nativeElement);
+        this.uplot = new uPlot(this.defOptions, this.sampleData, this.graph().nativeElement);
     }
 
     ngOnDestroy() {
@@ -196,7 +196,7 @@ export class NgxUplotComponent implements OnInit, OnDestroy {
     }
 
     resize(height?, width?) {
-        let chart = this.graph.nativeElement;
+        let chart = this.graph().nativeElement;
         if (!height) {
             height = chart.clientHeight;
         }
@@ -284,7 +284,7 @@ export class NgxUplotComponent implements OnInit, OnDestroy {
         if (wheelMode) {
             opt.plugins.push(this.mouseWheelPlugin(wheelMode));
         }
-        this.uplot = new uPlot(opt, this.data, this.graph.nativeElement);
+        this.uplot = new uPlot(opt, this.data, this.graph().nativeElement);
         const over = this.uplot.root.querySelector('.u-over');
         if (over) {
             over.addEventListener('click', e => {

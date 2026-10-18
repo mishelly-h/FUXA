@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ResourceGroup, ResourceItem } from '../../_models/resources';
 import { LibWidgetsService } from './lib-widgets.service';
@@ -25,8 +25,8 @@ export class LibWidgetsComponent implements OnInit, OnDestroy {
     contextMenuWidget: any = null;
     expandedGroups: { [groupName: string]: boolean } = {};
 
-    @ViewChild('menuTriggerButton') menuTrigger!: MatMenuTrigger;
-    @ViewChild('menuTriggerEl', { read: ElementRef }) triggerButtonRef!: ElementRef;
+    readonly menuTrigger = viewChild.required<MatMenuTrigger>('menuTriggerButton');
+    readonly triggerButtonRef = viewChild.required('menuTriggerEl', { read: ElementRef });
 
     constructor() {
             this.rootPath = this.rcgiService.rcgi.endPointConfig;

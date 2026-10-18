@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output, ViewChild, OnDestroy, inject } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output, OnDestroy, inject, viewChild } from '@angular/core';
 import { Observable, Subject, of, takeUntil } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
 import { MatTabGroup as MatTabGroup } from '@angular/material/tabs';
@@ -34,7 +34,7 @@ export class TablePropertyComponent implements OnInit, OnDestroy {
     @Input('reload') set reload(b: any) {
         this._reload();
     }
-    @ViewChild('grptabs', {static: false}) grptabs: MatTabGroup;
+    readonly grptabs = viewChild<MatTabGroup>('grptabs');
 
     tableTypeCtrl: UntypedFormControl = new UntypedFormControl();
     options = DataTableComponent.DefaultOptions();

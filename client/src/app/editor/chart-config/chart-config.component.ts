@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, ViewChild, inject } from '@angular/core';
+import { Component, OnInit, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { MatSelectionList as MatSelectionList } from '@angular/material/list';
 
@@ -28,7 +28,7 @@ export class ChartConfigComponent implements OnInit {
     private projectService = inject(ProjectService);
 
 
-    @ViewChild(MatSelectionList, {static: false}) selTags: MatSelectionList;
+    readonly selTags = viewChild(MatSelectionList);
 
     selectedChart = <Chart>{ id: null, name: null, lines: [] };
     selectedDevice = { id: null, name: null, tags: []};

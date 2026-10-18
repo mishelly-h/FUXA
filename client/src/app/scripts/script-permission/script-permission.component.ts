@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
 import { SelOptionType, SelOptionsComponent } from '../../gui-helpers/sel-options/sel-options.component';
 import { Role, UserGroups } from '../../_models/user';
 import { SettingsService } from '../../_services/settings.service';
@@ -24,7 +24,7 @@ export class ScriptPermissionComponent implements OnInit, OnDestroy {
     userInfo: UserInfo;
     selected = [];
     options = [];
-	@ViewChild(SelOptionsComponent, {static: false}) seloptions: SelOptionsComponent;
+	readonly seloptions = viewChild(SelOptionsComponent);
     private destroy$ = new Subject<void>();
 
 	ngOnInit() {
@@ -59,11 +59,12 @@ export class ScriptPermissionComponent implements OnInit, OnDestroy {
 			permission: null,
 			permissionRoles: { enabled: null }
 		};
-        if (this.seloptions) {
+        const seloptions = this.seloptions();
+        if (seloptions) {
             if (this.isRolePermission()) {
-                result.permissionRoles.enabled = this.seloptions.selected?.map(role => role.id);
+                result.permissionRoles.enabled = seloptions.selected?.map(role => role.id);
             } else {
-                result.permission = UserGroups.GroupsToValue(this.seloptions.selected);
+                result.permission = UserGroups.GroupsToValue(seloptions.selected);
             }
         }
 		this.dialogRef.close(result);

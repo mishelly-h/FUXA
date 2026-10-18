@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, inject, input } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, inject, input, viewChild } from '@angular/core';
 import Player from 'xgplayer';
 import LivePreset from 'xgplayer/es/presets/live';
 import FlvJsPlugin from 'xgplayer-flv.js';
@@ -16,7 +16,7 @@ export class WebcamPlayerComponent implements OnInit {
     private hmiService = inject(HmiService);
 
 
-    @ViewChild('xgplayer', {static: true}) xgplayerRef: ElementRef;
+    readonly xgplayerRef = viewChild<ElementRef>('xgplayer');
     readonly data = input<WebcamPlayerDialogData>(undefined);
     @Output() onclose = new EventEmitter();
     player: Player;
@@ -36,7 +36,7 @@ export class WebcamPlayerComponent implements OnInit {
             plugins.push(FlvJsPlugin);
         }
         this.player = new Player({
-            el: this.xgplayerRef.nativeElement,
+            el: this.xgplayerRef().nativeElement,
             url,
             autoplay: true,
             presets: [LivePreset],

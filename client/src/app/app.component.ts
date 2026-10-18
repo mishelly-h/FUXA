@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, DOCUMENT, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, DOCUMENT, inject, viewChild } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -39,7 +39,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 	isLoading = false;
 	serverErrorBanner$: Observable<boolean>;
 
-	@ViewChild('fabmenu', {static: false}) fabmenu: any;
+	readonly fabmenu = viewChild<any>('fabmenu');
 
 	private subscriptionLoad: Subscription;
 	private subscriptionShowLoading: Subscription;
@@ -184,7 +184,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 
 	onGoTo(goto) {
 		this.router.navigate([goto]);
-		this.fabmenu.toggle();
+		this.fabmenu().toggle();
 		//TODO!
         if (!this.location.path().includes(goto) && ['home', 'lab'].indexOf(goto) !== -1) {
 			if (goto === 'lab') {

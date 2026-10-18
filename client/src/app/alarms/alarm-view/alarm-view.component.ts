@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter, inject, input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, EventEmitter, inject, input, viewChild } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -49,9 +49,9 @@ export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
     @Output() showMode: EventEmitter<string> = new EventEmitter();
 
     dataSource = new MatTableDataSource([]);
-    @ViewChild(MatTable, {static: false}) table: MatTable<any>;
-    @ViewChild(MatSort, {static: false}) sort: MatSort;
-    @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly paginator = viewChild(MatPaginator);
 
     private rxjsPollingTimer = timer(0, 2000);
     private destroy = new Subject<void>();
@@ -75,9 +75,9 @@ export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
 
     ngAfterViewInit() {
         this.displayColumns = this.alarmsColumns;
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
-        this.table.renderRows();
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
+        this.table().renderRows();
         if (this.autostart()) {
             this.startAskAlarmsValues();
         }

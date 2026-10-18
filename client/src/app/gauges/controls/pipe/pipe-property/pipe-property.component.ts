@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, inject, input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, inject, input, viewChild } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { GaugeAction, GaugeProperty, View } from '../../../../_models/hmi';
@@ -34,10 +34,10 @@ export class PipePropertyComponent implements OnInit  {
         this._reload();
     }
 
-	@ViewChild('flexauth', {static: false}) flexAuth: FlexAuthComponent;
-    @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
-    @ViewChild('flexevent', {static: false}) flexEvent: FlexEventComponent;
-    @ViewChild('flexaction', {static: false}) flexAction: FlexActionComponent;
+	readonly flexAuth = viewChild<FlexAuthComponent>('flexauth');
+    readonly flexHead = viewChild<FlexHeadComponent>('flexhead');
+    readonly flexEvent = viewChild<FlexEventComponent>('flexevent');
+    readonly flexAction = viewChild<FlexActionComponent>('flexaction');
     property: GaugeProperty;
     options: PipeOptions;
     views: View[];
@@ -121,11 +121,11 @@ export class PipePropertyComponent implements OnInit  {
     }
 
     onAddEvent() {
-		this.flexEvent.onAddEvent();
+		this.flexEvent().onAddEvent();
 	}
 
 	onAddAction() {
-		this.flexAction.onAddAction();
+		this.flexAction().onAddAction();
 	}
 
     getActionTag(action: GaugeAction) {

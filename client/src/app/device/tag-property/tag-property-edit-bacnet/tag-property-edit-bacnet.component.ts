@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, Output, EventEmitter, inject, viewChild } from '@angular/core';
 import { HmiService } from '../../../_services/hmi.service';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { BACnetObjectType, Device, Tag } from '../../../_models/device';
@@ -18,7 +18,7 @@ export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
 
     @Output() result = new EventEmitter<any>();
     private destroy$ = new Subject<void>();
-    @ViewChild(TreetableComponent, { static: false }) treetable: TreetableComponent;
+    readonly treetable = viewChild(TreetableComponent);
 
     config = {
         height: '640px',
@@ -47,7 +47,7 @@ export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
                     if (values.node.attribute[14]) {    // datatype
                         values.node.type = values.node.attribute[14];
                     }
-                    this.treetable.setNodeProperty(values.node, this.attributeToString(values.node.attribute));
+                    this.treetable().setNodeProperty(values.node, this.attributeToString(values.node.attribute));
                 }
             }
         });
@@ -87,9 +87,9 @@ export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
                         enabled = false;
                     }
                 }
-                this.treetable.addNode(node, parent, enabled, false);
+                this.treetable().addNode(node, parent, enabled, false);
             });
-            this.treetable.update();
+            this.treetable().update();
         }
     }
 
@@ -126,10 +126,10 @@ export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
 
     onOkClick(): void {
         this.data.nodes = [];
-        Object.keys(this.treetable.nodes).forEach((key) => {
-            let n: Node = this.treetable.nodes[key];
+        Object.keys(this.treetable().nodes).forEach((key) => {
+            let n: Node = this.treetable().nodes[key];
             if (n.checked && n.enabled && (n.type || !n.childs || n.childs.length == 0)) {
-                this.data.nodes.push(this.treetable.nodes[key]);
+                this.data.nodes.push(this.treetable().nodes[key]);
             }
         });
         this.result.emit(this.data);

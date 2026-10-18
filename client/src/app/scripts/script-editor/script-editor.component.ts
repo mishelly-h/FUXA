@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, ViewChild, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import { ChangeDetectorRef } from '@angular/core';
@@ -31,7 +31,7 @@ export class ScriptEditorComponent implements OnInit, OnDestroy {
     private scriptService = inject(ScriptService);
     data = inject(MAT_DIALOG_DATA);
 
-    @ViewChild(CodemirrorComponent, {static: false}) CodeMirror: CodemirrorComponent;
+    readonly CodeMirror = viewChild(CodemirrorComponent);
     codeMirrorContent: string;
     codeMirrorOptions = {
         lineNumbers: true,
@@ -103,7 +103,7 @@ export class ScriptEditorComponent implements OnInit, OnDestroy {
 
     setCM() {
         this.changeDetector.detectChanges();
-        const editor = this.CodeMirror?.codeMirror;
+        const editor = this.CodeMirror()?.codeMirror;
         if (!editor) {
             this.codeMirrorSetupTimer = window.setTimeout(() => this.setCM(), 50);
             return;
@@ -272,7 +272,7 @@ export class ScriptEditorComponent implements OnInit, OnDestroy {
 
     toggleSync() {
         this.script.sync = !this.script.sync;
-        this.CodeMirror?.codeMirror?.performLint();
+        this.CodeMirror()?.codeMirror?.performLint();
     }
 
     onConsoleClear() {
@@ -285,7 +285,7 @@ export class ScriptEditorComponent implements OnInit, OnDestroy {
     }
 
     private insertText(text: string) {
-        let doc = this.CodeMirror.codeMirror.getDoc();
+        let doc = this.CodeMirror().codeMirror.getDoc();
         var cursor = doc.getCursor(); // gets the line number in the cursor position
         doc.replaceRange(text, cursor);
     }

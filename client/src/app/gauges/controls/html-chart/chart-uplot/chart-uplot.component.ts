@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, Input, Output, EventEmitter, ElementRef, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, EventEmitter, ElementRef, inject, viewChild } from '@angular/core';
 
 import { ChartLegendMode, ChartRangeType, ChartRangeConverter, ChartLine, ChartViewType, ChartLineZone, Chart } from '../../../../_models/chart';
 import { NgxUplotComponent, NgxSeries, ChartOptions } from '../../../../gui-helpers/ngx-uplot/ngx-uplot.component';
@@ -29,8 +29,8 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
     private translateService = inject(TranslateService);
 
 
-    @ViewChild('chartPanel', { static: false }) public chartPanel: ElementRef;
-    @ViewChild('nguplot', { static: false }) public nguplot: NgxUplotComponent;
+    public readonly chartPanel = viewChild<ElementRef>('chartPanel');
+    public readonly nguplot = viewChild<NgxUplotComponent>('nguplot');
 
     @Input() options: ChartOptions;
     @Output() onTimeRange: EventEmitter<DaqQuery> = new EventEmitter();
@@ -69,20 +69,20 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this.isEditor && this.property?.type === ChartViewType.custom) {
             this.getCustomData();
         }
-        if (this.nguplot) {
-            this.nguplot.languageLabels.serie = this.translateService.instant('chart.labels-serie');
-            this.nguplot.languageLabels.time = this.translateService.instant('chart.labels-time');
-            this.nguplot.languageLabels.title = this.translateService.instant('chart.labels-title');
+        const nguplot = this.nguplot();
+        if (nguplot) {
+            nguplot.languageLabels.serie = this.translateService.instant('chart.labels-serie');
+            nguplot.languageLabels.time = this.translateService.instant('chart.labels-time');
+            nguplot.languageLabels.title = this.translateService.instant('chart.labels-title');
         }
     }
 
     ngOnDestroy() {
         try {
-            delete this.chartPanel;
-            if (this.nguplot) {
-                this.nguplot.ngOnDestroy();
+            const nguplot = this.nguplot();
+            if (nguplot) {
+                nguplot.ngOnDestroy();
             }
-            delete this.nguplot;
             this.destroy$.next(null);
             this.destroy$.complete();
         } catch (e) {
@@ -227,10 +227,11 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public resize(height?: number, width?: number) {
-        if (!this.chartPanel) {
+        const chartPanel = this.chartPanel();
+        if (!chartPanel) {
             return;
         }
-        let chart = this.chartPanel.nativeElement;
+        let chart = chartPanel.nativeElement;
         if (!height && chart.offsetParent) {
             height = chart.offsetParent.clientHeight;
         }
@@ -254,7 +255,7 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
                 size = 10;
             }
             this.options.height -= size;    // axis
-            this.nguplot.resize(this.options.height, this.options.width);
+            this.nguplot().resize(this.options.height, this.options.width);
         }
     }
 
@@ -273,14 +274,15 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.onRefresh();
             });
         }
-        this.updateCanvasOptions(this.nguplot);
+        const nguplot = this.nguplot();
+        this.updateCanvasOptions(nguplot);
         if (this.options.panel) {
             this.resize(this.options.panel.height, this.options.panel.width);
         }
-        this.nguplot.init(this.options, (this.property?.type === ChartViewType.custom) ? true : false);
-        this.updateDomOptions(this.nguplot);
+        nguplot.init(this.options, (this.property?.type === ChartViewType.custom) ? true : false);
+        this.updateDomOptions(nguplot);
         if (!this.isEditor && this.property?.events?.find(ev => ev.type === this.eventChartClick)) {
-            this.nguplot.onChartClick = this.handleChartClick.bind(this);
+            nguplot.onChartClick = this.handleChartClick.bind(this);
         }
     }
 
@@ -317,7 +319,7 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
         this.options = { ...this.options, ...options };
         this.init(this.options, false);
         Object.keys(this.mapData).forEach(key => {
-            this.nguplot.addSerie(this.mapData[key].index, this.mapData[key].attribute);
+            this.nguplot().addSerie(this.mapData[key].index, this.mapData[key].attribute);
         });
         this.setInitRange();
         this.redraw();
@@ -352,7 +354,7 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
             if (line.zones?.some(zone => zone.fill)) {
                 const zones = this.generateZones(line.zones, 'fill', fallbackFill);
                 if (zones) {
-                    serie.fill = (self, seriesIndex) => this.nguplot.scaleGradient(self, line.yaxis, 1, zones, true) || fallbackFill;
+                    serie.fill = (self, seriesIndex) => this.nguplot().scaleGradient(self, line.yaxis, 1, zones, true) || fallbackFill;
                 }
             } else if (line.fill) {
                 serie.fill = line.fill;
@@ -361,7 +363,7 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
             if (line.zones?.some(zone => zone.stroke)) {
                 const zones = this.generateZones(line.zones, 'stroke', fallbackStroke);
                 if (zones) {
-                    serie.stroke = (self, seriesIndex) => this.nguplot.scaleGradient(self, line.yaxis, 1, zones, true) || fallbackStroke;
+                    serie.stroke = (self, seriesIndex) => this.nguplot().scaleGradient(self, line.yaxis, 1, zones, true) || fallbackStroke;
                 }
             } else if (line.color) {
                 serie.stroke = line.color;
@@ -373,10 +375,10 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
                 attribute: serie,
                 lastValueTime: 0
             };
-            this.nguplot.addSerie(this.mapData[id].index, this.mapData[id].attribute);
+            this.nguplot().addSerie(this.mapData[id].index, this.mapData[id].attribute);
         }
         if (this.isEditor) {
-            this.nguplot.setSample();
+            this.nguplot().setSample();
         }
     }
 
@@ -430,7 +432,7 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.pauseMemoryValue[id].push({ x, y });
                 return;
             }
-            this.nguplot.addValue(property.index, x, y, this.zoomSize || this.options.realtime * 60);
+            this.nguplot().addValue(property.index, x, y, this.zoomSize || this.options.realtime * 60);
             property.lastValueTime = Date.now();
             this.range.to = Date.now();
         }
@@ -447,8 +449,8 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
                 const first = values?.[0]?.[0];
                 // Case A: data unified -> [timestamps[], serie1[], serie2[], ...]
                 if (Array.isArray(values) && Array.isArray(values[0]) && typeof first === 'number') {
-                    this.nguplot.setData(values);
-                    this.nguplot.setXScala(this.range.from / 1e3, this.range.to / 1e3);
+                    this.nguplot().setData(values);
+                    this.nguplot().setXScala(this.range.from / 1e3, this.range.to / 1e3);
                     setTimeout(() => this.setLoading(false), 300);
                     return;
                 }
@@ -461,8 +463,8 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
                         }))
                     );
                     const mergedData = this.buildUnifiedData([normalized]);
-                    this.nguplot.setData(mergedData);
-                    this.nguplot.setXScala(this.range.from / 1e3, this.range.to / 1e3);
+                    this.nguplot().setData(mergedData);
+                    this.nguplot().setXScala(this.range.from / 1e3, this.range.to / 1e3);
                     setTimeout(() => this.setLoading(false), 300);
                     return;
                 }
@@ -495,8 +497,8 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
             .map(entry => entry[1]);
 
         const mergedData = this.buildUnifiedData(partialSorted);
-        this.nguplot.setData(mergedData);
-        this.nguplot.setXScala(this.range.from / 1e3, this.range.to / 1e3);
+        this.nguplot().setData(mergedData);
+        this.nguplot().setXScala(this.range.from / 1e3, this.range.to / 1e3);
 
         const done = this.chunkBuffer.size === this.totalChunks;
         if (done) {
@@ -537,12 +539,12 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public redraw() {
-        this.nguplot.redraw();
+        this.nguplot().redraw();
     }
 
     setZoom(range: ZoomRangeType) {
         this.range = range;
-        this.nguplot.setXScala(this.range.from / 1e3, this.range.to / 1e3);
+        this.nguplot().setXScala(this.range.from / 1e3, this.range.to / 1e3);
         this.zoomSize = this.range.to / 1e3 - this.range.from / 1e3;
         // if zoom resetted then add values in saved in pause
         if (!range.zoomStep) {
@@ -641,7 +643,7 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private updateDomOptions(ngup: NgxUplotComponent) {
-        let ele = this.chartPanel.nativeElement.getElementsByClassName('u-title');
+        let ele = this.chartPanel().nativeElement.getElementsByClassName('u-title');
         if (ele) {
             let title = ele[0];
             if (this.options.titleHeight) {
@@ -652,14 +654,14 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
                 title.style.display = 'none';
             }
         }
-        let legend = this.chartPanel.nativeElement.querySelector('.u-legend');
+        let legend = this.chartPanel().nativeElement.querySelector('.u-legend');
         if (legend) {
             if (this.options.axisLabelColor) {
                 legend.style.color = this.options.axisLabelColor;
             }
             legend.style.lineHeight = 0;
         }
-        this.chartPanel.nativeElement.style.backgroundColor = this.options.colorBackground;
+        this.chartPanel().nativeElement.style.backgroundColor = this.options.colorBackground;
     }
 
     private getCustomData() {
@@ -714,7 +716,7 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
                 }
             }
         }
-        this.nguplot?.setData(result);
+        this.nguplot()?.setData(result);
         setTimeout(() => {
             this.setLoading(false);
         }, 500);

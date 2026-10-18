@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatRow as MatRow, MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatMenuTrigger as MatMenuTrigger } from '@angular/material/menu';
@@ -45,10 +45,10 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
     private translateService = inject(TranslateService);
 
 
-    @ViewChild(MatTable, { static: false }) table: MatTable<any>;
-    @ViewChild(MatSort, { static: false }) sort: MatSort;
-    @ViewChild(MatMenuTrigger, { static: false }) trigger: MatMenuTrigger;
-    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly trigger = viewChild(MatMenuTrigger);
+    readonly paginator = viewChild(MatPaginator);
     onTimeRange$ = new BehaviorSubject<DaqQuery>(null);
 
     rxjsPollingTimer: Observable<number>;
@@ -115,7 +115,7 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
     ngAfterViewInit() {
-        this.sort.disabled = this.type === TableType.data;
+        this.sort().disabled = this.type === TableType.data;
         this.bindTableControls();
     }
 
@@ -537,9 +537,9 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private bindTableControls(): void {
         if (this.type === TableType.history && this.tableOptions.paginator.show) {
-            this.dataSource.paginator = this.paginator;
+            this.dataSource.paginator = this.paginator();
         }
-        this.dataSource.sort = this.sort;
+        this.dataSource.sort = this.sort();
         this.dataSource.sortingDataAccessor = (data, sortHeaderId) => data[sortHeaderId].stringValue;
     }
 

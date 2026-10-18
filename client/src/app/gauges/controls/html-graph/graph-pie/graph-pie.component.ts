@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnDestroy, Input, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnDestroy, Input, OnInit, AfterViewInit, viewChild } from '@angular/core';
 
 import { GraphBaseComponent, GraphOptions } from '../graph-base/graph-base.component';
 import { BaseChartDirective } from 'ng2-charts';
@@ -13,7 +13,7 @@ import DataLabelsPlugin from 'chartjs-plugin-datalabels';
     standalone: false
 })
 export class GraphPieComponent extends GraphBaseComponent implements OnInit, AfterViewInit, OnDestroy {
-    @ViewChild(BaseChartDirective, {static: false}) public chart?: BaseChartDirective;
+    public readonly chart = viewChild(BaseChartDirective);
     @Input() height = 380;
     @Input() width = 380;
 
@@ -110,7 +110,7 @@ export class GraphPieComponent extends GraphBaseComponent implements OnInit, Aft
 
     setValue(sigid: string, timestamp: any, sigvalue: any) {
         this.pieData[this.sourceMap[sigid]] = sigvalue;
-        this.chart.update();
+        this.chart().update();
     }
 
     setOptions(options: GraphOptions): void {

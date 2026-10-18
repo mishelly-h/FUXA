@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
@@ -34,8 +34,8 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 	usersInfo = {};
 	roles: Role[];
 
-	@ViewChild(MatTable, {static: false}) table: MatTable<any>;
-	@ViewChild(MatSort, {static: false}) sort: MatSort;
+	readonly table = viewChild(MatTable);
+	readonly sort = viewChild(MatSort);
 
     private destroy$ = new Subject<void>();
 
@@ -51,7 +51,7 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 	}
 
 	ngAfterViewInit() {
-		this.dataSource.sort = this.sort;
+		this.dataSource.sort = this.sort();
 	}
 
 	ngOnDestroy() {

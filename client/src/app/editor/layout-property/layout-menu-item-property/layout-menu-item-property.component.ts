@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, inject, viewChild } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SelOptionType, SelOptionsComponent } from '../../../gui-helpers/sel-options/sel-options.component';
 import { BehaviorSubject, Observable, Subject, combineLatest, map, of, takeUntil } from 'rxjs';
@@ -35,7 +35,7 @@ export class LayoutMenuItemPropertyComponent implements AfterViewInit, OnDestroy
     linkAlarms = LinkType.alarms;
     private destroy$ = new Subject<void>();
 
-    @ViewChild(SelOptionsComponent, { static: false }) seloptions: SelOptionsComponent;
+    readonly seloptions = viewChild(SelOptionsComponent);
 
     constructor() {
                 this.data.item.children = this.data.item.children || [];
@@ -92,10 +92,10 @@ export class LayoutMenuItemPropertyComponent implements AfterViewInit, OnDestroy
             if (!this.data.permissionRoles) {
                 this.data.permissionRoles = { enabled: null };
             }
-            this.data.permissionRoles.enabled = this.seloptions.selected?.map(role => role.id);
+            this.data.permissionRoles.enabled = this.seloptions().selected?.map(role => role.id);
 
         } else {
-            this.data.permission = UserGroups.GroupsToValue(this.seloptions.selected);
+            this.data.permission = UserGroups.GroupsToValue(this.seloptions().selected);
         }
         this.dialogRef.close(this.data);
         //Need to check this!

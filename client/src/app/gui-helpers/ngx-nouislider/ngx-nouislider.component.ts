@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, Input, input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ElementRef, Input, input, viewChild } from '@angular/core';
 
 declare const noUiSlider: any;
 
@@ -22,8 +22,8 @@ export class NgxNouisliderOptions {
 export class NgxNouisliderComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public readonly id = input<string>(undefined);
-    @ViewChild('panel', {static: false}) public panel: ElementRef;
-    @ViewChild('slider', {static: false}) public slider: ElementRef;
+    public readonly panel = viewChild<ElementRef>('panel');
+    public readonly slider = viewChild<ElementRef>('slider');
     @Input() public options: NgxNouisliderOptions;
 
     size = { w: 0, h: 0 };
@@ -55,8 +55,8 @@ export class NgxNouisliderComponent implements OnInit, AfterViewInit, OnDestroy 
 
     ngOnDestroy() {
         try {
-            this.slider.nativeElement.remove();
-            this.panel.nativeElement.remove();
+            this.slider().nativeElement.remove();
+            this.panel().nativeElement.remove();
             if (this.uiWorkingTimeout) {
                 clearTimeout(this.uiWorkingTimeout);
             }
@@ -81,7 +81,7 @@ export class NgxNouisliderComponent implements OnInit, AfterViewInit, OnDestroy 
             toInit = true;
         }
         if (options.fontFamily) {
-            this.panel.nativeElement.style.fontFamily = options.fontFamily;
+            this.panel().nativeElement.style.fontFamily = options.fontFamily;
         }
         this.options = options;
         if (toInit) {
@@ -96,12 +96,13 @@ export class NgxNouisliderComponent implements OnInit, AfterViewInit, OnDestroy 
     }
 
     init() {
+        const slider = this.slider();
         if (this.options.orientation === 'vertical') {
-            this.slider.nativeElement.style.height = this.size.h + 'px';
-            this.slider.nativeElement.style.width = this.getBarWidth() + 'px';
+            slider.nativeElement.style.height = this.size.h + 'px';
+            slider.nativeElement.style.width = this.getBarWidth() + 'px';
         } else {
-            this.slider.nativeElement.style.width = this.size.w + 'px';
-            this.slider.nativeElement.style.height = this.getBarWidth() + 'px';
+            slider.nativeElement.style.width = this.size.w + 'px';
+            slider.nativeElement.style.height = this.getBarWidth() + 'px';
         }
         let tooltip: any[] = [false];
         if (this.options.tooltip.type === 'hide' || this.options.tooltip.type === 'show') {
@@ -114,7 +115,7 @@ export class NgxNouisliderComponent implements OnInit, AfterViewInit, OnDestroy 
             this.uiSlider.off();
             this.uiSlider.destroy();
         }
-        this.uiSlider = noUiSlider.create(this.slider.nativeElement, {
+        this.uiSlider = noUiSlider.create(slider.nativeElement, {
             start: [this.options.range.min + Math.abs(this.options.range.max - this.options.range.min) / 2],
             connect: [true, false],
             orientation: this.options.orientation,
@@ -181,7 +182,7 @@ export class NgxNouisliderComponent implements OnInit, AfterViewInit, OnDestroy 
         const barWidth = this.getBarWidth();
         const handleWidth = this.getHandleWidth();
         const handleHeight = this.getHandleHeight();
-        const target = this.slider.nativeElement;
+        const target = this.slider().nativeElement;
         const handles = target.getElementsByClassName('noUi-handle');
 
         if (this.options.orientation === 'vertical') {

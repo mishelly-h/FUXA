@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject, viewChild } from '@angular/core';
 import { Device, Tag } from '../../../_models/device';
 import { Subject, takeUntil } from 'rxjs';
 import { HmiService } from '../../../_services/hmi.service';
@@ -20,7 +20,7 @@ export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
 
     @Output() result = new EventEmitter<TagPropertyWebApiData>();
     private destroy$ = new Subject<void>();
-    @ViewChild(TreetableComponent, { static: false }) treetable: TreetableComponent;
+    readonly treetable = viewChild(TreetableComponent);
 
     config = {
         height: '640px',
@@ -34,7 +34,7 @@ export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
         ).subscribe(res => {
             if (res.result) {
                 this.addTreeNodes(res.result);
-                this.treetable.update(false);
+                this.treetable().update(false);
             }
         });
         this.hmiService.askWebApiProperty(this.data.device.property);
@@ -66,7 +66,7 @@ export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
             node.class = NodeType.Array;
             node.setToDefine();
             node.expanded = true;
-            this.treetable.addNode(node, parent, true);
+            this.treetable().addNode(node, parent, true);
             let idx = 0;
             for(var n in nodes) {
                 this.addTreeNodes(nodes[n], '[' + idx++ + ']', node);
@@ -74,7 +74,7 @@ export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
         } else if (nodes && typeof nodes === 'object') {
             node.expanded = true;
             node.class = NodeType.Object;
-            this.treetable.addNode(node, parent, true);
+            this.treetable().addNode(node, parent, true);
             for(var n in nodes) {
                 this.addTreeNodes(nodes[n], n, node);
                 if (parent) {
@@ -97,7 +97,7 @@ export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
             } else if (selected) {
                 enabled = false;
             }
-            this.treetable.addNode(node, parent, enabled);
+            this.treetable().addNode(node, parent, enabled);
         }
     }
 
@@ -153,7 +153,7 @@ export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
 
     onOkClick(): void {
         this.data.nodes = [];
-        let result = this.getSelectedTreeNodes(Object.values(this.treetable.nodes), null);
+        let result = this.getSelectedTreeNodes(Object.values(this.treetable().nodes), null);
         result.forEach((n: Node) => {
             if (n.checked && n.enabled) {
                 this.data.nodes.push(n);

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef, inject, input } from '@angular/core';
+import { Component, OnInit, ElementRef, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef, inject, input, viewChild } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UntypedFormControl} from '@angular/forms';
 import { LocaleConfig } from './daterangepicker.config';
@@ -112,7 +112,7 @@ export class DaterangepickerComponent implements OnInit {
     @Output('choosedDate') choosedDate: EventEmitter<Object>;
     @Output('rangeClicked') rangeClicked: EventEmitter<Object>;
     @Output('datesUpdated') datesUpdated: EventEmitter<Object>;
-    @ViewChild('pickerContainer', {static: true}) pickerContainer: ElementRef;
+    readonly pickerContainer = viewChild<ElementRef>('pickerContainer');
 
     constructor() {
         this.choosedDate = new EventEmitter();

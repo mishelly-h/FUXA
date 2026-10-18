@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Renderer2, ViewChildren, QueryList, inject, input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Renderer2, inject, input, viewChildren } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { GaugesManager } from '../gauges/gauges.component';
@@ -27,7 +27,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
     readonly gaugesManager = input<GaugesManager>(undefined);        // gauges.component
     @Output() editCard: EventEmitter<CardWidget> = new EventEmitter();
     @Output() onGoTo: EventEmitter<string> = new EventEmitter<string>();
-    @ViewChildren(FuxaViewComponent) fuxaViews!: QueryList<FuxaViewComponent>;
+    readonly fuxaViews = viewChildren(FuxaViewComponent);
 
     gridOptions: GridsterConfig;
     dashboard: Array<GridsterItemConfig> = [];
@@ -155,7 +155,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
     }
 
     getFuxaView(index: number) {
-        return this.fuxaViews?.toArray()[index];
+        return this.fuxaViews[index];
     }
 
     private itemChange(item, itemComponent) {

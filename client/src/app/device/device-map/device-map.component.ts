@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef, Input, ViewChild, inject, input } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef, Input, inject, input, viewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -42,9 +42,9 @@ export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
     dataSource = new MatTableDataSource([]);
     tableWidth = 1200;
 
-    @ViewChild(MatTable, { static: false }) table: MatTable<any>;
-    @ViewChild(MatSort, { static: false }) sort: MatSort;
-    @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+    readonly table = viewChild(MatTable);
+    readonly sort = viewChild(MatSort);
+    readonly paginator = viewChild(MatPaginator);
 
     flowBorder = 5;
     flowWidth = 160;
@@ -96,8 +96,8 @@ export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
             this.lineFlowHeight = 0;
         }
 
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.paginator = this.paginator();
+        this.dataSource.sort = this.sort();
     }
 
     ngOnDestroy() {

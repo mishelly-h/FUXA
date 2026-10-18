@@ -1,4 +1,4 @@
-import { Component, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, inject, viewChild } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -22,7 +22,7 @@ export class LoginComponent {
     private data = inject(MAT_DIALOG_DATA);
 
 
-    @ViewChild('touchKeyboard', {static: false}) touchKeyboard: NgxTouchKeyboardDirective;
+    readonly touchKeyboard = viewChild<NgxTouchKeyboardDirective>('touchKeyboard');
 
 	loading = false;
 	showPassword = false;
@@ -74,13 +74,14 @@ export class LoginComponent {
 	onFocus(event: FocusEvent) {
 		const hmi = this.projectService.getHmi();
 		if (hmi?.layout?.inputdialog?.includes('keyboard')) {
-			if (hmi.layout.inputdialog === 'keyboardFullScreen') {
-				this.touchKeyboard.ngxTouchKeyboardFullScreen = true;
+			const touchKeyboard = this.touchKeyboard();
+   if (hmi.layout.inputdialog === 'keyboardFullScreen') {
+				touchKeyboard.ngxTouchKeyboardFullScreen = true;
 			}
-			this.touchKeyboard.closePanel();
+			touchKeyboard.closePanel();
 			const targetElement = event.target as HTMLInputElement;
 			const elementRef = new ElementRef<HTMLInputElement>(targetElement);
-			this.touchKeyboard.openPanel(elementRef);
+			touchKeyboard.openPanel(elementRef);
 		}
     }
 }

@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, ViewChild, AfterViewInit, OnDestroy, inject } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -34,9 +34,9 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     private projectService = inject(ProjectService);
 
 
-    @ViewChild('sidenav', {static: false})sidenav: any;
-    @ViewChild('tutorial', {static: false}) tutorial: TutorialComponent;
-    @ViewChild('fileImportInput', {static: false}) fileImportInput: any;
+    readonly sidenav = viewChild<any>('sidenav');
+    readonly tutorial = viewChild<TutorialComponent>('tutorial');
+    readonly fileImportInput = viewChild<any>('fileImportInput');
 
     darkTheme = true;
     editorMode = false;
@@ -97,7 +97,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
       }
 
     public onClick(targetElement) {
-        this.sidenav.close();
+        this.sidenav().close();
     }
 
     onShowHelp(page) {
@@ -116,7 +116,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 
     showHelp(data: HelpData) {
         if (data.page === 'help') {
-            this.tutorial.show = true;
+            this.tutorial().show = true;
         } else if (data.page === 'info') {
             this.showInfo();
         }
@@ -197,7 +197,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
             alert(msg);
         };
         reader.readAsText(input.files[0]);
-        this.fileImportInput.nativeElement.value = null;
+        this.fileImportInput().nativeElement.value = null;
     }
 
     /**
