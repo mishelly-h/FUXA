@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, forwardRef } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { GaugesManager } from '../../../gauges/gauges.component';
 import { GaugeSettings, View } from '../../../_models/hmi';
@@ -9,7 +9,7 @@ import { WebcamPlayerComponent } from '../webcam-player.component';
     selector: 'app-webcam-player-dialog',
     templateUrl: './webcam-player-dialog.component.html',
     styleUrls: ['./webcam-player-dialog.component.scss'],
-    imports: [DialogDraggableDirective, WebcamPlayerComponent]
+    imports: [DialogDraggableDirective, forwardRef(() => WebcamPlayerComponent)]
 })
 export class WebcamPlayerDialogComponent {
     dialogRef = inject<MatDialogRef<WebcamPlayerDialogComponent>>(MatDialogRef);

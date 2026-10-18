@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, inject, viewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject, viewChild, forwardRef } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { MatTabGroup as MatTabGroup, MatTab as MatTab } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
@@ -25,7 +25,7 @@ import { FlexVariableComponent } from '../../gauges/gauge-property/flex-variable
     selector: 'app-topic-property',
     templateUrl: './topic-property.component.html',
     styleUrls: ['./topic-property.component.scss'],
-    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, MatIconButton, MatProgressSpinner, NgClass, MatButtonToggleGroup, MatButtonToggle, MatButton, MatCheckbox, MatSelect, MatOption, FlexVariableComponent, MatDialogActions, KeyValuePipe, TranslatePipe, EnumToArrayPipe]
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, MatIconButton, MatProgressSpinner, NgClass, MatButtonToggleGroup, MatButtonToggle, MatButton, MatCheckbox, MatSelect, MatOption, forwardRef(() => FlexVariableComponent), MatDialogActions, KeyValuePipe, TranslatePipe, EnumToArrayPipe]
 })
 export class TopicPropertyComponent implements OnInit, OnDestroy {
     private hmiService = inject(HmiService);
