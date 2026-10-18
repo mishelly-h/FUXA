@@ -199,6 +199,16 @@ describe('Security - runscript authorization target binding', () => {
         expect(calls.run).to.equal(0);
     });
 
+    it('rejects test scripts from loopback clients when security is disabled', async () => {
+        const { app, calls, errors } = makeRunScriptApp();
+        const res = await request(app, 'POST', '/api/runscript', testScriptRequest());
+
+        expect(res.statusCode).to.equal(401);
+        expect(res.body).to.deep.equal({ error: 'unauthorized_error', message: 'Unauthorized!' });
+        expect(calls.run).to.equal(0);
+        expect(errors).to.include('api post runscript: Unauthorized test mode (security disabled)');
+    });
+
     it('rejects test scripts from non-loopback clients when security is disabled', async () => {
         const { app, calls, errors } = makeRunScriptApp({ remoteAddress: '192.168.1.50' });
         const res = await request(app, 'POST', '/api/runscript', testScriptRequest());
@@ -206,17 +216,7 @@ describe('Security - runscript authorization target binding', () => {
         expect(res.statusCode).to.equal(401);
         expect(res.body).to.deep.equal({ error: 'unauthorized_error', message: 'Unauthorized!' });
         expect(calls.run).to.equal(0);
-        expect(errors).to.include('api post runscript: Unauthorized test mode (security disabled, non-local client)');
-    });
-
-    it('allows test scripts from loopback clients when security is disabled', async () => {
-        const { app, calls } = makeRunScriptApp();
-        const res = await request(app, 'POST', '/api/runscript', testScriptRequest());
-
-        expect(res.statusCode).to.equal(200);
-        expect(res.body).to.equal('executed');
-        expect(calls.authorised).to.equal(1);
-        expect(calls.run).to.equal(1);
+        expect(errors).to.include('api post runscript: Unauthorized test mode (security disabled)');
     });
 
     it('allows non-loopback test scripts when explicitly opted in', async () => {

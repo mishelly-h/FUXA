@@ -14,7 +14,7 @@ Then you write your logic into the function. There are system call that you can 
 
 You can test the script, to verify it makes sense to use the console.log method.
 
-When security is disabled, testing scripts from a remote browser requires enabling `secureEnabled` and signing in as an admin, or opting in with `allowUnsecuredScriptTest: true` (unsafe).
+Script test mode runs arbitrary code on the server and is disabled when security is off. Enable `secureEnabled` and sign in as an admin (recommended), or set `allowUnsecuredScriptTest: true` to allow any client that can reach FUXA, including through a reverse proxy, to run code (unsafe).
 
 ![](images/fuxa-script1.gif)
 
