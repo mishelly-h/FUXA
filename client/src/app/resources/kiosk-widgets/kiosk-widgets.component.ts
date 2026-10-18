@@ -16,7 +16,7 @@ import { ToastNotifierService } from '../../_services/toast-notifier.service';
 export class KioskWidgetsComponent implements OnInit {
 
     resourceWidgets$: Observable<WidgetsResource[]>;
-    groupContent: { [path: string]: WidgetsResource[] } = {};
+    groupContent: { [path: string]: WidgetItemType[] } = {};
     loadingGroups: { [path: string]: boolean } = {};
     existingWidgets: string[] = [];
     assetBaseUrl: string;
@@ -92,6 +92,6 @@ export class KioskWidgetsComponent implements OnInit {
     }
 }
 
-interface WidgetItemType extends ResourceItem {
+interface WidgetItemType extends WidgetsResource {
     exist?: boolean;
 }
