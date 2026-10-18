@@ -1,18 +1,28 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { EditNameComponent } from '../../../gui-helpers/edit-name/edit-name.component';
-import { Utils } from '../../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../../_helpers/utils';
 import { DeviceType, Tag } from '../../../_models/device';
 import { ReportDateRangeType, ReportFunctionType, ReportIntervalType, ReportItemTable, ReportTableColumn, ReportTableColumnType } from '../../../_models/report';
 import { ProjectService } from '../../../_services/project.service';
 import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../../device/device-tag-selection/device-tag-selection.component';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/list';
+import { NgClass } from '@angular/common';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-report-item-table',
     templateUrl: './report-item-table.component.html',
     styleUrls: ['./report-item-table.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, MatTooltip, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, NgClass, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class ReportItemTableComponent implements OnInit {
     dialogRef = inject<MatDialogRef<ReportItemTableComponent>>(MatDialogRef);

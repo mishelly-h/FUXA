@@ -3,10 +3,7 @@ import { Component, output } from '@angular/core';
 import { GraphSource, GraphRangeType, GraphDateGroupType } from '../../../../_models/graph';
 import { ChartOptions, GridLineOptions, ChartType } from 'chart.js';
 import { DaqQuery } from '../../../../_models/hmi';
-@Component({
-    template: '',
-    standalone: false
-})
+@Component({ template: '' })
 export class GraphBaseComponent {
     readonly onReload = output<DaqQuery>();
 

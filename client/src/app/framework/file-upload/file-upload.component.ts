@@ -1,12 +1,13 @@
 import { Component, Input, inject, input, output } from '@angular/core';
 import { MyFileService, TransferResult } from '../../_services/my-file.service';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-file-upload',
     templateUrl: './file-upload.component.html',
     styleUrls: ['./file-upload.component.scss'],
-    standalone: false
+    imports: [MatIcon]
 })
 export class FileUploadComponent {
   private fileService = inject(MyFileService);

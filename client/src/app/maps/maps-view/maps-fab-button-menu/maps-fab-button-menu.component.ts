@@ -1,10 +1,13 @@
 import { AfterViewInit, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
+import { MatMiniFabButton } from '@angular/material/button';
+import { NgStyle } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
 
 @Component({
     selector: 'app-maps-fab-button-menu',
     templateUrl: './maps-fab-button-menu.component.html',
     styleUrls: ['./maps-fab-button-menu.component.scss'],
-    standalone: false
+    imports: [MatMiniFabButton, NgStyle, MatIcon]
 })
 export class MapsFabButtonMenuComponent implements AfterViewInit {
     private changeDetector = inject(ChangeDetectorRef);

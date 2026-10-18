@@ -1,6 +1,7 @@
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { NgxFabItemButtonComponent } from './ngx-fab-item-button.component';
 import { Component, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, AfterContentInit, OnDestroy, Output, OnChanges, inject, input, contentChildren } from '@angular/core';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -73,7 +74,7 @@ import { Component, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, Afte
         <ng-content></ng-content>
     </div>
   `,
-    standalone: false
+    imports: [AsyncPipe]
 })
 
 export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnChanges {

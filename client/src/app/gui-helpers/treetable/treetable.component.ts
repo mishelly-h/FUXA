@@ -1,11 +1,21 @@
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, ElementRef, input, viewChild, output } from '@angular/core';
+import { LazyForDirective } from '../../_directives/lazyFor.directive';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { NgStyle } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'ngx-treetable',
     templateUrl: './treetable.component.html',
     styleUrls: ['./treetable.component.scss'],
-    standalone: false
+    imports: [LazyForDirective, MatIconButton, MatIcon, NgStyle, MatProgressSpinner, MatCheckbox, FormsModule, MatSelect, MatOption, TranslatePipe]
 })
 export class TreetableComponent implements OnInit {
 

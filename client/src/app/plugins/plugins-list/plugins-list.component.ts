@@ -1,9 +1,14 @@
 import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ProjectService } from '../../_services/project.service';
 import { PluginService } from '../../_services/plugin.service';
 import { Plugin, PluginGroupType, PluginType } from '../../_models/plugin';
+import { MatIcon } from '@angular/material/icon';
+import { MatCard } from '@angular/material/card';
+import { NgClass } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatButton } from '@angular/material/button';
 
 interface PluginViewModel extends Plugin {
     working?: boolean;
@@ -13,7 +18,7 @@ interface PluginViewModel extends Plugin {
     selector: 'app-plugins-list',
     templateUrl: './plugins-list.component.html',
     styleUrls: ['./plugins-list.component.scss'],
-    standalone: false
+    imports: [MatIcon, MatCard, NgClass, MatProgressSpinner, MatButton, TranslatePipe]
 })
 export class PluginsListComponent implements OnInit, OnDestroy {
     private translateService = inject(TranslateService);

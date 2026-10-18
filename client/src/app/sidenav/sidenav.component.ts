@@ -1,18 +1,22 @@
 import { Component, ChangeDetectorRef, AfterContentChecked, inject, input, output } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Location } from '@angular/common';
+import { Location, NgClass } from '@angular/common';
 
 import { LayoutSettings, NaviItem, NavigationSettings, LinkType, NaviItemType } from '../_models/hmi';
 import { Router } from '@angular/router';
 import { ProjectService } from '../_services/project.service';
 import { LanguageService } from '../_services/language.service';
 import { Utils } from '../_helpers/utils';
+import { MatList, MatListItem } from '@angular/material/list';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-sidenav',
     templateUrl: './sidenav.component.html',
     styleUrls: ['./sidenav.component.scss'],
-    standalone: false
+    imports: [NgClass, MatList, MatListItem, MatButton, MatIcon, TranslatePipe]
 })
 export class SidenavComponent implements AfterContentChecked {
     private location = inject(Location);

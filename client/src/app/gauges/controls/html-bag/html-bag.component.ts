@@ -9,8 +9,7 @@ import { NgxGaugeComponent } from '../../../gui-helpers/ngx-gauge/ngx-gauge.comp
 @Component({
     selector: 'app-html-bag',
     templateUrl: './html-bag.component.html',
-    styleUrls: ['./html-bag.component.css'],
-    standalone: false
+    styleUrls: ['./html-bag.component.css']
 })
 export class HtmlBagComponent extends GaugeBaseComponent {
     private resolver = inject(ComponentFactoryResolver);

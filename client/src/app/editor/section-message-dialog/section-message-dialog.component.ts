@@ -1,8 +1,15 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppSettings } from '../../_models/settings';
 import { SettingsService } from '../../_services/settings.service';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface SectionMessageDialogData {
     titleKey: string;
@@ -18,7 +25,7 @@ export interface SectionMessageDialogData {
     selector: 'app-section-message-dialog',
     templateUrl: './section-message-dialog.component.html',
     styleUrls: ['./section-message-dialog.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatCheckbox, FormsModule, MatDialogActions, MatButton, TranslatePipe]
 })
 export class SectionMessageDialogComponent implements OnInit {
     dialogRef = inject<MatDialogRef<SectionMessageDialogComponent>>(MatDialogRef);

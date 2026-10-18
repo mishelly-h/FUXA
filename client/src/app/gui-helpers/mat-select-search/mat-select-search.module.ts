@@ -10,9 +10,7 @@ import { CommonModule } from '@angular/common';
         CommonModule,
         MatButtonModule,
         MatIconModule,
-        MatInputModule
-    ],
-    declarations: [
+        MatInputModule,
         MatSelectSearchComponent
     ],
     exports: [

@@ -1,19 +1,22 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatDialog as MatDialog} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { MapsLocation } from '../../_models/maps';
 import { ProjectService } from '../../_services/project.service';
 import { Subject, takeUntil } from 'rxjs';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { MapsLocationPropertyComponent } from '../maps-location-property/maps-location-property.component';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatIconButton, MatFabButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-maps-location-list',
     templateUrl: './maps-location-list.component.html',
     styleUrls: ['./maps-location-list.component.scss'],
-    standalone: false
+    imports: [MatIcon, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatIconButton, MatCellDef, MatCell, MatSortHeader, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatFabButton, TranslatePipe]
 })
 export class MapsLocationListComponent implements OnInit, AfterViewInit, OnDestroy {
     private dialog = inject(MatDialog);

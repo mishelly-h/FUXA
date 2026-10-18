@@ -3,8 +3,8 @@ import { Component, OnInit, AfterViewInit, OnDestroy, Input, ElementRef, inject,
 import { ChartLegendMode, ChartRangeType, ChartRangeConverter, ChartLine, ChartViewType, ChartLineZone, Chart } from '../../../../_models/chart';
 import { NgxUplotComponent, NgxSeries, ChartOptions } from '../../../../gui-helpers/ngx-uplot/ngx-uplot.component';
 import { DaqQuery, DateFormatType, TimeFormatType, IDateRange, GaugeChartProperty, DaqChunkType, GaugeEventType } from '../../../../_models/hmi';
-import { Utils } from '../../../../_helpers/utils';
-import { TranslateService } from '@ngx-translate/core';
+import { Utils, EnumToArrayPipe } from '../../../../_helpers/utils';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { DaterangeDialogComponent } from '../../../../gui-helpers/daterange-dialog/daterange-dialog.component';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
@@ -14,12 +14,17 @@ import { ScriptService } from '../../../../_services/script.service';
 import { ProjectService } from '../../../../_services/project.service';
 import { ScriptParam, ScriptParamType } from '../../../../_models/script';
 import { HmiService } from '../../../../_services/hmi.service';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 @Component({
     selector: 'chart-uplot',
     templateUrl: './chart-uplot.component.html',
     styleUrls: ['./chart-uplot.component.scss'],
-    standalone: false
+    imports: [MatButton, MatMenuTrigger, MatMenu, MatMenuItem, MatIcon, NgxUplotComponent, MatIconButton, NgClass, MatProgressSpinner, TranslatePipe, EnumToArrayPipe]
 })
 export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
     private projectService = inject(ProjectService);

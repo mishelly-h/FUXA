@@ -10,8 +10,7 @@ declare var SVG: any;
 @Component({
     selector: 'gauge-value',
     templateUrl: './value.component.html',
-    styleUrls: ['./value.component.css'],
-    standalone: false
+    styleUrls: ['./value.component.css']
 })
 export class ValueComponent extends GaugeBaseComponent {
 

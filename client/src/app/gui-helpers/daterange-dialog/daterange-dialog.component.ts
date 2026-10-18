@@ -3,11 +3,14 @@ import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { DaterangepickerComponent } from '../daterangepicker';
 import { IDateRange } from '../../_models/hmi';
+import { DaterangepickerComponent as DaterangepickerComponent_1 } from '../daterangepicker/daterangepicker.component';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 @Component({
     selector: 'app-daterange-dialog',
     templateUrl: './daterange-dialog.component.html',
     styleUrls: ['./daterange-dialog.component.css'],
-    standalone: false
+    imports: [DaterangepickerComponent_1, MatButton, TranslatePipe]
 })
 export class DaterangeDialogComponent {
     dialogRef = inject<MatDialogRef<DaterangeDialogComponent>>(MatDialogRef);

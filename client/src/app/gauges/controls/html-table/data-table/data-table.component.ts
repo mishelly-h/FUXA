@@ -1,12 +1,12 @@
 import { Component, OnInit, AfterViewInit, OnDestroy, inject, viewChild } from '@angular/core';
-import { MatRow as MatRow, MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { MatRow as MatRow, MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatCellDef, MatHeaderRowDef, MatHeaderRow, MatRowDef } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatMenuTrigger as MatMenuTrigger } from '@angular/material/menu';
-import { MatSort } from '@angular/material/sort';
-import { Utils } from '../../../../_helpers/utils';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
+import { Utils, EnumToArrayPipe } from '../../../../_helpers/utils';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { DaterangeDialogComponent } from '../../../../gui-helpers/daterange-dialog/daterange-dialog.component';
 import { IDateRange, DaqQuery, TableType, TableOptions, TableColumn, TableCellType, TableCell, TableRangeType, TableCellAlignType, GaugeEvent, GaugeEventType, TableFilter } from '../../../../_models/hmi';
@@ -25,13 +25,19 @@ import * as FileSaver from 'file-saver';
 import { CommandService } from '../../../../_services/command.service';
 import { LanguageService } from '../../../../_services/language.service';
 import { GaugeBaseComponent } from '../../../gauge-base/gauge-base.component';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatButton, MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { NgStyle, NgClass } from '@angular/common';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
 
 declare const numeral: any;
 @Component({
     selector: 'app-data-table',
     templateUrl: './data-table.component.html',
     styleUrls: ['./data-table.component.scss'],
-    standalone: false
+    imports: [MatSelect, MatOption, MatButton, MatIcon, MatPaginator, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatSortHeader, MatCellDef, NgStyle, MatIconButton, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, NgClass, MatProgressSpinner, TranslatePipe, EnumToArrayPipe]
 })
 export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
     private dataService = inject(DataConverterService);

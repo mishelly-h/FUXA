@@ -1,18 +1,22 @@
 import { Component, Input, inject, input, output } from '@angular/core';
 import { View, ViewType } from '../../_models/hmi';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { ProjectService } from '../../_services/project.service';
 import { ViewPropertyComponent, ViewPropertyType } from '../view-property/view-property.component';
 import * as FileSaver from 'file-saver';
 import { EditNameComponent, EditNameData } from '../../gui-helpers/edit-name/edit-name.component';
+import { NgClass } from '@angular/common';
+import { MatIcon } from '@angular/material/icon';
+import { MatTooltip } from '@angular/material/tooltip';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
 
 @Component({
     selector: 'app-editor-views-list',
     templateUrl: './editor-views-list.component.html',
     styleUrls: ['./editor-views-list.component.scss'],
-    standalone: false
+    imports: [NgClass, MatIcon, MatTooltip, MatMenuTrigger, MatMenu, MatMenuItem, TranslatePipe]
 })
 export class EditorViewsListComponent {
     private projectService = inject(ProjectService);

@@ -1,14 +1,15 @@
 import { Component, OnInit, Input, inject, output } from '@angular/core';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { GaugeIframeProperty } from '../../../../_models/hmi';
-import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { FlexDeviceTagValueType, FlexDeviceTagComponent } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-iframe-property',
     templateUrl: './iframe-property.component.html',
     styleUrls: ['./iframe-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, FlexDeviceTagComponent, TranslatePipe]
 })
 export class IframePropertyComponent implements OnInit {
     private translateService = inject(TranslateService);

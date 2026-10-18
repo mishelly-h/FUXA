@@ -1,9 +1,6 @@
 import { Directive, ElementRef, HostListener, inject } from '@angular/core';
 
-@Directive({
-    selector: '[numberOnly]',
-    standalone: false
-})
+@Directive({ selector: '[numberOnly]' })
 export class NumberOnlyDirective {
     private el = inject(ElementRef);
 
@@ -21,10 +18,7 @@ export class NumberOnlyDirective {
     }
 }
 
-@Directive({
-    selector: '[numberOrNullOnly]',
-    standalone: false
-})
+@Directive({ selector: '[numberOrNullOnly]' })
 export class NumberOrNullOnlyDirective {
     private el = inject(ElementRef);
 
@@ -70,10 +64,7 @@ export class NumberOrNullOnlyDirective {
  *   - paste   : rejects pasted content entirely if it is not a non-negative integer
  *   - input   : clamps the value to a non-negative integer after browser spinner changes
  */
-@Directive({
-    selector: '[nonNegativeIntegerOnly]',
-    standalone: false
-})
+@Directive({ selector: '[nonNegativeIntegerOnly]' })
 export class NonNegativeIntegerOnlyDirective {
     private el = inject(ElementRef);
 

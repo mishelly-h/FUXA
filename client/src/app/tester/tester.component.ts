@@ -5,13 +5,18 @@ import { Subscription, timer } from 'rxjs';
 import { HmiService } from '../_services/hmi.service';
 import { TesterService } from '../tester/tester.service';
 import { Variable } from '../_models/hmi';
+import { AngularDraggableModule } from 'angular2-draggable';
+import { MatDialogActions } from '@angular/material/dialog';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 
 @Component({
     selector: 'app-tester',
     templateUrl: './tester.component.html',
     styleUrls: ['./tester.component.css'],
-    standalone: false
+    imports: [AngularDraggableModule, MatDialogActions, FormsModule, MatButton, TranslatePipe]
 })
 export class TesterComponent implements OnInit, OnDestroy {
     private hmiService = inject(HmiService);

@@ -1,18 +1,25 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { UntypedFormBuilder, UntypedFormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { AppSettings } from '../../_models/settings';
 import { SettingsService } from '../../_services/settings.service';
 import { UserService } from '../../_services/user.service';
 import { User } from '../../_models/user';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-onboarding-wizard',
     templateUrl: './onboarding-wizard.component.html',
     styleUrls: ['./onboarding-wizard.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, MatCheckbox, MatDialogActions, MatButton, TranslatePipe]
 })
 export class OnboardingWizardComponent implements OnInit {
     dialogRef = inject<MatDialogRef<OnboardingWizardComponent>>(MatDialogRef);

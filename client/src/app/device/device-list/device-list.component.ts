@@ -2,12 +2,12 @@
 import { Component, OnInit, AfterViewInit, ChangeDetectionStrategy, inject, input, viewChild, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
-import { MatMenuTrigger as MatMenuTrigger } from '@angular/material/menu';
-import { MatSort } from '@angular/material/sort';
+import { MatMenuTrigger as MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 import { SelectionModel } from '@angular/cdk/collections';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { TagOptionType, TagOptionsComponent } from './../tag-options/tag-options.component';
 import { Tag, Device, DeviceType, TAG_PREFIX } from '../../_models/device';
@@ -16,13 +16,19 @@ import { HmiService } from '../../_services/hmi.service';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
 import { Utils } from '../../_helpers/utils';
 import { TagPropertyService } from '../tag-property/tag-property.service';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { NgClass, NgStyle, DatePipe } from '@angular/common';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-device-list',
     templateUrl: './device-list.component.html',
     styleUrls: ['./device-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    imports: [MatIconButton, MatIcon, MatSelect, MatOption, MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, NgClass, MatTooltip, MatCellDef, MatCell, MatSortHeader, MatMenuTrigger, MatMenu, MatMenuItem, MatHeaderRowDef, MatHeaderRow, NgStyle, MatRowDef, MatRow, MatPaginator, DatePipe, TranslatePipe]
 })
 export class DeviceListComponent implements OnInit, AfterViewInit {
     private dialog = inject(MatDialog);

@@ -3,16 +3,24 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { GaugesManager } from '../gauges/gauges.component';
 import { Hmi, View, CardWidget, CardWidgetType, ViewType } from '../_models/hmi';
-import { GridsterConfig, GridsterItem, GridsterItemConfig, GridType, CompactType } from 'angular-gridster2';
+import { GridsterConfig, GridsterItem, GridsterItemConfig, GridType, CompactType, Gridster } from 'angular-gridster2';
 import { Utils } from '../_helpers/utils';
 import { FuxaViewComponent } from '../fuxa-view/fuxa-view.component';
 import { ProjectService } from '../_services/project.service';
+import { MapsViewComponent } from '../maps/maps-view/maps-view.component';
+import { AlarmViewComponent } from '../alarms/alarm-view/alarm-view.component';
+import { IframeComponent } from '../iframe/iframe.component';
+import { FormsModule } from '@angular/forms';
+import { NumberOnlyDirective } from '../_directives/number.directive';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-cards-view',
     templateUrl: './cards-view.component.html',
     styleUrls: ['./cards-view.component.scss'],
-    standalone: false
+    imports: [Gridster, GridsterItem, MapsViewComponent, FuxaViewComponent, AlarmViewComponent, IframeComponent, FormsModule, NumberOnlyDirective, MatIconButton, MatIcon, TranslatePipe]
 })
 export class CardsViewComponent implements OnInit, AfterViewInit {
     private renderer = inject(Renderer2);

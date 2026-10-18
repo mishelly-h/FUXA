@@ -5,12 +5,14 @@ import { ActivatedRoute } from '@angular/router';
 import { Subject, takeUntil } from 'rxjs';
 import { AuthService } from '../../../_services/auth.service';
 import { SettingsService } from '../../../_services/settings.service';
+import { MatIcon } from '@angular/material/icon';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-node-red-flows',
     templateUrl: './node-red-flows.component.html',
     styleUrls: ['./node-red-flows.component.scss'],
-    standalone: false
+    imports: [MatIcon, TranslatePipe]
 })
 export class NodeRedFlowsComponent implements OnInit, OnDestroy {
     private activeroute = inject(ActivatedRoute);

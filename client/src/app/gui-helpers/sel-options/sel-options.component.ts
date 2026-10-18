@@ -1,11 +1,13 @@
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, Input, input } from '@angular/core';
+import { MatSelectionList, MatListOption } from '@angular/material/list';
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'sel-options',
     templateUrl: './sel-options.component.html',
     styleUrls: ['./sel-options.component.css'],
-    standalone: false
+    imports: [MatSelectionList, FormsModule, MatListOption]
 })
 export class SelOptionsComponent {
 

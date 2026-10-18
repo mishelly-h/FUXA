@@ -1,19 +1,31 @@
 import { Component, OnInit, inject, viewChild } from '@angular/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
 import { FlexHeadComponent } from '../../gauges/gauge-property/flex-head/flex-head.component';
 import { FlexAuthComponent } from '../../gauges/gauge-property/flex-auth/flex-auth.component';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { AlarmProperty, AlarmAckMode, AlarmSubProperty, AlarmSubActions, AlarmAction, AlarmActionsType } from '../../_models/alarm';
-import { Utils } from '../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { SCRIPT_PARAMS_MAP, Script, ScriptMode, ScriptParam } from '../../_models/script';
 import { ProjectService } from '../../_services/project.service';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatAutocomplete, MatOption, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { NumberOnlyDirective, NonNegativeIntegerOnlyDirective } from '../../_directives/number.directive';
+import { RangeNumberComponent } from '../../gui-helpers/range-number/range-number.component';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { FlexVariableComponent } from '../../gauges/gauge-property/flex-variable/flex-variable.component';
 
 @Component({
     selector: 'app-alarm-property',
     templateUrl: './alarm-property.component.html',
     styleUrls: ['./alarm-property.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, FlexAuthComponent, FlexHeadComponent, MatAutocomplete, MatOption, MatTabGroup, MatTab, MatSlideToggle, FormsModule, MatSelect, NumberOnlyDirective, RangeNumberComponent, NonNegativeIntegerOnlyDirective, MatAutocompleteTrigger, MatIconButton, FlexVariableComponent, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class AlarmPropertyComponent implements OnInit {
 	dialogRef = inject<MatDialogRef<AlarmPropertyComponent>>(MatDialogRef);

@@ -13,8 +13,7 @@ import { Observable, Subject } from 'rxjs';
 
 @Directive({
     selector: 'input[ngxTouchKeyboard], textarea[ngxTouchKeyboard]',
-    exportAs: 'ngxTouchKeyboard',
-    standalone: false
+    exportAs: 'ngxTouchKeyboard'
 })
 export class NgxTouchKeyboardDirective implements OnDestroy {
   private _overlay = inject(Overlay);

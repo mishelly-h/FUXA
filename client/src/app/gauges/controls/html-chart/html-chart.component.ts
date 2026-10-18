@@ -10,8 +10,7 @@ import { ChartOptions } from '../../../gui-helpers/ngx-uplot/ngx-uplot.component
 @Component({
     selector: 'html-chart',
     templateUrl: './html-chart.component.html',
-    styleUrls: ['./html-chart.component.css'],
-    standalone: false
+    styleUrls: ['./html-chart.component.css']
 })
 export class HtmlChartComponent extends GaugeBaseComponent {
     private resolver = inject(ComponentFactoryResolver);

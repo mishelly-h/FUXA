@@ -14,8 +14,7 @@ declare var Raphael: any;
 @Component({
     selector: 'ape-shapes',
     templateUrl: './ape-shapes.component.html',
-    styleUrls: ['./ape-shapes.component.css'],
-    standalone: false
+    styleUrls: ['./ape-shapes.component.css']
 })
 export class ApeShapesComponent extends GaugeBaseComponent {
 

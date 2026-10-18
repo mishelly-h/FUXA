@@ -1,21 +1,30 @@
 import { Component, OnDestroy, OnInit, inject, viewChild } from '@angular/core';
-import { Utils } from '../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { Script } from '../../_models/script';
 import { DocAlignType, DocProfile, ViewProperty, ViewType } from '../../_models/hmi';
-import { TranslateService } from '@ngx-translate/core';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GridType } from 'angular-gridster2';
 import { FlexEventComponent } from '../../gauges/gauge-property/flex-event/flex-event.component';
 import { ProjectService } from '../../_services/project.service';
 import { Subject, startWith, takeUntil } from 'rxjs';
-import { MatTab as MatTab } from '@angular/material/tabs';
+import { MatTab as MatTab, MatTabGroup } from '@angular/material/tabs';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../_directives/number.directive';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
 
 @Component({
     selector: 'app-view-property',
     templateUrl: './view-property.component.html',
     styleUrls: ['./view-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, MatSelect, MatOption, NumberOnlyDirective, ColorPickerDirective, MatIconButton, MatTooltip, FlexEventComponent, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class ViewPropertyComponent implements OnInit, OnDestroy {
     private fb = inject(UntypedFormBuilder);

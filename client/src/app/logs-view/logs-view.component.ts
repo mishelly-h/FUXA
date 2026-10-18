@@ -1,19 +1,23 @@
 import { Component, AfterViewInit, ElementRef, inject, viewChild } from '@angular/core';
 
-import { UntypedFormControl } from '@angular/forms';
-import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatTable as MatTable, MatTableDataSource as MatTableDataSource, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
+import { MatSort, MatSortHeader } from '@angular/material/sort';
 
 import { DiagnoseService } from '../_services/diagnose.service';
 import { AppService } from '../_services/app.service';
 import { LogsRequest } from '../_models/diagnose';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { DatePipe } from '@angular/common';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'app-logs-view',
     templateUrl: './logs-view.component.html',
     styleUrls: ['./logs-view.component.css'],
-    standalone: false
+    imports: [MatTable, MatSort, MatColumnDef, MatHeaderCellDef, MatHeaderCell, MatSortHeader, FormsModule, ReactiveFormsModule, MatCellDef, MatCell, MatHeaderRowDef, MatHeaderRow, MatRowDef, MatRow, MatPaginator, MatSelect, MatOption, DatePipe, TranslatePipe]
 })
 export class LogsViewComponent implements AfterViewInit {
     private diagnoseService = inject(DiagnoseService);

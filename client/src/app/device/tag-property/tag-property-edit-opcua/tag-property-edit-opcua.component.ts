@@ -1,16 +1,24 @@
 import { Component, OnInit, OnDestroy, Output, EventEmitter, inject, viewChild } from '@angular/core';
 import { HmiService } from '../../../_services/hmi.service';
-import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 import { Device, OpcUaTagType, Tag } from '../../../_models/device';
 import { Subject, takeUntil } from 'rxjs';
 import { TreetableComponent, Node, NodeType } from '../../../gui-helpers/treetable/treetable.component';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
+import { EnumToArrayPipe } from '../../../_helpers/utils';
 
 @Component({
     selector: 'app-tag-property-edit-opcua',
     templateUrl: './tag-property-edit-opcua.component.html',
     styleUrls: ['./tag-property-edit-opcua.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, FormsModule, ReactiveFormsModule, MatSelect, MatOption, TreetableComponent, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class TagPropertyEditOpcuaComponent implements OnInit, OnDestroy {
     private fb = inject(UntypedFormBuilder);

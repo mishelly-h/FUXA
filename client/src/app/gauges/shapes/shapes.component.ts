@@ -8,8 +8,7 @@ declare var SVG: any;
 @Component({
     selector: 'gauge-shapes',
     templateUrl: './shapes.component.html',
-    styleUrls: ['./shapes.component.css'],
-    standalone: false
+    styleUrls: ['./shapes.component.css']
 })
 export class ShapesComponent extends GaugeBaseComponent {
 

@@ -1,11 +1,11 @@
 import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
-import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { Report, ReportDateRangeType, ReportIntervalType, ReportItem, ReportItemAlarms, ReportItemChart, ReportItemTable, ReportItemText, ReportItemType, ReportSchedulingType } from '../../_models/report';
 import * as pdfMake from 'pdfmake/build/pdfmake';
 import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import { Utils } from '../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../_helpers/utils';
 import { ReportItemTextComponent } from './report-item-text/report-item-text.component';
 import { ReportItemTableComponent } from './report-item-table/report-item-table.component';
 import { ReportItemAlarmsComponent } from './report-item-alarms/report-item-alarms.component';
@@ -17,13 +17,24 @@ import { map, takeUntil } from 'rxjs/operators';
 import { ProjectService } from '../../_services/project.service';
 import { PluginService } from '../../_services/plugin.service';
 import { PluginGroupType } from '../../_models/plugin';
+import { DialogDraggableDirective } from '../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { MatDivider } from '@angular/material/list';
+import { NgClass, AsyncPipe } from '@angular/common';
+import { NumberOnlyDirective } from '../../_directives/number.directive';
+import { MatButton } from '@angular/material/button';
 pdfMake.vfs = pdfFonts;
 
 @Component({
     selector: 'app-report-editor',
     templateUrl: './report-editor.component.html',
     styleUrls: ['./report-editor.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatSelect, MatOption, MatTabGroup, MatTab, MatMenuTrigger, MatMenu, MatMenuItem, MatDivider, NgClass, NumberOnlyDirective, MatDialogActions, MatButton, AsyncPipe, TranslatePipe, EnumToArrayPipe]
 })
 export class ReportEditorComponent implements OnInit, AfterViewInit, OnDestroy {
     dialogRef = inject<MatDialogRef<ReportEditorComponent>>(MatDialogRef);

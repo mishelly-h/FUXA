@@ -106,8 +106,7 @@ import {
         </div>
     </div>
   `,
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: false
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NgxFabItemButtonComponent {
     readonly icon = input<string>(undefined);

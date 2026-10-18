@@ -1,10 +1,12 @@
 import { Component, OnInit, ElementRef, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef, inject, input, viewChild } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 import { UntypedFormControl} from '@angular/forms';
 import { LocaleConfig } from './daterangepicker.config';
 
 import * as _moment from 'moment';
 import { LocaleService } from './locale.service';
+import { NgClass } from '@angular/common';
+import { NgxDaterangepickerMd } from './daterangepicker.module';
 const moment = _moment;
 
 export enum SideEnum {
@@ -25,7 +27,7 @@ export enum SideEnum {
             useExisting: forwardRef(() => DaterangepickerComponent),
             multi: true
         }],
-    standalone: false
+    imports: [NgClass, FormsModule, NgxDaterangepickerMd]
 })
 export class DaterangepickerComponent implements OnInit {
     private el = inject(ElementRef);

@@ -4,8 +4,7 @@ import { Component, ElementRef, AfterViewInit, viewChild } from '@angular/core';
 @Component({
     selector: 'ngx-switch',
     templateUrl: './ngx-switch.component.html',
-    styleUrls: ['./ngx-switch.component.css'],
-    standalone: false
+    styleUrls: ['./ngx-switch.component.css']
 })
 export class NgxSwitchComponent implements AfterViewInit {
 

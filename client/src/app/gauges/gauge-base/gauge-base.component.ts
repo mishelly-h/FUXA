@@ -3,6 +3,9 @@ import { GaugeSettings, GaugeProperty, GaugeEvent, GaugeEventType, GaugeStatus, 
 
 import { Utils } from '../../_helpers/utils';
 import { PropertyType } from '../gauge-property/flex-input/flex-input.component';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 // declare var SVG: any;
 
@@ -10,7 +13,7 @@ import { PropertyType } from '../gauge-property/flex-input/flex-input.component'
     selector: 'gauge-base',
     templateUrl: './gauge-base.component.html',
     styleUrls: ['./gauge-base.component.css'],
-    standalone: false
+    imports: [FormsModule, MatButton, TranslatePipe]
 })
 export class GaugeBaseComponent {
 

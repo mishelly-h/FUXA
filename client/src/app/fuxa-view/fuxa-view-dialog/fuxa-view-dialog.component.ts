@@ -3,12 +3,13 @@ import { Hmi, View } from '../../_models/hmi';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { ProjectService } from '../../_services/project.service';
+import { FuxaViewComponent } from '../fuxa-view.component';
 
 @Component({
     selector: 'app-fuxa-view-dialog',
     templateUrl: './fuxa-view-dialog.component.html',
     styleUrls: ['./fuxa-view-dialog.component.scss'],
-    standalone: false
+    imports: [FuxaViewComponent]
 })
 export class FuxaViewDialogComponent implements OnInit {
     dialogRef = inject<MatDialogRef<FuxaViewDialogComponent>>(MatDialogRef);

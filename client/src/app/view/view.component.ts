@@ -13,7 +13,7 @@ import panzoom from 'panzoom';
     selector: 'app-view',
     templateUrl: './view.component.html',
     styleUrls: ['./view.component.scss'],
-    standalone: false
+    imports: [FuxaViewComponent]
 })
 export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
     private projectService = inject(ProjectService);

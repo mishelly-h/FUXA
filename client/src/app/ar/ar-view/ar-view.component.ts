@@ -7,13 +7,14 @@ import { ProjectService } from '../../_services/project.service';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { ArMarkerScannerMode, ArMarkerScannerService } from './ar-marker-scanner.service';
 import { ArViewService, ArVisibleMarker } from './ar-view.service';
+import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
 
 @Component({
     selector: 'app-ar',
     templateUrl: './ar-view.component.html',
     styleUrls: ['./ar-view.component.scss'],
     providers: [ArViewService, ArMarkerScannerService],
-    standalone: false
+    imports: [FuxaViewComponent]
 })
 export class ArViewComponent implements AfterViewInit, OnDestroy {
     arViewService = inject(ArViewService);

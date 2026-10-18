@@ -1,5 +1,6 @@
 import { Component, ViewEncapsulation, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { TranslatePipe } from '@ngx-translate/core';
 
 export interface SchedulerConfirmDialogData {
     title: string;
@@ -14,7 +15,7 @@ export interface SchedulerConfirmDialogData {
     templateUrl: './scheduler-confirm-dialog.component.html',
     styleUrls: ['./scheduler-confirm-dialog.component.scss'],
     encapsulation: ViewEncapsulation.None,
-    standalone: false
+    imports: [TranslatePipe]
 })
 export class SchedulerConfirmDialogComponent {
     data = inject<SchedulerConfirmDialogData>(MAT_DIALOG_DATA);

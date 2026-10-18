@@ -1,9 +1,17 @@
 import { Component, OnInit, Input, inject, output } from '@angular/core';
 import { RecipeService } from '../../../../_services/recipe.service';
 import { Recipe } from '../../../../_models/recipe';
-import { FlexAuthValues } from '../../../gauge-property/flex-auth/flex-auth.component';
+import { FlexAuthValues, FlexAuthComponent } from '../../../gauge-property/flex-auth/flex-auth.component';
 import { Utils } from '../../../../_helpers/utils';
 import { Define } from '../../../../_helpers/define';
+import { FormsModule } from '@angular/forms';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatCheckbox } from '@angular/material/checkbox';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { TranslatePipe } from '@ngx-translate/core';
 
 /**
  * Property panel for the HTML recipe widget used inside the SVG editor.
@@ -14,7 +22,7 @@ import { Define } from '../../../../_helpers/define';
     selector: 'app-recipe-property',
     templateUrl: './recipe-property.component.html',
     styleUrls: ['./recipe-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, MatSelect, MatOption, MatSlideToggle, FlexAuthComponent, MatCheckbox, ColorPickerDirective, NumberOnlyDirective, TranslatePipe]
 })
 export class RecipePropertyComponent implements OnInit {
     private recipeService = inject(RecipeService);

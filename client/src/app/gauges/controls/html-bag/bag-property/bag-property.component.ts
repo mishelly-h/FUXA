@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, ChangeDetectorRef, inject, viewChild } from '@angular/core';
 import { Utils } from '../../../../_helpers/utils';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 
 import { GaugeOptions, GaugeType, } from '../../../../gui-helpers/ngx-gauge/gaugeOptions';
 import { NgxGaugeComponent } from '../../../../gui-helpers/ngx-gauge/ngx-gauge.component';
@@ -8,12 +8,24 @@ import { GaugeProperty } from '../../../../_models/hmi';
 import { FlexHeadComponent } from '../../../gauge-property/flex-head/flex-head.component';
 import { Define } from '../../../../_helpers/define';
 import { PermissionData, PermissionDialogComponent } from '../../../gauge-property/permission-dialog/permission-dialog.component';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { FormsModule } from '@angular/forms';
+import { NgStyle } from '@angular/common';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
     selector: 'bag-property',
     templateUrl: './bag-property.component.html',
     styleUrls: ['./bag-property.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, FormsModule, FlexHeadComponent, NgStyle, NgxGaugeComponent, MatSlideToggle, NumberOnlyDirective, ColorPickerDirective, MatSelect, MatOption, MatIconButton, MatDialogActions, MatButton, MatDialogClose, TranslatePipe]
 })
 export class BagPropertyComponent implements AfterViewInit {
     private cdRef = inject(ChangeDetectorRef);

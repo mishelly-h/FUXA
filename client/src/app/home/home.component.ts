@@ -1,9 +1,9 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
 /* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, AfterViewInit, OnDestroy, ChangeDetectorRef, ElementRef, inject, viewChild } from '@angular/core';
-import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogClose } from '@angular/material/dialog';
 import { interval, Observable, Subject, Subscription } from 'rxjs';
-import { MatSidenav } from '@angular/material/sidenav';
+import { MatSidenav, MatSidenavContainer, MatSidenavContent } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 
 import { SidenavComponent } from '../sidenav/sidenav.component';
@@ -34,15 +34,22 @@ import { ScriptService } from '../_services/script.service';
 // declare var panzoom: any;
 
 import { ToastrService } from 'ngx-toastr';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { LanguageService, LanguageConfiguration } from '../_services/language.service';
 import { Language } from '../_models/language';
+import { MatProgressBar } from '@angular/material/progress-bar';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenuTrigger, MatMenu, MatMenuItem } from '@angular/material/menu';
+import { NgClass, AsyncPipe, DatePipe } from '@angular/common';
+import { MapsViewComponent } from '../maps/maps-view/maps-view.component';
+import { IframeComponent } from '../iframe/iframe.component';
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],
-    standalone: false
+    imports: [MatProgressBar, MatSidenavContainer, MatSidenav, SidenavComponent, MatSidenavContent, MatIconButton, MatIcon, MatButton, MatMenuTrigger, MatMenu, MatMenuItem, NgClass, CardsViewComponent, MapsViewComponent, FuxaViewComponent, IframeComponent, AlarmViewComponent, AsyncPipe, DatePipe]
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     private projectService = inject(ProjectService);
@@ -632,7 +639,7 @@ export interface IiFrame {
 @Component({
     selector: 'user-info',
     templateUrl: 'userinfo.dialog.html',
-    standalone: false
+    imports: [MatIcon, MatButton, MatDialogClose, TranslatePipe]
 })
 export class DialogUserInfo {
     dialogRef = inject<MatDialogRef<DialogUserInfo>>(MatDialogRef);

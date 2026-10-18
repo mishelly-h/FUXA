@@ -1,11 +1,12 @@
 import { Component, Input, OnInit, input, output } from '@angular/core';
 import { IPropertyVariable, View } from '../../../_models/hmi';
+import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
 
 @Component({
     selector: 'flex-variable-map',
     templateUrl: './flex-variable-map.component.html',
     styleUrls: ['./flex-variable-map.component.scss'],
-    standalone: false
+    imports: [FlexVariableComponent]
 })
 export class FlexVariableMapComponent implements OnInit {
     readonly view = input<View>(undefined);

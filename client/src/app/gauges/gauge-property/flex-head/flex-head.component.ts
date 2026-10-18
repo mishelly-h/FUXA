@@ -6,6 +6,7 @@ import { FlexInputComponent, PropertyType } from '../flex-input/flex-input.compo
 import { GaugeProperty, IPropertyVariable, WidgetProperty } from '../../../_models/hmi';
 import { Device, Tag } from '../../../_models/device';
 import { Utils } from '../../../_helpers/utils';
+import { FlexVariableComponent } from '../flex-variable/flex-variable.component';
 
 interface Variable {
     id: string;
@@ -17,7 +18,7 @@ interface Variable {
     templateUrl: './flex-head.component.html',
     styleUrls: ['./flex-head.component.css'],
     encapsulation: ViewEncapsulation.None,
-    standalone: false
+    imports: [FlexVariableComponent, FlexInputComponent]
 })
 export class FlexHeadComponent implements OnInit, OnDestroy {
 

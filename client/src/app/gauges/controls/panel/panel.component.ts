@@ -10,8 +10,7 @@ import { ProjectService } from '../../../_services/project.service';
 @Component({
     selector: 'app-panel',
     templateUrl: './panel.component.html',
-    styleUrls: ['./panel.component.css'],
-    standalone: false
+    styleUrls: ['./panel.component.css']
 })
 export class PanelComponent extends GaugeBaseComponent {
     private projectService = inject(ProjectService);

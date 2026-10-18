@@ -8,12 +8,15 @@ import { ChartType, ChartDataset } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { DaqQuery, DaqValue } from '../../../../_models/hmi';
 import DataLabelsPlugin from 'chartjs-plugin-datalabels';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { NgClass } from '@angular/common';
 
 @Component({
     selector: 'graph-bar',
     templateUrl: './graph-bar.component.html',
     styleUrls: ['./graph-bar.component.scss'],
-    standalone: false
+    imports: [BaseChartDirective, MatIconButton, MatIcon, NgClass]
 })
 export class GraphBarComponent extends GraphBaseComponent implements OnInit, AfterViewInit, OnDestroy {
     public readonly chart = viewChild(BaseChartDirective);

@@ -1,24 +1,31 @@
 import { Component, OnInit, Input, OnDestroy, inject, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
-import { UntypedFormControl } from '@angular/forms';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
 import { Subject, ReplaySubject } from 'rxjs';
 
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 
 import { Graph, GraphType, GraphRangeType, GraphBarXType, GraphDateGroupType } from '../../../../_models/graph';
 import { GraphConfigComponent, IDataGraphResult } from '../../../../editor/graph-config/graph-config.component';
 import { GraphBarComponent } from '../graph-bar/graph-bar.component';
 import { GraphOptions, GraphThemeType } from '../graph-base/graph-base.component';
 import { GaugeGraphProperty } from '../../../../_models/hmi';
-import { Utils } from '../../../../_helpers/utils';
+import { Utils, EnumToArrayPipe } from '../../../../_helpers/utils';
 import { GraphPieComponent } from '../graph-pie/graph-pie.component';
+import { MatSelect } from '@angular/material/select';
+import { MatSelectSearchComponent } from '../../../../gui-helpers/mat-select-search/mat-select-search.component';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { NumberOnlyDirective, NumberOrNullOnlyDirective } from '../../../../_directives/number.directive';
+import { ColorPickerDirective } from 'ngx-color-picker';
+import { AsyncPipe } from '@angular/common';
 
 @Component({
     selector: 'app-graph-property',
     templateUrl: './graph-property.component.html',
     styleUrls: ['./graph-property.component.scss'],
-    standalone: false
+    imports: [FormsModule, MatSelect, ReactiveFormsModule, MatSelectSearchComponent, MatOption, MatSlideToggle, NumberOnlyDirective, NumberOrNullOnlyDirective, ColorPickerDirective, AsyncPipe, TranslatePipe, EnumToArrayPipe]
 })
 export class GraphPropertyComponent implements OnInit, OnDestroy {
     dialog = inject(MatDialog);

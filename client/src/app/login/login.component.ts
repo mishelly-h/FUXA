@@ -1,18 +1,23 @@
 import { Component, ElementRef, inject, viewChild } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
-import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UntypedFormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
 
 import { AuthService } from '../_services/auth.service';
 import { ProjectService } from '../_services/project.service';
-import { TranslateService } from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { NgxTouchKeyboardDirective } from '../framework/ngx-touch-keyboard/ngx-touch-keyboard.directive';
 import { LoginOverlayColorType } from '../_models/hmi';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatError, MatSuffix } from '@angular/material/input';
+import { MatIcon } from '@angular/material/icon';
+import { MatProgressSpinner } from '@angular/material/progress-spinner';
+import { MatButton } from '@angular/material/button';
 
 @Component({
     selector: 'app-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],
-    standalone: false
+    imports: [FormsModule, MatDialogTitle, CdkScrollable, MatDialogContent, ReactiveFormsModule, MatError, MatIcon, MatSuffix, MatProgressSpinner, MatDialogActions, MatButton, MatDialogClose, NgxTouchKeyboardDirective, TranslatePipe]
 })
 export class LoginComponent {
     private authService = inject(AuthService);

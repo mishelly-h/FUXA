@@ -20,6 +20,13 @@ import { WebcamPlayerDialogComponent, WebcamPlayerDialogData } from '../gui-help
 import { DevicesUtils, PlaceholderDevice, Tag } from '../_models/device';
 import { LanguageService } from '../_services/language.service';
 import { EventUtils } from '../_helpers/event-utils';
+import { NgStyle } from '@angular/common';
+import { AngularDraggableModule } from 'angular2-draggable';
+import { IframeComponent } from '../iframe/iframe.component';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 declare var SVG: any;
 
@@ -27,7 +34,7 @@ declare var SVG: any;
     selector: 'app-fuxa-view',
     templateUrl: './fuxa-view.component.html',
     styleUrls: ['./fuxa-view.component.css'],
-    standalone: false
+    imports: [NgStyle, AngularDraggableModule, IframeComponent, MatInput, FormsModule, MatButton, MatIcon, NgxTouchKeyboardDirective]
 })
 export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
     private translateService = inject(TranslateService);

@@ -10,14 +10,27 @@ import { PermissionData, PermissionDialogComponent } from '../../../gauge-proper
 import { SettingsService } from '../../../../_services/settings.service';
 import { ProjectService } from '../../../../_services/project.service';
 import { Script } from '../../../../_models/script';
-import { MatSelectChange } from '@angular/material/select';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSelectChange, MatSelect } from '@angular/material/select';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } from '@angular/material/dialog';
+import { DialogDraggableDirective } from '../../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatTabGroup, MatTab } from '@angular/material/tabs';
+import { FormsModule } from '@angular/forms';
+import { FlexVariableComponent } from '../../../gauge-property/flex-variable/flex-variable.component';
+import { MatOption } from '@angular/material/autocomplete';
+import { NumberOnlyDirective } from '../../../../_directives/number.directive';
+import { MatSlideToggle } from '@angular/material/slide-toggle';
+import { MatIconButton, MatButton } from '@angular/material/button';
+import { MatTooltip } from '@angular/material/tooltip';
+import { TranslatePipe } from '@ngx-translate/core';
+import { EnumToArrayPipe } from '../../../../_helpers/utils';
 
 @Component({
     selector: 'app-input-property',
     templateUrl: './input-property.component.html',
     styleUrls: ['./input-property.component.scss'],
-    standalone: false
+    imports: [MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, MatTabGroup, MatTab, FormsModule, FlexVariableComponent, MatSelect, MatOption, NumberOnlyDirective, MatSlideToggle, MatIconButton, MatTooltip, FlexEventComponent, FlexActionComponent, MatDialogActions, MatButton, MatDialogClose, TranslatePipe, EnumToArrayPipe]
 })
 export class InputPropertyComponent implements AfterViewInit {
     dialog = inject(MatDialog);

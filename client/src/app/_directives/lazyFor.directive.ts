@@ -1,9 +1,6 @@
 import { Input, Directive, ViewContainerRef, OnInit, TemplateRef, DoCheck, IterableDiffers, IterableDiffer, inject } from '@angular/core';
 
-@Directive({
-    selector: '[lazyFor]',
-    standalone: false
-})
+@Directive({ selector: '[lazyFor]' })
 export class LazyForDirective implements DoCheck, OnInit {
     private vcr = inject(ViewContainerRef);
     private tpl = inject<TemplateRef<any>>(TemplateRef);

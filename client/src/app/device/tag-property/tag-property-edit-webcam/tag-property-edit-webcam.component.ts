@@ -1,21 +1,22 @@
 import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
-import {
-    AbstractControl,
-    UntypedFormBuilder,
-    UntypedFormGroup,
-    ValidationErrors,
-    ValidatorFn,
-    Validators
-} from '@angular/forms';
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Device, ServerTagType, Tag } from '../../../_models/device';
-import { TranslateService } from '@ngx-translate/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { DialogDraggableDirective } from '../../../_directives/dialog-draggable.directive';
+import { MatIcon } from '@angular/material/icon';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NumberOnlyDirective } from '../../../_directives/number.directive';
+import { MatSelect } from '@angular/material/select';
+import { MatOption } from '@angular/material/autocomplete';
+import { MatButton } from '@angular/material/button';
+import { EnumToArrayPipe } from '../../../_helpers/utils';
 
 @Component({
     selector: 'app-tag-property-edit-internal',
     templateUrl: './tag-property-edit-webcam.component.html',
     styleUrls: ['./tag-property-edit-webcam.component.scss'],
-    standalone: false
+    imports: [FormsModule, ReactiveFormsModule, MatDialogTitle, DialogDraggableDirective, MatIcon, CdkScrollable, MatDialogContent, NumberOnlyDirective, MatSelect, MatOption, MatDialogActions, MatButton, TranslatePipe, EnumToArrayPipe]
 })
 export class TagPropertyEditWebcamComponent implements OnInit {
     private fb = inject(UntypedFormBuilder);
