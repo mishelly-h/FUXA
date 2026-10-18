@@ -3,7 +3,7 @@ import { ChangeDetectorRef } from '@angular/core';
 
 import { GaugesManager } from '../gauges/gauges.component';
 import { Hmi, View, CardWidget, CardWidgetType, ViewType } from '../_models/hmi';
-import { GridsterConfig, GridsterItem, GridType, CompactType, GridsterItemComponentInterface } from 'angular-gridster2';
+import { GridsterConfig, GridsterItem, GridsterItemConfig, GridType, CompactType } from 'angular-gridster2';
 import { Utils } from '../_helpers/utils';
 import { FuxaViewComponent } from '../fuxa-view/fuxa-view.component';
 import { ProjectService } from '../_services/project.service';
@@ -26,7 +26,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
     @ViewChildren(FuxaViewComponent) fuxaViews!: QueryList<FuxaViewComponent>;
 
     gridOptions: GridsterConfig;
-    dashboard: Array<GridsterItem> = [];
+    dashboard: Array<GridsterItemConfig> = [];
     cardType = CardWidgetType;
     mapsViewType = ViewType.maps;
     private loadOk = false;
@@ -60,11 +60,14 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
                 this.renderer.setStyle(element?.parentElement, 'width', `100vw`);
             }
         }
-        this.gridOptions.gridType = this.view.profile.gridType ?? GridType.Fixed;
+        this.gridOptions = {
+            ...this.gridOptions,
+            gridType: this.view.profile.gridType ?? GridType.Fixed
+        };
         if (this.view.profile.margin >= 0) {
-            this.gridOptions.margin = this.view.profile.margin;
-            this.gridOptions.api.optionsChanged();
+            this.gridOptions = { ...this.gridOptions, margin: this.view.profile.margin };
         }
+        this.changeDetector.detectChanges();
         this.initCardsEditor(this.view.svgcontent);
     }
 
@@ -96,7 +99,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
     addCardsWidget(x: number = 0, y: number = 0, cols: number = 10, rows: number = 8, card: CardWidget = <CardWidget>{ type: CardWidgetType.view, zoom: 1 }) {
         let content: any = null;
         let background = '';
-        let item: GridsterItem = { x: x, y: y, cols: cols, rows: rows, card: card, content: content, background: background };
+        let item: GridsterItemConfig = { x: x, y: y, cols: cols, rows: rows, card: card, content: content, background: background };
         item.initCallback = async (item, itemComponent) => {
             if (card) {
                 if (card.type === this.cardType.view) {
@@ -139,7 +142,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
         return viewsName;
     }
 
-    onZoomChanged(item: GridsterItem, $event) {
+    onZoomChanged(item: GridsterItemConfig, $event) {
         const rawValue = $event?.value ?? $event;
         const zoom = typeof rawValue === 'string' ? Number.parseFloat(rawValue) : rawValue;
         if (typeof zoom !== 'number' || Number.isNaN(zoom)) {
@@ -163,7 +166,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
         }
     }
 
-    static itemResizeTrigger(item: GridsterItem, itemComponent: GridsterItemComponentInterface) {
+    static itemResizeTrigger(item: GridsterItemConfig, itemComponent: GridsterItem) {
         if (item.card?.type === CardWidgetType.view) {
             if (item.content?.type === 'maps') {
                 if ((itemComponent.el.firstChild as HTMLElement).style) {

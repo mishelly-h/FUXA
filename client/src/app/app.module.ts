@@ -137,7 +137,7 @@ import { HtmlSwitchPropertyComponent } from './gauges/controls/html-switch/html-
 import { NgxUplotComponent } from './gui-helpers/ngx-uplot/ngx-uplot.component';
 import { ChartUplotComponent } from './gauges/controls/html-chart/chart-uplot/chart-uplot.component';
 
-import { GridsterModule } from 'angular-gridster2';
+import { Gridster, GridsterItem } from 'angular-gridster2';
 
 import { httpInterceptorProviders } from './_helpers/auth-interceptor';
 import { GraphBarComponent } from './gauges/controls/html-graph/graph-bar/graph-bar.component';
@@ -458,7 +458,8 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
         }),
         TranslateDirective,
         TranslatePipe,
-        GridsterModule,
+        Gridster,
+        GridsterItem,
         BaseChartDirective,
         CodemirrorModule,
         NgxDaterangepickerMd.forRoot(),
