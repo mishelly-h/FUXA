@@ -17,6 +17,7 @@ interface Variable {
     templateUrl: './flex-head.component.html',
     styleUrls: ['./flex-head.component.css'],
     encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class FlexHeadComponent implements OnInit, OnDestroy {
 

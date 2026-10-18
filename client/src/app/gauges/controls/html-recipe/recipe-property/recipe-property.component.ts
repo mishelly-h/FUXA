@@ -13,7 +13,8 @@ import { Define } from '../../../../_helpers/define';
 @Component({
     selector: 'app-recipe-property',
     templateUrl: './recipe-property.component.html',
-    styleUrls: ['./recipe-property.component.scss']
+    styleUrls: ['./recipe-property.component.scss'],
+    standalone: false
 })
 export class RecipePropertyComponent implements OnInit {
     @Input() data: any;

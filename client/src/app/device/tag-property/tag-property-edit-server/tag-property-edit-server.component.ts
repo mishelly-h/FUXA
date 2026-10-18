@@ -7,7 +7,8 @@ import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from
 @Component({
     selector: 'app-tag-property-edit-server',
     templateUrl: './tag-property-edit-server.component.html',
-    styleUrls: ['./tag-property-edit-server.component.scss']
+    styleUrls: ['./tag-property-edit-server.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditServerComponent implements OnInit {
     @Output() result = new EventEmitter<any>();

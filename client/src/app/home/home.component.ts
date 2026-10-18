@@ -41,7 +41,8 @@ import { Language } from '../_models/language';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss']
+    styleUrls: ['./home.component.scss'],
+    standalone: false
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -622,6 +623,7 @@ export interface IiFrame {
 @Component({
     selector: 'user-info',
     templateUrl: 'userinfo.dialog.html',
+    standalone: false
 })
 export class DialogUserInfo {
     constructor(

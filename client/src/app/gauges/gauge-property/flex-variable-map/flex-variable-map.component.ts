@@ -4,7 +4,8 @@ import { IPropertyVariable, View } from '../../../_models/hmi';
 @Component({
     selector: 'flex-variable-map',
     templateUrl: './flex-variable-map.component.html',
-    styleUrls: ['./flex-variable-map.component.scss']
+    styleUrls: ['./flex-variable-map.component.scss'],
+    standalone: false
 })
 export class FlexVariableMapComponent implements OnInit {
     @Input() view: View;

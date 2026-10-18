@@ -12,7 +12,8 @@ import { MapsLocationPropertyComponent } from '../maps-location-property/maps-lo
 @Component({
     selector: 'app-maps-location-list',
     templateUrl: './maps-location-list.component.html',
-    styleUrls: ['./maps-location-list.component.scss']
+    styleUrls: ['./maps-location-list.component.scss'],
+    standalone: false
 })
 export class MapsLocationListComponent implements OnInit, AfterViewInit, OnDestroy {
 

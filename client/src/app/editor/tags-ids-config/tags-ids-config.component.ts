@@ -5,7 +5,8 @@ import { Device } from '../../_models/device';
 @Component({
     selector: 'app-tags-ids-config',
     templateUrl: './tags-ids-config.component.html',
-    styleUrls: ['./tags-ids-config.component.scss']
+    styleUrls: ['./tags-ids-config.component.scss'],
+    standalone: false
 })
 export class TagsIdsConfigComponent {
 

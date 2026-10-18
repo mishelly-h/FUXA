@@ -26,7 +26,8 @@ import { ProjectService } from '../../../_services/project.service';
 @Component({
     selector: 'flex-event',
     templateUrl: './flex-event.component.html',
-    styleUrls: ['./flex-event.component.css']
+    styleUrls: ['./flex-event.component.css'],
+    standalone: false
 })
 export class FlexEventComponent implements OnInit {
 

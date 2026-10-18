@@ -4,7 +4,10 @@
     "outDir": "../out-tsc/app",
     "baseUrl": "./",
     "module": "es2015",
-    "types": []
+    "types": [],
+    "paths": {
+      "chart.js/dist/types/utils": ["../node_modules/chart.js/types/utils.d.ts"]
+    }
   },
   "exclude": [
     "test.ts",

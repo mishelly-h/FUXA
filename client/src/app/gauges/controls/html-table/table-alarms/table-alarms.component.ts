@@ -9,7 +9,8 @@ import { DeviceType } from '../../../../_models/device';
 @Component({
     selector: 'app-table-alarms',
     templateUrl: './table-alarms.component.html',
-    styleUrls: ['./table-alarms.component.scss']
+    styleUrls: ['./table-alarms.component.scss'],
+    standalone: false
 })
 export class TableAlarmsComponent {
 

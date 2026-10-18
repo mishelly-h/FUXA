@@ -7,7 +7,8 @@ import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from
 @Component({
     selector: 'app-tag-property-edit-redis',
     templateUrl: './tag-property-edit-redis.component.html',
-    styleUrls: ['./tag-property-edit-redis.component.scss']
+    styleUrls: ['./tag-property-edit-redis.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditRedisComponent implements OnInit {
     @Output() result = new EventEmitter<any>();

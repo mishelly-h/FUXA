@@ -10,7 +10,8 @@ import { ChartOptions } from '../../../gui-helpers/ngx-uplot/ngx-uplot.component
 @Component({
     selector: 'html-chart',
     templateUrl: './html-chart.component.html',
-    styleUrls: ['./html-chart.component.css']
+    styleUrls: ['./html-chart.component.css'],
+    standalone: false
 })
 export class HtmlChartComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-html_chart';

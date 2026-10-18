@@ -9,7 +9,8 @@ import { NgxGaugeComponent } from '../../../gui-helpers/ngx-gauge/ngx-gauge.comp
 @Component({
     selector: 'app-html-bag',
     templateUrl: './html-bag.component.html',
-    styleUrls: ['./html-bag.component.css']
+    styleUrls: ['./html-bag.component.css'],
+    standalone: false
 })
 export class HtmlBagComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-html_bag';

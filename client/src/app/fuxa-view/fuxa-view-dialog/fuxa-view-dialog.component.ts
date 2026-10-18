@@ -7,7 +7,8 @@ import { ProjectService } from '../../_services/project.service';
 @Component({
     selector: 'app-fuxa-view-dialog',
     templateUrl: './fuxa-view-dialog.component.html',
-    styleUrls: ['./fuxa-view-dialog.component.scss']
+    styleUrls: ['./fuxa-view-dialog.component.scss'],
+    standalone: false
 })
 export class FuxaViewDialogComponent implements OnInit {
 

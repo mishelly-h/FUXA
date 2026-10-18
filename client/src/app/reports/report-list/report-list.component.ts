@@ -20,11 +20,12 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/con
     styleUrls: ['./report-list.component.css'],
     animations: [
         trigger('detailExpand', [
-          state('collapsed', style({height: '0px', minHeight: '0'})),
-          state('expanded', style({height: '*'})),
-          transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+            state('collapsed', style({ height: '0px', minHeight: '0' })),
+            state('expanded', style({ height: '*' })),
+            transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
         ]),
-      ],
+    ],
+    standalone: false
 })
 export class ReportListComponent implements OnInit, AfterViewInit, OnDestroy {
 

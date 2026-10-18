@@ -6,7 +6,8 @@ import { IDateRange } from '../../_models/hmi';
 @Component({
     selector: 'app-daterange-dialog',
     templateUrl: './daterange-dialog.component.html',
-    styleUrls: ['./daterange-dialog.component.css']
+    styleUrls: ['./daterange-dialog.component.css'],
+    standalone: false
 })
 export class DaterangeDialogComponent {
 

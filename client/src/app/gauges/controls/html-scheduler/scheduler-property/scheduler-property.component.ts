@@ -11,7 +11,8 @@ import { Utils } from '../../../../_helpers/utils';
 @Component({
     selector: 'app-scheduler-property',
     templateUrl: './scheduler-property.component.html',
-    styleUrls: ['./scheduler-property.component.scss']
+    styleUrls: ['./scheduler-property.component.scss'],
+    standalone: false
 })
 export class SchedulerPropertyComponent implements OnInit {
     @Input() data: any;
