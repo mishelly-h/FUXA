@@ -231,6 +231,22 @@ describe('Security - plugin install authorization and validation', () => {
             expect(managerCalls.install).to.have.length(0);
         });
 
+        it('rejects prototype property names as plugins', async () => {
+            const attempts = [
+                pluginManager.addPlugin('constructor'),
+                pluginManager.addPlugin({ name: 'toString', version: '1.0.0' }),
+                pluginManager.addPlugin({ name: '__proto__', version: '1.0.0' })
+            ];
+            for (const attempt of attempts) {
+                const err = await getError(attempt);
+                expect(err.code).to.equal('plugin_not_allowed');
+            }
+
+            const removeError = await getError(pluginManager.removePlugin('constructor'));
+            expect(removeError.code).to.equal('plugin_not_allowed');
+            expect(managerCalls.install).to.have.length(0);
+        });
+
         it('rejects non-semver package specifications without installing', async () => {
             for (const version of [
                 'git+https://evil/x.git',

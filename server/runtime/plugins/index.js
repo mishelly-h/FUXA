@@ -265,13 +265,14 @@ function _normalizePlugin(plugin) {
         return null;
     }
     if (typeof plugin === 'string') {
-        return plugins[plugin] || null;
+        return Object.prototype.hasOwnProperty.call(plugins, plugin) ? plugins[plugin] : null;
     }
     if (plugin.name) {
-        const knownPlugin = createDefaultPlugins()[plugin.name];
-        if (!knownPlugin) {
+        const registry = createDefaultPlugins();
+        if (!Object.prototype.hasOwnProperty.call(registry, plugin.name)) {
             return null;
         }
+        const knownPlugin = registry[plugin.name];
         const version = plugin.version === undefined ? knownPlugin.version : plugin.version;
         if (version !== 'latest' && (typeof version !== 'string' || !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(version))) {
             const err = new Error(`Invalid version for plugin '${plugin.name}'`);
