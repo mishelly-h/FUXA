@@ -174,7 +174,7 @@ export class GraphBarComponent extends GraphBaseComponent implements OnInit, Aft
             let dataset = this.sourceMap[sigid];
             if (this.property.xtype === this.xTypeValue) {
                 dataset.data[0] = parseFloat(sigvalue).toFixed(this.barChartOptions.decimals);
-                this.chart.update(400);
+                this.chart.update();
             }
         }
     }
