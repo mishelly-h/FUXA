@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter, inject, input } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -43,9 +43,9 @@ export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
     alarmsLoading = false;
     dateRange: FormGroup;
 
-    @Input() autostart = false;
+    readonly autostart = input(false);
     @Input() showInContainer = false;
-    @Input() fullview = true;
+    readonly fullview = input(true);
     @Output() showMode: EventEmitter<string> = new EventEmitter();
 
     dataSource = new MatTableDataSource([]);
@@ -78,7 +78,7 @@ export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
         this.table.renderRows();
-        if (this.autostart) {
+        if (this.autostart()) {
             this.startAskAlarmsValues();
         }
     }

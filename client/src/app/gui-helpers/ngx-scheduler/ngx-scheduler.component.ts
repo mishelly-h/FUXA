@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
@@ -9,8 +9,8 @@ import { FormControl, FormGroup } from '@angular/forms';
 })
 export class NgxSchedulerComponent implements OnInit {
 
-    @Input() removable = true;
-    @Input() formGroup: FormGroup;
+    readonly removable = input(true);
+    readonly formGroup = input<FormGroup>(undefined);
     @Output() onRemove = new  EventEmitter<number>();
 
     selectedTabIndex: number = 0;
@@ -20,11 +20,11 @@ export class NgxSchedulerComponent implements OnInit {
       ) { }
 
     ngOnInit() {
-        this.selectedTabIndex = this.formGroup.value.type;
+        this.selectedTabIndex = this.formGroup().value.type;
     }
 
     onTabSelectionChange(event: number) {
-        this.formGroup.controls.type.setValue(event);
+        this.formGroup().controls.type.setValue(event);
     }
 
     onRemoveScheduling() {

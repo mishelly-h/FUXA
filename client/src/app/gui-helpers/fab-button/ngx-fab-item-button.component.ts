@@ -1,10 +1,11 @@
 import {
-    Component,
-    Input,
-    Output,
-    EventEmitter,
-    ViewChild,
-    ChangeDetectionStrategy
+  Component,
+  Input,
+  Output,
+  EventEmitter,
+  ViewChild,
+  ChangeDetectionStrategy,
+  input
 } from '@angular/core';
 
 @Component({
@@ -84,15 +85,15 @@ import {
   }
   `],
     template: `
-    <div #elementref class="item {{ disabled ? 'disabled' : ''}}"
+    <div #elementref class="item {{ disabled() ? 'disabled' : ''}}"
     (click)="emitClickEvent($event)">
-        <a class="fab-item" [style.backgroundColor]="color">
+        <a class="fab-item" [style.backgroundColor]="color()">
           <img *ngIf="svgicon" src="{{svgicon}}"/>
-          <i class="material-icons" *ngIf="!svgicon"> {{ icon }} </i>
+          <i class="material-icons" *ngIf="!svgicon"> {{ icon() }} </i>
         </a>
         <div class="content-wrapper" #contentref>
-          <div class="content" [style.display]="content ? 'block' : 'none'" [style.padding-right]="iconex ? '28px' : '20px'">{{content}}
-            <a class="fab-item-ex" [style.backgroundColor]="color" *ngIf="iconex" (click)="stopPropagation($event);emitClickExEvent($event)">
+          <div class="content" [style.display]="content() ? 'block' : 'none'" [style.padding-right]="iconex ? '28px' : '20px'">{{content()}}
+            <a class="fab-item-ex" [style.backgroundColor]="color()" *ngIf="iconex" (click)="stopPropagation($event);emitClickExEvent($event)">
                 <i class="material-icons" style="font-size: 18px"> {{ iconex }} </i>
             </a>
           </div>
@@ -103,27 +104,29 @@ import {
     standalone: false
 })
 export class NgxFabItemButtonComponent {
-    @Input() icon: string;
+    readonly icon = input<string>(undefined);
     @Input() svgicon: string;
     @Input() iconex: string;
-    @Input() svgiconex: string;
-    @Input() content: string;
-    @Input() color = 'white';
+    readonly svgiconex = input<string>(undefined);
+    readonly content = input<string>(undefined);
+    readonly color = input('white');
     @Output() clicked: EventEmitter<any> = new EventEmitter();
     @Output() exclicked: EventEmitter<any> = new EventEmitter();
-    @Input() disabled = false;
+    readonly disabled = input(false);
     @ViewChild('elementref', {static: true}) elementref;
     @ViewChild('contentref', {static: true}) contentref;
 
     emitClickEvent($event: Event) {
-        if (this.disabled) {
-            return this.disabled;
+        const disabled = this.disabled();
+        if (disabled) {
+            return disabled;
         }
         this.clicked.emit($event);
     }
     emitClickExEvent($event: Event) {
-        if (this.disabled) {
-            return this.disabled;
+        const disabled = this.disabled();
+        if (disabled) {
+            return disabled;
         }
         this.exclicked.emit($event);
     }

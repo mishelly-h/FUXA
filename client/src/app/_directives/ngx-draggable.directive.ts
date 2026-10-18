@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2, OnDestroy, OnInit, AfterViewInit, Input, inject } from '@angular/core';
+import { Directive, ElementRef, Renderer2, OnDestroy, OnInit, AfterViewInit, Input, inject, input } from '@angular/core';
 
 
 @Directive({
@@ -25,7 +25,7 @@ export class DraggableDirective implements OnDestroy, OnInit, AfterViewInit {
         if (val === undefined || val === null || val === '') {return;}
         this.canDrag = val;
     }
-    @Input() draggableHeight: number;
+    readonly draggableHeight = input<number>(undefined);
 
     private mustBePosition: Array<string> = ['absolute', 'fixed', 'relative'];
 
@@ -49,7 +49,8 @@ export class DraggableDirective implements OnDestroy, OnInit, AfterViewInit {
     onDragStart(event: any) {
         event.dataTransfer.setData('text/plain', event.target.id);
         this.active = false;
-        if (this.draggableHeight && this.draggableHeight < event.offsetY) {
+        const draggableHeight = this.draggableHeight();
+        if (draggableHeight && draggableHeight < event.offsetY) {
             return;
         }
         this.active = true;

@@ -1,4 +1,4 @@
-<div *ngIf="views && views.length <= 0">
+<div *ngIf="views() && views().length <= 0">
     <br>
 </div>
 <div *ngFor="let item of getViewsSorted()"

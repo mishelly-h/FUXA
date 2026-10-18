@@ -1,4 +1,4 @@
-<form [formGroup]="formGroup" class="container">
+<form [formGroup]="formGroup()" class="container">
     <mat-tab-group class="inbk" [(selectedIndex)]="selectedTabIndex" (selectedIndexChange)="onTabSelectionChange($event)">
         <mat-tab label="{{'script.scheduling-weekly' | translate}}">
             <mat-button-toggle-group formControlName="days" multiple class="mt15">
@@ -21,7 +21,7 @@
                     <input numberOnly type="number" formControlName="minute"  min="0" max="59" step="1">
                 </div>
             </div>
-            <ng-container *ngIf="removable">
+            <ng-container *ngIf="removable()">
                 <button mat-icon-button (click)="onRemoveScheduling()" class="ml10" type="button">
                     <mat-icon>clear</mat-icon>
                 </button>
@@ -37,7 +37,7 @@
                     <span>{{'script.scheduling-time' | translate}}</span>
                     <input type="time" matInput formControlName="time" class="time">
                 </div>
-                <ng-container *ngIf="removable">
+                <ng-container *ngIf="removable()">
                     <button mat-icon-button (click)="onRemoveScheduling()" class="ftr" type="button">
                         <mat-icon>clear</mat-icon>
                     </button>

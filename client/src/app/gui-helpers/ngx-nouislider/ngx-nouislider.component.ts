@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, Input } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, Input, input } from '@angular/core';
 
 declare const noUiSlider: any;
 
@@ -21,7 +21,7 @@ export class NgxNouisliderOptions {
 })
 export class NgxNouisliderComponent implements OnInit, AfterViewInit, OnDestroy {
 
-    @Input() public id: string;
+    public readonly id = input<string>(undefined);
     @ViewChild('panel', {static: false}) public panel: ElementRef;
     @ViewChild('slider', {static: false}) public slider: ElementRef;
     @Input() public options: NgxNouisliderOptions;

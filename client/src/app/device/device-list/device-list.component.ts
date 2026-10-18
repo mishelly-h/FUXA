@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, AfterViewInit, ViewChild, Input, Output, EventEmitter, ChangeDetectionStrategy, inject } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Output, EventEmitter, ChangeDetectionStrategy, inject, input } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -54,7 +54,7 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     isDeviceToEdit = true;
     isWithOptions = true;
 
-    @Input() readonly = false;
+    readonly readonly = input(false);
     @Output() save = new EventEmitter();
     @Output() goto = new EventEmitter();
 

@@ -1,6 +1,6 @@
 <div class="container">
-    <div class="my-form-field value" *ngIf="withStaticValue || withStaticType">
-        <span>{{variableLabel | translate}}</span>
+    <div class="my-form-field value" *ngIf="withStaticValue() || withStaticType">
+        <span>{{variableLabel() | translate}}</span>
         <ng-container [ngSwitch]="withStaticType">
             <ng-container *ngSwitchCase="'color'">
                 <input [(colorPicker)]="variableValue" [cpAlphaChannel]="'always'" class="input-color" [style.background]="variableValue"
@@ -13,8 +13,8 @@
             </ng-container>
         </ng-container>
     </div>
-    <div class="my-form-field link" *ngIf="!readonly">
-        <span class="span-link">{{tagLabel | translate}}</span>
+    <div class="my-form-field link" *ngIf="!readonly()">
+        <span class="span-link">{{tagLabel() | translate}}</span>
         <div class="tag-link"></div>
         <button mat-icon-button (click)="onBindTag()">
             <mat-icon>link</mat-icon>
@@ -24,12 +24,12 @@
         <span>{{getDeviceName()}}</span>
         <input matInput
             class="variable-input"
-            title="{{ tagTitle | translate }}"
-            placeholder="{{ tagTitle | translate }}"
+            title="{{ tagTitle() | translate }}"
+            placeholder="{{ tagTitle() | translate }}"
             type="text"
             [formControl]="tagFilter"
             [matAutocomplete]="autoDevices"
-            [readonly]="readonly"
+            [readonly]="readonly()"
             (input)="onChanged()">
         <mat-autocomplete #autoDevices="matAutocomplete" [displayWith]="displayFn"  (optionSelected)="onDeviceTagSelected($event.option.value)">
             <mat-optgroup *ngFor="let device of devicesTags$ | async" class="group-label" [label]="device.name">
@@ -39,7 +39,7 @@
             </mat-optgroup>
         </mat-autocomplete>
     </div>
-    <div class="my-form-field bitmask" *ngIf="withBitmask">
+    <div class="my-form-field bitmask" *ngIf="withBitmask()">
         <span>{{'gauges.property-mask' | translate}}</span>
         <div class="my-form-field-bitmask">
             <input value="{{getVariableMask()}}" readonly="true" [disabled]="true">

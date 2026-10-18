@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation, input } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { ReplaySubject, Subject } from 'rxjs';
 
@@ -21,10 +21,10 @@ interface Variable {
 })
 export class FlexHeadComponent implements OnInit, OnDestroy {
 
-    @Input() data: any;
+    readonly data = input<any>(undefined);
     @Input() property: GaugeProperty | WidgetProperty;
-    @Input() withStaticValue = true;
-    @Input() withBitmask = false;
+    readonly withStaticValue = input(true);
+    readonly withBitmask = input(false);
     @ViewChild('flexinput', {static: false}) flexInput: FlexInputComponent;
     @Input() withProperty: PropertyType | null = null;
 

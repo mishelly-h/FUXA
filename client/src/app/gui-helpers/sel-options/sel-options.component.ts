@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Input } from '@angular/core';
+import { Component, Input, input } from '@angular/core';
 
 @Component({
     selector: 'sel-options',
@@ -9,9 +9,9 @@ import { Component, Input } from '@angular/core';
 })
 export class SelOptionsComponent {
 
-    @Input() disabled: any;
+    readonly disabled = input<any>(undefined);
     @Input() selected = [];
-    @Input() options = [];
+    readonly options = input([]);
     @Input() extSelected;
 
     constructor() { }

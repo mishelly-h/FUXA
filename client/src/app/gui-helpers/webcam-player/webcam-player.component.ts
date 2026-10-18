@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild, inject, input } from '@angular/core';
 import Player from 'xgplayer';
 import LivePreset from 'xgplayer/es/presets/live';
 import FlvJsPlugin from 'xgplayer-flv.js';
@@ -17,14 +17,15 @@ export class WebcamPlayerComponent implements OnInit {
 
 
     @ViewChild('xgplayer', {static: true}) xgplayerRef: ElementRef;
-    @Input() data: WebcamPlayerDialogData;
+    readonly data = input<WebcamPlayerDialogData>(undefined);
     @Output() onclose = new EventEmitter();
     player: Player;
 
     ngOnInit(): void {
-        let url = this.data.ga.property.variableValue;
-        if (this.data.ga.property.variableId){
-            let variable = this.hmiService.getMappedVariable(this.data.ga.property.variableId, false);
+        let url = this.data().ga.property.variableValue;
+        const data = this.data();
+        if (data.ga.property.variableId){
+            let variable = this.hmiService.getMappedVariable(data.ga.property.variableId, false);
             if (!Utils.isNullOrUndefined(variable?.value)) {
                 url = '' + variable.value;
             }

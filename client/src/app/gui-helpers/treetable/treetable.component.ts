@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, ViewChild, ElementRef, EventEmitter, input } from '@angular/core';
 
 @Component({
     selector: 'ngx-treetable',
@@ -9,7 +9,7 @@ import { Component, OnInit, Input, Output, ViewChild, ElementRef, EventEmitter }
 })
 export class TreetableComponent implements OnInit {
 
-    @Input() config: any;
+    readonly config = input<any>(undefined);
     @Output() expand = new EventEmitter();
     @ViewChild('treetable', {static: true}) treetable: ElementRef;
 
@@ -26,14 +26,15 @@ export class TreetableComponent implements OnInit {
     constructor() { }
 
     ngOnInit() {
-        if (this.config) {
-            if (this.config.width) {
-                this.containerProperty.width = this.config.width;
+        const config = this.config();
+        if (config) {
+            if (config.width) {
+                this.containerProperty.width = config.width;
             }
-            if (this.config.height) {
-                this.containerProperty.height = this.config.height;
+            if (config.height) {
+                this.containerProperty.height = config.height;
             }
-            if (this.config.type === TreeType.ToDefine) {
+            if (config.type === TreeType.ToDefine) {
                 this.treeType = TreeType.ToDefine;
             }
         }

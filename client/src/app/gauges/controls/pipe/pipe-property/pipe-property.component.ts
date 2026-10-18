@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, inject, input } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { GaugeAction, GaugeProperty, View } from '../../../../_models/hmi';
@@ -28,7 +28,7 @@ export class PipePropertyComponent implements OnInit  {
     private projectService = inject(ProjectService);
     private actionPropertyService = inject(ActionPropertyService);
 
-    @Input() data: PipePropertyData;
+    readonly data = input<PipePropertyData>(undefined);
     @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
     @Input('reload') set reload(b: any) {
         this._reload();
@@ -51,9 +51,10 @@ export class PipePropertyComponent implements OnInit  {
     }
 
     initFromInput() {
-        let emitChange = Utils.isNullOrUndefined(this.data.settings.property) || Utils.isNullOrUndefined(this.data.settings.property.options);
-        this.name = this.data.settings.name;
-        this.property = this.data.settings.property || new GaugeProperty();
+        const data = this.data();
+        let emitChange = Utils.isNullOrUndefined(data.settings.property) || Utils.isNullOrUndefined(data.settings.property.options);
+        this.name = this.data().settings.name;
+        this.property = this.data().settings.property || new GaugeProperty();
         if (!this.property) {
             this.property = new GaugeProperty();
         }
@@ -75,17 +76,18 @@ export class PipePropertyComponent implements OnInit  {
     }
 
     onPipeChanged() {
-        this.data.settings.name = this.name;
-        this.data.settings.property = this.property;
-        this.data.settings.property.options = this.options;
-        this.onPropChanged.emit(this.data.settings);
+        const data = this.data();
+        data.settings.name = this.name;
+        data.settings.property = this.property;
+        data.settings.property.options = this.options;
+        this.onPropChanged.emit(data.settings);
     }
 
     onEditActions() {
         let dialogRef = this.dialog.open(ActionPropertiesDialogComponent, {
             disableClose: true,
             data: <ActionPropertiesData>{
-                withActions: this.data.withActions,
+                withActions: this.data().withActions,
                 property: JSON.parse(JSON.stringify(this.property))
             },
             position: { top: '60px' }
@@ -166,7 +168,7 @@ export class PipePropertyComponent implements OnInit  {
     }
 
     private _reload() {
-        this.property = this.data?.settings?.property;
+        this.property = this.data()?.settings?.property;
         this.initFromInput();
     }
 }

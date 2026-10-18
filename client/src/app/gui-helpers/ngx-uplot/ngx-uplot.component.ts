@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Input, input } from '@angular/core';
 import { Utils } from '../../_helpers/utils';
 
 import { Series, Options, Legend } from './uPlot';
@@ -41,7 +41,7 @@ const WHEEL_MIN_RANGE_DIVISOR = 1e4;   // prevent over-zoom: min range = current
 })
 export class NgxUplotComponent implements OnInit, OnDestroy {
 
-    @Input() public id: string;
+    public readonly id = input<string>(undefined);
     @Input() public options: NgxOptions;
     @ViewChild('graph', {static: true}) public graph: ElementRef;
     @Input() onChartClick: (x: number, y: number ) => void;

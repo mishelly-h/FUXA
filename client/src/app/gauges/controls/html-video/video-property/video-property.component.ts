@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject, input } from '@angular/core';
 import { GaugeAction, GaugeVideoProperty } from '../../../../_models/hmi';
 import { FlexAuthValues } from '../../../gauge-property/flex-auth/flex-auth.component';
 import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
@@ -21,7 +21,7 @@ export class VideoPropertyComponent implements OnInit {
     private actionPropertyService = inject(ActionPropertyService);
 
 
-    @Input() data: any;
+    readonly data = input<any>(undefined);
     @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
     @Input('reload') set reload(b: any) {
         this._reload();
@@ -36,8 +36,8 @@ export class VideoPropertyComponent implements OnInit {
     }
 
     initFromInput() {
-        this.name = this.data.settings.name;
-        this.property = <GaugeVideoProperty>this.data.settings.property || new GaugeVideoProperty();
+        this.name = this.data().settings.name;
+        this.property = <GaugeVideoProperty>this.data().settings.property || new GaugeVideoProperty();
         this.devices = this.projectService.getDeviceList();
     }
 
@@ -49,14 +49,16 @@ export class VideoPropertyComponent implements OnInit {
     }
 
     onVideoChanged() {
-        this.data.settings.name = this.name;
-        this.data.settings.property = this.property;
-        this.onPropChanged.emit(this.data.settings);
+        const data = this.data();
+        data.settings.name = this.name;
+        data.settings.property = this.property;
+        this.onPropChanged.emit(data.settings);
     }
 
     onTagChanged(daveiceTag: FlexDeviceTagValueType) {
-        this.data.settings.property.variableId = daveiceTag.variableId;
-        this.onPropChanged.emit(this.data.settings);
+        const data = this.data();
+        data.settings.property.variableId = daveiceTag.variableId;
+        this.onPropChanged.emit(data.settings);
     }
 
     getActionTag(action: GaugeAction) {
@@ -71,7 +73,7 @@ export class VideoPropertyComponent implements OnInit {
         let dialogRef = this.dialog.open(ActionPropertiesDialogComponent, {
             disableClose: true,
             data: <ActionPropertiesData>{
-                withActions: this.data.withActions,
+                withActions: this.data().withActions,
                 property: JSON.parse(JSON.stringify(this.property))
             },
             position: { top: '60px' }
@@ -125,7 +127,7 @@ export class VideoPropertyComponent implements OnInit {
     }
 
     private _reload() {
-        this.property = this.data?.settings?.property;
+        this.property = this.data()?.settings?.property;
         this.initFromInput();
     }
 }

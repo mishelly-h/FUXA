@@ -6,7 +6,7 @@
         {{'alarms.history-title' | translate}}
     </div>
 </div>
-<div class="work-panel" [ngStyle]="{'height': (!showInContainer && (fullview || currentShowMode === 'expand')) ? 'calc(100% - 83px)' : 'calc(100% - 37px)'}">
+<div class="work-panel" [ngStyle]="{'height': (!showInContainer && (fullview() || currentShowMode === 'expand')) ? 'calc(100% - 83px)' : 'calc(100% - 37px)'}">
     <div class="table-container">
         <mat-table #table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="ontime">
@@ -55,7 +55,7 @@
             </ng-container>
             <ng-container matColumnDef="history">
                 <mat-header-cell *matHeaderCellDef [style.flex]="(showInContainer) ? '0 0 10px' : '0 0 120px'">
-                    <div class="header-tools" *ngIf="!fullview || showInContainer">
+                    <div class="header-tools" *ngIf="!fullview() || showInContainer">
                         <button mat-icon-button [matMenuTriggerFor]="optionsgMenu" class="header-tools-options">
                             <mat-icon>more_vert</mat-icon>
                         </button>

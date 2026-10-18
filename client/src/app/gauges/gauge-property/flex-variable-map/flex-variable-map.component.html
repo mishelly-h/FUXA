@@ -4,8 +4,8 @@
     <div style="display: inline-block;">
         <flex-variable style="display: block"
                        [(value)]="value.from"
-                       [data]="data"
-                       [placeholders]="placeholders"
+                       [data]="data()"
+                       [placeholders]="placeholders()"
                        (valueChange)="onValueChange()"
                        [allowManualEdit]="true"
                        [withStaticValue]="false"
@@ -13,7 +13,7 @@
         </flex-variable>
         <flex-variable style="display: block"
                        [(value)]="value.to"
-                       [data]="data"
+                       [data]="data()"
                        (valueChange)="onValueChange()"
                        [allowManualEdit]="false"
                        [withStaticValue]="true"

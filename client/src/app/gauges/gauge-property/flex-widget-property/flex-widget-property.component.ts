@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 import { WidgetProperty } from '../../../_models/hmi';
 import { ProjectService } from '../../../_services/project.service';
 import { SvgUtils } from '../../../_helpers/svg-utils';
@@ -13,7 +13,7 @@ export class FlexWidgetPropertyComponent implements OnInit {
     private projectService = inject(ProjectService);
 
 
-    @Input() property: WidgetProperty;
+    readonly property = input<WidgetProperty>(undefined);
     dataDevices = { devices: []};
 
     constructor() {
@@ -24,10 +24,11 @@ export class FlexWidgetPropertyComponent implements OnInit {
 
     ngOnInit() {
         // Populate defaults from SVG script if available
-        if (this.property?.varsToBind?.length && this.property?.scriptContent?.content) {
-            this.property.varsToBind = SvgUtils.populateDefaults(
-                this.property.scriptContent.content,
-                this.property.varsToBind
+        const property = this.property();
+        if (property?.varsToBind?.length && property?.scriptContent?.content) {
+            property.varsToBind = SvgUtils.populateDefaults(
+                property.scriptContent.content,
+                property.varsToBind
             );
         }
     }

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject, input } from '@angular/core';
 import { MyFileService, TransferResult } from '../../_services/my-file.service';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
 
@@ -14,14 +14,14 @@ export class FileUploadComponent {
 
 
   @Input() fileName: string;
-  @Input() destination: string;
+  readonly destination = input<string>(undefined);
   @Output() onFileChange: EventEmitter<File> = new EventEmitter<File>();
 
   selectedFile: File;
 
   onChange(event: any) {
     this.selectedFile = event.target.files[0];
-    this.fileService.upload(this.selectedFile, this.destination).subscribe((result: TransferResult) => {
+    this.fileService.upload(this.selectedFile, this.destination()).subscribe((result: TransferResult) => {
       if (!result.result) {
         this.toastNotifier.notifyError('msg.file-upload-failed', result.error);
       } else {

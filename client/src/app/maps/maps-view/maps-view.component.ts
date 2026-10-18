@@ -1,4 +1,4 @@
-import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild, inject, input } from '@angular/core';
 import * as L from 'leaflet';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
@@ -45,8 +45,8 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
 
     @Input() view: View;
     @Input() hmi: Hmi;
-    @Input() gaugesManager: GaugesManager;        // gauges.component
-    @Input() editMode: boolean;
+    readonly gaugesManager = input<GaugesManager>(undefined);        // gauges.component
+    readonly editMode = input<boolean>(undefined);
     @Output() onGoTo: EventEmitter<string> = new EventEmitter<string>();
 
     @ViewChild(MatMenuTrigger) menuTrigger!: MatMenuTrigger;
@@ -90,11 +90,11 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
             this.initMapEvents();
             this.map.invalidateSize();
 
-            if (!this.editMode) {
+            if (!this.editMode()) {
                 this.initWatch();
             }
             try {
-                this.gaugesManager.emitBindedSignals(this.view.id);
+                this.gaugesManager().emitBindedSignals(this.view.id);
             } catch (err) {
                 console.error(err);
             }
@@ -195,13 +195,13 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
             }
             e.popup = null;
         });
-        if (!this.editMode) {
+        if (!this.editMode()) {
             this.subscribeMarkerTags();
         }
     }
 
     initWatch() {
-        this.gaugesManager.onchange.pipe(
+        this.gaugesManager().onchange.pipe(
             takeUntil(this.destroy$),
             filter(varTag => this.markerItemsMap.has(varTag.id))
         ).subscribe(varTag => {
@@ -341,7 +341,7 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
             const factory = this.resolver.resolveComponentFactory(FuxaViewComponent);
             const componentRef = factory.create(this.injector);
 
-            componentRef.instance.gaugesManager = this.gaugesManager;
+            componentRef.instance.gaugesManager = this.gaugesManager();
             componentRef.instance.hmi = this.hmi;
             componentRef.instance.view = this.hmi.views.find(view => view.id === location.viewId);
             componentRef.instance.child = true;

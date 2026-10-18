@@ -1,5 +1,5 @@
 <div class="page-container">
-    <div *ngIf="mode === devicesViewMap">
+    <div *ngIf="mode() === devicesViewMap">
         <div class="map-container">
             <div *ngIf="server && server.property">
                 <div class="main-line-flow" [style.left.px]="getMainLineLeftPosition()" [style.top.px]="getMainLineTopPosition('flow')" [style.width.px]="lineFlowSize"
@@ -75,7 +75,7 @@
             </div>
         </div>
     </div>
-    <div *ngIf="mode === devicesViewList" class="table-wrapper">
+    <div *ngIf="mode() === devicesViewList" class="table-wrapper">
         <mat-table #table [dataSource]="dataSource" matSort>
             <!-- Edit Column -->
             <ng-container matColumnDef="select">

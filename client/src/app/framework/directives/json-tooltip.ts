@@ -1,4 +1,4 @@
-import { Directive, Input, ElementRef, HostListener, inject } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject, input } from '@angular/core';
 import { MatTooltip as MatTooltip } from '@angular/material/tooltip';
 
 @Directive({
@@ -10,12 +10,13 @@ export class JsonTooltipDirective {
   private tooltip = inject(MatTooltip);
   private elementRef = inject(ElementRef);
 
-  @Input('jsonTooltip') tooltipData: any;
+  readonly tooltipData = input<any>(undefined, { alias: "jsonTooltip" });
 
   @HostListener('mouseenter')
   onMouseEnter(): void {
-    if (this.tooltipData) {
-      this.tooltip.message = this.getObjectString(this.tooltipData);
+    const tooltipData = this.tooltipData();
+    if (tooltipData) {
+      this.tooltip.message = this.getObjectString(tooltipData);
       this.tooltip.show();
     }
   }

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnChanges, ViewChild, HostListener, ElementRef, Input, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnChanges, ViewChild, HostListener, ElementRef, Input, SimpleChanges, OnDestroy, input } from '@angular/core';
 
 import { GaugeOptions, GaugeType } from './gaugeOptions';
 import { Utils } from '../../_helpers/utils';
@@ -24,9 +24,9 @@ function getGaugeClasses(): { Gauge: any, Donut: any } {
 })
 export class NgxGaugeComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
 
-    @Input() public id: string;
+    public readonly id = input<string>(undefined);
     @Input() public options: GaugeOptions;
-    @Input() public value: any;
+    public readonly value = input<any>(undefined);
     @ViewChild('panel', {static: false}) public panel: ElementRef;
     @ViewChild('gauge', {static: false}) public canvas: ElementRef;
     @ViewChild('gaugetext', {static: false}) public gaugetext: ElementRef;

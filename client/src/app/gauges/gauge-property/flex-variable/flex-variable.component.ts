@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject, input } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { Tag, DevicesUtils, Device, PlaceholderDevice } from '../../../_models/device';
@@ -30,21 +30,21 @@ export class FlexVariableComponent implements OnInit {
     dialog = inject(MatDialog);
     private projectService = inject(ProjectService);
 
-    @Input() data: any;
+    readonly data = input<any>(undefined);
     @Input() variableId: string;
     @Input() value: any;
-    @Input() allowManualEdit = false;
+    readonly allowManualEdit = input(false);
     @Input() variableValue: string;
-    @Input() variableLabel = 'gauges.property-variable-value';
-    @Input() withStaticValue = true;
+    readonly variableLabel = input('gauges.property-variable-value');
+    readonly withStaticValue = input(true);
     @Input() withStaticType: string = null;
-    @Input() withBitmask = false;
-    @Input() tagLabel = 'gauges.property-tag-label';
-    @Input() tagTitle = '';
+    readonly withBitmask = input(false);
+    readonly tagLabel = input('gauges.property-tag-label');
+    readonly tagTitle = input('');
     @Input() bitmask: number;
-    @Input() readonly = false;
-    @Input() placeholders = [];
-    @Input() devicesOnly = false;
+    readonly readonly = input(false);
+    readonly placeholders = input([]);
+    readonly devicesOnly = input(false);
 
     @Output() onchange: EventEmitter<any> = new EventEmitter();
     @Output() valueChange: EventEmitter<any> = new EventEmitter();
@@ -76,9 +76,9 @@ export class FlexVariableComponent implements OnInit {
             this.variableValue = this.value.variableValue;
         }
 
-        if (!this.devicesOnly) {
+        if (!this.devicesOnly()) {
             let devPlaceholders = Utils.clone(PlaceholderDevice);
-            this.placeholders?.forEach(placeholder => {
+            this.placeholders()?.forEach(placeholder => {
                 devPlaceholders.tags.push({
                     id: placeholder.variableId,
                     name: placeholder.variableId,
@@ -139,7 +139,7 @@ export class FlexVariableComponent implements OnInit {
     }
 
     getDeviceName() {
-        let device = DevicesUtils.getDeviceFromTagId(this.data.devices || {}, this.variableId);
+        let device = DevicesUtils.getDeviceFromTagId(this.data().devices || {}, this.variableId);
         if (device) {
             return device.name;
         }
@@ -147,7 +147,7 @@ export class FlexVariableComponent implements OnInit {
     }
 
     getVariableName() {
-        let tag = DevicesUtils.getTagFromTagId(this.data.devices || {}, this.variableId);
+        let tag = DevicesUtils.getTagFromTagId(this.data().devices || {}, this.variableId);
         if (tag) {
             let result = tag.label || tag.name;
             if (result && tag.address && result !== tag.address) {
@@ -176,7 +176,7 @@ export class FlexVariableComponent implements OnInit {
             this.value.variableId = this.tagFilter.value.id;
             this.value.variableRaw = null;
         } else {
-            let tag = DevicesUtils.getTagFromTagId(this.data.devices || {}, this.variableId);
+            let tag = DevicesUtils.getTagFromTagId(this.data().devices || {}, this.variableId);
             if (tag) {
                 this.value.variableId = tag.id;
                 this.value.variableRaw = tag;
@@ -185,7 +185,7 @@ export class FlexVariableComponent implements OnInit {
                 this.value.variableRaw = null;
             }
         }
-        if (this.withBitmask) {
+        if (this.withBitmask()) {
             this.value.bitmask = this.bitmask;
         }
         this.value.variableValue = this.variableValue;
@@ -239,7 +239,7 @@ export class FlexVariableComponent implements OnInit {
 
     private loadDevicesTags(deviceName?: string) {
         const deviceUpdated = <Device>Object.values(this.projectService.getDevices()).find((device: Device) => device.name === deviceName);
-        Object.values(this.data.devices || {}).forEach((device: Device) => {
+        Object.values(this.data().devices || {}).forEach((device: Device) => {
             let deviceGroup = <DeviceGroup> {
                 name: device.name,
                 tags: [],

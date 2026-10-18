@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, AfterContentChecked, inject } from '@angular/core';
+import { Component, Output, EventEmitter, ChangeDetectorRef, AfterContentChecked, inject, input } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Location } from '@angular/common';
 
@@ -22,7 +22,7 @@ export class SidenavComponent implements AfterContentChecked {
     private changeDetector = inject(ChangeDetectorRef);
 
 
-    @Input() sidenav: MatSidenav;
+    readonly sidenav = input<MatSidenav>(undefined);
     @Output() goToPage: EventEmitter<string> = new EventEmitter();
     @Output() goToLink: EventEmitter<string> = new EventEmitter();
 

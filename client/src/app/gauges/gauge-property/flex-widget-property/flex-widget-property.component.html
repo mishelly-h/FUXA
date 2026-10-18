@@ -1,5 +1,5 @@
 <div class="container">
-    <div *ngFor="let varRef of property.varsToBind" class="var-ref">
+    <div *ngFor="let varRef of property().varsToBind" class="var-ref">
         <div class="my-form-field">
             <input type="text"
                    [value]="varRef.originalName"

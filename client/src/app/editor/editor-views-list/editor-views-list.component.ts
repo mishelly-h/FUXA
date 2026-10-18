@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject, input } from '@angular/core';
 import { View, ViewType } from '../../_models/hmi';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
@@ -20,7 +20,7 @@ export class EditorViewsListComponent {
     dialog = inject(MatDialog);
 
 
-    @Input() views: View[] = [];
+    readonly views = input<View[]>([]);
     @Input('select') set select(view: View) {
         this.currentView = view;
     };
@@ -43,7 +43,7 @@ export class EditorViewsListComponent {
     }
 
     getViewsSorted() {
-        return this.views.sort((a, b) => {
+        return this.views().sort((a, b) => {
             if (a.name > b.name) { return 1; }
             return -1;
         });
@@ -62,13 +62,14 @@ export class EditorViewsListComponent {
         });
 
         dialogRef.afterClosed().subscribe(result => {
-            if (result && this.views) {
+            const views = this.views();
+            if (result && views) {
                 let toselect = null;
-                for (var i = 0; i < this.views.length; i++) {
-                    if (this.views[i].id === view.id) {
-                        this.views.splice(i, 1);
-                        if (i > 0 && i < this.views.length) {
-                            toselect = this.views[i];
+                for (var i = 0; i < views.length; i++) {
+                    if (views[i].id === view.id) {
+                        views.splice(i, 1);
+                        if (i > 0 && i < views.length) {
+                            toselect = views[i];
                         }
                         break;
                     }
@@ -76,8 +77,8 @@ export class EditorViewsListComponent {
                 this.currentView = null;
                 if (toselect) {
                     this.onSelectView(toselect);
-                } else if (this.views.length > 0) {
-                    this.onSelectView(this.views[0]);
+                } else if (views.length > 0) {
+                    this.onSelectView(views[0]);
                 }
                 this.projectService.removeView(view);
             }
@@ -85,7 +86,7 @@ export class EditorViewsListComponent {
     }
 
     onRenameView(view) {
-        let exist = this.views.filter((v) => v.id !== view.id).map((v) => v.name);
+        let exist = this.views().filter((v) => v.id !== view.id).map((v) => v.name);
         let dialogRef = this.dialog.open(EditNameComponent, {
             disableClose: true,
             position: { top: '60px' },

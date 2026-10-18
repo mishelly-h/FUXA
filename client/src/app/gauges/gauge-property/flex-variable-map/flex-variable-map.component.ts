@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, input } from '@angular/core';
 import { IPropertyVariable, View } from '../../../_models/hmi';
 
 @Component({
@@ -8,10 +8,10 @@ import { IPropertyVariable, View } from '../../../_models/hmi';
     standalone: false
 })
 export class FlexVariableMapComponent implements OnInit {
-    @Input() view: View;
-    @Input() data: any;
+    readonly view = input<View>(undefined);
+    readonly data = input<any>(undefined);
     @Input() value: any;
-    @Input() placeholders: any = [];
+    readonly placeholders = input<any>([]);
     @Output() valueChange: EventEmitter<any> = new EventEmitter();
 
     constructor() {

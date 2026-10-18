@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild, ViewContainerRef, inject } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild, ViewContainerRef, inject, input } from '@angular/core';
 import { Subject, Subscription, take } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -47,7 +47,7 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() hmi: Hmi;
     @Input() child = false;
     @Input() gaugesManager: GaugesManager;        // gauges.component
-    @Input() parentcards: CardModel[];
+    readonly parentcards = input<CardModel[]>(undefined);
     @Input() sourceDeviceId: string;
     @Output() onclose = new EventEmitter();
     @Output() ongoto: EventEmitter<string> = new EventEmitter();
@@ -904,7 +904,7 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private nextZIndex(): number {
-        const targetCards = this.parentcards ?? this.cards;
+        const targetCards = this.parentcards() ?? this.cards;
         const maxCurrentZIndex = targetCards.reduce((max, currentCard) => {
             const cardZIndex = Number(currentCard?.zIndex ?? 0);
             return cardZIndex > max ? cardZIndex : max;
@@ -953,8 +953,9 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
         card.sourceDeviceId = options?.sourceDeviceId;
         card.zIndex = this.nextZIndex();
         console.log('index', card.zIndex);
-        if (this.parentcards) {
-            this.parentcards.push(card);
+        const parentcards = this.parentcards();
+        if (parentcards) {
+            parentcards.push(card);
         } else {
             this.cards.push(card);
         }

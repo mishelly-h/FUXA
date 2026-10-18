@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, Input, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, inject, input } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { FlexHeadComponent } from './flex-head/flex-head.component';
 import { FlexEventComponent } from './flex-event/flex-event.component';
@@ -27,7 +27,7 @@ export class GaugePropertyComponent implements AfterViewInit {
     data = inject<GaugePropertyData | any>(MAT_DIALOG_DATA);
 
 
-    @Input() name: any;
+    readonly name = input<any>(undefined);
     @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
     @ViewChild('flexevent', {static: false}) flexEvent: FlexEventComponent;
     @ViewChild('flexaction', {static: false}) flexAction: FlexActionComponent;

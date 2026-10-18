@@ -22,13 +22,13 @@
                 <!-- Checkbox Column -->
                 <ng-container matColumnDef="select">
                     <mat-header-cell *matHeaderCellDef [ngClass]="'selectidthClass'">
-                        <button *ngIf="!readonly && isDeviceToEdit" mat-icon-button (click)="onAddTag()" class="remove" matTooltip="{{'device.list-add' | translate}}">
+                        <button *ngIf="!readonly() && isDeviceToEdit" mat-icon-button (click)="onAddTag()" class="remove" matTooltip="{{'device.list-add' | translate}}">
                             <mat-icon>add</mat-icon>
                         </button>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element" [ngClass]="'selectidthClass'">
                         <button mat-icon-button (click)="onEditRow(element)" class="remove" matTooltip="{{'device.list-edit' | translate}}"
-                            *ngIf="!readonly && isToEdit(deviceSelected.type, element)">
+                            *ngIf="!readonly() && isToEdit(deviceSelected.type, element)">
                             <mat-icon>edit</mat-icon>
                         </button>
                     </mat-cell>
@@ -130,7 +130,7 @@
                             <mat-icon>more_vert</mat-icon>
                         </button>
                         <mat-menu #options="matMenu" xPosition="before">
-                            <button *ngIf="!readonly && isWithOptions" mat-menu-item class="context-menu" (click)="onEditOptions(element)">
+                            <button *ngIf="!readonly() && isWithOptions" mat-menu-item class="context-menu" (click)="onEditOptions(element)">
                                 {{'device.list-options' | translate}}
                             </button>
                             <button mat-menu-item class="context-menu" (click)="onCopyTagToClipboard(element)">
@@ -143,12 +143,12 @@
                 <!-- Button remove Column -->
                 <ng-container matColumnDef="remove">
                     <mat-header-cell *matHeaderCellDef>
-                        <button *ngIf="!readonly" mat-icon-button (click)="onRemoveAll()" class="remove" matTooltip="{{'device.list-remove-all' | translate}}">
+                        <button *ngIf="!readonly()" mat-icon-button (click)="onRemoveAll()" class="remove" matTooltip="{{'device.list-remove-all' | translate}}">
                             <mat-icon>clear</mat-icon>
                         </button>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element">
-                        <button *ngIf="!readonly" mat-icon-button (click)="$event.stopPropagation();onRemoveRow(element)" class="remove"
+                        <button *ngIf="!readonly()" mat-icon-button (click)="$event.stopPropagation();onRemoveRow(element)" class="remove"
                             matTooltip="{{'device.list-remove' | translate}}">
                             <mat-icon>clear</mat-icon>
                         </button>

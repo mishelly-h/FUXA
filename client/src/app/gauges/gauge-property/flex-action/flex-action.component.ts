@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, inject } from '@angular/core';
+import { Component, OnInit, inject, input } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from '../../../_helpers/utils';
@@ -15,9 +15,9 @@ export class FlexActionComponent implements OnInit {
     private translateService = inject(TranslateService);
 
 
-    @Input() data: any;
-    @Input() property: GaugeProperty;
-    @Input() withBitmask = false;
+    readonly data = input<any>(undefined);
+    readonly property = input<GaugeProperty>(undefined);
+    readonly withBitmask = input(false);
 
     actions: GaugeAction[];
     actionsSupported: any;
@@ -31,8 +31,9 @@ export class FlexActionComponent implements OnInit {
     defaultColor = Utils.defaultColor;
 
     ngOnInit() {
-        if (this.property) {
-            this.actions = this.property.actions;
+        const property = this.property();
+        if (property) {
+            this.actions = property.actions;
         }
         this.actions?.forEach(act => {
             if (this.isMoveByTags(act)) {
@@ -42,8 +43,9 @@ export class FlexActionComponent implements OnInit {
         if (!this.actions || this.actions.length <= 0) {
             this.onAddAction();
         }
-        if (this.data.withActions) {
-			this.actionsSupported = this.data.withActions;
+        const data = this.data();
+        if (data.withActions) {
+			this.actionsSupported = data.withActions;
 			Object.keys(this.actionsSupported).forEach(key => {
 				this.translateService.get(this.actionsSupported[key]).subscribe((txt: string) => { this.actionsSupported[key] = txt; });
 			});
