@@ -69,6 +69,63 @@ describe('Security - runscript authorization target binding', () => {
         );
     }
 
+    function makeRunScriptApp({ secureEnabled = false, allowUnsecuredScriptTest, authenticated = false, remoteAddress } = {}) {
+        const calls = { authorised: 0, run: 0 };
+        const errors = [];
+        const app = express();
+        app.use(express.json());
+        app.use((req, res, next) => {
+            req.isAuthenticated = authenticated;
+            if (remoteAddress) {
+                Object.defineProperty(req.socket, 'remoteAddress', {
+                    value: remoteAddress,
+                    configurable: true
+                });
+            }
+            next();
+        });
+
+        scriptsApi.init(
+            {
+                project: {},
+                settings: { secureEnabled, allowUnsecuredScriptTest },
+                logger: {
+                    ...makeLogger(),
+                    error: message => errors.push(message)
+                },
+                scriptsMgr: {
+                    isAuthorised: () => {
+                        calls.authorised += 1;
+                        return true;
+                    },
+                    runScript: () => {
+                        calls.run += 1;
+                        return Promise.resolve('executed');
+                    }
+                }
+            },
+            (req, res, next) => next(),
+            () => -1
+        );
+
+        app.use(scriptsApi.app());
+        return { app, calls, errors };
+    }
+
+    function testScriptRequest({ test = true, id } = {}) {
+        return {
+            params: {
+                script: {
+                    test,
+                    id,
+                    name: 'test_script',
+                    parameters: [],
+                    code: 'return true;'
+                }
+            }
+        };
+    }
+
     it('executes the script identified by id even when a different name is supplied', async () => {
         const scriptModule = makeScriptModule();
         scriptModule.init({});
@@ -142,50 +199,56 @@ describe('Security - runscript authorization target binding', () => {
         expect(calls.run).to.equal(0);
     });
 
-    it('allows script tests when security is disabled', async () => {
-        const calls = { authorised: 0, run: 0 };
-        const app = express();
-        app.use(express.json());
+    it('rejects test scripts from non-loopback clients when security is disabled', async () => {
+        const { app, calls, errors } = makeRunScriptApp({ remoteAddress: '192.168.1.50' });
+        const res = await request(app, 'POST', '/api/runscript', testScriptRequest());
 
-        scriptsApi.init(
-            {
-                project: {},
-                settings: { secureEnabled: false },
-                logger: makeLogger(),
-                scriptsMgr: {
-                    isAuthorised: () => {
-                        calls.authorised += 1;
-                        return true;
-                    },
-                    runScript: () => {
-                        calls.run += 1;
-                        return Promise.resolve('executed');
-                    }
-                }
-            },
-            (req, res, next) => {
-                req.isAuthenticated = false;
-                next();
-            },
-            () => -1
-        );
+        expect(res.statusCode).to.equal(401);
+        expect(res.body).to.deep.equal({ error: 'unauthorized_error', message: 'Unauthorized!' });
+        expect(calls.run).to.equal(0);
+        expect(errors).to.include('api post runscript: Unauthorized test mode (security disabled, non-local client)');
+    });
 
-        app.use(scriptsApi.app());
-
-        const res = await request(app, 'POST', '/api/runscript', {
-            params: {
-                script: {
-                    test: true,
-                    name: 'test_script',
-                    parameters: [],
-                    code: 'return true;'
-                }
-            }
-        });
+    it('allows test scripts from loopback clients when security is disabled', async () => {
+        const { app, calls } = makeRunScriptApp();
+        const res = await request(app, 'POST', '/api/runscript', testScriptRequest());
 
         expect(res.statusCode).to.equal(200);
         expect(res.body).to.equal('executed');
         expect(calls.authorised).to.equal(1);
         expect(calls.run).to.equal(1);
+    });
+
+    it('allows non-loopback test scripts when explicitly opted in', async () => {
+        const { app, calls } = makeRunScriptApp({
+            allowUnsecuredScriptTest: true,
+            remoteAddress: '192.168.1.50'
+        });
+        const res = await request(app, 'POST', '/api/runscript', testScriptRequest());
+
+        expect(res.statusCode).to.equal(200);
+        expect(res.body).to.equal('executed');
+        expect(calls.run).to.equal(1);
+    });
+
+    it('allows non-test script requests from non-loopback clients when security is disabled', async () => {
+        const { app, calls } = makeRunScriptApp({ remoteAddress: '192.168.1.50' });
+        const res = await request(app, 'POST', '/api/runscript', testScriptRequest({
+            test: false,
+            id: 'saved-script-id'
+        }));
+
+        expect(res.statusCode).to.equal(200);
+        expect(res.body).to.equal('executed');
+        expect(calls.run).to.equal(1);
+    });
+
+    it('still requires authentication and admin permission for test scripts when security is enabled', async () => {
+        const { app, calls } = makeRunScriptApp({ secureEnabled: true });
+        const res = await request(app, 'POST', '/api/runscript', testScriptRequest());
+
+        expect(res.statusCode).to.equal(401);
+        expect(res.body).to.deep.equal({ error: 'unauthorized_error', message: 'Unauthorized!' });
+        expect(calls.run).to.equal(0);
     });
 });
