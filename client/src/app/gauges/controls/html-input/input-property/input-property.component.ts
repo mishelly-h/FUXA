@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ViewChild, inject } from '@angular/core';
 import { FlexHeadComponent } from '../../../gauge-property/flex-head/flex-head.component';
 import { FlexEventComponent } from '../../../gauge-property/flex-event/flex-event.component';
 import { FlexActionComponent } from '../../../gauge-property/flex-action/flex-action.component';
@@ -20,6 +20,13 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
     standalone: false
 })
 export class InputPropertyComponent implements AfterViewInit {
+    dialog = inject(MatDialog);
+    dialogRef = inject<MatDialogRef<InputPropertyComponent>>(MatDialogRef);
+    private settingsService = inject(SettingsService);
+    private projectService = inject(ProjectService);
+    private cdr = inject(ChangeDetectorRef);
+    data = inject<GaugePropertyData | any>(MAT_DIALOG_DATA);
+
     @ViewChild('flexhead', { static: false }) flexHead: FlexHeadComponent;
     @ViewChild('flexevent', { static: false }) flexEvent: FlexEventComponent;
     @ViewChild('flexaction', { static: false }) flexAction: FlexActionComponent;
@@ -39,14 +46,7 @@ export class InputPropertyComponent implements AfterViewInit {
     inputConvertionType = InputConvertionType;
     inputActionEscType = InputActionEscType;
 
-    constructor(
-        public dialog: MatDialog,
-        public dialogRef: MatDialogRef<InputPropertyComponent>,
-        private settingsService: SettingsService,
-        private projectService: ProjectService,
-        private cdr: ChangeDetectorRef,
-        @Inject(MAT_DIALOG_DATA) public data: GaugePropertyData | any
-    ) {
+    constructor() {
         this.eventsSupported = this.data.withEvents;
         this.actionsSupported = this.data.withActions;
         this.property = JSON.parse(JSON.stringify(this.data.settings.property));

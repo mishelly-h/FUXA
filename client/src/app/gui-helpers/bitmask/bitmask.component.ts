@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -8,13 +8,13 @@ import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from
     standalone: false
 })
 export class BitmaskComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<BitmaskComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     size = 32;
     bits: Bit[] = [];
     selected: Bit[] = [];
-
-    constructor(public dialogRef: MatDialogRef<BitmaskComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     ngOnInit() {
         this.size = this.data.size || 32;

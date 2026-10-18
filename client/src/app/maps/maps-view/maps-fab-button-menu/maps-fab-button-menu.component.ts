@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Input } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, Input, inject } from '@angular/core';
 
 @Component({
     selector: 'app-maps-fab-button-menu',
@@ -7,14 +7,12 @@ import { AfterViewInit, ChangeDetectorRef, Component, Input } from '@angular/cor
     standalone: false
 })
 export class MapsFabButtonMenuComponent implements AfterViewInit {
+    private changeDetector = inject(ChangeDetectorRef);
+
 
     @Input() buttons: { icon: string, action: () => void }[] = [];
     isOpen = false;
     buttonStyles: any[] = [];
-
-    constructor(
-        private changeDetector: ChangeDetectorRef,
-    ) { }
 
     ngAfterViewInit() {
         this.toggleMenu();

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { AlarmPriorityType, AlarmPropertyType, AlarmStatusType, AlarmsType } from '../../../_models/alarm';
@@ -13,18 +13,17 @@ import { ReportItemTableComponent } from '../report-item-table/report-item-table
     standalone: false
 })
 export class ReportItemAlarmsComponent implements OnInit {
+    private projectService = inject(ProjectService);
+    dialogRef = inject<MatDialogRef<ReportItemTableComponent>>(MatDialogRef);
+    private translateService = inject(TranslateService);
+    data = inject<ReportItemAlarms>(MAT_DIALOG_DATA);
+
 
     dateRangeType = ReportDateRangeType;
     alarmsType = [AlarmsType.HIGH_HIGH, AlarmsType.HIGH, AlarmsType.LOW, AlarmsType.INFO];
     alarmPropertyType = Object.values(AlarmPropertyType).map(a => a);
     alarmsList = [];
     alarmsListSelected = [];
-
-    constructor(
-        private projectService: ProjectService,
-        public dialogRef: MatDialogRef<ReportItemTableComponent>,
-        private translateService: TranslateService,
-        @Inject(MAT_DIALOG_DATA) public data: ReportItemAlarms) { }
 
     ngOnInit() {
         Object.keys(this.dateRangeType).forEach(key => {

@@ -1,14 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  ElementRef,
-  EventEmitter,
-  HostListener,
-  Inject,
-  LOCALE_ID,
-  Output,
-  ViewEncapsulation,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, LOCALE_ID, Output, ViewEncapsulation, inject } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { fnButton } from './Locale/constants';
@@ -24,6 +14,10 @@ import * as Locales from './Locale';
     standalone: false
 })
 export class NgxTouchKeyboardComponent {
+  private _sanitizer = inject(DomSanitizer);
+  private _elementRef = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private _defaultLocale = inject(LOCALE_ID);
+
   locale: Locale = Locales.enUS;
   layoutMode = 'text';
   layoutName = 'alphabetic';
@@ -36,15 +30,6 @@ export class NgxTouchKeyboardComponent {
   private _caretPosition: number | null = null;
   private _caretPositionEnd: number | null = null;
   private _activeInputElement!: HTMLInputElement | HTMLTextAreaElement | null;
-
-  /**
-   * Constructor
-   */
-  constructor(
-    private _sanitizer: DomSanitizer,
-    private _elementRef: ElementRef<HTMLInputElement>,
-    @Inject(LOCALE_ID) private _defaultLocale: string
-  ) {}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Decorated methods

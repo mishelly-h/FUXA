@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export interface HtmlRecipeNewDialogData {
@@ -15,13 +15,15 @@ export interface HtmlRecipeNewDialogData {
     standalone: false
 })
 export class HtmlRecipeNewDialogComponent {
+    data = inject<HtmlRecipeNewDialogData>(MAT_DIALOG_DATA);
+    private dialogRef = inject<MatDialogRef<HtmlRecipeNewDialogComponent>>(MatDialogRef);
+
     dialogName: string;
     dialogDescription: string;
 
-    constructor(
-        @Inject(MAT_DIALOG_DATA) public data: HtmlRecipeNewDialogData,
-        private dialogRef: MatDialogRef<HtmlRecipeNewDialogComponent>
-    ) {
+    constructor() {
+        const data = this.data;
+
         this.dialogName = data.name || 'New Recipe';
         // The description default must be empty, not "New Recipe" — otherwise
         // the dialog persists the name literal into the description field too.

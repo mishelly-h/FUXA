@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
@@ -14,6 +14,8 @@ import { ApiKey } from '../../_models/apikey';
 
 @Injectable()
 export class ResClientService implements ResourceStorageService {
+    private http = inject(HttpClient);
+
 
     endPointConfig = '';
     bridge: any = null;
@@ -21,9 +23,6 @@ export class ResClientService implements ResourceStorageService {
     get isReady() { return (this.bridge) ? true : false; }
 
     public onRefreshProject: () => boolean;
-
-    constructor(private http: HttpClient) {
-    }
 
     init(bridge?: any): boolean {
         this.id = this.getAppId();

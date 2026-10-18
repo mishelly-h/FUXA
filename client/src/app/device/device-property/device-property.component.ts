@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatExpansionPanel } from '@angular/material/expansion';
 import { Subscription, delay } from 'rxjs';
@@ -16,6 +16,12 @@ import { DeviceType, DeviceSecurity, MessageSecurityMode, SecurityPolicy, Modbus
     standalone: false
 })
 export class DevicePropertyComponent implements OnInit, OnDestroy {
+	private hmiService = inject(HmiService);
+	private translateService = inject(TranslateService);
+	private appService = inject(AppService);
+	dialogRef = inject<MatDialogRef<DevicePropertyComponent>>(MatDialogRef);
+	data = inject(MAT_DIALOG_DATA);
+
 
 	// @Input() name: any;
 	@ViewChild('panelProperty', { static: false }) panelProperty: MatExpansionPanel;
@@ -93,12 +99,9 @@ export class DevicePropertyComponent implements OnInit, OnDestroy {
 
 	private projectService: ProjectService;
 
-	constructor(
-		private hmiService: HmiService,
-		private translateService: TranslateService,
-		private appService: AppService,
-		public dialogRef: MatDialogRef<DevicePropertyComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: any) {
+	constructor() {
+		const data = this.data;
+
 		this.projectService = data.projectService;
 	}
 

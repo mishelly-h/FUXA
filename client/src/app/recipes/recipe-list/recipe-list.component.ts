@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -20,20 +20,18 @@ import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm
     standalone: false
 })
 export class RecipeListComponent implements OnInit, OnDestroy {
+    private recipeService = inject(RecipeService);
+    private hmiService = inject(HmiService);
+    private dialog = inject(MatDialog);
+    private translate = inject(TranslateService);
+    private toastr = inject(ToastrService);
+
     displayedColumns: string[] = ['select', 'name', 'description', 'entries', 'options', 'remove'];
     dataSource = new MatTableDataSource<any>([]);
     loading = false;
     private subscription: Subscription = new Subscription();
 
     @ViewChild(MatSort) sort: MatSort;
-
-    constructor(
-        private recipeService: RecipeService,
-        private hmiService: HmiService,
-        private dialog: MatDialog,
-        private translate: TranslateService,
-        private toastr: ToastrService
-    ) {}
 
     ngOnInit() {
         this.loadRecipes();

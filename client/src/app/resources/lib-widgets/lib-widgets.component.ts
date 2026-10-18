@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ResourceGroup, ResourceItem } from '../../_models/resources';
 import { LibWidgetsService } from './lib-widgets.service';
@@ -13,6 +13,10 @@ import { ToastNotifierService } from '../../_services/toast-notifier.service';
     standalone: false
 })
 export class LibWidgetsComponent implements OnInit, OnDestroy {
+    private libWidgetService = inject(LibWidgetsService);
+    private toastNotifier = inject(ToastNotifierService);
+    private rcgiService = inject(RcgiService);
+
 
     resourceWidgets$: Observable<ResourceGroup[]>;
     selectedWidgetPath: string;
@@ -24,10 +28,7 @@ export class LibWidgetsComponent implements OnInit, OnDestroy {
     @ViewChild('menuTriggerButton') menuTrigger!: MatMenuTrigger;
     @ViewChild('menuTriggerEl', { read: ElementRef }) triggerButtonRef!: ElementRef;
 
-    constructor(
-        private libWidgetService: LibWidgetsService,
-        private toastNotifier: ToastNotifierService,
-        private rcgiService: RcgiService) {
+    constructor() {
             this.rootPath = this.rcgiService.rcgi.endPointConfig;
         }
 

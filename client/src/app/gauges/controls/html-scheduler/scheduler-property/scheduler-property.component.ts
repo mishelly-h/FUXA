@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { PermissionData, PermissionDialogComponent } from '../../../gauge-property/permission-dialog/permission-dialog.component';
 import { GaugeEventActionType, GaugeSchedulerProperty, SchedulerDevice, SchedulerDeviceAction, View } from '../../../../_models/hmi';
@@ -15,6 +15,10 @@ import { Utils } from '../../../../_helpers/utils';
     standalone: false
 })
 export class SchedulerPropertyComponent implements OnInit {
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+
     @Input() data: any;
     @Output() onPropChanged = new EventEmitter<any>();
     @Input('reload') set reload(b: any) {
@@ -30,13 +34,6 @@ export class SchedulerPropertyComponent implements OnInit {
     actionTypeKeys: any = {};
     property: GaugeSchedulerProperty;
     defaultColor = Utils.defaultColor;
-
-    constructor(
-        private dialog?: MatDialog,
-        private projectService?: ProjectService,
-        private translateService?: TranslateService
-    ) {
-    }
 
     ngOnInit(): void {
         this._reload();

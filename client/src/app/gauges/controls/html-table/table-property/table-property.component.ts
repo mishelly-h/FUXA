@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output, ViewChild, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output, ViewChild, OnDestroy, inject } from '@angular/core';
 import { Observable, Subject, of, takeUntil } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
 import { MatTabGroup as MatTabGroup } from '@angular/material/tabs';
@@ -24,6 +24,10 @@ import { ReportColumns } from '../../../../_models/report';
     standalone: false
 })
 export class TablePropertyComponent implements OnInit, OnDestroy {
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+
 
     @Input() data: any;
     @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
@@ -47,9 +51,7 @@ export class TablePropertyComponent implements OnInit, OnDestroy {
     actionRunScript = Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onRunScript);
     scripts$: Observable<Script[]>;
 
-    constructor(private dialog: MatDialog,
-                private projectService: ProjectService,
-                private translateService: TranslateService) {
+    constructor() {
         // this.selectActionType[Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onwindow)] = this.translateService.instant(GaugeEventActionType.onwindow);
         // this.selectActionType[Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.ondialog)] = this.translateService.instant(GaugeEventActionType.ondialog);
         this.selectActionType[Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onRunScript)] = this.translateService.instant(GaugeEventActionType.onRunScript);

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { MatDialog} from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,6 +18,12 @@ import { ApiKeysService } from '../../_services/apikeys.service';
     standalone: false
 })
 export class ApiKeysListComponent implements OnInit, AfterViewInit, OnDestroy {
+    private dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private apiKeysService = inject(ApiKeysService);
+    private snackBar = inject(MatSnackBar);
+
 
     displayedColumns = ['select', 'name', 'key', 'description', 'created', 'expires', 'enabled', 'remove'];
     id: string;
@@ -34,14 +40,6 @@ export class ApiKeysListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(MatTable, {static: true}) table: MatTable<any>;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(
-        private dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private apiKeysService: ApiKeysService,
-        private snackBar: MatSnackBar
-    ) { }
 
     ngOnInit() {
         this.loadApiKeys();

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Inject, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy, inject } from '@angular/core';
 import { Device, ModbusTagType, Tag } from '../../../_models/device';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
@@ -12,6 +12,11 @@ import { Subject, takeUntil } from 'rxjs';
     standalone: false
 })
 export class TagPropertyEditModbusComponent implements OnInit, OnDestroy {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditModbusComponent>>(MatDialogRef);
+    data = inject<TagProperty>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     formGroup: UntypedFormGroup;
     tagType = ModbusTagType;
@@ -24,11 +29,6 @@ export class TagPropertyEditModbusComponent implements OnInit, OnDestroy {
     existingNames = [];
     error: string;
     private destroy$ = new Subject<void>();
-
-    constructor(private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TagPropertyEditModbusComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagProperty) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

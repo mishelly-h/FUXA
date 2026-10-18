@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute } from '@angular/router';
 
@@ -9,6 +9,9 @@ import { ActivatedRoute } from '@angular/router';
     standalone: false
 })
 export class IframeComponent implements OnInit, OnDestroy {
+    private activeroute = inject(ActivatedRoute);
+    sanitizer = inject(DomSanitizer);
+
 
     private subscription: any;
     urlSafe: SafeResourceUrl;
@@ -17,9 +20,6 @@ export class IframeComponent implements OnInit, OnDestroy {
         this._link = value;
         this.loadLink(value);
     }
-
-    constructor(private activeroute: ActivatedRoute,
-        public sanitizer: DomSanitizer) { }
 
     ngOnInit() {
         if (this._link) {

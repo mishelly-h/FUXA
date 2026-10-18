@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ScriptParamType } from '../../../_models/script';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,13 +11,15 @@ import { Utils } from '../../../_helpers/utils';
     standalone: false
 })
 export class ScriptEditorParamComponent {
+    dialogRef = inject<MatDialogRef<ScriptEditorParamComponent>>(MatDialogRef);
+    private translateService = inject(TranslateService);
+    data = inject(MAT_DIALOG_DATA);
+
     error = '';
     existError: string;
     paramType = Utils.enumKeys(ScriptParamType);
 
-    constructor(public dialogRef: MatDialogRef<ScriptEditorParamComponent>,
-        private translateService: TranslateService,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
 
         this.existError = this.translateService.instant('script.param-name-exist');
     }

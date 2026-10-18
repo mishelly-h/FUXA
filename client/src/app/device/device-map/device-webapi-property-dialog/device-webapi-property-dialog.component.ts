@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Subscription } from 'rxjs';
@@ -13,19 +13,17 @@ import { ProjectService } from '../../../_services/project.service';
     standalone: false
 })
 export class DeviceWebapiPropertyDialogComponent implements OnInit, OnDestroy {
+    private projectService = inject(ProjectService);
+    private hmiService = inject(HmiService);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<DeviceWebapiPropertyDialogComponent>>(MatDialogRef);
+    data = inject<IDataDevice>(MAT_DIALOG_DATA);
+
 
     private cacheDevice: Device;
 	private subscriptionDeviceTagsRequest: Subscription;
 
     message = '';
-
-	constructor(
-		private projectService: ProjectService,
-        private hmiService: HmiService,
-        private translateService: TranslateService,
-		public dialogRef: MatDialogRef<DeviceWebapiPropertyDialogComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: IDataDevice) {
-        }
 
     ngOnInit() {
         this.cacheDevice = JSON.parse(JSON.stringify(this.data.device));

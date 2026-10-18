@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Utils } from '../../../_helpers/utils';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -11,13 +11,11 @@ import { GraphSource } from '../../../_models/graph';
     standalone: false
 })
 export class GraphSourceEditComponent {
+    dialogRef = inject<MatDialogRef<GraphSourceEditComponent>>(MatDialogRef);
+    data = inject<GraphSource>(MAT_DIALOG_DATA);
+
     defaultColor = Utils.defaultColor;
     chartAxesType = [1, 2, 3, 4];
-
-    constructor(
-        public dialogRef: MatDialogRef<GraphSourceEditComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: GraphSource) {
-    }
 
     onNoClick(): void {
         this.dialogRef.close();

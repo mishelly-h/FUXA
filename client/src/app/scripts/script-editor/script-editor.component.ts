@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, Inject, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, inject } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CodemirrorComponent } from '@ctrl/ngx-codemirror';
 import { ChangeDetectorRef } from '@angular/core';
@@ -23,6 +23,14 @@ import { getJavaScriptSyntaxAnnotations } from './javascript-linter';
     standalone: false
 })
 export class ScriptEditorComponent implements OnInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<ScriptEditorComponent>>(MatDialogRef);
+    dialog = inject(MatDialog);
+    private changeDetector = inject(ChangeDetectorRef);
+    private translateService = inject(TranslateService);
+    private hmiService = inject(HmiService);
+    private scriptService = inject(ScriptService);
+    data = inject(MAT_DIALOG_DATA);
+
     @ViewChild(CodemirrorComponent, {static: false}) CodeMirror: CodemirrorComponent;
     codeMirrorContent: string;
     codeMirrorOptions = {
@@ -54,13 +62,9 @@ export class ScriptEditorComponent implements OnInit, OnDestroy {
         )
     };
 
-    constructor(public dialogRef: MatDialogRef<ScriptEditorComponent>,
-        public dialog: MatDialog,
-        private changeDetector: ChangeDetectorRef,
-        private translateService: TranslateService,
-        private hmiService: HmiService,
-        private scriptService: ScriptService,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
+            const data = this.data;
+
             this.script = data.script;
         this.dialogRef.afterOpened().subscribe(() => setTimeout(() => {this.ready = true; this.setCM();}, 0));
         this.systemFunctions = new SystemFunctions(this.script.mode);

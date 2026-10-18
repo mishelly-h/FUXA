@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, Inject, Input, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef, inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { FlexHeadComponent } from './flex-head/flex-head.component';
 import { FlexEventComponent } from './flex-event/flex-event.component';
@@ -20,6 +20,12 @@ import { HtmlButtonComponent } from '../controls/html-button/html-button.compone
     standalone: false
 })
 export class GaugePropertyComponent implements AfterViewInit {
+    dialog = inject(MatDialog);
+    dialogRef = inject<MatDialogRef<GaugePropertyComponent>>(MatDialogRef);
+    private settingsService = inject(SettingsService);
+    private cdr = inject(ChangeDetectorRef);
+    data = inject<GaugePropertyData | any>(MAT_DIALOG_DATA);
+
 
     @Input() name: any;
     @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
@@ -38,11 +44,7 @@ export class GaugePropertyComponent implements AfterViewInit {
     inputs: GaugeSettings[];
     scripts: Script[];
 
-    constructor(public dialog: MatDialog,
-                public dialogRef: MatDialogRef<GaugePropertyComponent>,
-                private settingsService: SettingsService,
-                private cdr: ChangeDetectorRef,
-                @Inject(MAT_DIALOG_DATA) public data: GaugePropertyData | any) {
+    constructor() {
         this.dialogType = this.data.dlgType;
         this.eventsSupported = this.data.withEvents;
         this.actionsSupported = this.data.withActions;

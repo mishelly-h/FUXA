@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, Input, Output, EventEmitter, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, Input, Output, EventEmitter, ElementRef, inject } from '@angular/core';
 
 import { ChartLegendMode, ChartRangeType, ChartRangeConverter, ChartLine, ChartViewType, ChartLineZone, Chart } from '../../../../_models/chart';
 import { NgxUplotComponent, NgxSeries, ChartOptions } from '../../../../gui-helpers/ngx-uplot/ngx-uplot.component';
@@ -22,6 +22,12 @@ import { HmiService } from '../../../../_services/hmi.service';
     standalone: false
 })
 export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
+    private projectService = inject(ProjectService);
+    private hmiService = inject(HmiService);
+    private scriptService = inject(ScriptService);
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+
 
     @ViewChild('chartPanel', { static: false }) public chartPanel: ElementRef;
     @ViewChild('nguplot', { static: false }) public nguplot: NgxUplotComponent;
@@ -50,14 +56,6 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
     private daqCancel$ = new Subject<void>();
     private cancel$() {
         return merge(this.daqCancel$, this.destroy$);
-    }
-
-    constructor(
-        private projectService: ProjectService,
-        private hmiService: HmiService,
-        private scriptService: ScriptService,
-        public dialog: MatDialog,
-        private translateService: TranslateService) {
     }
 
     ngOnInit() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
@@ -16,6 +16,11 @@ import panzoom from 'panzoom';
     standalone: false
 })
 export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
+    private projectService = inject(ProjectService);
+    private route = inject(ActivatedRoute);
+    private changeDetector = inject(ChangeDetectorRef);
+    gaugesManager = inject(GaugesManager);
+
 
     @ViewChild('fuxaview', {static: true}) fuxaview: FuxaViewComponent;
 	@ViewChild('container', {read: ElementRef, static: true}) container: ElementRef;
@@ -26,11 +31,6 @@ export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewName: string;
 
     private subscriptionLoad: Subscription;
-
-    constructor(private projectService: ProjectService,
-        private route: ActivatedRoute,
-        private changeDetector: ChangeDetectorRef,
-        public gaugesManager: GaugesManager) { }
 
     ngOnInit() {
         this.viewName = this.route.snapshot.queryParamMap.get('name');

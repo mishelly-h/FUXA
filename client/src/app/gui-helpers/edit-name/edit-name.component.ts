@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -8,9 +8,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     standalone: false
 })
 export class EditNameComponent {
+    dialogRef = inject<MatDialogRef<EditNameComponent>>(MatDialogRef);
+    data = inject<EditNameData>(MAT_DIALOG_DATA);
+
     error = '';
-    constructor(public dialogRef: MatDialogRef<EditNameComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: EditNameData) { }
 
     onNoClick(): void {
         this.dialogRef.close();

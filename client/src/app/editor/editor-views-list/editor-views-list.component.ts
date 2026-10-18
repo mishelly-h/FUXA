@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { View, ViewType } from '../../_models/hmi';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
@@ -15,6 +15,10 @@ import { EditNameComponent, EditNameData } from '../../gui-helpers/edit-name/edi
     standalone: false
 })
 export class EditorViewsListComponent {
+    private projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+    dialog = inject(MatDialog);
+
 
     @Input() views: View[] = [];
     @Input('select') set select(view: View) {
@@ -29,11 +33,6 @@ export class EditorViewsListComponent {
     cardViewType = ViewType.cards;
     svgViewType = ViewType.svg;
     mapsViewType = ViewType.maps;
-
-    constructor(private projectService: ProjectService,
-        private translateService: TranslateService,
-        public dialog: MatDialog,
-    ) { }
 
     onSelectView(view: View, force = true) {
         if (!force && this.currentView?.id === view?.id) {

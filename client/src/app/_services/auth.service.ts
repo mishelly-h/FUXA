@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -11,6 +11,9 @@ import { Utils } from '../_helpers/utils';
 
 @Injectable()
 export class AuthService {
+	private http = inject(HttpClient);
+	private settings = inject(SettingsService);
+
 
 	private currentUser: UserProfile;
 	private endPointConfig: string = EndPointApi.getURL();
@@ -18,10 +21,7 @@ export class AuthService {
 	private useRefreshCookieAuth = false;
 	private signOutInProgress = false;
 
-	constructor(
-		private http: HttpClient,
-		private settings: SettingsService
-	) {
+	constructor() {
 		this.useRefreshCookieAuth = !!this.settings.getSettings()?.enableRefreshCookieAuth;
 		let user = JSON.parse(sessionStorage.getItem('currentUser'));
 		if (user) {

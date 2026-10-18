@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FuxaServer, TagDaq, TagDeadband, TagDeadbandModeType, TagScale, TagScaleModeType } from '../../_models/device';
@@ -18,6 +18,11 @@ class ScriptAndParam extends ScriptParam {
     standalone: false
 })
 export class TagOptionsComponent implements OnInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<TagOptionsComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    data = inject(MAT_DIALOG_DATA);
+    private projectService = inject(ProjectService);
+
 
     formGroup: UntypedFormGroup;
     scaleModeType = TagScaleModeType;
@@ -26,13 +31,6 @@ export class TagOptionsComponent implements OnInit, OnDestroy {
     configedWriteParams: {[key: string]: ScriptParam[]} = {};
 
     private subscriptionLoad: Subscription;
-
-    constructor(
-        public dialogRef: MatDialogRef<TagOptionsComponent>,
-        private fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        private projectService: ProjectService) {
-    }
 
     ngOnInit() {
         this.loadScripts();

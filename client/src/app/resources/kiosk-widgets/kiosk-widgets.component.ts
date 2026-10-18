@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { KioskWidgetsService } from './kiosk-widgets.service';
 import { map, Observable } from 'rxjs';
@@ -14,6 +14,11 @@ import { ToastNotifierService } from '../../_services/toast-notifier.service';
     standalone: false
 })
 export class KioskWidgetsComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<KioskWidgetsComponent>>(MatDialogRef);
+    private resourcesService = inject(ResourcesService);
+    private toastNotifier = inject(ToastNotifierService);
+    private kioskWidgetService = inject(KioskWidgetsService);
+
 
     resourceWidgets$: Observable<WidgetsResource[]>;
     groupContent: { [path: string]: WidgetsResource[] } = {};
@@ -22,12 +27,7 @@ export class KioskWidgetsComponent implements OnInit {
     assetBaseUrl: string;
     changed = false;
 
-    constructor(
-        public dialogRef: MatDialogRef<KioskWidgetsComponent>,
-        private resourcesService: ResourcesService,
-        private toastNotifier: ToastNotifierService,
-        private kioskWidgetService: KioskWidgetsService,
-    ) {
+    constructor() {
         this.assetBaseUrl = this.kioskWidgetService.widgetAssetBaseUrl;
     }
 

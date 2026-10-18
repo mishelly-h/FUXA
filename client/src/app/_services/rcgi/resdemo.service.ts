@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
@@ -14,12 +14,11 @@ import { ApiKey } from '../../_models/apikey';
 
 @Injectable()
 export class ResDemoService implements ResourceStorageService {
+    private http = inject(HttpClient);
+
 
     public endPointConfig = '';
     public onRefreshProject: () => boolean;
-
-    constructor(private http: HttpClient) {
-    }
 
     init(): boolean {
         return true;

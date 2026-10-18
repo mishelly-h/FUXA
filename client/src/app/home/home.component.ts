@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Inject, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef, inject } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { interval, Observable, Subject, Subscription } from 'rxjs';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -45,6 +45,19 @@ import { Language } from '../_models/language';
     standalone: false
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
+    private projectService = inject(ProjectService);
+    private changeDetector = inject(ChangeDetectorRef);
+    dialog = inject(MatDialog);
+    private router = inject(Router);
+    private route = inject(ActivatedRoute);
+    private hmiService = inject(HmiService);
+    private toastr = inject(ToastrService);
+    private translateService = inject(TranslateService);
+    private scriptService = inject(ScriptService);
+    private languageService = inject(LanguageService);
+    private authService = inject(AuthService);
+    gaugesManager = inject(GaugesManager);
+
 
     @ViewChild('sidenav', { static: false }) sidenav: SidenavComponent;
     @ViewChild('matsidenav', { static: false }) matsidenav: MatSidenav;
@@ -88,18 +101,7 @@ export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
     language$: Observable<LanguageConfiguration>;
     readonly defaultHeaderHeight = HeaderSettings.DefaultHeight;
 
-    constructor(private projectService: ProjectService,
-        private changeDetector: ChangeDetectorRef,
-        public dialog: MatDialog,
-        private router: Router,
-        private route: ActivatedRoute,
-        private hmiService: HmiService,
-        private toastr: ToastrService,
-        private translateService: TranslateService,
-        private scriptService: ScriptService,
-        private languageService: LanguageService,
-        private authService: AuthService,
-        public gaugesManager: GaugesManager) {
+    constructor() {
         this.gridOptions.draggable = { enabled: false };
         this.gridOptions.resizable = { enabled: false };
     }
@@ -626,9 +628,9 @@ export interface IiFrame {
     standalone: false
 })
 export class DialogUserInfo {
-    constructor(
-        public dialogRef: MatDialogRef<DialogUserInfo>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
+    dialogRef = inject<MatDialogRef<DialogUserInfo>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     onOkClick(): void {
         this.dialogRef.close(true);

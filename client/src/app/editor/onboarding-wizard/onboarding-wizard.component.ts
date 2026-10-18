@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,6 +15,13 @@ import { User } from '../../_models/user';
     standalone: false
 })
 export class OnboardingWizardComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<OnboardingWizardComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    private settingsService = inject(SettingsService);
+    private userService = inject(UserService);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+
 
     authType = [
         { text: 'dlg.app-auth-disabled', value: '' },
@@ -29,15 +36,6 @@ export class OnboardingWizardComponent implements OnInit {
     showSecretCode = false;
     showAdminPassword = false;
     isSaving = false;
-
-    constructor(
-        public dialogRef: MatDialogRef<OnboardingWizardComponent>,
-        private fb: UntypedFormBuilder,
-        private settingsService: SettingsService,
-        private userService: UserService,
-        private translateService: TranslateService,
-        private toastr: ToastrService
-    ) { }
 
     ngOnInit() {
         const settings = this.settingsService.getSettings();

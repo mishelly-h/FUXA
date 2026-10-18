@@ -1,4 +1,4 @@
-import { Component, Inject, AfterViewInit, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ChangeDetectorRef, inject } from '@angular/core';
 import { Utils } from '../../../../_helpers/utils';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -16,6 +16,11 @@ import { PermissionData, PermissionDialogComponent } from '../../../gauge-proper
     standalone: false
 })
 export class BagPropertyComponent implements AfterViewInit {
+    private cdRef = inject(ChangeDetectorRef);
+    dialog = inject(MatDialog);
+    dialogRef = inject<MatDialogRef<BagPropertyComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     @ViewChild('ngauge', {static: false}) ngauge: NgxGaugeComponent;
 	@ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
@@ -35,10 +40,7 @@ export class BagPropertyComponent implements AfterViewInit {
     defaultColor = Utils.defaultColor;
     fonts = Define.fonts;
 
-    constructor(private cdRef: ChangeDetectorRef,
-                public dialog: MatDialog,
-                public dialogRef: MatDialogRef<BagPropertyComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
         this.optionsGauge = this.getDefaultOptions(GaugeType.Gauge);
         this.optionsDonut = this.getDefaultOptions(GaugeType.Donut);
         this.optionsZones = this.getDefaultOptions(GaugeType.Zones);

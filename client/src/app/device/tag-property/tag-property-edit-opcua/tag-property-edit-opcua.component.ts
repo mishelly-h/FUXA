@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { HmiService } from '../../../_services/hmi.service';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { Device, OpcUaTagType, Tag } from '../../../_models/device';
@@ -13,6 +13,11 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
     standalone: false
 })
 export class TagPropertyEditOpcuaComponent implements OnInit, OnDestroy {
+    private fb = inject(UntypedFormBuilder);
+    private hmiService = inject(HmiService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditOpcuaComponent>>(MatDialogRef);
+    data = inject<TagPropertyOpcUaData>(MAT_DIALOG_DATA);
+
 
     formGroup: UntypedFormGroup;
     @Output() result = new EventEmitter<any>();
@@ -24,13 +29,6 @@ export class TagPropertyEditOpcuaComponent implements OnInit, OnDestroy {
         height: '640px',
         width: '1000px'
     };
-
-    constructor(
-        private fb: UntypedFormBuilder,
-        private hmiService: HmiService,
-        public dialogRef: MatDialogRef<TagPropertyEditOpcuaComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyOpcUaData) {
-        }
 
     ngOnInit() {
         if (this.data.tag) {

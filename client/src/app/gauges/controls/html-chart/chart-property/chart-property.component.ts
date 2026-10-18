@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
@@ -27,6 +27,10 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../gui-helpe
     standalone: false
 })
 export class ChartPropertyComponent implements OnInit, OnDestroy {
+    dialog = inject(MatDialog);
+    projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+
 
     @Input() data: any;
     @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
@@ -56,9 +60,7 @@ export class ChartPropertyComponent implements OnInit, OnDestroy {
 
     private destroy$ = new Subject<void>();
 
-    constructor(public dialog: MatDialog,
-                public projectService: ProjectService,
-                private translateService: TranslateService) {
+    constructor() {
         this.selectActionType[Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onRunScript)] = this.translateService.instant(GaugeEventActionType.onRunScript);
     }
 

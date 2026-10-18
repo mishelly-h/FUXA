@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ViewChild, Input, Output, EventEmitter, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { GaugeAction, GaugeProperty, View } from '../../../../_models/hmi';
@@ -24,6 +24,10 @@ declare var SVG: any;
     standalone: false
 })
 export class PipePropertyComponent implements OnInit  {
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private actionPropertyService = inject(ActionPropertyService);
+
     @Input() data: PipePropertyData;
     @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
     @Input('reload') set reload(b: any) {
@@ -41,12 +45,6 @@ export class PipePropertyComponent implements OnInit  {
     defaultColor = Utils.defaultColor;
     pipepath = { bk: null, fg: null, hp: null };
     devices: Device[] = [];
-
-    constructor(
-        private dialog: MatDialog,
-        private projectService: ProjectService,
-        private actionPropertyService: ActionPropertyService) {
-    }
 
     ngOnInit() {
         this.initFromInput();

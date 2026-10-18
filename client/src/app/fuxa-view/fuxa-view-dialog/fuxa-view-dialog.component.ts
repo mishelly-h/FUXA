@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Hmi, View } from '../../_models/hmi';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
@@ -11,16 +11,15 @@ import { ProjectService } from '../../_services/project.service';
     standalone: false
 })
 export class FuxaViewDialogComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<FuxaViewDialogComponent>>(MatDialogRef);
+    private projectService = inject(ProjectService);
+    data = inject<FuxaViewDialogData>(MAT_DIALOG_DATA);
+
 
     view: View;
     hmi: Hmi;
     gaugesManager: GaugesManager;
     variablesMapping = [];
-
-    constructor(public dialogRef: MatDialogRef<FuxaViewDialogComponent>,
-                private projectService: ProjectService,
-                @Inject(MAT_DIALOG_DATA) public data: FuxaViewDialogData) {
-    }
 
     ngOnInit() {
         this.hmi = this.projectService.getHmi();

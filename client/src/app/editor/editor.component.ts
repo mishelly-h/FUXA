@@ -1,5 +1,5 @@
 ﻿/* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef, inject } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { MatDrawer } from '@angular/material/sidenav';
@@ -63,6 +63,18 @@ declare var mysvgeditor: any;
 })
 
 export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
+    private projectService = inject(ProjectService);
+    private winRef = inject(WindowRef);
+    dialog = inject(MatDialog);
+    private changeDetector = inject(ChangeDetectorRef);
+    private translateService = inject(TranslateService);
+    gaugesManager = inject(GaugesManager);
+    private viewContainerRef = inject(ViewContainerRef);
+    private resolver = inject(ComponentFactoryResolver);
+    private resourcesService = inject(ResourcesService);
+    private libWidgetsService = inject(LibWidgetsService);
+    private settingsService = inject(SettingsService);
+
     @ViewChild('gaugepanel', {static: false}) gaugePanelComponent: GaugeBaseComponent;
     @ViewChild('viewFileImportInput', {static: false}) viewFileImportInput: any;
     @ViewChild('cardsview', {static: false}) cardsview: CardsViewComponent;
@@ -129,19 +141,6 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     private destroy$ = new Subject<void>();
     private onboardingWizardHandled = false;
     private onboardingWizardOpened = false;
-
-    constructor(private projectService: ProjectService,
-        private winRef: WindowRef,
-        public dialog: MatDialog,
-        private changeDetector: ChangeDetectorRef,
-        private translateService: TranslateService,
-        public gaugesManager: GaugesManager,
-        private viewContainerRef: ViewContainerRef,
-        private resolver: ComponentFactoryResolver,
-        private resourcesService: ResourcesService,
-        private libWidgetsService: LibWidgetsService,
-        private settingsService: SettingsService) {
-    }
 
     //#region Implemented onInit / onAfterInit event
     /**
@@ -1755,9 +1754,9 @@ interface CopiedAndPasted {
     standalone: false
 })
 export class DialogLinkProperty {
-    constructor(
-        public dialogRef: MatDialogRef<DialogLinkProperty>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
+    dialogRef = inject<MatDialogRef<DialogLinkProperty>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     onNoClick(): void {
         this.dialogRef.close();

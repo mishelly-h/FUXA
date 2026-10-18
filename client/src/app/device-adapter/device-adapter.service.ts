@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ProjectService } from '../_services/project.service';
 import { Device, DeviceType, Tag } from '../_models/device';
 import { DeviceAdapter } from './device-adapter';
@@ -8,14 +8,14 @@ import { Utils } from '../_helpers/utils';
     providedIn: 'root'
 })
 export class DeviceAdapterService {
+    private projectService = inject(ProjectService);
+
 
     private adapterMapping: Record<string, DeviceAdapter> = {};
     private mappingIdsAdapterToDevice: Record<string, string> = {};     // Adapter Tag Id -> Device Tag Id, of Alls Adapters
     private mappingIdsDeviceToAdapter: Record<string, string[]> = {};   // Devices Tags Id -> Adapter Tags Id
 
-    constructor(
-        private projectService: ProjectService,
-    ) {
+    constructor() {
 
         this.projectService.onLoadHmi.subscribe(() => {
             this.loadDevices();

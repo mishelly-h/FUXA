@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -9,13 +9,12 @@ import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from
     standalone: false
 })
 export class EditPlaceholderComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<EditPlaceholderComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    data = inject(MAT_DIALOG_DATA);
+
 
     formGroup: UntypedFormGroup;
-
-    constructor(
-        public dialogRef: MatDialogRef<EditPlaceholderComponent>,
-        private fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

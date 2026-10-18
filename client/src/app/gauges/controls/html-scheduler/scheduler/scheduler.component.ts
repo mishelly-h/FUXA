@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, ViewChild, ElementRef, ChangeDetectorRef, ViewEncapsulation, AfterViewInit, NgZone } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, ViewChild, ElementRef, ChangeDetectorRef, ViewEncapsulation, AfterViewInit, NgZone, inject } from '@angular/core';
 import { fromEvent, Subject, take, takeUntil } from 'rxjs';
 import { HmiService } from '../../../../_services/hmi.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -14,6 +14,13 @@ import { TranslateService } from '@ngx-translate/core';
     standalone: false
 })
 export class SchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterViewInit {
+    private hmiService = inject(HmiService);
+    private cdr = inject(ChangeDetectorRef);
+    private dialog = inject(MatDialog);
+    private authService = inject(AuthService);
+    private translateService = inject(TranslateService);
+    private ngZone = inject(NgZone);
+
     @ViewChild('schedulerContainer', { static: true }) schedulerContainer: ElementRef;
     @ViewChild('deviceScrollContainer', { static: false }) deviceScrollContainer: ElementRef;
     @ViewChild('overviewScrollContainer', { static: false }) overviewScrollContainer: ElementRef;
@@ -178,15 +185,6 @@ export class SchedulerComponent implements OnInit, OnDestroy, OnChanges, AfterVi
     trackBySchedule(index: number, item: any): string {
         return `${item.deviceName}-${item.startTime}-${index}`;
     }
-
-    constructor(
-        private hmiService: HmiService,
-        private cdr: ChangeDetectorRef,
-        private dialog: MatDialog,
-        private authService: AuthService,
-        private translateService: TranslateService,
-        private ngZone: NgZone
-    ) { }
 
     ngOnInit() {
 

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, inject } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
 import { Subject } from 'rxjs';
@@ -12,17 +12,17 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     standalone: false
 })
 export class TagPropertyEditMelsecComponent implements OnInit, OnDestroy {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditMelsecComponent>>(MatDialogRef);
+    data = inject<TagPropertyMelsecData>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     formGroup: UntypedFormGroup;
     tagType = MelsecTagType;
     existingNames = [];
     error: string;
     private destroy$ = new Subject<void>();
-
-    constructor(private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TagPropertyEditMelsecComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyMelsecData) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

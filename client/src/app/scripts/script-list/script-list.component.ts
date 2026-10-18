@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -20,6 +20,10 @@ import { ScriptModeComponent, ScriptModeType } from '../script-mode/script-mode.
     standalone: false
 })
 export class ScriptListComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+
 
     displayedColumns = ['select', 'name', 'params', 'scheduling', 'mode', 'options', 'remove'];
     dataSource = new MatTableDataSource([]);
@@ -28,10 +32,6 @@ export class ScriptListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(MatTable, {static: false}) table: MatTable<any>;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(public dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService) { }
 
 
     ngOnInit() {

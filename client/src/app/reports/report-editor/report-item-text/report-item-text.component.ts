@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ReportItemText } from '../../../_models/report';
 
@@ -9,9 +9,9 @@ import { ReportItemText } from '../../../_models/report';
     standalone: false
 })
 export class ReportItemTextComponent {
+    dialogRef = inject<MatDialogRef<ReportItemTextComponent>>(MatDialogRef);
+    data = inject<ReportItemText>(MAT_DIALOG_DATA);
 
-    constructor(public dialogRef: MatDialogRef<ReportItemTextComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: ReportItemText) {}
 
     onNoClick(): void {
         this.dialogRef.close();

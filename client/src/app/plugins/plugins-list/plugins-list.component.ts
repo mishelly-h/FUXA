@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 import { ProjectService } from '../../_services/project.service';
@@ -16,6 +16,10 @@ interface PluginViewModel extends Plugin {
     standalone: false
 })
 export class PluginsListComponent implements OnInit, OnDestroy {
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private pluginService = inject(PluginService);
+
 
     plugins: PluginViewModel[] = [];
     installing: string;
@@ -25,12 +29,6 @@ export class PluginsListComponent implements OnInit, OnDestroy {
     error: string;
 
     private destroy$ = new Subject<void>();
-
-    constructor(
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private pluginService: PluginService
-    ) { }
 
     ngOnInit() {
         this.translateService.get('dlg.plugins-status-installing').subscribe((txt: string) => this.installing = txt);

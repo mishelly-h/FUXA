@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -15,6 +15,11 @@ import { Chart } from '../../../_models/chart';
     standalone: false
 })
 export class ReportItemChartComponent implements OnInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<ReportItemChartComponent>>(MatDialogRef);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    data = inject<ReportItemChart>(MAT_DIALOG_DATA);
+
 
     public chartCtrl: UntypedFormControl = new UntypedFormControl();
     public chartFilterCtrl: UntypedFormControl = new UntypedFormControl();
@@ -25,11 +30,7 @@ export class ReportItemChartComponent implements OnInit, OnDestroy {
 
     private _onDestroy = new Subject<void>();
 
-    constructor(
-        public dialogRef: MatDialogRef<ReportItemChartComponent>,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        @Inject(MAT_DIALOG_DATA) public data: ReportItemChart) {
+    constructor() {
             this.charts = this.projectService.getCharts();
         }
 

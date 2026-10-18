@@ -1,17 +1,6 @@
 import { Subject, Subscription, BehaviorSubject } from 'rxjs';
 import { NgxFabItemButtonComponent } from './ngx-fab-item-button.component';
-import {
-    Component,
-    Input,
-    ContentChildren,
-    ElementRef,
-    ChangeDetectionStrategy,
-    ChangeDetectorRef,
-    AfterContentInit,
-    OnDestroy,
-    Output,
-    OnChanges
-} from '@angular/core';
+import { Component, Input, ContentChildren, ElementRef, ChangeDetectionStrategy, ChangeDetectorRef, AfterContentInit, OnDestroy, Output, OnChanges, inject } from '@angular/core';
 
 @Component({
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -84,6 +73,9 @@ import {
 })
 
 export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnChanges {
+    private element = inject(ElementRef);
+    private cd = inject(ChangeDetectorRef);
+
     private elementref: HTMLElement;
     private subs: Subscription[] = [];
     public state: BehaviorSubject<any>;
@@ -99,7 +91,9 @@ export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnCha
     @Output() opened = false;
     @ContentChildren(NgxFabItemButtonComponent) buttons;
 
-    constructor(private element: ElementRef, private cd: ChangeDetectorRef) {
+    constructor() {
+        const element = this.element;
+
         this.elementref = element.nativeElement;
 
         this.state = new BehaviorSubject({

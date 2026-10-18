@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { SettingsService } from '../../_services/settings.service';
@@ -17,6 +17,12 @@ import { APP_LANGUAGES } from '../../_models/language';
     standalone: false
 })
 export class AppSettingsComponent implements OnInit {
+    private settingsService = inject(SettingsService);
+    private diagnoseService = inject(DiagnoseService);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+    dialogRef = inject<MatDialogRef<AppSettingsComponent>>(MatDialogRef);
+
 
     languageType = APP_LANGUAGES.map(language => ({ ...language }));
 
@@ -49,12 +55,6 @@ export class AppSettingsComponent implements OnInit {
     alarmsRetationType = AlarmsRetentionType;
     logsRetationType = DaqStoreRetentionType;
     influxDB18 = Utils.getEnumKey(DaqStoreType, DaqStoreType.influxDB18);
-
-    constructor(private settingsService: SettingsService,
-        private diagnoseService: DiagnoseService,
-        private translateService: TranslateService,
-        private toastr: ToastrService,
-        public dialogRef: MatDialogRef<AppSettingsComponent>) { }
 
     ngOnInit() {
         this.settings = JSON.parse(JSON.stringify(this.settingsService.getSettings()));

@@ -1,4 +1,4 @@
-import {Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild, inject } from '@angular/core';
 import Player from 'xgplayer';
 import LivePreset from 'xgplayer/es/presets/live';
 import FlvJsPlugin from 'xgplayer-flv.js';
@@ -13,15 +13,13 @@ import { HmiService } from '../../_services/hmi.service';
     standalone: false
 })
 export class WebcamPlayerComponent implements OnInit {
+    private hmiService = inject(HmiService);
+
 
     @ViewChild('xgplayer', {static: true}) xgplayerRef: ElementRef;
     @Input() data: WebcamPlayerDialogData;
     @Output() onclose = new EventEmitter();
     player: Player;
-
-
-    constructor(private hmiService: HmiService) {
-    }
 
     ngOnInit(): void {
         let url = this.data.ga.property.variableValue;

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Observable } from 'rxjs';
@@ -9,13 +9,16 @@ import { ResourceStorageService } from './rcgi/resource-storage.service';
     providedIn: 'root'
 })
 export class CommandService {
+	private rcgiService = inject(RcgiService);
+	private translateService = inject(TranslateService);
+	private toastr = inject(ToastrService);
+
 
 	private server: ResourceStorageService;
 
-    constructor(
-		private rcgiService: RcgiService,
-        private translateService: TranslateService,
-        private toastr: ToastrService) {
+    constructor() {
+        const rcgiService = this.rcgiService;
+
 
         this.server = rcgiService.rcgi;
     }

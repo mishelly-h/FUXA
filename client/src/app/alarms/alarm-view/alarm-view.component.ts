@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -22,6 +22,11 @@ import { LanguageService } from '../../_services/language.service';
     standalone: false
 })
 export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
+    private translateService = inject(TranslateService);
+    private dialog = inject(MatDialog);
+    private languageService = inject(LanguageService);
+    private hmiService = inject(HmiService);
+
 
     alarmsColumns = AlarmColumns;
     historyColumns = AlarmHistoryColumns;
@@ -51,10 +56,7 @@ export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
     private rxjsPollingTimer = timer(0, 2000);
     private destroy = new Subject<void>();
 
-    constructor(private translateService: TranslateService,
-                private dialog: MatDialog,
-                private languageService: LanguageService,
-                private hmiService: HmiService) {
+    constructor() {
         const today = moment();
         this.dateRange = new FormGroup({
             endDate: new FormControl(today.set({hour: 23, minute: 59, second: 59, millisecond: 999}).toDate()),

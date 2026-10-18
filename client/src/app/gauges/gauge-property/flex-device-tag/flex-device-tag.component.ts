@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { Observable, map, startWith } from 'rxjs';
@@ -19,6 +19,9 @@ export const _filter = (opt: DeviceTagOption[], value: string): DeviceTagOption[
     standalone: false
 })
 export class FlexDeviceTagComponent implements OnInit, OnChanges {
+    private projectService = inject(ProjectService);
+    dialog = inject(MatDialog);
+
 
     @Input() tagTitle = '';
     @Input() readonly = false;
@@ -31,10 +34,6 @@ export class FlexDeviceTagComponent implements OnInit, OnChanges {
     devicesTags$: Observable<DeviceGroup[]>;
     tagFilter = new UntypedFormControl();
     devices: Device[] = [];
-
-    constructor(private projectService: ProjectService,
-        public dialog: MatDialog) {
-    }
 
     ngOnInit() {
         if (!this.deviceTagValue) {

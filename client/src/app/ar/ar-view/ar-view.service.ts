@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy } from '@angular/core';
+import { Injectable, OnDestroy, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ProjectService } from '../../_services/project.service';
@@ -19,11 +19,13 @@ export interface ArMarkerVisibilityEvent {
 
 @Injectable()
 export class ArViewService implements OnDestroy {
+    private projectService = inject(ProjectService);
+
     private readonly markerTtlMs = 3000;
     private readonly markerViewMap = new Map<string, ArVisibleMarker>();
     private loadSubscription: Subscription;
 
-    constructor(private projectService: ProjectService) {
+    constructor() {
         this.loadMarkerMappings();
         this.loadSubscription = this.projectService.onLoadHmi.subscribe(() => {
             this.loadMarkerMappings(true);

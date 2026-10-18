@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -21,6 +21,12 @@ import { EditPlaceholderComponent } from '../../gui-helpers/edit-placeholder/edi
     standalone: false
 })
 export class GraphConfigComponent implements OnInit {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<GraphConfigComponent>>(MatDialogRef);
+    params = inject(MAT_DIALOG_DATA);
+    private projectService = inject(ProjectService);
+
 
     selectedGraph = new Graph(GraphType.bar);
     data = <IDataGraphConfig>{ graphs: [], devices: [] };
@@ -32,11 +38,7 @@ export class GraphConfigComponent implements OnInit {
     barDateFunctionType = GraphBarDateFunctionType;
     dateFunction = new GraphBarFunction();
 
-    constructor(public dialog: MatDialog,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<GraphConfigComponent>,
-        @Inject(MAT_DIALOG_DATA) public params: any,
-        private projectService: ProjectService) {
+    constructor() {
             this.loadData();
     }
 

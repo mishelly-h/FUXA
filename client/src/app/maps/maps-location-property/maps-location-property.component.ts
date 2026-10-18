@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -17,6 +17,13 @@ import { UploadFile } from '../../_models/project';
     standalone: false
 })
 export class MapsLocationPropertyComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<MapsLocationPropertyComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private cdr = inject(ChangeDetectorRef);
+    data = inject<MapsLocation>(MAT_DIALOG_DATA);
+
 
     location: MapsLocation;
     formGroup: UntypedFormGroup;
@@ -25,13 +32,7 @@ export class MapsLocationPropertyComponent implements OnInit {
     defaultColor = Utils.defaultColor;
     @ViewChild('flexActionsStandalone', { static: false }) flexActionsStandalone: FlexActionsStandaloneComponent;
 
-    constructor(
-        public dialogRef: MatDialogRef<MapsLocationPropertyComponent>,
-        private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private cdr: ChangeDetectorRef,
-        @Inject(MAT_DIALOG_DATA) public data: MapsLocation) {
+    constructor() {
             this.location = this.data ?? new MapsLocation(Utils.getGUID(MAPSLOCATION_PREFIX));
     }
 

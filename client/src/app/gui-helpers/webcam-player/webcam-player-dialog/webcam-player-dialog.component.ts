@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { GaugesManager } from '../../../gauges/gauges.component';
 import { GaugeSettings, View } from '../../../_models/hmi';
@@ -10,10 +10,9 @@ import { GaugeSettings, View } from '../../../_models/hmi';
     standalone: false
 })
 export class WebcamPlayerDialogComponent {
+    dialogRef = inject<MatDialogRef<WebcamPlayerDialogComponent>>(MatDialogRef);
+    data = inject<WebcamPlayerDialogData>(MAT_DIALOG_DATA);
 
-    constructor(public dialogRef: MatDialogRef<WebcamPlayerDialogComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: WebcamPlayerDialogData) {
-    }
 
     onCloseDialog() {
         this.dialogRef.close();

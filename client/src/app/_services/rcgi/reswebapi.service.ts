@@ -1,5 +1,5 @@
 
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable, of, switchMap } from 'rxjs';
 
@@ -17,15 +17,13 @@ import { ApiKey } from '../../_models/apikey';
 
 @Injectable()
 export class ResWebApiService implements ResourceStorageService {
+    private http = inject(HttpClient);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+
 
     public endPointConfig = EndPointApi.getURL();
     public onRefreshProject: () => boolean;
-
-    constructor(
-        private http: HttpClient,
-        private translateService: TranslateService,
-        private toastr: ToastrService) {
-    }
 
     init(): boolean {
         return true;

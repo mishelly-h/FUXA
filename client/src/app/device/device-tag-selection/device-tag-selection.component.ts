@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild, Inject, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
@@ -17,6 +17,11 @@ import { TagPropertyService } from '../tag-property/tag-property.service';
     standalone: false
 })
 export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<DeviceTagSelectionComponent>>(MatDialogRef);
+    private projectService = inject(ProjectService);
+    private tagPropertyService = inject(TagPropertyService);
+    data = inject<DeviceTagSelectionData>(MAT_DIALOG_DATA);
+
 
     @ViewChild(MatTable, { static: false }) table: MatTable<any>;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -37,10 +42,7 @@ export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDes
     readonly defColumns = ['toogle', 'name', 'address', 'device', 'select'];
     deviceTagNotEditable = [DeviceType.MQTTclient, DeviceType.ODBC];
 
-    constructor(public dialogRef: MatDialogRef<DeviceTagSelectionComponent>,
-        private projectService: ProjectService,
-        private tagPropertyService: TagPropertyService,
-        @Inject(MAT_DIALOG_DATA) public data: DeviceTagSelectionData) {
+    constructor() {
         this.loadDevicesTags();
     }
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { SelOptionType, SelOptionsComponent } from '../../gui-helpers/sel-options/sel-options.component';
 import { Role, UserGroups } from '../../_models/user';
 import { SettingsService } from '../../_services/settings.service';
@@ -14,19 +14,18 @@ import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from
     standalone: false
 })
 export class ScriptPermissionComponent implements OnInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<ScriptPermissionComponent>>(MatDialogRef);
+    data = inject<ScriptPermissionData>(MAT_DIALOG_DATA);
+    private cdr = inject(ChangeDetectorRef);
+    private userService = inject(UserService);
+    private settingsService = inject(SettingsService);
+
 
     userInfo: UserInfo;
     selected = [];
     options = [];
 	@ViewChild(SelOptionsComponent, {static: false}) seloptions: SelOptionsComponent;
     private destroy$ = new Subject<void>();
-
-	constructor(public dialogRef: MatDialogRef<ScriptPermissionComponent>,
-		@Inject(MAT_DIALOG_DATA) public data: ScriptPermissionData,
-        private cdr: ChangeDetectorRef,
-        private userService: UserService,
-		private settingsService: SettingsService) {
-	}
 
 	ngOnInit() {
         if (this.isRolePermission()) {

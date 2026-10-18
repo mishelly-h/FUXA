@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectorRef, AfterContentChecked } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, AfterContentChecked, inject } from '@angular/core';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Location } from '@angular/common';
 
@@ -15,6 +15,12 @@ import { Utils } from '../_helpers/utils';
     standalone: false
 })
 export class SidenavComponent implements AfterContentChecked {
+    private location = inject(Location);
+    private router = inject(Router);
+    private projectService = inject(ProjectService);
+    private languageService = inject(LanguageService);
+    private changeDetector = inject(ChangeDetectorRef);
+
 
     @Input() sidenav: MatSidenav;
     @Output() goToPage: EventEmitter<string> = new EventEmitter();
@@ -29,13 +35,6 @@ export class SidenavComponent implements AfterContentChecked {
     layoutNavigation = new NavigationSettings();
     expandedItems: Set<string> = new Set();
     private expandableNavItems = [Utils.getEnumKey(NaviItemType, NaviItemType.text), Utils.getEnumKey(NaviItemType, NaviItemType.inline)];
-
-    constructor(private location: Location,
-                private router: Router,
-                private projectService: ProjectService,
-                private languageService: LanguageService,
-                private changeDetector: ChangeDetectorRef) {
-    }
 
     ngAfterContentChecked(): void {
         this.showSidenav = (this.layout) ? true : false;

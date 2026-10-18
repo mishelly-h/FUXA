@@ -1,5 +1,5 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -28,6 +28,12 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/con
     standalone: false
 })
 export class ReportListComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private commandService = inject(CommandService);
+    private reportsService = inject(ReportsService);
+
 
     displayedColumns = ['select', 'name', 'receiver', 'scheduling', 'type', 'expand', 'create', 'remove'];
     dataSource = new MatTableDataSource([]);
@@ -39,12 +45,6 @@ export class ReportListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(MatTable, {static: false}) table: MatTable<any>;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(public dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private commandService: CommandService,
-        private reportsService: ReportsService) { }
 
     ngOnInit() {
         this.loadReports();

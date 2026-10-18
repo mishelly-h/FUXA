@@ -1,4 +1,4 @@
-import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, ViewChild, inject } from '@angular/core';
 import * as L from 'leaflet';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
@@ -33,6 +33,15 @@ interface MarkerBinding {
     standalone: false
 })
 export class MapsViewComponent implements AfterViewInit, OnDestroy {
+    private resolver = inject(ComponentFactoryResolver);
+    private hmiService = inject(HmiService);
+    private injector = inject(Injector);
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private appRef = inject(ApplicationRef);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+
 
     @Input() view: View;
     @Input() hmi: Hmi;
@@ -57,17 +66,6 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
 
     private openPopups = [];
     private currentPopup: L.Popup | null = null;
-
-    constructor(
-        private resolver: ComponentFactoryResolver,
-        private hmiService: HmiService,
-        private injector: Injector,
-        private dialog: MatDialog,
-        private projectService: ProjectService,
-        private appRef: ApplicationRef,
-        private translateService: TranslateService,
-        private toastr: ToastrService
-    ) { }
 
     ngAfterViewInit(): void {
         let startLocation: L.LatLngExpression = [46.9466746335407, 7.444236656153662]; // Bern

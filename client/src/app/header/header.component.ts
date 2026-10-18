@@ -1,6 +1,6 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, Inject, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -27,6 +27,12 @@ const saveFromEditorRouteKey = ['/device', '/messages', '/language', '/users', '
     standalone: false
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
+    private router = inject(Router);
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private themeService = inject(ThemeService);
+    private projectService = inject(ProjectService);
+
 
     @ViewChild('sidenav', {static: false})sidenav: any;
     @ViewChild('tutorial', {static: false}) tutorial: TutorialComponent;
@@ -38,12 +44,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     private subscriptionShowHelp: Subscription;
     private subscriptionLoad: Subscription;
 
-    constructor(private router: Router,
-                public dialog: MatDialog,
-                private translateService: TranslateService,
-                private themeService: ThemeService,
-                private projectService: ProjectService
-    ) {
+    constructor() {
         this.router.events.pipe(
             filter(val => val instanceof NavigationEnd),
         ).subscribe((routeKey: NavigationEnd) => {
@@ -240,9 +241,9 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
     standalone: false
 })
 export class DialogInfo {
-    constructor(
-        public dialogRef: MatDialogRef<DialogInfo>,
-        @Inject(MAT_DIALOG_DATA) public data: any) { }
+    dialogRef = inject<MatDialogRef<DialogInfo>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     onNoClick(): void {
         this.dialogRef.close();

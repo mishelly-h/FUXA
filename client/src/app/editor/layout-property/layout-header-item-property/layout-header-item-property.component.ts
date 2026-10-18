@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HeaderItem, HeaderItemType } from '../../../_models/hmi';
 import { ProjectService } from '../../../_services/project.service';
@@ -12,15 +12,18 @@ import { UploadFile } from '../../../_models/project';
     standalone: false
 })
 export class LayoutHeaderItemPropertyComponent {
+    projectService = inject(ProjectService);
+    private cdr = inject(ChangeDetectorRef);
+    dialogRef = inject<MatDialogRef<LayoutHeaderItemPropertyComponent>>(MatDialogRef);
+    data = inject<HeaderItem>(MAT_DIALOG_DATA);
+
     item: HeaderItem;
     headerType = <HeaderItemType[]>['button', 'label', 'image'];
     defaultColor = Utils.defaultColor;
 
-    constructor(
-        public projectService: ProjectService,
-        private cdr: ChangeDetectorRef,
-        public dialogRef: MatDialogRef<LayoutHeaderItemPropertyComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: HeaderItem) {
+    constructor() {
+        const data = this.data;
+
 
         this.item = data;
     }

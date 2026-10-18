@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { FlexHeadComponent } from '../../gauges/gauge-property/flex-head/flex-head.component';
@@ -16,6 +16,11 @@ import { ProjectService } from '../../_services/project.service';
     standalone: false
 })
 export class AlarmPropertyComponent implements OnInit {
+	dialogRef = inject<MatDialogRef<AlarmPropertyComponent>>(MatDialogRef);
+	private projectService = inject(ProjectService);
+	private translateService = inject(TranslateService);
+	data = inject(MAT_DIALOG_DATA);
+
 
 	@ViewChild('flexauth', {static: false}) flexAuth: FlexAuthComponent;
     @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
@@ -38,11 +43,9 @@ export class AlarmPropertyComponent implements OnInit {
     existtexts = [];
     existgroups = [];
 
-    constructor(
-        public dialogRef: MatDialogRef<AlarmPropertyComponent>,
-        private projectService: ProjectService,
-        private translateService: TranslateService,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
+        const data = this.data;
+
         if (this.data.alarm.property) {
            this.property = <AlarmProperty>JSON.parse(JSON.stringify(this.data.alarm.property));
         } else {

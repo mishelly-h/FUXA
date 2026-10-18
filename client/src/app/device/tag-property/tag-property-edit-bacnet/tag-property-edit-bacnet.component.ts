@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, Output, EventEmitter, inject } from '@angular/core';
 import { HmiService } from '../../../_services/hmi.service';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { BACnetObjectType, Device, Tag } from '../../../_models/device';
@@ -12,6 +12,10 @@ import { TreetableComponent, Node, NodeType } from '../../../gui-helpers/treetab
     standalone: false
 })
 export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
+    private hmiService = inject(HmiService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditBacnetComponent>>(MatDialogRef);
+    data = inject<TagPropertyBacNetData>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     private destroy$ = new Subject<void>();
     @ViewChild(TreetableComponent, { static: false }) treetable: TreetableComponent;
@@ -20,12 +24,6 @@ export class TagPropertyEditBacnetComponent implements OnInit, OnDestroy {
         height: '640px',
         width: '1000px'
     };
-
-    constructor(
-        private hmiService: HmiService,
-        public dialogRef: MatDialogRef<TagPropertyEditBacnetComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyBacNetData) {
-    }
 
     ngOnInit() {
         this.hmiService.onDeviceBrowse.pipe(

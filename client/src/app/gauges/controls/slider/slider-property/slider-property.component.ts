@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnInit, Inject, ViewChild } from '@angular/core';
+import { Component, AfterViewInit, OnInit, ViewChild, inject } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
@@ -18,6 +18,11 @@ import { Define } from '../../../../_helpers/define';
     standalone: false
 })
 export class SliderPropertyComponent implements OnInit, AfterViewInit {
+    dialogRef = inject<MatDialogRef<SliderPropertyComponent>>(MatDialogRef);
+    private translateService = inject(TranslateService);
+    private changeDetector = inject(ChangeDetectorRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     @ViewChild('flexauth', {static: false}) flexAuth: FlexAuthComponent;
     @ViewChild('flexhead', {static: false}) flexHead: FlexHeadComponent;
@@ -36,10 +41,7 @@ export class SliderPropertyComponent implements OnInit, AfterViewInit {
     staticScala = '';
 
 
-    constructor(public dialogRef: MatDialogRef<SliderPropertyComponent>,
-        private translateService: TranslateService,
-        private changeDetector: ChangeDetectorRef,
-        @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
 
         this.property = JSON.parse(JSON.stringify(this.data.settings.property));
         if (!this.property) {

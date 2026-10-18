@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TableFilter, TableType } from '../../../../_models/hmi';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { AlarmColumns, AlarmColumnsType, AlarmHistoryColumns, AlarmHistoryColumnsType, AlarmsFilter, AlarmsType } from '../../../../_models/alarm';
@@ -13,6 +13,11 @@ import { DeviceType } from '../../../../_models/device';
     standalone: false
 })
 export class TableAlarmsComponent {
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    dialogRef = inject<MatDialogRef<TableAlarmsComponent>>(MatDialogRef);
+    data = inject<TableAlarmsType>(MAT_DIALOG_DATA);
+
 
     alarmsColumns = AlarmColumns.filter(column => column !== AlarmColumnsType.history);
     historyColumns = AlarmHistoryColumns.filter(column => column !== AlarmHistoryColumnsType.history);
@@ -25,11 +30,7 @@ export class TableAlarmsComponent {
         tagIds: []
     };
 
-    constructor(
-        private dialog: MatDialog,
-        private projectService: ProjectService,
-        public dialogRef: MatDialogRef<TableAlarmsComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TableAlarmsType) {
+    constructor() {
             this.alarmsFilter.priority = this.data.filter?.filterA || [];
             this.alarmsFilter.text = this.data.filter?.filterB[0];
             this.alarmsFilter.group = this.data.filter?.filterB[1];

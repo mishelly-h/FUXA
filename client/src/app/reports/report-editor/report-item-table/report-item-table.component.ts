@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { EditNameComponent } from '../../../gui-helpers/edit-name/edit-name.component';
@@ -15,6 +15,12 @@ import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../../de
     standalone: false
 })
 export class ReportItemTableComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<ReportItemTableComponent>>(MatDialogRef);
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    data = inject<ReportItemTable>(MAT_DIALOG_DATA);
+
 
     dateRangeType = ReportDateRangeType;
     intervalType = ReportIntervalType;
@@ -22,11 +28,7 @@ export class ReportItemTableComponent implements OnInit {
 
     columns: ReportTableColumn[];
 
-    constructor(public dialogRef: MatDialogRef<ReportItemTableComponent>,
-        public dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        @Inject(MAT_DIALOG_DATA) public data: ReportItemTable) {
+    constructor() {
             if (this.data.columns.length <= 0) {
                 let tag = <Tag>{ label: 'Timestamp' };
                 this.data.columns = [ <ReportTableColumn>{

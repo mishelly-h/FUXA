@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppSettings } from '../../_models/settings';
@@ -21,14 +21,12 @@ export interface SectionMessageDialogData {
     standalone: false
 })
 export class SectionMessageDialogComponent implements OnInit {
-    hideMessage = false;
+    dialogRef = inject<MatDialogRef<SectionMessageDialogComponent>>(MatDialogRef);
+    data = inject<SectionMessageDialogData>(MAT_DIALOG_DATA);
+    private router = inject(Router);
+    private settingsService = inject(SettingsService);
 
-    constructor(
-        public dialogRef: MatDialogRef<SectionMessageDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: SectionMessageDialogData,
-        private router: Router,
-        private settingsService: SettingsService
-    ) { }
+    hideMessage = false;
 
     ngOnInit() {
         this.hideMessage = !!this.settingsService.getSettings()?.editorSectionMessages?.[this.data.settingKey];

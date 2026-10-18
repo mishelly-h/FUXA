@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, OnDestroy, ViewChild, inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 
@@ -16,6 +16,12 @@ import { ArViewService, ArVisibleMarker } from './ar-view.service';
     standalone: false
 })
 export class ArViewComponent implements AfterViewInit, OnDestroy {
+    arViewService = inject(ArViewService);
+    private markerScanner = inject(ArMarkerScannerService);
+    gaugesManager = inject(GaugesManager);
+    projectService = inject(ProjectService);
+    private route = inject(ActivatedRoute);
+
     @ViewChild('video', { static: false }) videoRef: ElementRef<HTMLVideoElement>;
 
     cameraError = '';
@@ -32,14 +38,6 @@ export class ArViewComponent implements AfterViewInit, OnDestroy {
     private readonly scanIntervalMs = 700;
     private hmiLoadSubscription: Subscription;
     private pendingMarkerId = '';
-
-    constructor(
-        public arViewService: ArViewService,
-        private markerScanner: ArMarkerScannerService,
-        public gaugesManager: GaugesManager,
-        public projectService: ProjectService,
-        private route: ActivatedRoute,
-    ) { }
 
     get visibleMarkers(): ArVisibleMarker[] {
         return this.arViewService.visibleMarkers;

@@ -1,6 +1,6 @@
 // the start/root module that tells Angular how to assemble the application.
 
-import { NgModule } from '@angular/core';
+import { NgModule, inject } from '@angular/core';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
@@ -512,10 +512,10 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
         provideHttpClient(withInterceptorsFromDi())
     ] })
 export class AppModule {
-    constructor(
-        iconReg: MatIconRegistry,
-        sanitizer: DomSanitizer
-    ) {
+    constructor() {
+        const iconReg = inject(MatIconRegistry);
+        const sanitizer = inject(DomSanitizer);
+
         iconReg.addSvgIcon('group', sanitizer.bypassSecurityTrustResourceUrl('/assets/images/group.svg'));
         iconReg.addSvgIcon('to_bottom', sanitizer.bypassSecurityTrustResourceUrl('/assets/images/to-bottom.svg'));
         iconReg.addSvgIcon('to_top', sanitizer.bypassSecurityTrustResourceUrl('/assets/images/to-top.svg'));

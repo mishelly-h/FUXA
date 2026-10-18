@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { TableType, TableColumn, TableRow, TableCell, TableCellType } from '../../../../_models/hmi';
@@ -14,17 +14,14 @@ import { TableCustomizerCellEditComponent, TableCustomizerCellRowType, TableCust
     standalone: false
 })
 export class TableCustomizerComponent implements OnInit {
+    private dialog = inject(MatDialog);
+    dialogRef = inject<MatDialogRef<TableCustomizerComponent>>(MatDialogRef);
+    data = inject<TableCustomizerType>(MAT_DIALOG_DATA);
+
 
     tableType = TableType;
     displayedColumns = [];
     dataSource = new MatTableDataSource([]);
-
-    constructor(
-        private dialog: MatDialog,
-        public dialogRef: MatDialogRef<TableCustomizerComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TableCustomizerType) {
-
-    }
 
     ngOnInit() {
         this.loadData();

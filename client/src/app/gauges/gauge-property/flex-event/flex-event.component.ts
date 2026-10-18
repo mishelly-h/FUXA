@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 
@@ -30,6 +30,9 @@ import { ProjectService } from '../../../_services/project.service';
     standalone: false
 })
 export class FlexEventComponent implements OnInit {
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+
 
     @Input() property: GaugeProperty;
     @Input() views: View[];
@@ -57,11 +60,6 @@ export class FlexEventComponent implements OnInit {
 
     eventOnOpenTab = Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onOpenTab);
     eventOnIframe = Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.oniframe);
-
-    constructor(
-        private translateService: TranslateService,
-        private projectService: ProjectService) {
-    }
 
     ngOnInit() {
 

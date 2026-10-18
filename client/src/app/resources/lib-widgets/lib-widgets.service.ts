@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, Subject, map, startWith, switchMap } from 'rxjs';
 import { ResourceGroup, ResourceItem, ResourceType } from '../../_models/resources';
 import { ResourcesService } from '../../_services/resources.service';
@@ -7,14 +7,12 @@ import { ResourcesService } from '../../_services/resources.service';
     providedIn: 'root'
 })
 export class LibWidgetsService {
+    private resourcesService = inject(ResourcesService);
+
 
     clearSelection$ = new Subject<void>();
     svgWidgetSelected$ = new Subject<string>();
     private refreshSubject = new Subject<void>();
-
-    constructor(
-        private resourcesService: ResourcesService) {
-    }
 
     public resourceWidgets$: Observable<ResourceGroup[]> = this.refreshSubject.pipe(
         startWith(0),

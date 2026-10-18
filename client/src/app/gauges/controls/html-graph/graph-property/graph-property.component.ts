@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output, OnDestroy, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { UntypedFormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
@@ -21,6 +21,9 @@ import { GraphPieComponent } from '../graph-pie/graph-pie.component';
     standalone: false
 })
 export class GraphPropertyComponent implements OnInit, OnDestroy {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+
 
     @Input() data: any;
     @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
@@ -42,10 +45,6 @@ export class GraphPropertyComponent implements OnInit, OnDestroy {
     public filteredGraph: ReplaySubject<Graph[]> = new ReplaySubject<Graph[]>(1);
 
     private _onDestroy = new Subject<void>();
-
-    constructor(public dialog: MatDialog,
-                private translateService: TranslateService) {
-    }
 
     ngOnInit() {
         this.checkInitProperty();

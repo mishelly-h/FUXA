@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { NavigationExtras, Router } from '@angular/router';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
@@ -22,15 +22,17 @@ const clientOnlyToDisable = ['messages', 'users', 'userRoles', 'plugins', 'notif
     standalone: false
 })
 export class SetupComponent {
+    private router = inject(Router);
+    private appService = inject(AppService);
+    dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private plugins = inject(PluginService);
+    dialogRef = inject<MatDialogRef<SetupComponent>>(MatDialogRef);
+
 
     nodeRedExists$: Observable<boolean>;
 
-    constructor(private router: Router,
-                private appService: AppService,
-                public dialog: MatDialog,
-                private projectService: ProjectService,
-                private plugins: PluginService,
-                public dialogRef: MatDialogRef<SetupComponent>) {
+    constructor() {
 
         this.router.routeReuseStrategy.shouldReuseRoute = function() { return false; };
 

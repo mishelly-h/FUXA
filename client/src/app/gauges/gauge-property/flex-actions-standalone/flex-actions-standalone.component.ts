@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 
 import { Utils } from '../../../_helpers/utils';
@@ -12,6 +12,9 @@ import { ProjectService } from '../../../_services/project.service';
     standalone: false
 })
 export class FlexActionsStandaloneComponent implements OnInit {
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+
 
     @Input() actions: GaugeAction[];
     actionsSupported: any = {
@@ -25,9 +28,6 @@ export class FlexActionsStandaloneComponent implements OnInit {
     slideView = true;
     defaultColor = Utils.defaultColor;
     data: any;
-
-    constructor(private translateService: TranslateService,
-                private projectService: ProjectService) { }
 
     ngOnInit() {
         this.data = { devices: this.projectService.getDevices() };

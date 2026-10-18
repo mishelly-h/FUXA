@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Input, Output, inject } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 import { GaugeIframeProperty } from '../../../../_models/hmi';
@@ -11,6 +11,8 @@ import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/
     standalone: false
 })
 export class IframePropertyComponent implements OnInit {
+    private translateService = inject(TranslateService);
+
 
     @Input() data: any;
     @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
@@ -19,9 +21,6 @@ export class IframePropertyComponent implements OnInit {
     }
 
     property: GaugeIframeProperty;
-
-    constructor(private translateService: TranslateService) {
-    }
 
     ngOnInit() {
         this._reload();

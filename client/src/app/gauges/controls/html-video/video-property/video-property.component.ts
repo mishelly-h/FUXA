@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { GaugeAction, GaugeVideoProperty } from '../../../../_models/hmi';
 import { FlexAuthValues } from '../../../gauge-property/flex-auth/flex-auth.component';
 import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
@@ -16,6 +16,10 @@ import { MatDialog } from '@angular/material/dialog';
     standalone: false
 })
 export class VideoPropertyComponent implements OnInit {
+    private dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+    private actionPropertyService = inject(ActionPropertyService);
+
 
     @Input() data: any;
     @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
@@ -26,12 +30,6 @@ export class VideoPropertyComponent implements OnInit {
     property: GaugeVideoProperty;
     name: string;
     devices: Device[] = [];
-
-    constructor(
-        private dialog: MatDialog,
-        private projectService: ProjectService,
-        private actionPropertyService: ActionPropertyService) {
-        }
 
     ngOnInit() {
         this.initFromInput();

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { Device, RedisTagType, Tag } from '../../../_models/device';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,16 +11,16 @@ import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from
     standalone: false
 })
 export class TagPropertyEditRedisComponent implements OnInit {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditRedisComponent>>(MatDialogRef);
+    data = inject<TagPropertyRedisData>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     formGroup: UntypedFormGroup;
     tagType = RedisTagType;
     existingNames = [];
     error: string;
-
-    constructor(private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TagPropertyEditRedisComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyRedisData) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

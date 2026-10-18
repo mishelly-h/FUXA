@@ -1,4 +1,4 @@
-import { Directive, ElementRef, Renderer2, OnDestroy, OnInit, AfterViewInit, Input } from '@angular/core';
+import { Directive, ElementRef, Renderer2, OnDestroy, OnInit, AfterViewInit, Input, inject } from '@angular/core';
 
 
 @Directive({
@@ -11,6 +11,9 @@ import { Directive, ElementRef, Renderer2, OnDestroy, OnInit, AfterViewInit, Inp
     standalone: false
 })
 export class DraggableDirective implements OnDestroy, OnInit, AfterViewInit {
+    private el = inject(ElementRef);
+    private renderer = inject(Renderer2);
+
     private dx = 0;
     private dy = 0;
 
@@ -25,11 +28,6 @@ export class DraggableDirective implements OnDestroy, OnInit, AfterViewInit {
     @Input() draggableHeight: number;
 
     private mustBePosition: Array<string> = ['absolute', 'fixed', 'relative'];
-    constructor(
-        private el: ElementRef, private renderer: Renderer2
-    ) {
-
-    }
 
     ngOnInit(): void {
         this.renderer.setAttribute(this.el.nativeElement, 'draggable', 'true');

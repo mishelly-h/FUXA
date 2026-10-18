@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, inject } from '@angular/core';
 import { WidgetProperty } from '../../../_models/hmi';
 import { ProjectService } from '../../../_services/project.service';
 import { SvgUtils } from '../../../_helpers/svg-utils';
@@ -10,11 +10,13 @@ import { SvgUtils } from '../../../_helpers/svg-utils';
     standalone: false
 })
 export class FlexWidgetPropertyComponent implements OnInit {
+    private projectService = inject(ProjectService);
+
 
     @Input() property: WidgetProperty;
     dataDevices = { devices: []};
 
-    constructor(private projectService: ProjectService) {
+    constructor() {
         this.dataDevices = {
             devices: Object.values(this.projectService.getDevices())
         };

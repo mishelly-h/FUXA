@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { Tag, DevicesUtils, Device, PlaceholderDevice } from '../../../_models/device';
@@ -27,6 +27,9 @@ export const _filter = (opt: DeviceTagOption[], value: string): DeviceTagOption[
     standalone: false
 })
 export class FlexVariableComponent implements OnInit {
+    dialog = inject(MatDialog);
+    private projectService = inject(ProjectService);
+
     @Input() data: any;
     @Input() variableId: string;
     @Input() value: any;
@@ -55,10 +58,6 @@ export class FlexVariableComponent implements OnInit {
     devices: DeviceGroup[] = [];
     devicesTags$: Observable<DeviceGroup[]>;
     tagFilter = new UntypedFormControl();
-
-    constructor(public dialog: MatDialog,
-        private projectService: ProjectService) {
-    }
 
     ngOnInit() {
         this.loadDevicesTags();

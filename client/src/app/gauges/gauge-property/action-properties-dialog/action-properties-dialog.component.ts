@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { ProjectService } from '../../../_services/project.service';
 import { Device } from '../../../_models/device';
@@ -12,14 +12,13 @@ import { FlexActionComponent } from '../flex-action/flex-action.component';
     standalone: false
 })
 export class ActionPropertiesDialogComponent implements OnInit {
+    private projectService = inject(ProjectService);
+    dialogRef = inject<MatDialogRef<ActionPropertiesDialogComponent>>(MatDialogRef);
+    data = inject<ActionPropertiesData>(MAT_DIALOG_DATA);
+
 
     @ViewChild('flexaction', {static: false}) flexAction: FlexActionComponent;
     property: GaugeProperty;
-
-    constructor(
-        private projectService: ProjectService,
-        public dialogRef: MatDialogRef<ActionPropertiesDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: ActionPropertiesData) { }
 
     ngOnInit() {
         if (!this.data.devices) {

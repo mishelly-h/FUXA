@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { ResClientService } from './resclient.service';
 import { ResourceStorageService } from './resource-storage.service';
 import { environment } from '../../../environments/environment';
@@ -12,15 +12,20 @@ import { UploadFile } from '../../_models/project';
 	providedIn: 'root'
 })
 export class RcgiService {
+    private reseWebApiService = inject(ResWebApiService);
+    private resDemoService = inject(ResDemoService);
+    private resClientService = inject(ResClientService);
+    private appService = inject(AppService);
+
 
     public rcgi: ResourceStorageService;
 
-	constructor(
-		private reseWebApiService: ResWebApiService,
-        private resDemoService: ResDemoService,
-		private resClientService: ResClientService,
-        private appService: AppService,
-	) {
+	constructor() {
+		const reseWebApiService = this.reseWebApiService;
+		const resDemoService = this.resDemoService;
+		const resClientService = this.resClientService;
+		const appService = this.appService;
+
 		this.rcgi = reseWebApiService;
 		if (!environment.serverEnabled || appService.isDemoApp) {
 			this.rcgi = resDemoService;

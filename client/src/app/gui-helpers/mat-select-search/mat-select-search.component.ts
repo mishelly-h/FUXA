@@ -1,9 +1,4 @@
-import {
-    AfterViewInit,
-    ChangeDetectionStrategy, ChangeDetectorRef,
-    Component, ElementRef, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, QueryList,
-    ViewChild
-} from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, forwardRef, Input, OnDestroy, OnInit, QueryList, ViewChild, inject } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelect as MatSelect } from '@angular/material/select';
 import { MatOption as MatOption } from '@angular/material/core';
@@ -102,6 +97,10 @@ import { TranslateService } from '@ngx-translate/core';
     standalone: false
 })
 export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewInit, ControlValueAccessor {
+    matSelect = inject<MatSelect>(MatSelect);
+    private translateService = inject(TranslateService);
+    private changeDetectorRef = inject(ChangeDetectorRef);
+
 
     /** Label of the search placeholder */
     @Input() placeholderLabel = '';
@@ -135,12 +134,6 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
 
     /** Subject that emits when the component has been destroyed. */
     private _onDestroy = new Subject<void>();
-
-
-    constructor(@Inject(MatSelect) public matSelect: MatSelect,
-        private translateService: TranslateService,
-        private changeDetectorRef: ChangeDetectorRef) {
-    }
 
     ngOnInit() {
         // set custom panel class

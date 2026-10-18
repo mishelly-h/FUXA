@@ -1,4 +1,4 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { DaterangepickerComponent } from '../daterangepicker';
@@ -10,12 +10,12 @@ import { IDateRange } from '../../_models/hmi';
     standalone: false
 })
 export class DaterangeDialogComponent {
+    dialogRef = inject<MatDialogRef<DaterangeDialogComponent>>(MatDialogRef);
+
 
     @ViewChild('dtrange', {static: false}) public dtrange: DaterangepickerComponent;
 
     options = { };
-
-    constructor(public dialogRef: MatDialogRef<DaterangeDialogComponent>) { }
 
     onOkClick() {
         let dateRange = <IDateRange> { start: this.dtrange.startDate.toDate().getTime(),

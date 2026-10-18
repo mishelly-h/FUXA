@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -12,6 +12,10 @@ import { RecipeProgressEvent, RecipeCompleteEvent } from '../../_models/recipe';
     standalone: false
 })
 export class RecipeProgressComponent implements OnInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<RecipeProgressComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+    private hmiService = inject(HmiService);
+
     progressEntries: { entryId: string; tagName: string; status: string; error?: string }[] = [];
     currentIndex = 0;
     totalEntries: number;
@@ -21,11 +25,9 @@ export class RecipeProgressComponent implements OnInit, OnDestroy {
     errorMessage = '';
     private subscription: Subscription = new Subscription();
 
-    constructor(
-        public dialogRef: MatDialogRef<RecipeProgressComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        private hmiService: HmiService
-    ) {
+    constructor() {
+        const data = this.data;
+
         this.totalEntries = data.totalEntries || 0;
     }
 

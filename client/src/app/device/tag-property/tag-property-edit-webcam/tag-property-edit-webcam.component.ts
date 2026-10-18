@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import {
     AbstractControl,
     UntypedFormBuilder,
@@ -18,6 +18,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
     standalone: false
 })
 export class TagPropertyEditWebcamComponent implements OnInit {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditWebcamComponent>>(MatDialogRef);
+    data = inject<TagPropertyWebcamData>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     formGroup: UntypedFormGroup;
     readonly tagType = ServerTagType;
@@ -25,11 +30,6 @@ export class TagPropertyEditWebcamComponent implements OnInit {
     readonly callbackReturnType = WebcamCallbackReturnType;
     existingNames = [];
     error: string;
-
-    constructor(private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TagPropertyEditWebcamComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyWebcamData) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

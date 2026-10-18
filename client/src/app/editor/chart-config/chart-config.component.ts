@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { MatSelectionList as MatSelectionList } from '@angular/material/list';
 
@@ -22,6 +22,11 @@ import { EditPlaceholderComponent } from '../../gui-helpers/edit-placeholder/edi
     standalone: false
 })
 export class ChartConfigComponent implements OnInit {
+    dialog = inject(MatDialog);
+    dialogRef = inject<MatDialogRef<ChartConfigComponent>>(MatDialogRef);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+
 
     @ViewChild(MatSelectionList, {static: false}) selTags: MatSelectionList;
 
@@ -35,11 +40,7 @@ export class ChartConfigComponent implements OnInit {
                     { text: 'chart.config-interpo-stepBefore', value: 2 }, { text: 'chart.config-interpo-spline', value: 3 },
                     { text: 'chart.config-interpo-none', value: 4 }];
 
-    constructor(
-        public dialog: MatDialog,
-        public dialogRef: MatDialogRef<ChartConfigComponent>,
-        private translateService: TranslateService,
-        private projectService: ProjectService) {
+    constructor() {
             this.loadData();
     }
 

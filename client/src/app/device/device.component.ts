@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import {Subject, Subscription, takeUntil} from 'rxjs';
 import {Router} from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +21,12 @@ import { SectionMessageDialogComponent } from '../editor/section-message-dialog/
     standalone: false
 })
 export class DeviceComponent implements OnInit, OnDestroy {
+    private router = inject(Router);
+    private projectService = inject(ProjectService);
+    private hmiService = inject(HmiService);
+    private settingsService = inject(SettingsService);
+    private dialog = inject(MatDialog);
+
 
     @ViewChild('devicelist', {static: false}) deviceList: DeviceListComponent;
     @ViewChild('devicemap', {static: false}) deviceMap: DeviceMapComponent;
@@ -44,11 +50,7 @@ export class DeviceComponent implements OnInit, OnDestroy {
     readonly = false;
     reloadActive = false;
 
-    constructor(private router: Router,
-        private projectService: ProjectService,
-        private hmiService: HmiService,
-        private settingsService: SettingsService,
-        private dialog: MatDialog) {
+    constructor() {
         if (this.router.url.indexOf(DEVICE_READONLY) >= 0) {
             this.readonly = true;
         }

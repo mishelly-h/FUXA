@@ -1,17 +1,4 @@
-import {
-    AfterViewInit,
-    Component,
-    ComponentFactoryResolver,
-    ElementRef,
-    EventEmitter,
-    HostListener,
-    Input,
-    OnDestroy,
-    OnInit,
-    Output,
-    ViewChild,
-    ViewContainerRef
-} from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild, ViewContainerRef, inject } from '@angular/core';
 import { Subject, Subscription, take } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -43,6 +30,16 @@ declare var SVG: any;
     standalone: false
 })
 export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
+    private translateService = inject(TranslateService);
+    private changeDetector = inject(ChangeDetectorRef);
+    private viewContainerRef = inject(ViewContainerRef);
+    private scriptService = inject(ScriptService);
+    private projectService = inject(ProjectService);
+    private hmiService = inject(HmiService);
+    private languageService = inject(LanguageService);
+    private resolver = inject(ComponentFactoryResolver);
+    private fuxaDialog = inject(MatDialog);
+
 
     @Input() id: string;
     @Input() variablesMapping: any = [];
@@ -85,18 +82,6 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
     private destroy$ = new Subject<void>();
     private loadOk = false;
     private zIndexCounter = 1000;
-
-    constructor(
-        private translateService: TranslateService,
-        private changeDetector: ChangeDetectorRef,
-        private viewContainerRef: ViewContainerRef,
-        private scriptService: ScriptService,
-        private projectService: ProjectService,
-        private hmiService: HmiService,
-        private languageService: LanguageService,
-        private resolver: ComponentFactoryResolver,
-        private fuxaDialog: MatDialog) {
-    }
 
     ngOnInit() {
         this.loadVariableMapping();

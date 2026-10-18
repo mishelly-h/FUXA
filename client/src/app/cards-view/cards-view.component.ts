@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Renderer2, ViewChildren, QueryList } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Renderer2, ViewChildren, QueryList, inject } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { GaugesManager } from '../gauges/gauges.component';
@@ -15,6 +15,10 @@ import { ProjectService } from '../_services/project.service';
     standalone: false
 })
 export class CardsViewComponent implements OnInit, AfterViewInit {
+    private renderer = inject(Renderer2);
+    private changeDetector = inject(ChangeDetectorRef);
+    private projectService = inject(ProjectService);
+
 
     @Input() options: GridsterConfig;
     @Input() edit = true;
@@ -31,9 +35,7 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
     mapsViewType = ViewType.maps;
     private loadOk = false;
 
-    constructor(private renderer: Renderer2,
-                private changeDetector: ChangeDetectorRef,
-                private projectService: ProjectService) {
+    constructor() {
         this.gridOptions = <GridsterConfig> new GridOptions();
         this.gridOptions.itemChangeCallback = this.itemChange;
         this.gridOptions.itemResizeCallback = CardsViewComponent.itemResizeTrigger;

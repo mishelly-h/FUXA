@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ScriptMode } from '../../_models/script';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
@@ -12,18 +12,17 @@ import { ProjectService } from '../../_services/project.service';
     standalone: false
 })
 export class ScriptModeComponent implements OnInit {
+	dialogRef = inject<MatDialogRef<ScriptModeComponent>>(MatDialogRef);
+	private translateService = inject(TranslateService);
+	private projectService = inject(ProjectService);
+	private fb = inject(UntypedFormBuilder);
+	data = inject<ScriptModeType>(MAT_DIALOG_DATA);
+
 
 	formGroup: UntypedFormGroup;
 
 	scriptMode = ScriptMode;
 	existingNames = [];
-
-	constructor(public dialogRef: MatDialogRef<ScriptModeComponent>,
-		private translateService: TranslateService,
-		private projectService: ProjectService,
-		private fb: UntypedFormBuilder,
-		@Inject(MAT_DIALOG_DATA) public data: ScriptModeType) {
-	}
 
 	ngOnInit() {
 		this.existingNames = this.projectService.getScripts()?.map(script => script.name);

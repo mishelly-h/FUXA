@@ -1,4 +1,4 @@
-import { Component, Input, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, ViewContainerRef, ComponentFactoryResolver, ComponentRef, OnInit, OnDestroy, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { GaugeBaseComponent } from '../../gauge-base/gauge-base.component';
 import { GaugeSettings } from '../../../_models/hmi';
@@ -26,6 +26,13 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../gui-helpers/
     standalone: false
 })
 export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
+    private recipeService = inject(RecipeService);
+    private hmiService = inject(HmiService);
+    private dialog = inject(MatDialog);
+    private authService = inject(AuthService);
+    private settingsService = inject(SettingsService);
+    private translateService = inject(TranslateService);
+
 
     /** Editor mode — permission checks are bypassed (factory sets from isview) */
     @Input() isEditor: boolean = false;
@@ -93,9 +100,6 @@ export class HtmlRecipeViewComponent implements OnInit, OnDestroy {
     private subscriptionUploadComplete!: Subscription;
     private subscriptionUploadError!: Subscription;
     private subscriptionCanceled!: Subscription;
-
-    constructor(private recipeService: RecipeService, private hmiService: HmiService, private dialog: MatDialog,
-        private authService: AuthService, private settingsService: SettingsService, private translateService: TranslateService) { }
 
     ngOnInit() {
         this.permission = this._checkPermission();

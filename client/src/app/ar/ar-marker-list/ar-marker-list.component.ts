@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -20,6 +20,11 @@ import { createQrSvg, createQrSvgDataUrl } from '../ar-marker-property/qr-code-g
     standalone: false
 })
 export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {
+    private dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private settingsService = inject(SettingsService);
+
     displayedColumns = ['select', 'id', 'label', 'view', 'ttlMs', 'download', 'remove'];
     dataSource = new MatTableDataSource<ArMarker>([]);
     arSettings: ArSettings;
@@ -30,13 +35,6 @@ export class ArMarkerListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     @ViewChild(MatTable, { static: true }) table: MatTable<ArMarker>;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
-
-    constructor(
-        private dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private settingsService: SettingsService
-    ) { }
 
     ngOnInit() {
         this.loadMarkers();

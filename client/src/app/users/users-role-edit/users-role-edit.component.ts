@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, inject } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Role } from '../../_models/user';
@@ -13,15 +13,15 @@ import { Subject, takeUntil } from 'rxjs';
     standalone: false
 })
 export class UsersRoleEditComponent implements OnInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<UsersRoleEditComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    data = inject<Role>(MAT_DIALOG_DATA);
+    private userService = inject(UserService);
+
     formGroup: UntypedFormGroup;
 
 	roles: Role[] = [];
     private destroy$ = new Subject<void>();
-
-    constructor(public dialogRef: MatDialogRef<UsersRoleEditComponent>,
-        private fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) public data: Role,
-        private userService: UserService) { }
 
     ngOnInit() {
         this.userService.getRoles().pipe(

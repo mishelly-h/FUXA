@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApiKey } from '../../_models/apikey';
@@ -11,15 +11,16 @@ import { Utils } from '../../_helpers/utils';
     standalone: false
 })
 export class ApiKeyPropertyComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<ApiKeyPropertyComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+
 
     formGroup: UntypedFormGroup;
     private original: ApiKey;
 
-    constructor(
-        public dialogRef: MatDialogRef<ApiKeyPropertyComponent>,
-        private fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) data: ApiKey
-    ) {
+    constructor() {
+        const data = inject<ApiKey>(MAT_DIALOG_DATA);
+
         this.original = data ? { ...data } : {} as ApiKey;
     }
 

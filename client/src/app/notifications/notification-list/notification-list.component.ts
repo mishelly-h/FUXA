@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatSort } from '@angular/material/sort';
@@ -18,6 +18,10 @@ import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm
     standalone: false
 })
 export class NotificationListComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+
 
     displayedColumns = ['select', 'name', 'receiver', 'delay', 'interval', 'type', 'enabled', 'subscriptions', 'remove'];
     dataSource = new MatTableDataSource([]);
@@ -31,10 +35,6 @@ export class NotificationListComponent implements OnInit, AfterViewInit, OnDestr
 
     @ViewChild(MatTable, {static: true}) table: MatTable<any>;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(public dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService) { }
 
     ngOnInit() {
         this.loadNotifications();

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -26,6 +26,15 @@ pdfMake.vfs = pdfFonts;
     standalone: false
 })
 export class ReportEditorComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<ReportEditorComponent>>(MatDialogRef);
+    dialog = inject(MatDialog);
+    private fb = inject(UntypedFormBuilder);
+    private projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+    private resourcesService = inject(ResourcesService);
+    private pluginService = inject(PluginService);
+    data = inject<ReportEditorData>(MAT_DIALOG_DATA);
+
 
     myForm: UntypedFormGroup;
 
@@ -41,14 +50,9 @@ export class ReportEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private imagesList = {};
 
-    constructor(public dialogRef: MatDialogRef<ReportEditorComponent>,
-        public dialog: MatDialog,
-        private fb: UntypedFormBuilder,
-        private projectService: ProjectService,
-        private translateService: TranslateService,
-        private resourcesService: ResourcesService,
-        private pluginService: PluginService,
-        @Inject(MAT_DIALOG_DATA) public data: ReportEditorData) {
+    constructor() {
+        const data = this.data;
+
 
         const existingReportNames = this.projectService.getReports()?.filter(report => report.id !== data.report.id)?.map(report => report.name);
         this.report = data.report;

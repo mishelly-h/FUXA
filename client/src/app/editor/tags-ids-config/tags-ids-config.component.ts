@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { Device } from '../../_models/device';
 
@@ -9,11 +9,9 @@ import { Device } from '../../_models/device';
     standalone: false
 })
 export class TagsIdsConfigComponent {
+    dialogRef = inject<MatDialogRef<TagsIdsConfigComponent>>(MatDialogRef);
+    data = inject<TagsIdsData>(MAT_DIALOG_DATA);
 
-    constructor(
-        public dialogRef: MatDialogRef<TagsIdsConfigComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagsIdsData) {
-    }
 
     onOkClick(): void {
         this.dialogRef.close(this.data.tagsIds);

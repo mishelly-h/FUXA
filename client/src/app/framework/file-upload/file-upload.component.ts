@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { MyFileService, TransferResult } from '../../_services/my-file.service';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
 
@@ -9,16 +9,15 @@ import { ToastNotifierService } from '../../_services/toast-notifier.service';
     standalone: false
 })
 export class FileUploadComponent {
+  private fileService = inject(MyFileService);
+  private toastNotifier = inject(ToastNotifierService);
+
 
   @Input() fileName: string;
   @Input() destination: string;
   @Output() onFileChange: EventEmitter<File> = new EventEmitter<File>();
 
   selectedFile: File;
-
-  constructor(private fileService: MyFileService,
-              private toastNotifier: ToastNotifierService) {
-  }
 
   onChange(event: any) {
     this.selectedFile = event.target.files[0];

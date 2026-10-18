@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { ProjectService } from '../../_services/project.service';
 import { MapsLocation } from '../../_models/maps';
@@ -12,16 +12,16 @@ import { map, Observable, startWith } from 'rxjs';
     standalone: false
 })
 export class MapsLocationImportComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<MapsLocationImportComponent>>(MatDialogRef);
+    private projectService = inject(ProjectService);
+    data = inject(MAT_DIALOG_DATA);
+
     formGroup: FormGroup;
     locationFilter = new FormControl('');
     locations$: Observable<MapsLocation[]>;
     allLocations: MapsLocation[] = [];
 
-    constructor(
-        public dialogRef: MatDialogRef<MapsLocationImportComponent>,
-        private projectService: ProjectService,
-        @Inject(MAT_DIALOG_DATA) public data: MapsLocation[]
-    ) {
+    constructor() {
         this.formGroup = new FormGroup({
             location: new FormControl(null, [Validators.required, this.locationValidator.bind(this)])
         });

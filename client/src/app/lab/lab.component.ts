@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ChangeDetectorRef  } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewContainerRef, ChangeDetectorRef, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { ProjectService } from '../_services/project.service';
@@ -18,6 +18,12 @@ declare var Raphael: any;
 })
 
 export class LabComponent implements OnInit, OnDestroy {
+    private projectService = inject(ProjectService);
+    private appService = inject(AppService);
+    gaugesManager = inject(GaugesManager);
+    private changeDetector = inject(ChangeDetectorRef);
+    private testerService = inject(TesterService);
+
 
     @ViewChild('messagecontainer', { read: ViewContainerRef, static: false }) entry: ViewContainerRef;
     @ViewChild('tester', {static: false}) tester: TesterComponent;
@@ -30,13 +36,6 @@ export class LabComponent implements OnInit, OnDestroy {
 	backgroudColor = 'unset';
 
 	private subscriptionLoad: Subscription;
-
-    constructor(private projectService: ProjectService,
-        private appService: AppService,
-        public gaugesManager: GaugesManager,
-        private changeDetector: ChangeDetectorRef,
-        private testerService: TesterService) {
-    }
 
     ngOnInit() {
         try {

@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { Role, UserGroups } from '../../../_models/user';
 import { SelOptionType, SelOptionsComponent } from '../../../gui-helpers/sel-options/sel-options.component';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -13,20 +13,18 @@ import { Subject, map, takeUntil } from 'rxjs';
     standalone: false
 })
 export class PermissionDialogComponent implements AfterViewInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<PermissionDialogComponent>>(MatDialogRef);
+    private userService = inject(UserService);
+    private cdr = inject(ChangeDetectorRef);
+    private settingsService = inject(SettingsService);
+    data = inject<PermissionData>(MAT_DIALOG_DATA);
+
     selected = [];
     extension = [];
     options = [];
     private destroy$ = new Subject<void>();
 
     @ViewChild(SelOptionsComponent, { static: false }) seloptions: SelOptionsComponent;
-
-    constructor(
-        public dialogRef: MatDialogRef<PermissionDialogComponent>,
-        private userService: UserService,
-        private cdr: ChangeDetectorRef,
-        private settingsService: SettingsService,
-        @Inject(MAT_DIALOG_DATA) public data: PermissionData) {
-    }
 
     ngAfterViewInit() {
         if (this.isRolePermission()) {

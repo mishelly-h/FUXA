@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatDialog as MatDialog} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
@@ -16,6 +16,10 @@ import { MapsLocationPropertyComponent } from '../maps-location-property/maps-lo
     standalone: false
 })
 export class MapsLocationListComponent implements OnInit, AfterViewInit, OnDestroy {
+    private dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+
 
     displayedColumns = ['select', 'name', 'view', 'description', 'remove'];
     dataSource = new MatTableDataSource([]);
@@ -26,10 +30,6 @@ export class MapsLocationListComponent implements OnInit, AfterViewInit, OnDestr
 
     @ViewChild(MatTable, {static: true}) table: MatTable<any>;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(private dialog: MatDialog,
-                private translateService: TranslateService,
-                private projectService: ProjectService) { }
 
     ngOnInit() {
         this.loadLocations();

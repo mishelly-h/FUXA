@@ -1,16 +1,15 @@
-import { Directive, ElementRef, HostListener } from '@angular/core';
+import { Directive, ElementRef, HostListener, inject } from '@angular/core';
 
 @Directive({
     selector: '[numberOnly]',
     standalone: false
 })
 export class NumberOnlyDirective {
+    private el = inject(ElementRef);
+
     // Allow key codes for special events. Reflect :
     // Backspace, tab, end, home
     private specialKeys: Array<string> = ['Backspace', 'Delete', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight'];
-
-    constructor(private el: ElementRef) {
-    }
 
     @HostListener('keydown', ['$event'])
     onKeyDown(event: KeyboardEvent) {
@@ -27,14 +26,13 @@ export class NumberOnlyDirective {
     standalone: false
 })
 export class NumberOrNullOnlyDirective {
+    private el = inject(ElementRef);
+
     // Allow decimal numbers and negative values
     private regex = new RegExp(/^-?[0-9]+(\.[0-9]*){0,1}$/g);///^-?[0-9]+(\.[0-9]*){0,1}$/g);
     // Allow key codes for special events. Reflect :
     // Backspace, tab, end, home
     private specialKeys: Array<string> = ['Backspace', 'Delete', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight'];
-
-    constructor(private el: ElementRef) {
-    }
     @HostListener('keydown', ['$event'])
     onKeyDown(event: KeyboardEvent) {
         // Allow Backspace, tab, end, and home keys
@@ -77,12 +75,11 @@ export class NumberOrNullOnlyDirective {
     standalone: false
 })
 export class NonNegativeIntegerOnlyDirective {
+    private el = inject(ElementRef);
+
     // Allow only whole non-negative integers: digits 0-9
     private regex = new RegExp(/^[0-9]+$/g);
     private specialKeys: Array<string> = ['Backspace', 'Delete', 'Tab', 'End', 'Home', 'ArrowLeft', 'ArrowRight'];
-
-    constructor(private el: ElementRef) {
-    }
 
     @HostListener('keydown', ['$event'])
     onKeyDown(event: KeyboardEvent) {

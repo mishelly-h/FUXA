@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, inject } from '@angular/core';
 import { MatRow as MatRow, MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatMenuTrigger as MatMenuTrigger } from '@angular/material/menu';
@@ -34,6 +34,16 @@ declare const numeral: any;
     standalone: false
 })
 export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
+    private dataService = inject(DataConverterService);
+    private projectService = inject(ProjectService);
+    private hmiService = inject(HmiService);
+    private scriptService = inject(ScriptService);
+    private reportsService = inject(ReportsService);
+    private languageService = inject(LanguageService);
+    private commandService = inject(CommandService);
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+
 
     @ViewChild(MatTable, { static: false }) table: MatTable<any>;
     @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -76,17 +86,6 @@ export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
     eventSelectionType = Utils.getEnumKey(GaugeEventType, GaugeEventType.select);
     dataFilter: TableFilter | AlarmsFilter | ReportsFilter;
     private lastRenderedSignature = '';
-
-    constructor(
-        private dataService: DataConverterService,
-        private projectService: ProjectService,
-        private hmiService: HmiService,
-        private scriptService: ScriptService,
-        private reportsService: ReportsService,
-        private languageService: LanguageService,
-        private commandService: CommandService,
-        public dialog: MatDialog,
-        private translateService: TranslateService) { }
 
     ngOnInit() {
         this.dataSource.data = this.data;

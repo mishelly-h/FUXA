@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { Role, User, UserGroups } from '../../_models/user';
 import { SelOptionType, SelOptionsComponent } from '../../gui-helpers/sel-options/sel-options.component';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
@@ -17,6 +17,14 @@ import { Languages } from '../../_models/language';
     standalone: false
 })
 export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<UserEditComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    data = inject<UserEditData>(MAT_DIALOG_DATA);
+    private projectService = inject(ProjectService);
+    private cdr = inject(ChangeDetectorRef);
+    private userService = inject(UserService);
+    private settingsService = inject(SettingsService);
+
     formGroup: UntypedFormGroup;
     selected = [];
     options = [];
@@ -28,15 +36,6 @@ export class UserEditComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(SelOptionsComponent, { static: false }) seloptions: SelOptionsComponent;
 
     private destroy$ = new Subject<void>();
-
-    constructor(public dialogRef: MatDialogRef<UserEditComponent>,
-        private fb: UntypedFormBuilder,
-        @Inject(MAT_DIALOG_DATA) public data: UserEditData,
-        private projectService: ProjectService,
-        private cdr: ChangeDetectorRef,
-        private userService: UserService,
-        private settingsService: SettingsService) {
-    }
 
     ngOnInit() {
         this.views = this.projectService.getViews();

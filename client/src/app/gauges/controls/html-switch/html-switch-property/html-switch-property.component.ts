@@ -1,4 +1,4 @@
-import { Component, Inject, ViewChild, OnInit, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, OnInit, AfterViewInit, inject } from '@angular/core';
 
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { GaugeProperty } from '../../../../_models/hmi';
@@ -18,6 +18,9 @@ import { FlexEventComponent } from '../../../gauge-property/flex-event/flex-even
     standalone: false
 })
 export class HtmlSwitchPropertyComponent implements OnInit, AfterViewInit {
+    dialogRef = inject<MatDialogRef<HtmlSwitchPropertyComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
 
     @ViewChild('switcher', {static: false}) switcher: NgxSwitchComponent;
 	@ViewChild('flexhead', {static: false}) flexhead: FlexHeadComponent;
@@ -34,8 +37,7 @@ export class HtmlSwitchPropertyComponent implements OnInit, AfterViewInit {
     withBitmask = false;
 	eventsSupported: boolean;
 
-    constructor(public dialogRef: MatDialogRef<HtmlSwitchPropertyComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
         this.property = <GaugeProperty>JSON.parse(JSON.stringify(this.data.settings.property));
         if (!this.property) {
             this.property = new GaugeProperty();

@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, AfterViewInit, ViewChild, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, Input, Output, EventEmitter, ChangeDetectionStrategy, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -25,6 +25,13 @@ import { TagPropertyService } from '../tag-property/tag-property.service';
     standalone: false
 })
 export class DeviceListComponent implements OnInit, AfterViewInit {
+    private dialog = inject(MatDialog);
+    private hmiService = inject(HmiService);
+    private translateService = inject(TranslateService);
+    private changeDetector = inject(ChangeDetectorRef);
+    private projectService = inject(ProjectService);
+    private tagPropertyService = inject(TagPropertyService);
+
 
     readonly defAllColumns = ['select', 'name', 'address', 'device', 'type', 'value', 'timestamp', 'description', 'warning', 'uns', 'logger', 'options', 'remove'];
     readonly defAllExtColumns = ['select', 'name', 'address', 'device', 'type', 'value', 'timestamp', 'quality', 'description', 'warning', 'uns', 'logger', 'options', 'remove'];
@@ -55,14 +62,6 @@ export class DeviceListComponent implements OnInit, AfterViewInit {
     @ViewChild(MatSort, {static: false}) sort: MatSort;
     @ViewChild(MatMenuTrigger, {static: false}) trigger: MatMenuTrigger;
     @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-
-    constructor(private dialog: MatDialog,
-        private hmiService: HmiService,
-        private translateService: TranslateService,
-        private changeDetector: ChangeDetectorRef,
-        private projectService: ProjectService,
-        private tagPropertyService: TagPropertyService
-        ) { }
 
     ngOnInit() {
         this.devices = this.projectService.getDevices();

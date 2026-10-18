@@ -1,12 +1,4 @@
-import {
-  ComponentRef,
-  Directive,
-  ElementRef,
-  Inject,
-  Input,
-  OnDestroy,
-  DOCUMENT
-} from '@angular/core';
+import { ComponentRef, Directive, ElementRef, Input, OnDestroy, DOCUMENT, inject } from '@angular/core';
 
 import { ComponentPortal } from '@angular/cdk/portal';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
@@ -25,6 +17,10 @@ import { Observable, Subject } from 'rxjs';
     standalone: false
 })
 export class NgxTouchKeyboardDirective implements OnDestroy {
+  private _overlay = inject(Overlay);
+  private _elementRef = inject<ElementRef<HTMLInputElement>>(ElementRef);
+  private _document = inject(DOCUMENT);
+
   isOpen = false;
 
   private _locale!: string;
@@ -66,11 +62,7 @@ export class NgxTouchKeyboardDirective implements OnDestroy {
   /**
    * Constructor
    */
-  constructor(
-    private _overlay: Overlay,
-    private _elementRef: ElementRef<HTMLInputElement>,
-    @Inject(DOCUMENT) private _document: any
-  ) {
+  constructor() {
     this.closePanelObservable = this.closePanelSubject.asObservable();
   }
 
@@ -111,9 +103,8 @@ export class NgxTouchKeyboardDirective implements OnDestroy {
     }
 
     // Update direction the overlay
-    this._overlayRef.setDirection(
-      this._document.body.getAttribute('dir') || this._document.dir || 'ltr'
-    );
+    const direction = this._document.body.getAttribute('dir') || this._document.dir || 'ltr';
+    this._overlayRef.setDirection(direction === 'rtl' ? 'rtl' : 'ltr');
     // Update position the overlay
     this._overlayRef.updatePositionStrategy(
       this._getPositionStrategy(this.ngxTouchKeyboardFullScreen)

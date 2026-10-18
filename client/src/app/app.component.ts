@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, Inject, DOCUMENT } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, DOCUMENT, inject } from '@angular/core';
 import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,6 +22,17 @@ import { HmiService } from './_services/hmi.service';
 })
 
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
+	private document = inject<Document>(DOCUMENT);
+	private router = inject(Router);
+	private appService = inject(AppService);
+	private projectService = inject(ProjectService);
+	private settingsService = inject(SettingsService);
+	private translateService = inject(TranslateService);
+	private heartbeatService = inject(HeartbeatService);
+	private cdr = inject(ChangeDetectorRef);
+	private hmiService = inject(HmiService);
+	private authService = inject(AuthService);
+
 	title = 'app';
 	location: Location;
 	showdev = false;
@@ -35,18 +46,9 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
 	private destroy$ = new Subject<void>();
     private securityEnabled = false;
 
-	constructor(@Inject(DOCUMENT) private document: Document,
-		private router: Router,
-		private appService: AppService,
-		private projectService: ProjectService,
-		private settingsService: SettingsService,
-		private translateService: TranslateService,
-		private heartbeatService: HeartbeatService,
-		private cdr: ChangeDetectorRef,
-		private hmiService: HmiService,
-		private authService: AuthService,
-		location: Location
-	) {
+	constructor() {
+		const location = inject(Location);
+
 		this.location = location;
 	}
 

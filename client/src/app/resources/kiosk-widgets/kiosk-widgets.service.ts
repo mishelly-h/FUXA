@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { forkJoin, map, Observable, of, switchMap } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { WidgetsResource, WidgetsResourceType } from '../../_models/resources';
@@ -8,6 +8,9 @@ import { MyFileService, TransferResult } from '../../_services/my-file.service';
     providedIn: 'root'
 })
 export class KioskWidgetsService {
+    private http = inject(HttpClient);
+    private fileService = inject(MyFileService);
+
 
     repoOwner = 'frangoteam';
     repoName = 'FUXA-SVG-Widgets';
@@ -16,10 +19,7 @@ export class KioskWidgetsService {
     resourceWidgets$: Observable<WidgetsResource[]>;
     widgetAssetBaseUrl = `https://raw.githubusercontent.com/${this.repoOwner}/${this.repoName}/${this.repoBranch}/`;
 
-    constructor(
-        private http: HttpClient,
-        private fileService: MyFileService
-    ) {
+    constructor() {
         this.resourceWidgets$ = this.getWidgetsResource();
     }
 

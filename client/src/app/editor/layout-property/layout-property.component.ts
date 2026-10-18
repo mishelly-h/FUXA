@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, Inject, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef, inject } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -26,6 +26,14 @@ import { LayoutHeaderItemPropertyComponent } from './layout-header-item-property
     standalone: false
 })
 export class LayoutPropertyComponent implements OnInit, OnDestroy {
+    data = inject<ILayoutPropertyData>(MAT_DIALOG_DATA);
+    dialog = inject(MatDialog);
+    dialogRef = inject<MatDialogRef<LayoutPropertyComponent>>(MatDialogRef);
+    private projectService = inject(ProjectService);
+    private changeDetector = inject(ChangeDetectorRef);
+    private translateService = inject(TranslateService);
+    private resourcesService = inject(ResourcesService);
+
 
     draggableListLeft = [];
     headerItems: HeaderItem[];
@@ -60,13 +68,9 @@ export class LayoutPropertyComponent implements OnInit, OnDestroy {
     };
     expandedItems: Set<string> = new Set();
     private expandableNavItems = [Utils.getEnumKey(NaviItemType, NaviItemType.text), Utils.getEnumKey(NaviItemType, NaviItemType.inline)];
-    constructor(@Inject(MAT_DIALOG_DATA) public data: ILayoutPropertyData,
-        public dialog: MatDialog,
-        public dialogRef: MatDialogRef<LayoutPropertyComponent>,
-        private projectService: ProjectService,
-        private changeDetector: ChangeDetectorRef,
-        private translateService: TranslateService,
-        private resourcesService: ResourcesService) {
+    constructor() {
+        const data = this.data;
+
 
         data.layout = <LayoutSettings>Utils.mergeDeep(new LayoutSettings(), data.layout);
         this.startView = data.layout.start;

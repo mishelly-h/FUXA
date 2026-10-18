@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 export type AlarmImportMode = 'replace' | 'copy';
@@ -15,11 +15,9 @@ export interface AlarmImportDialogData {
     standalone: false
 })
 export class AlarmImportDialogComponent {
+    dialogRef = inject<MatDialogRef<AlarmImportDialogComponent>>(MatDialogRef);
+    data = inject<AlarmImportDialogData>(MAT_DIALOG_DATA);
 
-    constructor(
-        public dialogRef: MatDialogRef<AlarmImportDialogComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: AlarmImportDialogData) {
-    }
 
     onCancel() {
         this.dialogRef.close();

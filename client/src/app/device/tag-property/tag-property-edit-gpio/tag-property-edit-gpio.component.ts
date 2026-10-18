@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Inject, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import {Device, GpioDirectionType, GpioEdgeType, Tag} from '../../../_models/device';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,17 +11,17 @@ import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from
     standalone: false
 })
 export class TagPropertyEditGpioComponent implements OnInit {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditGpioComponent>>(MatDialogRef);
+    data = inject<TagPropertyGpioData>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     formGroup: UntypedFormGroup;
     directionType = GpioDirectionType;
     edgeType = GpioEdgeType;
     existingNames = [];
     error: string;
-
-    constructor(private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TagPropertyEditGpioComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyGpioData) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

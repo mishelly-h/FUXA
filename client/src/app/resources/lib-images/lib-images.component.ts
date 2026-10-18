@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, OnDestroy, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 
@@ -13,13 +13,12 @@ import { EndPointApi } from '../../_helpers/endpointapi';
     standalone: false
 })
 export class LibImagesComponent implements AfterViewInit, OnDestroy {
+    private dialogRef = inject<MatDialogRef<LibImagesComponent>>(MatDialogRef);
+    private resourcesService = inject(ResourcesService);
+
     private endPointConfig: string = EndPointApi.getURL();
     resImages?: ResourceGroup[];
     subscription: Subscription;
-
-    constructor(
-        private dialogRef: MatDialogRef<LibImagesComponent>,
-        private resourcesService: ResourcesService) { }
 
     ngAfterViewInit() {
         this.loadResources();

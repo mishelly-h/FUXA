@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef, Input, ViewChild, inject } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -21,6 +21,13 @@ import { DeviceWebapiPropertyDialogComponent } from './device-webapi-property-di
     standalone: false
 })
 export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
+    private dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private elementRef = inject(ElementRef);
+    private appService = inject(AppService);
+    private pluginService = inject(PluginService);
+    private projectService = inject(ProjectService);
+
 
     @Output() goto: EventEmitter<Device> = new EventEmitter();
     @Input() mode: string;
@@ -65,12 +72,7 @@ export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
     dirty = false;
     domArea: any;
 
-    constructor(private dialog: MatDialog,
-        private translateService: TranslateService,
-        private elementRef: ElementRef,
-        private appService: AppService,
-        private pluginService: PluginService,
-        private projectService: ProjectService) {
+    constructor() {
         this.domArea = this.elementRef.nativeElement.parent;
     }
 

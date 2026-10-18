@@ -1,4 +1,4 @@
-import { Component, ElementRef, Inject, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild, inject } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -15,6 +15,12 @@ import { LoginOverlayColorType } from '../_models/hmi';
     standalone: false
 })
 export class LoginComponent {
+    private authService = inject(AuthService);
+    private projectService = inject(ProjectService);
+    private translateService = inject(TranslateService);
+    private dialogRef = inject<MatDialogRef<LoginComponent>>(MatDialogRef);
+    private data = inject(MAT_DIALOG_DATA);
+
 
     @ViewChild('touchKeyboard', {static: false}) touchKeyboard: NgxTouchKeyboardDirective;
 
@@ -27,11 +33,7 @@ export class LoginComponent {
 	errorEnabled = false;
 	disableCancel = false;
 
-	constructor(private authService: AuthService,
-				private projectService: ProjectService,
-				private translateService: TranslateService,
-				private dialogRef: MatDialogRef<LoginComponent>,
-				@Inject(MAT_DIALOG_DATA) private data: any) {
+	constructor() {
 		const hmi = this.projectService.getHmi();
 		this.disableCancel = hmi?.layout?.loginonstart && hmi.layout?.loginoverlaycolor !== LoginOverlayColorType.none;
 	}

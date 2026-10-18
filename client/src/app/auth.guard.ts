@@ -1,5 +1,5 @@
 import { ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { AuthService } from './_services/auth.service';
 import { ProjectService } from './_services/project.service';
 import { ToastrService } from 'ngx-toastr';
@@ -11,13 +11,13 @@ import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 @Injectable()
 export class AuthGuard  {
-    constructor(private authService: AuthService,
-        private translateService: TranslateService,
-        private toastr: ToastrService,
-        private projectService: ProjectService,
-        private dialog: MatDialog,
-        private router: Router) {
-        }
+    private authService = inject(AuthService);
+    private translateService = inject(TranslateService);
+    private toastr = inject(ToastrService);
+    private projectService = inject(ProjectService);
+    private dialog = inject(MatDialog);
+    private router = inject(Router);
+
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
         if (!this.projectService.isSecurityEnabled()) {

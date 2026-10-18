@@ -1,6 +1,4 @@
-import {
-    Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef
-} from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef, inject } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { UntypedFormControl} from '@angular/forms';
 import { LocaleConfig } from './daterangepicker.config';
@@ -30,6 +28,10 @@ export enum SideEnum {
     standalone: false
 })
 export class DaterangepickerComponent implements OnInit {
+    private el = inject(ElementRef);
+    private _ref = inject(ChangeDetectorRef);
+    private _localeService = inject(LocaleService);
+
     private _old: {start: any; end: any} = {start: null, end: null};
     chosenLabel: string;
     calendarVariables: {left: any; right: any} = {left: {}, right: {}};
@@ -131,11 +133,7 @@ export class DaterangepickerComponent implements OnInit {
     @Output('datesUpdated') datesUpdated: EventEmitter<Object>;
     @ViewChild('pickerContainer', {static: true}) pickerContainer: ElementRef;
 
-    constructor(
-        private el: ElementRef,
-        private _ref: ChangeDetectorRef,
-        private _localeService: LocaleService
-    ) {
+    constructor() {
         this.choosedDate = new EventEmitter();
         this.rangeClicked = new EventEmitter();
         this.datesUpdated = new EventEmitter();

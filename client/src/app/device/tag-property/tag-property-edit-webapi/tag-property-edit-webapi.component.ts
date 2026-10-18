@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output, ViewChild, inject } from '@angular/core';
 import { Device, Tag } from '../../../_models/device';
 import { Subject, takeUntil } from 'rxjs';
 import { HmiService } from '../../../_services/hmi.service';
@@ -13,6 +13,10 @@ import { Utils } from '../../../_helpers/utils';
     standalone: false
 })
 export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
+    private hmiService = inject(HmiService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditWebapiComponent>>(MatDialogRef);
+    data = inject<TagPropertyWebApiData>(MAT_DIALOG_DATA);
+
 
     @Output() result = new EventEmitter<TagPropertyWebApiData>();
     private destroy$ = new Subject<void>();
@@ -23,12 +27,6 @@ export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
         width: '1000px',
         type: 'todefine'
     };
-
-    constructor(
-        private hmiService: HmiService,
-        public dialogRef: MatDialogRef<TagPropertyEditWebapiComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyWebApiData) {
-    }
 
     ngOnInit() {
         this.hmiService.onDeviceWebApiRequest.pipe(

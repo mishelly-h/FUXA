@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,22 +17,24 @@ import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../devic
     standalone: false
 })
 export class RecipeEditorComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<RecipeEditorComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+    private fb = inject(UntypedFormBuilder);
+    private recipeService = inject(RecipeService);
+    private projectService = inject(ProjectService);
+    private dialog = inject(MatDialog);
+    private translate = inject(TranslateService);
+    private toastr = inject(ToastrService);
+
     myForm: UntypedFormGroup;
     displayedColumns: string[] = ['tagName', 'deviceName', 'tagType', 'value', 'actions'];
     dataSource = new MatTableDataSource<any>([]);
     saving = false;
     isNew: boolean;
 
-    constructor(
-        public dialogRef: MatDialogRef<RecipeEditorComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: any,
-        private fb: UntypedFormBuilder,
-        private recipeService: RecipeService,
-        private projectService: ProjectService,
-        private dialog: MatDialog,
-        private translate: TranslateService,
-        private toastr: ToastrService
-    ) {
+    constructor() {
+        const data = this.data;
+
         this.isNew = data?.newRecipe !== false;
         this.myForm = this.fb.group({
             name: [data?.recipe?.name || '', Validators.required],

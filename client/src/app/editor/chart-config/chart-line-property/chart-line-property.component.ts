@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { Utils } from '../../../_helpers/utils';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ChartLine, ChartLineZone } from '../../../_models/chart';
@@ -11,15 +11,13 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
     standalone: false
 })
 export class ChartLinePropertyComponent implements OnInit {
+    private fb = inject(UntypedFormBuilder);
+    dialogRef = inject<MatDialogRef<ChartLinePropertyComponent>>(MatDialogRef);
+    data = inject<ChartLineAndInterpolationsType>(MAT_DIALOG_DATA);
+
     defaultColor = Utils.defaultColor;
     chartAxesType = [1, 2, 3, 4];
     formGroup: UntypedFormGroup;
-
-    constructor(
-        private fb: UntypedFormBuilder,
-        public dialogRef: MatDialogRef<ChartLinePropertyComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: ChartLineAndInterpolationsType) {
-    }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

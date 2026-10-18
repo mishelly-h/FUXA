@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, inject } from '@angular/core';
 import { Utils } from '../../_helpers/utils';
 import { Script } from '../../_models/script';
 import { DocAlignType, DocProfile, ViewProperty, ViewType } from '../../_models/hmi';
@@ -18,6 +18,12 @@ import { MatTab as MatTab } from '@angular/material/tabs';
     standalone: false
 })
 export class ViewPropertyComponent implements OnInit, OnDestroy {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    dialogRef = inject<MatDialogRef<ViewPropertyComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
     defaultColor = Utils.defaultColor;
     viewType = ViewType;
     alignType = DocAlignType;
@@ -34,11 +40,7 @@ export class ViewPropertyComponent implements OnInit, OnDestroy {
     { text: 'dlg.docproperty-size-1024-768', value: { width: 1024, height: 768 } }, { text: 'dlg.docproperty-size-1280-960', value: { width: 1280, height: 960 } },
     { text: 'dlg.docproperty-size-1600-1200', value: { width: 1600, height: 1200 } }, { text: 'dlg.docproperty-size-1920-1080', value: { width: 1920, height: 1080 } }];
 
-    constructor(private fb: UntypedFormBuilder,
-                private translateService: TranslateService,
-                private projectService: ProjectService,
-                public dialogRef: MatDialogRef<ViewPropertyComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: ViewPropertyType & { newView: boolean}) {
+    constructor() {
 
         this.scripts = this.projectService.getScripts();
         for (let i = 0; i < this.propSizeType.length; i++) {

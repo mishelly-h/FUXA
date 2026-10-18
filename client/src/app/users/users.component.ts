@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-class-suffix */
-import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy, inject } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
@@ -20,6 +20,12 @@ import { Subject, takeUntil } from 'rxjs';
     standalone: false
 })
 export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
+	private dialog = inject(MatDialog);
+	private projectService = inject(ProjectService);
+	private translateService = inject(TranslateService);
+	private settingsService = inject(SettingsService);
+	private userService = inject(UserService);
+
 
 	displayedColumns = ['select', 'username', 'fullname', 'groups', 'start', 'remove'];
 	dataSource = new MatTableDataSource([]);
@@ -32,12 +38,6 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 	@ViewChild(MatSort, {static: false}) sort: MatSort;
 
     private destroy$ = new Subject<void>();
-
-	constructor(private dialog: MatDialog,
-				private projectService: ProjectService,
-                private translateService: TranslateService,
-				private settingsService: SettingsService,
-				private userService: UserService) { }
 
 	ngOnInit() {
 		this.loadUsers();

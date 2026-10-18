@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 
 import { AlarmsType } from '../../_models/alarm';
@@ -16,6 +16,12 @@ import { APP_LANGUAGES } from '../../_models/language';
     standalone: false
 })
 export class NotificationPropertyComponent implements OnInit {
+    dialogRef = inject<MatDialogRef<NotificationPropertyComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    data = inject<NotificationPropertyData>(MAT_DIALOG_DATA);
+
 
     notificationLanguages = APP_LANGUAGES;
 
@@ -30,11 +36,7 @@ export class NotificationPropertyComponent implements OnInit {
     notificationModeAll = NotificationMode.all;
     notificationModeSingle = NotificationMode.single;
 
-    constructor(public dialogRef: MatDialogRef<NotificationPropertyComponent>,
-        private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        @Inject(MAT_DIALOG_DATA) public data: NotificationPropertyData) {
+    constructor() {
             this.notification = this.data.notification ?? new Notification(Utils.getGUID(NOTIFY_PREFIX));
     }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, inject } from '@angular/core';
 import { RecipeService } from '../../../../_services/recipe.service';
 import { Recipe } from '../../../../_models/recipe';
 import { FlexAuthValues } from '../../../gauge-property/flex-auth/flex-auth.component';
@@ -17,6 +17,8 @@ import { Define } from '../../../../_helpers/define';
     standalone: false
 })
 export class RecipePropertyComponent implements OnInit {
+    private recipeService = inject(RecipeService);
+
     @Input() data: any;
     @Output() onPropChanged = new EventEmitter<any>();
     @Input('reload') set reload(b: any) {
@@ -28,8 +30,6 @@ export class RecipePropertyComponent implements OnInit {
     loading = false;
     defaultColor = Utils.defaultColor;
     fonts = Define.fonts;
-
-    constructor(private recipeService: RecipeService) { }
 
     ngOnInit(): void {
         this._reload();

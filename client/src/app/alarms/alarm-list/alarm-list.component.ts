@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -18,6 +18,11 @@ import { AlarmImportDialogComponent, AlarmImportMode } from './alarm-import-dial
     standalone: false
 })
 export class AlarmListComponent implements OnInit, AfterViewInit, OnDestroy {
+    dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    private toastNotifyService = inject(ToastNotifierService);
+
 
     displayedColumns = ['select', 'name', 'device', 'highhigh', 'high', 'low', 'info', 'actions', 'remove'];
     dataSource = new MatTableDataSource([]);
@@ -29,11 +34,6 @@ export class AlarmListComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild(MatTable, {static: false}) table: MatTable<any>;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
     @ViewChild('fileImportInput', {static: false}) fileImportInput: any;
-
-    constructor(public dialog: MatDialog,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        private toastNotifyService: ToastNotifierService) { }
 
     ngOnInit() {
         this.loadAlarms();

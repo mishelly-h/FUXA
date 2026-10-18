@@ -1,4 +1,4 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, Output, EventEmitter, inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map, Observable } from 'rxjs';
 
@@ -10,13 +10,12 @@ import { environment } from '../../environments/environment';
     providedIn: 'root'
 })
 export class PluginService {
+    private http = inject(HttpClient);
+
 
     @Output() onPluginsChanged: EventEmitter<any> = new EventEmitter();
 
     private endPointConfig: string = EndPointApi.getURL();
-
-    constructor(private http: HttpClient) {
-    }
 
     getPlugins() {
         return this.http.get<Plugin[]>(this.endPointConfig + '/api/plugins');

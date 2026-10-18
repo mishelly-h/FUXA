@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, Inject, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { SelOptionType, SelOptionsComponent } from '../../../gui-helpers/sel-options/sel-options.component';
 import { BehaviorSubject, Observable, Subject, combineLatest, map, of, takeUntil } from 'rxjs';
@@ -18,6 +18,13 @@ import { Utils } from '../../../_helpers/utils';
     standalone: false
 })
 export class LayoutMenuItemPropertyComponent implements AfterViewInit, OnDestroy {
+    projectService = inject(ProjectService);
+    private userService = inject(UserService);
+    private cdr = inject(ChangeDetectorRef);
+    private settingsService = inject(SettingsService);
+    dialogRef = inject<MatDialogRef<LayoutMenuItemPropertyComponent>>(MatDialogRef);
+    data = inject(MAT_DIALOG_DATA);
+
     selected = [];
     options = [];
     icons$: Observable<string[]>;
@@ -30,12 +37,7 @@ export class LayoutMenuItemPropertyComponent implements AfterViewInit, OnDestroy
 
     @ViewChild(SelOptionsComponent, { static: false }) seloptions: SelOptionsComponent;
 
-    constructor(public projectService: ProjectService,
-                private userService: UserService,
-                private cdr: ChangeDetectorRef,
-                private settingsService: SettingsService,
-                public dialogRef: MatDialogRef<LayoutMenuItemPropertyComponent>,
-                @Inject(MAT_DIALOG_DATA) public data: any) {
+    constructor() {
                 this.data.item.children = this.data.item.children || [];
 
         this.icons$ = of(Define.MaterialIconsRegular).pipe(

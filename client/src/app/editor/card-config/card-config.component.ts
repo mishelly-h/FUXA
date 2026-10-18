@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -12,14 +12,16 @@ import { GridsterItemConfig } from 'angular-gridster2';
     standalone: false
 })
 export class CardConfigComponent implements OnInit {
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<CardConfigComponent>>(MatDialogRef);
+    data = inject<CardConfigType>(MAT_DIALOG_DATA);
+
 
     cardType = CardWidgetType;
     card: CardWidget;
     scaleMode = PropertyScaleModeType;
 
-    constructor(private translateService: TranslateService,
-        public dialogRef: MatDialogRef<CardConfigComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: CardConfigType) {
+    constructor() {
         this.card = this.data.item.card;
         }
 

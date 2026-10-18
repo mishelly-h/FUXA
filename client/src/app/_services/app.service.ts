@@ -1,10 +1,12 @@
-import { Injectable, Output, EventEmitter } from '@angular/core';
+import { Injectable, Output, EventEmitter, inject } from '@angular/core';
 
 import { environment } from '../../environments/environment';
 import { SettingsService } from './settings.service';
 
 @Injectable()
 export class AppService {
+    private settingsService = inject(SettingsService);
+
 
     @Output() onShowModeChanged: EventEmitter<string> = new EventEmitter();
     @Output() onShowLoading: EventEmitter<boolean> = new EventEmitter();
@@ -13,9 +15,6 @@ export class AppService {
     private static APP_CLIENT = 'client';
 
     private showMode: string;
-
-    constructor(private settingsService: SettingsService) {
-    }
 
     setShowMode(mode: string): string {
         if (mode === 'editor' && this.settingsService.isEditModeLocked()) {

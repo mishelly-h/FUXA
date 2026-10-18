@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Inject, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, OnDestroy, inject } from '@angular/core';
 import { Device, AdsClientTagType, Tag } from '../../../_models/device';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
@@ -12,17 +12,17 @@ import { Subject } from 'rxjs';
     standalone: false
 })
 export class TagPropertyEditADSclientComponent implements OnInit, OnDestroy {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditADSclientComponent>>(MatDialogRef);
+    data = inject<TagProperty>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     formGroup: UntypedFormGroup;
     tagType = AdsClientTagType;
     existingNames = [];
     error: string;
     private destroy$ = new Subject<void>();
-
-    constructor(private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TagPropertyEditADSclientComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagProperty) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

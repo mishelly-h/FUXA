@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { GaugesManager } from '../gauges/gauges.component';
 import { Subscription, timer } from 'rxjs';
 
@@ -14,18 +14,16 @@ import { Variable } from '../_models/hmi';
     standalone: false
 })
 export class TesterComponent implements OnInit, OnDestroy {
+    private hmiService = inject(HmiService);
+    private gaugesManager = inject(GaugesManager);
+    private testerService = inject(TesterService);
+
 
     show = false;
     items: Variable[] = [];
     output: string[] = [];
     subscription: Subscription;
     demoSwitch = true;
-
-    // items: Map<string, GaugeSettings> = new Map<string, GaugeSettings>();
-
-
-    constructor(private hmiService: HmiService, private gaugesManager: GaugesManager,
-        private testerService: TesterService) { }
 
     ngOnInit() {
         this.testerService.change.subscribe(isOpen => {

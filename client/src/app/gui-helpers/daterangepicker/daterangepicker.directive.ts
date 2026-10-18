@@ -1,23 +1,5 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
-import {
-  Directive,
-  ViewContainerRef,
-  ComponentFactoryResolver,
-  ElementRef,
-  HostListener,
-  forwardRef,
-  ChangeDetectorRef,
-  OnInit,
-  OnChanges,
-  SimpleChanges,
-  Input,
-  DoCheck,
-  KeyValueDiffer,
-  KeyValueDiffers,
-  Output,
-  EventEmitter,
-  Renderer2
-} from '@angular/core';
+import { Directive, ViewContainerRef, ComponentFactoryResolver, ElementRef, HostListener, forwardRef, ChangeDetectorRef, OnInit, OnChanges, SimpleChanges, Input, DoCheck, KeyValueDiffer, KeyValueDiffers, Output, EventEmitter, Renderer2, inject } from '@angular/core';
 import { DaterangepickerComponent } from './daterangepicker.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _moment from 'moment';
@@ -41,6 +23,14 @@ const moment = _moment;
     standalone: false
 })
 export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
+  viewContainerRef = inject(ViewContainerRef);
+  _changeDetectorRef = inject(ChangeDetectorRef);
+  private _componentFactoryResolver = inject(ComponentFactoryResolver);
+  private _el = inject(ElementRef);
+  private _renderer = inject(Renderer2);
+  private differs = inject(KeyValueDiffers);
+  private _localeService = inject(LocaleService);
+
   public picker: DaterangepickerComponent;
   private _onChange = Function.prototype;
   private _onTouched = Function.prototype;
@@ -147,15 +137,9 @@ export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
   @Output('rangeClicked') rangeClicked: EventEmitter<Object> = new EventEmitter();
   @Output('datesUpdated') datesUpdated: EventEmitter<Object> = new EventEmitter();
 
-  constructor(
-    public viewContainerRef: ViewContainerRef,
-    public _changeDetectorRef: ChangeDetectorRef,
-    private _componentFactoryResolver: ComponentFactoryResolver,
-    private _el: ElementRef,
-    private _renderer: Renderer2,
-    private differs: KeyValueDiffers,
-    private _localeService: LocaleService
-  ) {
+  constructor() {
+    const viewContainerRef = this.viewContainerRef;
+
     this.drops = 'down';
     this.opens = 'right';
     const componentFactory = this._componentFactoryResolver.resolveComponentFactory(DaterangepickerComponent);

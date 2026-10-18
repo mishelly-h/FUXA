@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, inject } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 import { Utils } from '../../../_helpers/utils';
@@ -12,6 +12,8 @@ import { GaugeProperty, GaugeAction, GaugeRangeProperty, GaugeActionsType, Gauge
     standalone: false
 })
 export class FlexActionComponent implements OnInit {
+    private translateService = inject(TranslateService);
+
 
     @Input() data: any;
     @Input() property: GaugeProperty;
@@ -27,8 +29,6 @@ export class FlexActionComponent implements OnInit {
     itemtype: any;
     slideView = true;
     defaultColor = Utils.defaultColor;
-
-    constructor(private translateService: TranslateService) { }
 
     ngOnInit() {
         if (this.property) {

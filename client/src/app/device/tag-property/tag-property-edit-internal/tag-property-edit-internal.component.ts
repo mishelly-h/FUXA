@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, inject } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { Device, ServerTagType, Tag } from '../../../_models/device';
 import { TranslateService } from '@ngx-translate/core';
@@ -11,16 +11,16 @@ import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from
     standalone: false
 })
 export class TagPropertyEditInternalComponent implements OnInit {
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TagPropertyEditInternalComponent>>(MatDialogRef);
+    data = inject<TagPropertyInternalData>(MAT_DIALOG_DATA);
+
     @Output() result = new EventEmitter<any>();
     formGroup: UntypedFormGroup;
     tagType = ServerTagType;
     existingNames = [];
     error: string;
-
-    constructor(private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TagPropertyEditInternalComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TagPropertyInternalData) { }
 
     ngOnInit() {
         this.formGroup = this.fb.group({

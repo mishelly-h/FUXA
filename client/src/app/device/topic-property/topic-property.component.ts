@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Inject, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, inject } from '@angular/core';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTabGroup as MatTabGroup, MatTab as MatTab } from '@angular/material/tabs';
 import { Subscription } from 'rxjs';
@@ -16,6 +16,11 @@ import { JsonUtils } from '../../_helpers/json-utils';
     standalone: false
 })
 export class TopicPropertyComponent implements OnInit, OnDestroy {
+    private hmiService = inject(HmiService);
+    private translateService = inject(TranslateService);
+    dialogRef = inject<MatDialogRef<TopicPropertyComponent>>(MatDialogRef);
+    data = inject<TopicPropertyData>(MAT_DIALOG_DATA);
+
 
     @ViewChild('grptabs', { static: true }) grptabs: MatTabGroup;
     @ViewChild('tabsub', { static: true }) tabsub: MatTab;
@@ -49,13 +54,6 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
     itemStatic = Utils.getEnumKey(MqttItemType, MqttItemType.static);
     editSubscription = false;
     allChecked: boolean = false;
-
-    constructor(
-        private hmiService: HmiService,
-        private translateService: TranslateService,
-        public dialogRef: MatDialogRef<TopicPropertyComponent>,
-        @Inject(MAT_DIALOG_DATA) public data: TopicPropertyData) {
-    }
 
     ngOnInit() {
         this.subscriptionBrowse = this.hmiService.onDeviceBrowse.subscribe(value => {

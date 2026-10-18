@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef, inject } from '@angular/core';
 
 import { UntypedFormControl } from '@angular/forms';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -16,6 +16,9 @@ import { LogsRequest } from '../_models/diagnose';
     standalone: false
 })
 export class LogsViewComponent implements AfterViewInit {
+    private diagnoseService = inject(DiagnoseService);
+    private appService = inject(AppService);
+
 
     @ViewChild(MatTable, {static: false}) table: MatTable<any>;
     @ViewChild(MatSort, {static: false}) sort: MatSort;
@@ -37,9 +40,6 @@ export class LogsViewComponent implements AfterViewInit {
     tableView = false;
     content = '';
     logs = { selected: 'fuxa.log', files: [] };
-
-    constructor(private diagnoseService: DiagnoseService,
-                private appService: AppService) { }
 
     ngAfterViewInit() {
         this.diagnoseService.getLogsDir().subscribe(result => {

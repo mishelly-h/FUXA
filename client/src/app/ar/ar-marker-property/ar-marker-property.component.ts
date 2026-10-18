@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, inject } from '@angular/core';
 import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
@@ -22,6 +22,12 @@ export interface ArMarkerPropertyData {
     standalone: false
 })
 export class ArMarkerPropertyComponent implements OnInit, OnDestroy {
+    dialogRef = inject<MatDialogRef<ArMarkerPropertyComponent>>(MatDialogRef);
+    private fb = inject(UntypedFormBuilder);
+    private translateService = inject(TranslateService);
+    private projectService = inject(ProjectService);
+    data = inject<ArMarkerPropertyData>(MAT_DIALOG_DATA);
+
     formGroup: UntypedFormGroup;
     marker: ArMarker;
     views: View[] = [];
@@ -30,13 +36,9 @@ export class ArMarkerPropertyComponent implements OnInit, OnDestroy {
     private formSubscription: Subscription;
     private hmiLoadSubscription: Subscription;
 
-    constructor(
-        public dialogRef: MatDialogRef<ArMarkerPropertyComponent>,
-        private fb: UntypedFormBuilder,
-        private translateService: TranslateService,
-        private projectService: ProjectService,
-        @Inject(MAT_DIALOG_DATA) public data: ArMarkerPropertyData
-    ) {
+    constructor() {
+        const data = this.data;
+
         this.marker = data?.marker ? { ...data.marker } : {
             id: this.createMarkerId(),
             label: '',

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, inject } from '@angular/core';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { Role } from '../../_models/user';
 import { MatDialog as MatDialog} from '@angular/material/dialog';
@@ -15,6 +15,10 @@ import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm
     standalone: false
 })
 export class UsersRolesComponent implements OnInit, AfterViewInit {
+    private dialog = inject(MatDialog);
+    private translateService = inject(TranslateService);
+    private userService = inject(UserService);
+
 
     displayedColumns = ['select', 'index', 'name', 'description', 'remove'];
     dataSource = new MatTableDataSource([]);
@@ -23,10 +27,6 @@ export class UsersRolesComponent implements OnInit, AfterViewInit {
 
     @ViewChild(MatTable, {static: false}) table: MatTable<any>;
 	@ViewChild(MatSort, {static: false}) sort: MatSort;
-
-    constructor(private dialog: MatDialog,
-                private translateService: TranslateService,
-                private userService: UserService) { }
 
     ngOnInit() {
 		this.loadRoles();
