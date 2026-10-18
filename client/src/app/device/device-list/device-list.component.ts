@@ -21,7 +21,8 @@ import { TagPropertyService } from '../tag-property/tag-property.service';
     selector: 'app-device-list',
     templateUrl: './device-list.component.html',
     styleUrls: ['./device-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class DeviceListComponent implements OnInit, AfterViewInit {
 

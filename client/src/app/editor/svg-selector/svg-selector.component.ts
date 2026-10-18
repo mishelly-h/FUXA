@@ -4,7 +4,8 @@ import { ISvgElement } from '../../_models/hmi';
 @Component({
     selector: 'app-svg-selector',
     templateUrl: './svg-selector.component.html',
-    styleUrls: ['./svg-selector.component.scss']
+    styleUrls: ['./svg-selector.component.scss'],
+    standalone: false
 })
 export class SvgSelectorComponent {
 

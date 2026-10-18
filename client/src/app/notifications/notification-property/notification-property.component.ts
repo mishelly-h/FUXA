@@ -12,7 +12,8 @@ import { APP_LANGUAGES } from '../../_models/language';
 @Component({
     selector: 'app-notification-property',
     templateUrl: './notification-property.component.html',
-    styleUrls: ['./notification-property.component.scss']
+    styleUrls: ['./notification-property.component.scss'],
+    standalone: false
 })
 export class NotificationPropertyComponent implements OnInit {
 

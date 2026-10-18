@@ -11,7 +11,8 @@ import { ConfirmDialogComponent } from '../../gui-helpers/confirm-dialog/confirm
 @Component({
     selector: 'app-user-roles',
     templateUrl: './users-roles.component.html',
-    styleUrls: ['./users-roles.component.scss']
+    styleUrls: ['./users-roles.component.scss'],
+    standalone: false
 })
 export class UsersRolesComponent implements OnInit, AfterViewInit {
 

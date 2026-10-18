@@ -6,9 +6,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { ProjectService } from '../../_services/project.service';
 
 @Component({
-	selector: 'app-script-mode',
-	templateUrl: './script-mode.component.html',
-	styleUrls: ['./script-mode.component.css']
+    selector: 'app-script-mode',
+    templateUrl: './script-mode.component.html',
+    styleUrls: ['./script-mode.component.css'],
+    standalone: false
 })
 export class ScriptModeComponent implements OnInit {
 

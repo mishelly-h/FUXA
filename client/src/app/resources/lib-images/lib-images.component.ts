@@ -9,7 +9,8 @@ import { EndPointApi } from '../../_helpers/endpointapi';
 @Component({
     selector: 'app-lib-images',
     templateUrl: './lib-images.component.html',
-    styleUrls: ['./lib-images.component.css']
+    styleUrls: ['./lib-images.component.css'],
+    standalone: false
 })
 export class LibImagesComponent implements AfterViewInit, OnDestroy {
     private endPointConfig: string = EndPointApi.getURL();

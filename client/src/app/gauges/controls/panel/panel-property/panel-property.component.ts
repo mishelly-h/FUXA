@@ -5,7 +5,8 @@ import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/
 @Component({
     selector: 'app-panel-property',
     templateUrl: './panel-property.component.html',
-    styleUrls: ['./panel-property.component.scss']
+    styleUrls: ['./panel-property.component.scss'],
+    standalone: false
 })
 export class PanelPropertyComponent implements OnInit {
 

@@ -22,7 +22,8 @@ pdfMake.vfs = pdfFonts;
 @Component({
     selector: 'app-report-editor',
     templateUrl: './report-editor.component.html',
-    styleUrls: ['./report-editor.component.scss']
+    styleUrls: ['./report-editor.component.scss'],
+    standalone: false
 })
 export class ReportEditorComponent implements OnInit, AfterViewInit, OnDestroy {
 

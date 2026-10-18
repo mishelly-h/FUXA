@@ -9,7 +9,8 @@ import { ReportItemTableComponent } from '../report-item-table/report-item-table
 @Component({
     selector: 'app-report-item-alarms',
     templateUrl: './report-item-alarms.component.html',
-    styleUrls: ['./report-item-alarms.component.scss']
+    styleUrls: ['./report-item-alarms.component.scss'],
+    standalone: false
 })
 export class ReportItemAlarmsComponent implements OnInit {
 

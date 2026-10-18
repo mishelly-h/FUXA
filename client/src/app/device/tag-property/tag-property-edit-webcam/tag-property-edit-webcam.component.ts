@@ -14,7 +14,8 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 @Component({
     selector: 'app-tag-property-edit-internal',
     templateUrl: './tag-property-edit-webcam.component.html',
-    styleUrls: ['./tag-property-edit-webcam.component.scss']
+    styleUrls: ['./tag-property-edit-webcam.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditWebcamComponent implements OnInit {
     @Output() result = new EventEmitter<any>();

@@ -9,7 +9,8 @@ import { SettingsService } from '../../../_services/settings.service';
 @Component({
     selector: 'app-node-red-flows',
     templateUrl: './node-red-flows.component.html',
-    styleUrls: ['./node-red-flows.component.scss']
+    styleUrls: ['./node-red-flows.component.scss'],
+    standalone: false
 })
 export class NodeRedFlowsComponent implements OnInit, OnDestroy {
 

@@ -5,7 +5,8 @@ import { Define } from '../../_helpers/define';
 @Component({
     selector: 'app-icon-selector',
     templateUrl: './icon-selector.component.html',
-    styleUrls: ['./icon-selector.component.scss']
+    styleUrls: ['./icon-selector.component.scss'],
+    standalone: false
 })
 export class IconSelectorComponent implements OnInit {
     @Input() value: string;

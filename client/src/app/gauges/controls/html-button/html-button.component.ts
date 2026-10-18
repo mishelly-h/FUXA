@@ -9,7 +9,8 @@ declare var SVG: any;
 @Component({
     selector: 'html-button',
     templateUrl: './html-button.component.html',
-    styleUrls: ['./html-button.component.css']
+    styleUrls: ['./html-button.component.css'],
+    standalone: false
 })
 export class HtmlButtonComponent extends GaugeBaseComponent {
 

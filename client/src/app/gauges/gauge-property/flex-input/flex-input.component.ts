@@ -7,7 +7,8 @@ import { FlexVariableComponent } from '../flex-variable/flex-variable.component'
 @Component({
     selector: 'flex-input',
     templateUrl: './flex-input.component.html',
-    styleUrls: ['./flex-input.component.css']
+    styleUrls: ['./flex-input.component.css'],
+    standalone: false
 })
 export class FlexInputComponent implements OnInit {
     @Input() data: any;
