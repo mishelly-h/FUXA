@@ -25,7 +25,7 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
 
     editMode = false;
     topicSource = '#';
-    topicsList: Record<string, { name: string; content?: any; checked?: boolean; enabled?: boolean; value?: any }> = {};
+    topicsList = {};
     topicContent: TopicContent[] = [];
     topicSelectedSubType = 'raw';
     discoveryError = '';

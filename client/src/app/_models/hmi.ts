@@ -144,7 +144,6 @@ export class HeaderSettings {
 export interface HeaderItem {
     id: string;
     type: HeaderItemType;
-    text?: string;
     icon: string;
     image: string;
     bkcolor: string;
@@ -447,8 +446,6 @@ export class GaugeRangeProperty {
     max: number;
     text: string;
     textId: string;
-    fractionDigitsId?: string;
-    fractionDigits?: any;
     color: string;
     type: any;
     style: any;
@@ -800,3 +797,4 @@ export interface VideoOptions {
     showControls?: boolean;
     loop?: boolean;
 }
+

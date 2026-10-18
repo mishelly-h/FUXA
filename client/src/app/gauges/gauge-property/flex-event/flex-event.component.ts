@@ -155,7 +155,7 @@ export class FlexEventComponent implements OnInit {
         return a > -1 && (a === b || a === c || a === d || a === e);
     }
 
-    withPosition(eventAction: string) {
+    withPosition(eventAction: GaugeEventActionType) {
         return this.eventWithPosition.indexOf(eventAction) !== -1;
     }
 
@@ -216,7 +216,7 @@ export class FlexEventComponent implements OnInit {
         scriptParam.value = event.variableId;
     }
 
-    destinationWithHideClose(action: string) {
+    destinationWithHideClose(action: GaugeEventActionType) {
         return action === Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.onwindow) ||
             action === Utils.getEnumKey(GaugeEventActionType, GaugeEventActionType.ondialog);
     }

@@ -73,17 +73,13 @@ import {
   `],
     template: `
     <div class="fab-menu" [class.active]="(state | async).display">
-      <a class="fab-toggle" (click)="toggle()" (touchend)="toggle()" [style.backgroundColor]="color">
-        @if (!opened) {
-          <i class="material-icons"> {{icon}} </i>
-        }
-        @if (opened) {
-          <i class="material-icons"> {{iconOpen}} </i>
-        }
-      </a>
-      <ng-content></ng-content>
+        <a class="fab-toggle" (click)="toggle()" (touchend)="toggle()" [style.backgroundColor]="color">
+          <i class="material-icons" *ngIf="!opened"> {{icon}} </i>
+          <i class="material-icons" *ngIf="opened"> {{iconOpen}} </i>
+        </a>
+        <ng-content></ng-content>
     </div>
-    `,
+  `,
     standalone: false
 })
 
