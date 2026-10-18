@@ -113,6 +113,9 @@ module.exports = {
 
     // Used to enable security, authentication and authorization and crypt Token
     //secureEnabled: true,
+    // With security disabled, script "test" mode (arbitrary server code) is disabled by default.
+    // Set true to let any client reaching FUXA execute code (unsafe; prefer secureEnabled + admin).
+    //allowUnsecuredScriptTest: false,
     //secretCode: '<set-a-strong-random-secret>',
     //tokenExpiresIn: '1h',  // '1h'=1hour, 60=60seconds, '1d'=1day
     //enableRefreshCookieAuth: false, // if true, use refresh token HttpOnly cookie flow
