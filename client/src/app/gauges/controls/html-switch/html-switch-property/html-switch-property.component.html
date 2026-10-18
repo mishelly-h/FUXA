@@ -6,10 +6,10 @@
             <mat-tab label="{{'gauges.property-props' | translate}}">
                 <div style="height: 505px; overflow-y: auto; overflow-x: hidden; padding-top: 15px;">
                     <div class="block">
-                        <flex-auth [name]="name" [permission]="property.permission" [permissionRoles]="property.permissionRoles" #flexauth></flex-auth>
+                        <flex-auth [name]="name" [permission]="property.permission" [permissionRoles]="property.permissionRoles" #flexauth />
                     </div>
                     <div class="block">
-                        <flex-head [data]="data" [property]="property" #flexhead [withStaticValue]="false" [withBitmask]="withBitmask"></flex-head>
+                        <flex-head [data]="data" [property]="property" #flexhead [withStaticValue]="false" [withBitmask]="withBitmask" />
                     </div>
                     <div class="field-row mt10">
                     </div>
@@ -97,7 +97,7 @@
                     </div>
                     <div class="field-row" style="position: absolute;height:210px;width:650px;margin-top: 16px;max-width: 650px; max-height: 210px;overflow: hidden;">
                         <ngx-switch #switcher style="position: absolute;left: 50%;top: 50%;transform: translateX(-50%) translateY(-50%);" [style.width]="switchWidth + 'px'"
-                            [style.height]="switchHeight + 'px'"></ngx-switch>
+                            [style.height]="switchHeight + 'px'" />
                     </div>
                 </div>
             </mat-tab>
@@ -110,7 +110,7 @@
                         </button>
                     </div>
                     <div mat-dialog-content style="overflow: visible; width:100%;">
-                        <flex-event [property]="property" [views]="data.views" [data]="data" [inputs]="data.inputs" [scripts]="data.scripts" #flexevent class="mb5"></flex-event>
+                        <flex-event [property]="property" [views]="data.views" [data]="data" [inputs]="data.inputs" [scripts]="data.scripts" #flexevent class="mb5" />
                     </div>
                 </div>
             </mat-tab>

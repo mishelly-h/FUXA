@@ -49,7 +49,7 @@
                     <button mat-menu-item (click)="onAddItem(i)">{{'report.tags-table-add' | translate}}</button>
                     <button mat-menu-item [matMenuTriggerFor]="menualign">{{'report.table-alignitem' | translate}}</button>
                     @if (i > 0) {
-<mat-divider class="menu-separator"></mat-divider>
+<mat-divider class="menu-separator" />
 }
                     @if (i > 0) {
 <button mat-menu-item (click)="onDeleteItem(i)">{{'report.table-delitem' | translate}}</button>

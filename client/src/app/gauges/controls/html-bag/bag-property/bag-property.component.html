@@ -26,7 +26,7 @@
                 </div>
             </div>
             <div mat-dialog-content style="overflow: hidden; width:100%">
-                <flex-head [data]="data" [property]="property" #flexhead></flex-head>
+                <flex-head [data]="data" [property]="property" #flexhead />
             </div>
         </div>
         <div style="width: 750px; height: 690px; position: relative">
@@ -41,7 +41,7 @@
                             [ngStyle]="{'background-color': gaugeType === gaugeTypeEnum.Zones ? 'transparent' : 'rgba(0,0,0,0.1)'}"></div>
                     </div>
                     <div class="gauge-view">
-                        <ngx-gauge [options]="options" #ngauge [value]="gauge.value"></ngx-gauge>
+                        <ngx-gauge [options]="options" #ngauge [value]="gauge.value" />
                     </div>
                 </div>
                 @if (gaugeType !== gaugeTypeEnum.Donut) {
@@ -49,7 +49,7 @@
                     <div class="field-row">
                         <div class="my-form-field" style="padding-left: 12px">
                             <span>{{'bag.property-ticks' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="optcfg.ticksEnabled" (change)="onChangeTicks($event.checked)"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="optcfg.ticksEnabled" (change)="onChangeTicks($event.checked)" />
                         </div>
                     </div>
                     <div class="field-row">

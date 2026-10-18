@@ -1,8 +1,7 @@
 @if (extSelected) {
 <mat-selection-list #extGroups [(ngModel)]="extSelected" style="display: inline-block; width: 40px;padding-top: 0px; padding-bottom: 10px;" [disabled]="disabled()">
 	@for (opt of options(); track opt) {
-<mat-list-option [selected]="opt.selected" [value]="opt" style="height: 26px;cursor: pointer;" checkboxPosition="before">
-	</mat-list-option>
+<mat-list-option [selected]="opt.selected" [value]="opt" style="height: 26px;cursor: pointer;" checkboxPosition="before" />
 }
 </mat-selection-list>
 }

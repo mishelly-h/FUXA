@@ -96,7 +96,7 @@
 
                 <!-- UNS Column -->
                 <ng-container matColumnDef="uns">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header />
                     <mat-cell *matCellDef="let element">
                         @if (element.unsPath) {
 <mat-icon [matTooltip]="element.unsPath" matTooltipPosition="left">account_tree</mat-icon>
@@ -106,7 +106,7 @@
 
                 <!-- Logger Column -->
                 <ng-container matColumnDef="logger">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header />
                     <mat-cell *matCellDef="let element">
                         @if (element.daq) {
 <div>
@@ -132,7 +132,7 @@
 
                 <!-- Warning Column -->
                 <ng-container matColumnDef="warning">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header />
                     <mat-cell *matCellDef="let element" [matTooltip]="element.error ? element.error : null" matTooltipPosition="left">
                         @if (element.error) {
 <button mat-icon-button class="warning">
@@ -144,7 +144,7 @@
 
                 <!-- Button edit options row -->
                 <ng-container matColumnDef="options">
-                    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef />
                     <mat-cell *matCellDef="let element">
                         <button mat-icon-button [matMenuTriggerFor]="options">
                             <mat-icon>more_vert</mat-icon>
@@ -187,10 +187,10 @@
                     <mat-cell *matCellDef="let element" matTooltip="{{element.direction}}"> {{element.direction}} </mat-cell>
                 </ng-container>
 
-                <mat-header-row *matHeaderRowDef="displayedColumns" [ngStyle]="{'min-width.px': tableWidth}" sticky></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;" class="my-mat-row" [ngStyle]="{'min-width.px': tableWidth}"></mat-row>
+                <mat-header-row *matHeaderRowDef="displayedColumns" [ngStyle]="{'min-width.px': tableWidth}" sticky />
+                <mat-row *matRowDef="let row; columns: displayedColumns;" class="my-mat-row" [ngStyle]="{'min-width.px': tableWidth}" />
             </mat-table>
         </div>
-        <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="paginator"></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="paginator" />
     </div>
 </div>

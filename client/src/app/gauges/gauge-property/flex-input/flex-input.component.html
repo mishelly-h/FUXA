@@ -5,7 +5,7 @@
 <div>
             @if (slideView) {
 <div class="item-range">
-                <range-number [range]="item"></range-number>
+                <range-number [range]="item" />
             </div>
 }
             @if (isWithRangeColor()) {
@@ -92,11 +92,9 @@
         @if (isOutputCtrl()) {
 <div class="item-unit">
             <flex-variable #unit [data]="data()" (onchange)="onUnitChanged(item, $event)" [variableId]="item.textId" [variableValue]="item.text"
-                [variableLabel]="'gauges.property-input-unit'">
-            </flex-variable>
+                [variableLabel]="'gauges.property-input-unit'" />
             <flex-variable #digits [data]="data()" (onchange)="onFormatDigitChanged(item, $event)" [variableId]="item.fractionDigitsId"
-                [variableValue]="item.fractionDigits" [variableLabel]="'gauges.property-format-digits'">
-            </flex-variable>
+                [variableValue]="item.fractionDigits" [variableLabel]="'gauges.property-format-digits'" />
         </div>
 }
         @if (isInputMinMax()) {

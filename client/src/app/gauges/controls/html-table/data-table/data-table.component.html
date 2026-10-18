@@ -45,8 +45,7 @@
     </div>
 }
     @if (tableOptions.paginator.show) {
-<mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="data-table-paginator" [style.color]="tableOptions.row.color">
-    </mat-paginator>
+<mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="data-table-paginator" [style.color]="tableOptions.row.color" />
 }
 </div>
 }
@@ -102,8 +101,7 @@
 }
 
         <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="mat-row data-table-header" [style.height.px]="tableOptions.header.height"
-            [style.backgroundColor]="tableOptions.header.background" [style.borderBottom]="'1px solid ' + tableOptions.gridColor" [style.display]="(tableOptions.header.show) ? 'flex' : 'none'">
-        </mat-header-row>
+            [style.backgroundColor]="tableOptions.header.background" [style.borderBottom]="'1px solid ' + tableOptions.gridColor" [style.display]="(tableOptions.header.show) ? 'flex' : 'none'" />
 
 @switch (type) {
             @case (tableType.reports) {
@@ -115,8 +113,7 @@
                             'height.px': tableOptions.row.height,
                             'background-color': isSelected(row) ? tableOptions.selection.background : tableOptions.row.background,
                             'border-bottom': '1px solid ' + tableOptions.gridColor,
-                            'color': isSelected(row) ? tableOptions.selection.color : tableOptions.row.color}">
-                </mat-row>
+                            'color': isSelected(row) ? tableOptions.selection.color : tableOptions.row.color}" />
 
 }
             @case (tableType.alarms) {
@@ -128,8 +125,7 @@
                             'height.px': tableOptions.row.height,
                             'background-color': row.bkcolor,
                             'border-bottom': '1px solid ' + tableOptions.gridColor,
-                            'color': row.color}">
-                </mat-row>
+                            'color': row.color}" />
 
 }
             @case (tableType.data) {
@@ -142,8 +138,7 @@
                         'height.px': tableOptions.row.height,
                         'background-color': isSelected(row) ? tableOptions.selection.background : tableOptions.row.background,
                         'border-bottom': '1px solid ' + tableOptions.gridColor,
-                        'color': isSelected(row) ? tableOptions.selection.color : tableOptions.row.color}">
-                </mat-row>
+                        'color': isSelected(row) ? tableOptions.selection.color : tableOptions.row.color}" />
 
 }
             @case (tableType.history) {
@@ -156,8 +151,7 @@
                         'height.px': tableOptions.row.height,
                         'background-color': isSelected(row) ? tableOptions.selection.background : tableOptions.row.background,
                         'border-bottom': '1px solid ' + tableOptions.gridColor,
-                        'color': isSelected(row) ? tableOptions.selection.color : tableOptions.row.color}">
-                </mat-row>
+                        'color': isSelected(row) ? tableOptions.selection.color : tableOptions.row.color}" />
 
 }
         }
@@ -176,6 +170,6 @@
 }
 @if (loading) {
 <div class="spinner">
-    <mat-spinner style="margin: auto" diameter="40"></mat-spinner>
+    <mat-spinner style="margin: auto" diameter="40" />
 </div>
 }

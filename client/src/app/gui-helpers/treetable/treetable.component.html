@@ -17,7 +17,7 @@
 					@if (!node.childs.length) {
 <div class="item-waiting" style="width:40px"
 						[ngStyle]="{'display': (node.expanded) ? 'inline-block' : 'none'}">
-						<mat-spinner diameter="20"></mat-spinner>
+						<mat-spinner diameter="20" />
 					</div>
 }
 					@if (node.class === nodeType.Variable) {
@@ -34,7 +34,7 @@
 					@if ((node.class === nodeType.Variable) || (node.class === nodeType.Object && node.expanded)) {
 <mat-checkbox [(ngModel)]="node.checked"
 
-						[disabled]="!node.enabled" (change)="changeStatus(node,$event)"></mat-checkbox>
+						[disabled]="!node.enabled" (change)="changeStatus(node,$event)" />
 }
 				</div>
 			</div>
@@ -87,7 +87,7 @@
 					&nbsp;
 					@if (node.text && (node.class === nodeType.Variable)) {
 <mat-checkbox [(ngModel)]="node.checked"
-						[disabled]="!node.enabled" (change)="changeStatus(node,$event)"></mat-checkbox>
+						[disabled]="!node.enabled" (change)="changeStatus(node,$event)" />
 }
 				</div>
 			</div>

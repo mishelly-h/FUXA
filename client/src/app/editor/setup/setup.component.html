@@ -177,7 +177,7 @@
             <div class="btn-card">
                 <button mat-button (click)="goTo('/flows')" class="card-btn" [disabled]="isToDisable('node-red') || (nodeRedExists$ | async) === false" >
                     <div class="card-btn-content">
-                        <mat-icon svgIcon="nodered-flows" style="width: 50px;"></mat-icon>
+                        <mat-icon svgIcon="nodered-flows" style="width: 50px;" />
                         <span>{{'dlg.setup-node-red-flows' | translate}}</span>
                     </div>
                 </button>

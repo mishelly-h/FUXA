@@ -1,14 +1,12 @@
 @for (item of actions; track item; let i = $index) {
 <div class="item">
-    <app-flex-device-tag
-        class="item-head"
+    <app-flex-device-tag class="item-head"
         [variableId]="item.variableId"
-        (onchange)="setVariable(i, $event)">
-    </app-flex-device-tag>
+        (onchange)="setVariable(i, $event)" />
     <div class="action-content">
         @if (slideView) {
 <div class="item-range">
-            <range-number [range]="item.range"></range-number>
+            <range-number [range]="item.range" />
         </div>
 }
         <div class="my-form-field" style="width: 278px;">

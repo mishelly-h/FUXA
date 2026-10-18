@@ -12,8 +12,7 @@
                         </button>
                     </mat-header-cell>
                     <mat-cell *matCellDef="let element" style="padding-left: 15px;">
-                        <mat-checkbox (click)="$event.stopPropagation()" (change)="onToogle(element)" [(ngModel)]="element.checked">
-                        </mat-checkbox>
+                        <mat-checkbox (click)="$event.stopPropagation()" (change)="onToogle(element)" [(ngModel)]="element.checked" />
                     </mat-cell>
                 </ng-container>
                 <!-- Name Column -->
@@ -63,13 +62,13 @@
                     </mat-cell>
                 </ng-container>
 
-                <mat-header-row *matHeaderRowDef="defColumns" style="min-height: 30px;"></mat-header-row>
-                <mat-row class="mat-row" *matRowDef="let row; columns: defColumns;"></mat-row>
+                <mat-header-row *matHeaderRowDef="defColumns" style="min-height: 30px;" />
+                <mat-row class="mat-row" *matRowDef="let row; columns: defColumns;" />
             </mat-table>
         </div>
     </div>
     <div class="ml20">
-        <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" style="float: left;"></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" style="float: left;" />
     </div>
     <div mat-dialog-actions class="dialog-action">
         <button mat-raised-button (click)="onNoClick()" cdkFocusInitial>{{'dlg.cancel' | translate}}</button>

@@ -9,15 +9,13 @@
                     <span>{{'video.property-data' | translate}}</span>
                 </div>
                 <div class="block mt5">
-                    <flex-auth [name]="name" [permission]="property.permission" (onChanged)="onFlexAuthChanged($event)" [permissionMode]="'onlyShow'" #flexauth>
-                    </flex-auth>
+                    <flex-auth [name]="name" [permission]="property.permission" (onChanged)="onFlexAuthChanged($event)" [permissionMode]="'onlyShow'" #flexauth />
                 </div>
                 <div class="my-form-field section-item section-item-block mt5">
                     <span>{{'video.property-address' | translate}}</span>
                     <input [(ngModel)]="property.options.address" (change)="onVideoChanged()" (keyup.enter)="onVideoChanged()" type="text">
                 </div>
-                <app-flex-device-tag class="block mt5 item-device-tag" (onchange)="onTagChanged($event)" [variableId]="property.variableId">
-                </app-flex-device-tag>
+                <app-flex-device-tag class="block mt5 item-device-tag" (onchange)="onTagChanged($event)" [variableId]="property.variableId" />
                 <div class="my-form-field block mt5 static-image">
                     <span>{{'video.property-image' | translate}}</span>
                     @if (property.options.initImage) {
@@ -29,8 +27,7 @@
 
 } @else {
 
-                        <mat-select placeholder="{{'video.property-image-placeholder' | translate}}" (click)="imagefile.click();">
-                        </mat-select>
+                        <mat-select placeholder="{{'video.property-image-placeholder' | translate}}" (click)="imagefile.click();" />
                         <input #imagefile type="file" style="display: none;" (change)="onSetImage($event)" accept="image/*" />
 
 }
@@ -39,11 +36,11 @@
                 <div class="video-options-row mt5 mb20">
                     <div class="my-form-field block tac item-slider">
                         <span>{{'video.property-controls' | translate}}</span>
-                        <mat-slide-toggle color="primary" [(ngModel)]="property.options.showControls" (change)="onVideoChanged()"></mat-slide-toggle>
+                        <mat-slide-toggle color="primary" [(ngModel)]="property.options.showControls" (change)="onVideoChanged()" />
                     </div>
                     <div class="my-form-field block tac item-slider">
                         <span>{{'video.property-loop' | translate}}</span>
-                        <mat-slide-toggle color="primary" [(ngModel)]="property.options.loop" (change)="onVideoChanged()"></mat-slide-toggle>
+                        <mat-slide-toggle color="primary" [(ngModel)]="property.options.loop" (change)="onVideoChanged()" />
                     </div>
                 </div>
             </mat-tab>

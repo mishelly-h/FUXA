@@ -4,7 +4,7 @@
     <!-- Loading state -->
     @if (loading) {
 <div class="recipe-loading">
-        <mat-spinner diameter="24"></mat-spinner>
+        <mat-spinner diameter="24" />
         <span>{{'recipe.loading' | translate}}</span>
     </div>
 }
@@ -108,7 +108,7 @@
         <!-- Progress -->
         @if (progress) {
 <div class="recipe-progress">
-            <mat-progress-bar mode="indeterminate" [style.backgroundColor]="accentColor"></mat-progress-bar>
+            <mat-progress-bar mode="indeterminate" [style.backgroundColor]="accentColor" />
             <span class="progress-text">{{'recipe.sending' | translate}}...</span>
             @if (progress.errors.length > 0) {
 <div class="progress-errors">

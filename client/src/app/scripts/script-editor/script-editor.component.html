@@ -53,7 +53,7 @@
             <mat-drawer-container class="panel-code">
                 @if (ready) {
 <div>
-                    <ngx-codemirror #CodeMirror [(ngModel)]="codeMirrorContent" [options]="codeMirrorOptions" (ngModelChange)="onEditorContent($event)"></ngx-codemirror>
+                    <ngx-codemirror #CodeMirror [(ngModel)]="codeMirrorContent" [options]="codeMirrorOptions" (ngModelChange)="onEditorContent($event)" />
                 </div>
 }
                 <mat-drawer #sidePanel class="side-panel" mode="side" position="end" style="height: 100%; width:350px">

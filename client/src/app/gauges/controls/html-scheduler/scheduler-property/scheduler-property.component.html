@@ -10,8 +10,7 @@
                     <span>{{'scheduler.property-data' | translate}}</span>
                 </div>
                 <div class="block mt5">
-                    <flex-auth [name]="data.settings.name" [permission]="property.permission" (onChanged)="onFlexAuthChanged($event)" [permissionRoles]="property.permissionRoles">
-                    </flex-auth>
+                    <flex-auth [name]="data.settings.name" [permission]="property.permission" (onChanged)="onFlexAuthChanged($event)" [permissionRoles]="property.permissionRoles" />
                 </div>
                 <!-- Appearance Settings -->
                 <div class="layout-content mt15">
@@ -105,8 +104,7 @@
                                 </div>
                             </div>
                             <!-- Tag Field on separate line -->
-                            <app-flex-device-tag class="block mt5 item-device-tag" (onchange)="onTagChanged(i, $event)" [variableId]="device.variableId">
-                            </app-flex-device-tag>
+                            <app-flex-device-tag class="block mt5 item-device-tag" (onchange)="onTagChanged(i, $event)" [variableId]="device.variableId" />
                         </div>
                     </div>
 }
@@ -132,7 +130,7 @@
                             </button>
                         </div>
 
-                        <ng-container *ngTemplateOutlet="actionRow; context: {action: action}"></ng-container>
+                        <ng-container *ngTemplateOutlet="actionRow; context: {action: action}" />
                     </div>
 }
 
@@ -155,7 +153,7 @@
                             </button>
                         </div>
 
-                        <ng-container *ngTemplateOutlet="actionRow; context: {action: action}"></ng-container>
+                        <ng-container *ngTemplateOutlet="actionRow; context: {action: action}" />
                     </div>
 }
                 </div>
@@ -197,7 +195,7 @@
                     <div class="my-form-field ml10">
                         <span>Function</span>
                         <mat-select [(value)]="action.actoptions.function" style="width: 80px;">
-                            <mat-option value=""></mat-option>
+                            <mat-option value="" />
                             <mat-option value="add">Add</mat-option>
                             <mat-option value="remove">Remove</mat-option>
                         </mat-select>
@@ -206,7 +204,7 @@
 }
                 @if (withSetValue(action.action)) {
 <div style="display: block; padding-top: 5px; padding-left: 25px;">
-                    <flex-variable style="display: block" [data]="data" [(value)]="action.actoptions.variable" [withStaticValue]="false"></flex-variable>
+                    <flex-variable style="display: block" [data]="data" [(value)]="action.actoptions.variable" [withStaticValue]="false" />
                 </div>
 }
 
@@ -214,7 +212,7 @@
                 @if (withToggleValue(action.action)) {
 <div style="display: block; padding-top: 5px; padding-left: 25px;">
                     <flex-variable style="display: block" [data]="data" [(value)]="action.actoptions.variable" [withBitmask]="true" [bitmask]="action.actoptions.variable?.bitmask"
-                        [withStaticValue]="false"></flex-variable>
+                        [withStaticValue]="false" />
                 </div>
 }
 
@@ -246,7 +244,7 @@
                                 @if (scriptParam.type === 'tagid') {
 <div class="my-form-field">
                                     <flex-variable style="display: block" (onchange)="setScriptParam(scriptParam, $event)" [data]="data" [variableId]="scriptParam.value"
-                                        [withStaticValue]="false"></flex-variable>
+                                        [withStaticValue]="false" />
                                 </div>
 }
                             </div>

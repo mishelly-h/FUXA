@@ -1,14 +1,13 @@
 @if (isLoading) {
 <div style="position:absolute;top:0px;left:0px;right:0px;bottom:0px;background-color:rgba(0,0,0,0.2); z-index: 99999;">
-	<mat-progress-bar mode="indeterminate" color="warn" style="position: absolute; top: 0px; left: 0px; right: 0px; z-index: 99999;">
-	</mat-progress-bar>
+	<mat-progress-bar mode="indeterminate" color="warn" style="position: absolute; top: 0px; left: 0px; right: 0px; z-index: 99999;" />
 </div>
 }
 <mat-sidenav-container class="sidenav-container" [hasBackdrop]="false">
 	@if (showNavigation && showSidenav) {
 <mat-sidenav #matsidenav class="sidenav" [mode]="showSidenav"
 		[disableClose]="showSidenav === 'side'">
-		<app-sidenav #sidenav [sidenav]="matsidenav" (goToPage)="onGoToPage($event)" (goToLink)="onGoToLink($event)"></app-sidenav>
+		<app-sidenav #sidenav [sidenav]="matsidenav" (goToPage)="onGoToPage($event)" (goToLink)="onGoToLink($event)" />
 	</mat-sidenav>
 }
 	<mat-sidenav-content
@@ -211,20 +210,18 @@
 					@case (cardViewType) {
 
 						<app-cards-view #cardsview [edit]="false" [options]="gridOptions"
-							[view]="homeView" [hmi]="hmi" [gaugesManager]="gaugesManager" (onGoTo)="onGoToPage($event)">
-						</app-cards-view>
+							[view]="homeView" [hmi]="hmi" [gaugesManager]="gaugesManager" (onGoTo)="onGoToPage($event)" />
 
 }
 					@case (mapsViewType) {
 
-						<app-maps-view [view]="homeView" [hmi]="hmi" [gaugesManager]="gaugesManager" (onGoTo)="onGoToPage($event)"></app-maps-view>
+						<app-maps-view [view]="homeView" [hmi]="hmi" [gaugesManager]="gaugesManager" (onGoTo)="onGoToPage($event)" />
 
 }
 					@default {
 
 						<app-fuxa-view #fuxaview class="home-body" id="home" [view]="homeView"
-								[hmi]="hmi" [gaugesManager]="gaugesManager" (ongoto)="onGoToPage($event)">
-						</app-fuxa-view>
+								[hmi]="hmi" [gaugesManager]="gaugesManager" (ongoto)="onGoToPage($event)" />
 
 }
 				}
@@ -233,11 +230,11 @@
 }
 			@for (iframe of iframes; track iframe) {
 
-				<app-iframe [link]="iframe.link" class="home-body" [style.display]="iframe.hide ? 'none' : 'block'" style="width:100%; height:100%"></app-iframe>
+				<app-iframe [link]="iframe.link" class="home-body" [style.display]="iframe.hide ? 'none' : 'block'" style="width:100%; height:100%" />
 
 }
 			<div id="alarms-panel" [style.width]="alarmPanelWidth">
-				<app-alarm-view #alarmsview [fullview]="false" (showMode)="onAlarmsShowMode($event)"></app-alarm-view>
+				<app-alarm-view #alarmsview [fullview]="false" (showMode)="onAlarmsShowMode($event)" />
 			</div>
 		</div>
 	</mat-sidenav-content>

@@ -71,7 +71,7 @@ import { AsyncPipe } from '@angular/common';
 <i class="material-icons"> {{iconOpen()}} </i>
 }
         </a>
-        <ng-content></ng-content>
+        <ng-content />
     </div>
   `,
     imports: [AsyncPipe]

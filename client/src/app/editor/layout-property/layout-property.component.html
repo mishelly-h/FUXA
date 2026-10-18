@@ -81,7 +81,7 @@
                         </div>
                         <div class="my-form-field" style="display: inline-block;margin-left: 30px;">
                             <span>{{'dlg.layout-show-dev' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="data.layout.showdev"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="data.layout.showdev" />
                         </div>
                     </div>
                 </div>
@@ -280,7 +280,7 @@
                             <div class="my-form-field" style="display: inline-block;margin-top: 10px;">
                                 <span>{{'dlg.layout-lbl-logo' | translate}}</span>
                                 <mat-select [(value)]="data.layout.navigation.logo" style="width: 300px">
-                                    <mat-option (click)="data.layout.navigation.logo = null;"></mat-option>
+                                    <mat-option (click)="data.layout.navigation.logo = null;" />
                                     @for (resource of resources; track resource) {
 <mat-option [value]="resource.path">
                                         {{ resource.name }}
@@ -588,7 +588,7 @@
             </mat-tab>
             <mat-tab label="{{'dlg.layout-lbl-custom-styles' | translate}}">
                 <div class="tab-container">
-                    <ngx-codemirror #CodeMirror [(ngModel)]="data.layout.customStyles" [options]="codeMirrorOptions" ></ngx-codemirror>
+                    <ngx-codemirror #CodeMirror [(ngModel)]="data.layout.customStyles" [options]="codeMirrorOptions"  />
                 </div>
             </mat-tab>
         </mat-tab-group>

@@ -6,7 +6,7 @@
     <div class="container">
         @if (loading) {
 <div class="loading-spinner">
-            <mat-spinner diameter="40"></mat-spinner>
+            <mat-spinner diameter="40" />
         </div>
 }
 
@@ -46,7 +46,7 @@
 
             <!-- Button edit options row -->
             <ng-container matColumnDef="options">
-                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-header-cell *matHeaderCellDef />
                 <mat-cell *matCellDef="let recipe">
                     <button mat-icon-button [matMenuTriggerFor]="menu" class="options">
                         <mat-icon>more_vert</mat-icon>
@@ -88,8 +88,8 @@
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" />
+            <mat-row *matRowDef="let row; columns: displayedColumns;" class="mat-row" />
         </mat-table>
 }
 

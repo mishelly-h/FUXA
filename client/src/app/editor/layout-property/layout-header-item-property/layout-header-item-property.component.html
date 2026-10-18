@@ -4,15 +4,13 @@
     <div mat-dialog-content>
         <div class="my-form-field block mb10">
             <span>{{'dlg.headeritem-icon' | translate}}</span>
-            <app-icon-selector
-                [(value)]="item.icon"
+            <app-icon-selector [(value)]="item.icon"
                 [image]="item.image"
                 [allowImage]="true"
                 [imageLabel]="'dlg.menuitem-image'"
                 [filterPlaceholder]="'dlg.headeritem-icons-filter'"
                 (selected)="item.image = ''"
-                (imageSelected)="onSetImage($event)">
-            </app-icon-selector>
+                (imageSelected)="onSetImage($event)" />
         </div>
         <div class="header-item-row mt10">
             <div class="my-form-field type-field">

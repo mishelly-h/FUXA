@@ -90,16 +90,16 @@
                     </div>
 }
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" [style.color]="element.color" [style.flex]="(showInContainer) ? '0 0 10px' : '0 0 120px'"></mat-cell>
+                <mat-cell *matCellDef="let element" [style.color]="element.color" [style.flex]="(showInContainer) ? '0 0 10px' : '0 0 120px'" />
             </ng-container>
-            <mat-header-row *matHeaderRowDef="displayColumns; sticky: true" class="my-header-row"></mat-header-row>
-            <mat-row *matRowDef="let element; columns: displayColumns;" class="my-mat-row" [style.background-color]="element.bkcolor"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayColumns; sticky: true" class="my-header-row" />
+            <mat-row *matRowDef="let element; columns: displayColumns;" class="my-mat-row" [style.background-color]="element.bkcolor" />
         </mat-table>
     </div>
-    <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="table-pagination"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="table-pagination" />
     @if (alarmsLoading) {
 <div class="spinner-overlay">
-        <mat-spinner style="margin: auto" diameter="40" class="spinner"></mat-spinner>
+        <mat-spinner style="margin: auto" diameter="40" class="spinner" />
     </div>
 }
     <mat-date-range-input [formGroup]="dateRange" [rangePicker]="picker" style="display: none;">

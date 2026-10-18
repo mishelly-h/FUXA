@@ -34,7 +34,7 @@
         </div>
     </div>
 }
-    <ngx-uplot class="mychart-graph" #nguplot></ngx-uplot>
+    <ngx-uplot class="mychart-graph" #nguplot />
     @if (!isEditor && withToolbar) {
 <div class="reload-btn">
         <button mat-icon-button (click)="onRefresh(true)" class="small-icon-button default-color" [style.color]="options.axisLabelColor">
@@ -44,7 +44,7 @@
 }
     @if (loading) {
 <div class="spinner">
-        <mat-spinner style="margin: auto" diameter="40"></mat-spinner>
+        <mat-spinner style="margin: auto" diameter="40" />
     </div>
 }
 </div>

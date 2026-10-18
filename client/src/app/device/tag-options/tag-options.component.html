@@ -6,15 +6,15 @@
         <div class="block mt10 mb15 flex" style="text-align: center;">
             <div class="my-form-field w100">
                 <span>{{'device.tag-daq-enabled' | translate}}</span>
-                <mat-slide-toggle color="primary" formControlName="enabled"></mat-slide-toggle>
+                <mat-slide-toggle color="primary" formControlName="enabled" />
             </div>
             <div class="my-form-field w100">
                 <span>{{'device.tag-daq-changed' | translate}}</span>
-                <mat-slide-toggle color="primary" formControlName="changed"></mat-slide-toggle>
+                <mat-slide-toggle color="primary" formControlName="changed" />
             </div>
             <div class="my-form-field w100">
                 <span>{{'device.tag-daq-restored' | translate}}</span>
-                <mat-slide-toggle color="primary" formControlName="restored"></mat-slide-toggle>
+                <mat-slide-toggle color="primary" formControlName="restored" />
             </div>
         </div>
         <div class="my-form-field item-block">
@@ -112,7 +112,7 @@
                 <span>{{'device.tag-scale-read-script' | translate}}</span>
                 <mat-select formControlName="scaleReadFunction"
                             matTooltip="{{'device.tag-scale-read-script-tooltip' | translate}}">
-                    <mat-option (click)="formGroup.controls.scaleReadFunction.reset()"></mat-option>
+                    <mat-option (click)="formGroup.controls.scaleReadFunction.reset()" />
                     @for (script of scripts; track script; let i = $index) {
 <mat-option [value]="script.id">{{script.name}}</mat-option>
 }
@@ -138,7 +138,7 @@
                 <span>{{'device.tag-scale-write-script' | translate}}</span>
                 <mat-select formControlName="scaleWriteFunction"
                             matTooltip="{{'device.tag-scale-write-script-tooltip' | translate}}">
-                    <mat-option (click)="formGroup.controls.scaleWriteFunction.reset()"></mat-option>
+                    <mat-option (click)="formGroup.controls.scaleWriteFunction.reset()" />
                     @for (script of scripts; track script; let i = $index) {
 <mat-option [value]="script.id">{{script.name}}</mat-option>
 }

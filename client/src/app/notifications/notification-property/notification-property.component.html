@@ -15,7 +15,7 @@
             <div class="my-form-field">
                 <span>*{{'notification.property-type' | translate}}</span>
                 <mat-select formControlName="type" (selectionChange)="onTypeChanged($event.value)" style="width: 207px">
-                    <mat-option [value]=""> </mat-option>
+                    <mat-option [value]="" />
                     <mat-option [value]="notificationAlarm"> {{ notificationsType[notificationAlarm] }} </mat-option>
                     <mat-option [value]="notificationAccess"> {{ notificationsType[notificationAccess] }} </mat-option>
                 </mat-select>
@@ -34,7 +34,7 @@
 }
             <div class="my-form-field ml20">
                 <span>{{'notification.property-enabled' | translate}}</span>
-                <mat-slide-toggle color="primary" formControlName="enabled" style="vertical-align: middle;"></mat-slide-toggle>
+                <mat-slide-toggle color="primary" formControlName="enabled" style="vertical-align: middle;" />
             </div>
         </div>
         @if (formGroup.value.type === notificationAlarm) {

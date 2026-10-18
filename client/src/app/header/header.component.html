@@ -5,12 +5,12 @@
     </button>
     <mat-menu #prjview="matMenu" class="leftbar-item-menu header-menu" yPosition="below" [overlapTrigger]="false">
         <button mat-menu-item (click)="onNewProject()">{{'header.new-project' | translate}}</button>
-        <mat-divider class="menu-separator"></mat-divider>
+        <mat-divider class="menu-separator" />
         <button mat-menu-item (click)="onSaveProject()">{{'header.save-project' | translate}}</button>
         <button mat-menu-item (click)="onSaveProjectAs()">{{'header.saveas-project' | translate}}</button>
-        <mat-divider class="menu-separator"></mat-divider>
+        <mat-divider class="menu-separator" />
         <button mat-menu-item (click)="onOpenProject();$event.stopPropagation()">{{'header.open-project' | translate}}</button>
-        <mat-divider class="menu-separator"></mat-divider>
+        <mat-divider class="menu-separator" />
         <button mat-menu-item (click)="onRenameProject()">{{'header.rename-project' | translate}}</button>
         <input type="file" #fileImportInput style="display: none" id="projectFileUpload" (change)="onFileChangeListener($event)" accept=".json" />
     </mat-menu>
@@ -29,12 +29,12 @@
         </button>
         <mat-menu #helpmenu="matMenu" class="leftbar-item-menu header-menu" yPosition="below" [overlapTrigger]="false">
             <button mat-menu-item (click)="onShowHelp('help')">{{'header.help-tutorial' | translate}}</button>
-            <mat-divider class="menu-separator"></mat-divider>
+            <mat-divider class="menu-separator" />
             <button mat-menu-item (click)="onShowHelp('info')">{{'header.help-info' | translate}}</button>
-            <mat-divider class="menu-separator"></mat-divider>
+            <mat-divider class="menu-separator" />
             <button mat-menu-item (click)="onChangeTheme()">{{'header.change-thema' | translate}}</button>
         </mat-menu>
     </div>
 </div>
 }
-<app-tutorial #tutorial></app-tutorial>
+<app-tutorial #tutorial />

@@ -45,7 +45,7 @@
                                         <span>{{'dlg.app-settings-auth-only-editor' | translate}}</span>
                                         <mat-icon class="my-form-field-info" style="height: 16px" matTooltip="{{authOnlyEditorTooltip}}">error_outline</mat-icon>
                                     </div>
-                                    <mat-slide-toggle color="primary" [(ngModel)]="settings.secureOnlyEditor" [disabled]="authentication === ''"></mat-slide-toggle>
+                                    <mat-slide-toggle color="primary" [(ngModel)]="settings.secureOnlyEditor" [disabled]="authentication === ''" />
                                 </div>
                             </div>
 }

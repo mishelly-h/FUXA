@@ -16,8 +16,8 @@
                     <div class="my-form-field field-block lbk mt5">
                         <span>{{'chart.property-chart' | translate}}</span>
                         <mat-select [formControl]="chartCtrl" (selectionChange)="onChartChanged()">
-                            <mat-select-search [formControl]="chartFilterCtrl"></mat-select-search>
-                            <mat-option [value]="" class="chart-filter-option"></mat-option>
+                            <mat-select-search [formControl]="chartFilterCtrl" />
+                            <mat-option [value]="" class="chart-filter-option" />
                             <mat-option (click)="onEditNewChart();" class="chart-filter-option">{{'chart.property-newchart' | translate}}</mat-option>
                             @for (chart of filteredChart | async; track chart) {
 <mat-option [value]="chart" class="chart-filter-option">
@@ -59,7 +59,7 @@
                             <div class="my-form-field inbk" style="width: 180px">
                                 <span>{{'chart.property-script' | translate}}</span>
                                 <mat-select [(value)]="options.scriptId" (selectionChange)="onChartChanged()">
-                                    <mat-option [value]=""></mat-option>
+                                    <mat-option [value]="" />
                                     @for (script of scripts$ | async; track script; let i = $index) {
 <mat-option [value]="script.id">{{script.name}}</mat-option>
 }
@@ -76,29 +76,29 @@
 
                                 <div class="my-form-field inbk ml10 tac">
                                     <span>{{'chart.property-hide-toolbar' | translate}}</span>
-                                    <mat-slide-toggle color="primary" [(ngModel)]="options.hideToolbar" (change)="onChartChanged()"></mat-slide-toggle>
+                                    <mat-slide-toggle color="primary" [(ngModel)]="options.hideToolbar" (change)="onChartChanged()" />
                                 </div>
                                 <div class="my-form-field inbk ml10 tac">
                                     <span>{{'chart.property-thouch-zoom' | translate}}</span>
-                                    <mat-slide-toggle color="primary" [(ngModel)]="options.thouchZoom" (change)="onChartChanged()"></mat-slide-toggle>
+                                    <mat-slide-toggle color="primary" [(ngModel)]="options.thouchZoom" (change)="onChartChanged()" />
                                 </div>
                                 <div class="my-form-field inbk ml10 tac">
                                     <span>{{'chart.property-mouse-wheel-scroll' | translate}}</span>
                                     <mat-slide-toggle color="primary"
                                         [(ngModel)]="options.mouseWheelScroll"
                                         [disabled]="options.mouseWheelZoom"
-                                        (change)="onMouseWheelScrollChanged()"></mat-slide-toggle>
+                                        (change)="onMouseWheelScrollChanged()" />
                                 </div>
                                 <div class="my-form-field inbk ml10 tac">
                                     <span>{{'chart.property-mouse-wheel-zoom' | translate}}</span>
                                     <mat-slide-toggle color="primary"
                                         [(ngModel)]="options.mouseWheelZoom"
                                         [disabled]="options.mouseWheelScroll"
-                                        (change)="onMouseWheelZoomChanged()"></mat-slide-toggle>
+                                        (change)="onMouseWheelZoomChanged()" />
                                 </div>
                                 <div class="my-form-field inbk ml10 tac">
                                     <span>{{'chart.property-static-chart' | translate}}</span>
-                                    <mat-slide-toggle color="primary" [(ngModel)]="options.staticChart" (change)="onChartChanged()"></mat-slide-toggle>
+                                    <mat-slide-toggle color="primary" [(ngModel)]="options.staticChart" (change)="onChartChanged()" />
                                 </div>
 
 }
@@ -113,11 +113,11 @@
                         </div>
                         <div class="my-form-field inbk ml20 tac" style="max-width: 100px;">
                             <span>{{'chart.property-load-old-values' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.loadOldValues" (change)="onChartChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.loadOldValues" (change)="onChartChanged()" />
                         </div>
                         <div class="my-form-field inbk ml10 tac">
                             <span>{{'chart.property-static-chart' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.staticChart" (change)="onChartChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.staticChart" (change)="onChartChanged()" />
                         </div>
 
 }
@@ -355,8 +355,7 @@
 <div class="my-form-field inbk event-script-tag">
                                         <app-flex-device-tag class="block mt5 item-device-tag"
                                                             (onchange)="onChartChanged()"
-                                                            [variableId]="scriptParam.value">
-                                        </app-flex-device-tag>
+                                                            [variableId]="scriptParam.value" />
                                     </div>
 }
                                 </div>

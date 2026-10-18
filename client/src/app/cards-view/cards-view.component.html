@@ -12,12 +12,12 @@
 @switch (item.content?.type) {
                             @case (mapsViewType) {
 
-                                <app-maps-view [view]="item.content" [hmi]="hmi()" [gaugesManager]="gaugesManager()" (onGoTo)="onGoToPage($event)"></app-maps-view>
+                                <app-maps-view [view]="item.content" [hmi]="hmi()" [gaugesManager]="gaugesManager()" (onGoTo)="onGoToPage($event)" />
 
 }
                             @default {
 
-                                <app-fuxa-view class="lab-body" id="fuxaView{{i}}" [view]="item.content" [hmi]="hmi()" [gaugesManager]="gaugesManager()"></app-fuxa-view>
+                                <app-fuxa-view class="lab-body" id="fuxaView{{i}}" [view]="item.content" [hmi]="hmi()" [gaugesManager]="gaugesManager()" />
 
 }
                         }
@@ -26,7 +26,7 @@
 }
                     @case (cardType.alarms) {
 <div>
-                        <app-alarm-view #alarmsview [fullview]="true" [showInContainer]="true" [autostart]="true"></app-alarm-view>
+                        <app-alarm-view #alarmsview [fullview]="true" [showInContainer]="true" [autostart]="true" />
                     </div>
 }
                     @case (cardType.iframe) {
@@ -37,7 +37,7 @@
                         </div>
 } @else {
 
-                            <app-iframe [link]="item.card.data" class="iframe-class"></app-iframe>
+                            <app-iframe [link]="item.card.data" class="iframe-class" />
 
 }
 

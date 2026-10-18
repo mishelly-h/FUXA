@@ -28,8 +28,7 @@
                    [parentcards]="cards"
                    [variablesMapping]="card.variablesMapping"
                    [view]="card.view"
-                   [sourceDeviceId]="card.sourceDeviceId">
-    </app-fuxa-view>
+                   [sourceDeviceId]="card.sourceDeviceId" />
 </div>
 }
 @for (iframe of iframes; track iframe; let i = $index) {
@@ -42,7 +41,7 @@
         </a>
     </div>
     <app-iframe [link]="iframe.link" [style.height]="iframe.height + 'px'" [style.transform]="'scale(' + iframe.scale + ')'" [style.width]="iframe.width + 'px'"
-        [style.zoom]="1 / iframe.scale" class="iframe-class"></app-iframe>
+        [style.zoom]="1 / iframe.scale" class="iframe-class" />
 </div>
 }
 <div #inputDialogRef [style.display]="(inputDialog.show) ? 'inline-block' : 'none'" class="dialog-input" [style.top.px]="inputDialog.y" [style.left.px]="inputDialog.x">

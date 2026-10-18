@@ -22,7 +22,7 @@
                     <div class="my-form-field mt5">
                         <span>{{'maps.location-property-card' | translate}}</span>
                         <mat-select formControlName="viewId">
-                            <mat-option [value]=""></mat-option>
+                            <mat-option [value]="" />
                             @for (view of views; track view) {
 <mat-option [value]="view.id">
                                 {{ view.name }}
@@ -33,7 +33,7 @@
                     <div class="my-form-field mt5">
                         <span>{{'maps.location-property-view' | translate}}</span>
                         <mat-select formControlName="pageId">
-                            <mat-option [value]=""></mat-option>
+                            <mat-option [value]="" />
                             @for (view of views; track view) {
 <mat-option [value]="view.id">
                                 {{ view.name }}
@@ -57,28 +57,26 @@
                         <div class="col-4">
                             <div class="my-form-field mb10">
                                 <span>{{'maps.location-property-showIcon' | translate}}</span>
-                                <mat-slide-toggle color="primary" formControlName="showMarkerIcon"></mat-slide-toggle>
+                                <mat-slide-toggle color="primary" formControlName="showMarkerIcon" />
                             </div>
                             @if (formGroup.controls?.showMarkerIcon?.value) {
 <div class="my-form-field block">
                                 <span>{{'dlg.menuitem-icon' | translate}}</span>
-                                <app-icon-selector
-                                    [value]="formGroup.get('markerIcon')?.value"
+                                <app-icon-selector [value]="formGroup.get('markerIcon')?.value"
                                     (valueChange)="formGroup.get('markerIcon')?.setValue($event)"
                                     [image]="formGroup.get('markerImage')?.value"
                                     [allowImage]="true"
                                     [imageLabel]="'dlg.menuitem-image'"
                                     [filterPlaceholder]="'dlg.menuitem-icons-filter'"
                                     (selected)="onMarkerIconSelected()"
-                                    (imageSelected)="onSetMarkerImage($event)">
-                                </app-icon-selector>
+                                    (imageSelected)="onSetMarkerImage($event)" />
                             </div>
 }
                         </div>
                         <div class="col-4">
                             <div class="my-form-field">
                                 <span>{{'maps.location-property-showName' | translate}}</span>
-                                <mat-slide-toggle color="primary" formControlName="showMarkerName"></mat-slide-toggle>
+                                <mat-slide-toggle color="primary" formControlName="showMarkerName" />
                             </div>
                         </div>
                         <div class="col-4">
@@ -102,12 +100,11 @@
                     <div class="row mt30 w100">
                         <div class="my-form-field w100">
                             <span>{{'maps.location-property-showValue' | translate}}</span>
-                            <mat-slide-toggle color="primary" formControlName="showMarkerValue"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" formControlName="showMarkerValue" />
                         </div>
                         @if (formGroup.controls?.showMarkerValue?.value) {
 <div class="w100">
-                            <app-flex-device-tag class="block mt5 item-device-tag" (onchange)="onTagChanged($event)" [variableId]="formGroup.get('markerTagValueId')?.value">
-                            </app-flex-device-tag>
+                            <app-flex-device-tag class="block mt5 item-device-tag" (onchange)="onTagChanged($event)" [variableId]="formGroup.get('markerTagValueId')?.value" />
                         </div>
 }
                     </div>
@@ -120,10 +117,8 @@
                             <mat-icon>add_circle_outline</mat-icon>
                         </button>
                     </div>
-                    <flex-actions-standalone
-                        #flexActionsStandalone
-                        [actions]="actions">
-                    </flex-actions-standalone>
+                    <flex-actions-standalone #flexActionsStandalone
+                        [actions]="actions" />
                 </div>
             </mat-tab>
         </mat-tab-group>

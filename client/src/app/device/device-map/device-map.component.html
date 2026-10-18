@@ -171,7 +171,7 @@
             </ng-container>
             <!-- Button remove Column -->
             <ng-container matColumnDef="remove">
-                <mat-header-cell *matHeaderCellDef></mat-header-cell>
+                <mat-header-cell *matHeaderCellDef />
                 <mat-cell *matCellDef="let element">
                     @if (!readonly && !isServer(element)) {
 <button mat-icon-button (click)="$event.stopPropagation();onRemoveDevice(element)" class="remove"
@@ -182,10 +182,10 @@
                 </mat-cell>
             </ng-container>
 
-            <mat-header-row *matHeaderRowDef="displayedColumns" [ngStyle]="{'min-width.px': tableWidth}" sticky></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;" class="my-mat-row" [ngStyle]="{'min-width.px': tableWidth}"></mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns" [ngStyle]="{'min-width.px': tableWidth}" sticky />
+            <mat-row *matRowDef="let row; columns: displayedColumns;" class="my-mat-row" [ngStyle]="{'min-width.px': tableWidth}" />
         </mat-table>
-        <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" style="position: relative; right: 100px;"></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" style="position: relative; right: 100px;" />
     </div>
 }
 </div>

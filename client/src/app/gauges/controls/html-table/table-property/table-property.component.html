@@ -38,7 +38,7 @@
                         </div>
                         <div class="my-form-field inbk tac data-realtime">
                             <span>{{'table.property-type-with-realtime' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.realtime" (change)="onTableChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.realtime" (change)="onTableChanged()" />
                         </div>
 
 }
@@ -134,24 +134,24 @@
                     <div class="section-inline-margin"></div>
                     <div class="my-form-field section-inline-toggle slider-field">
                         <span>{{'table.property-header' | translate}}</span>
-                        <mat-slide-toggle color="primary" [(ngModel)]="options.header.show" (change)="onTableChanged()"></mat-slide-toggle>
+                        <mat-slide-toggle color="primary" [(ngModel)]="options.header.show" (change)="onTableChanged()" />
                     </div>
                     @if (tableTypeCtrl.value === tableType.history || tableTypeCtrl.value === tableType.alarmsHistory) {
 <div style="display: inline-block;">
                         <div class="section-inline-margin2"></div>
                         <div class="my-form-field section-inline-toggle slider-field">
                             <span>{{'table.property-filter' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.filter.show" (change)="onTableChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.filter.show" (change)="onTableChanged()" />
                         </div>
                         <div class="section-inline-margin2"></div>
                         <div class="my-form-field section-inline-toggle slider-field">
                             <span>{{'table.property-paginator' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.paginator.show" (change)="onTableChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.paginator.show" (change)="onTableChanged()" />
                         </div>
                         <div class="section-inline-margin2"></div>
                         <div class="my-form-field section-inline-toggle slider-field">
                             <span>{{'table.property-daterange' | translate}}</span>
-                            <mat-slide-toggle color="primary" [(ngModel)]="options.daterange.show" (change)="onTableChanged()"></mat-slide-toggle>
+                            <mat-slide-toggle color="primary" [(ngModel)]="options.daterange.show" (change)="onTableChanged()" />
                         </div>
                     </div>
 }
@@ -287,8 +287,7 @@
 <div class="my-form-field inbk event-script-tag">
                                         <app-flex-device-tag class="block mt5 item-device-tag"
                                                             (onchange)="onTableChanged()"
-                                                            [variableId]="scriptParam.value">
-                                        </app-flex-device-tag>
+                                                            [variableId]="scriptParam.value" />
                                     </div>
 }
                                 </div>

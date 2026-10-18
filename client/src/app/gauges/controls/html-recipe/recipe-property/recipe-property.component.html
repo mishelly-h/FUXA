@@ -52,8 +52,7 @@
         </div>
         <div class="block mt5">
             <flex-auth [name]="data.settings.name" [permission]="property.permission"
-                (onChanged)="onFlexAuthChanged($event)" [permissionRoles]="property.permissionRoles">
-            </flex-auth>
+                (onChanged)="onFlexAuthChanged($event)" [permissionRoles]="property.permissionRoles" />
         </div>
 
         <!-- Visible actions -->

@@ -39,7 +39,7 @@
 			</ng-container>
 
 			<ng-container matColumnDef="remove">
-				<mat-header-cell *matHeaderCellDef> </mat-header-cell>
+				<mat-header-cell *matHeaderCellDef />
 				<mat-cell *matCellDef="let element">
 					@if (!isAdmin(element)) {
 <button mat-icon-button (click)="$event.stopPropagation();onRemoveUser(element)" class="remove">
@@ -49,8 +49,8 @@
 				</mat-cell>
 			</ng-container>
 
-			<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></mat-header-row>
-			<mat-row *matRowDef="let row; columns: displayedColumns;" class="my-mat-row"></mat-row>
+			<mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" />
+			<mat-row *matRowDef="let row; columns: displayedColumns;" class="my-mat-row" />
 		</mat-table>
 	</div>
 </div>

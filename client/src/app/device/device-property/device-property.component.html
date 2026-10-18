@@ -68,7 +68,7 @@
 <div class="my-form-field"
                 style="display: inline-block;margin-bottom: 10px;text-align: center;width: 80px;">
                 <span>{{'device.property-enable' | translate}}</span>
-                <mat-slide-toggle color="primary" [(ngModel)]="data.device.enabled"></mat-slide-toggle>
+                <mat-slide-toggle color="primary" [(ngModel)]="data.device.enabled" />
             </div>
 }
             @if (data.device.property && data.device.type) {
@@ -99,7 +99,7 @@
                             </mat-expansion-panel-header>
                             @if (propertyLoading) {
 <div>
-                                <mat-spinner style="margin: auto" diameter="20"></mat-spinner>
+                                <mat-spinner style="margin: auto" diameter="20" />
                             </div>
 }
                             @if (!propertyLoading) {
@@ -197,7 +197,7 @@
                         <div class="my-form-field inbk">
                             <span>{{'device.property-socket-reuse' | translate}}</span>
                             <mat-select [(value)]="data.device.property.socketReuse" style="width: 100%">
-                                <mat-option [value]=""></mat-option>
+                                <mat-option [value]="" />
                                 @for (mode of modbusReuseModeType | enumToArray; track mode) {
 <mat-option [value]="mode.key">
                                     {{ mode.value }}
@@ -262,7 +262,7 @@
                         <div class="my-form-field inbk" style="width: 100px; text-align: center;">
                             <span>{{'device.property-tockenized' | translate}}</span>
                             <mat-slide-toggle color="primary"
-                                [(ngModel)]="data.device.property.options"></mat-slide-toggle>
+                                [(ngModel)]="data.device.property.options" />
                         </div>
                         <div class="my-form-field inbk" style="display: inline-block;margin-left: 15px;">
                             <span>{{'device.property-delay' | translate}}</span>
@@ -280,7 +280,7 @@
                         <div class="my-form-field inbk" style="width: 200px ;text-align: center;">
                             <span>{{'device.property-force-fc16' | translate}}</span>
                             <mat-slide-toggle color="primary"
-                                [(ngModel)]="data.device.property.forceFC16"></mat-slide-toggle>
+                                [(ngModel)]="data.device.property.forceFC16" />
                         </div>
                     </div>
                 </div>
@@ -301,7 +301,7 @@
                         <div class="my-form-field inbk">
                             <span>{{'device.property-socket-reuse' | translate}}</span>
                             <mat-select [(value)]="data.device.property.socketReuse" style="width: 100%">
-                                <mat-option [value]=""></mat-option>
+                                <mat-option [value]="" />
                                 @for (mode of modbusReuseModeType | enumToArray; track mode) {
 <mat-option [value]="mode.key">
                                     {{ mode.value }}
@@ -325,7 +325,7 @@
                         <div class="my-form-field inbk" style="width: 100px; text-align: center;">
                             <span>{{'device.property-tockenized' | translate}}</span>
                             <mat-slide-toggle color="primary"
-                                [(ngModel)]="data.device.property.options"></mat-slide-toggle>
+                                [(ngModel)]="data.device.property.options" />
                         </div>
                         <div class="my-form-field inbk" style="display: inline-block;margin-left: 15px;">
                             <span>{{'device.property-delay' | translate}}</span>
@@ -343,7 +343,7 @@
                         <div class="my-form-field inbk" style="width: 200px ;text-align: center;">
                             <span>{{'device.property-force-fc16' | translate}}</span>
                             <mat-slide-toggle color="primary"
-                                [(ngModel)]="data.device.property.forceFC16"></mat-slide-toggle>
+                                [(ngModel)]="data.device.property.forceFC16" />
                         </div>
                     </div>
                 </div>
@@ -394,7 +394,7 @@
                             </mat-expansion-panel-header>
                             @if (propertyLoading) {
 <div>
-                                <mat-spinner style="margin: auto" diameter="20"></mat-spinner>
+                                <mat-spinner style="margin: auto" diameter="20" />
                             </div>
 }
                             @if (!propertyLoading) {
@@ -440,7 +440,7 @@
                             </mat-expansion-panel-header>
                             @if (propertyLoading) {
 <div>
-                                <mat-spinner style="margin: auto" diameter="20"></mat-spinner>
+                                <mat-spinner style="margin: auto" diameter="20" />
                             </div>
 }
                             @if (!propertyLoading) {
@@ -487,22 +487,19 @@
                                         <span>{{'device.property-certificate' | translate}}</span>
                                         <app-file-upload [fileName]="security.certificateFileName"
                                             destination="certificates"
-                                            (onFileChange)="security.certificateFileName = $event?.name ? $event.name : null">
-                                        </app-file-upload>
+                                            (onFileChange)="security.certificateFileName = $event?.name ? $event.name : null" />
                                     </div>
                                     <div class="my-form-field block">
                                         <span>{{'device.property-certificate-key' | translate}}</span>
                                         <app-file-upload [fileName]="security.privateKeyFileName"
                                             destination="certificates"
-                                            (onFileChange)="security.privateKeyFileName = $event?.name ? $event.name : null">
-                                        </app-file-upload>
+                                            (onFileChange)="security.privateKeyFileName = $event?.name ? $event.name : null" />
                                     </div>
                                     <div class="my-form-field block">
                                         <span>{{'device.property-certificate-ca' | translate}}</span>
                                         <app-file-upload [fileName]="security.caCertificateFileName"
                                             destination="certificates"
-                                            (onFileChange)="security.caCertificateFileName = $event?.name ? $event.name : null">
-                                        </app-file-upload>
+                                            (onFileChange)="security.caCertificateFileName = $event?.name ? $event.name : null" />
                                     </div>
                                 </div>
                             </ng-container>
@@ -521,7 +518,7 @@
                         <div class="my-form-field" style="display: inline-block; text-align: center;width: 80px;">
                             <span>{{'device.property-routing' | translate}}</span>
                             <mat-slide-toggle color="primary"
-                                [(ngModel)]="data.device.property.options"></mat-slide-toggle>
+                                [(ngModel)]="data.device.property.options" />
                         </div>
                         @if (data.device.property.options) {
 <div class="my-form-field" style="display: inline-block; margin-left: 10px;"
@@ -579,7 +576,7 @@
                             </mat-expansion-panel-header>
                             @if (propertyLoading) {
 <div>
-                                <mat-spinner style="margin: auto" diameter="20"></mat-spinner>
+                                <mat-spinner style="margin: auto" diameter="20" />
                             </div>
 }
                             @if (!propertyLoading) {
@@ -638,12 +635,12 @@
                         <div class="my-form-field inbk tac" style="width: 100px;">
                             <span>{{'device.property-melsec-ascii' | translate}}</span>
                             <mat-slide-toggle color="primary"
-                                [(ngModel)]="data.device.property.ascii"></mat-slide-toggle>
+                                [(ngModel)]="data.device.property.ascii" />
                         </div>
                         <div class="my-form-field inbk tac" style="width: 100px;">
                             <span>{{'device.property-melsec-octalIO' | translate}}</span>
                             <mat-slide-toggle color="primary"
-                                [(ngModel)]="data.device.property.octalIO"></mat-slide-toggle>
+                                [(ngModel)]="data.device.property.octalIO" />
                         </div>
                     </div>
                 </div>

@@ -13,8 +13,7 @@
                                [permission]="property.permission"
                                (onChanged)="onFlexAuthChanged($event)"
                                [permissionMode]="'onlyShow'"
-                               #flexauth>
-                    </flex-auth>
+                               #flexauth />
                 </div>
                 <div class="element-property-header">
                     <span>{{'pipe.property-style' | translate}}</span>
@@ -125,8 +124,7 @@
 
                     <div class="my-form-field block mt5 image-animation">
                         <!-- <span>{{'pipe.property-style-animation' | translate}}</span> -->
-                        <mat-select placeholder="{{'pipe.property-style-animation-image' | translate}}" (click)="imagefile.click();" >
-                        </mat-select>
+                        <mat-select placeholder="{{'pipe.property-style-animation-image' | translate}}" (click)="imagefile.click();"  />
                         <input #imagefile type="file" style="display: none;" (change)="onSetImage($event)" accept=".svg,image/svg+xml" />
                     </div>
 

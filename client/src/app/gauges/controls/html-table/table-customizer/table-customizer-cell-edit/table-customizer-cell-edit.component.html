@@ -68,8 +68,7 @@
         @if (data.cell.type === columnType.variable || data.cell.type === columnType.device) {
 <div class="my-form-field variable-input">
             <flex-variable [data]="devicesValues" (onchange)="onSetVariable($event)" [variableId]="data.cell.variableId" [bitmask]="data.cell.bitmask" [withStaticValue]="false"
-                [withBitmask]="true">
-            </flex-variable>
+                [withBitmask]="true" />
         </div>
 }
     </div>

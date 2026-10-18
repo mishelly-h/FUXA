@@ -1,12 +1,11 @@
 @for (item of actions; track item; let i = $index) {
 <div class="item">
     <flex-variable class="item-head" [data]="data()" (onchange)="setVariable(i, $event)" [variableId]="item.variableId" [withStaticValue]="false"
-    [withBitmask]="withBitmask() && !isMoveByTags(item)" [bitmask]="item.bitmask">
-    </flex-variable>
+    [withBitmask]="withBitmask() && !isMoveByTags(item)" [bitmask]="item.bitmask" />
     <div class="action-content">
         @if (slideView && !isMoveByTags(item)) {
 <div class="item-range">
-            <range-number [range]="item.range"></range-number>
+            <range-number [range]="item.range" />
         </div>
 }
         @if (slideView && isMoveByTags(item)) {

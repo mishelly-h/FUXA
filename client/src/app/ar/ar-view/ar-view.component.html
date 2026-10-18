@@ -64,13 +64,11 @@
 
         @if (getMarkerView(marker.viewId); as markerView) {
 <div class="ar-marker-view">
-            <app-fuxa-view
-                [id]="'ar-' + marker.id"
+            <app-fuxa-view [id]="'ar-' + marker.id"
                 [view]="markerView"
                 [hmi]="projectService.getHmi()"
                 [gaugesManager]="gaugesManager"
-                [child]="true">
-            </app-fuxa-view>
+                [child]="true" />
         </div>
 } @else {
 

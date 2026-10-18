@@ -16,7 +16,7 @@
             <div class="my-form-field">
                 <span>{{'report.chart-name' | translate}}</span>
                 <mat-select [formControl]="chartCtrl" (selectionChange)="onChartChanged()" style="width: 200px">
-                    <mat-select-search [formControl]="chartFilterCtrl"></mat-select-search>
+                    <mat-select-search [formControl]="chartFilterCtrl" />
                     @for (chart of filteredChart | async; track chart) {
 <mat-option [value]="chart">
                         {{ chart.name }}

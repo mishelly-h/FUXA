@@ -1,7 +1,6 @@
 ﻿@if (isLoading) {
 <div style="position:absolute;top:0px;left:0px;right:0px;bottom:0px;background-color:rgba(0,0,0,0.2); z-index: 99999;">
-    <mat-progress-bar mode="indeterminate" color="warn" style="position: absolute; top: 0px; left: 0px; right: 0px; z-index: 99999;">
-    </mat-progress-bar>
+    <mat-progress-bar mode="indeterminate" color="warn" style="position: absolute; top: 0px; left: 0px; right: 0px; z-index: 99999;" />
 </div>
 }
 <mat-drawer #svgSelectorPanel class="sidepanel-selector" mode="side" position="end">
@@ -11,7 +10,7 @@
     <button mat-icon-button (click)="checkSvgElementsMap(true)" style="position: absolute; top: 3px; right: 40px;">
         <mat-icon>autorenew</mat-icon>
     </button>
-    <app-svg-selector (onSelect)="onSvgElementSelected($event)" (onPreview)="onSvgElementPreview($event)" (onEdit)="onGaugeEdit($event)" [elements]="svgElements" [selected]="svgElementSelected"></app-svg-selector>
+    <app-svg-selector (onSelect)="onSvgElementSelected($event)" (onPreview)="onSvgElementPreview($event)" (onEdit)="onGaugeEdit($event)" [elements]="svgElements" [selected]="svgElementSelected" />
 </mat-drawer>
 <mat-drawer #sidePanel class="editor-sidenav" mode="side" position="end">
     <button mat-icon-button (click)="sidePanel.toggle()" style="position: absolute; top: 3px; right: 3px;">
@@ -21,47 +20,47 @@
 @switch (gaugeDialog.type) {
         @case (gaugeDialogType.Chart) {
 <div>
-            <app-chart-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)"></app-chart-property>
+            <app-chart-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)" />
         </div>
 }
         @case (gaugeDialogType.Graph) {
 <div>
-            <app-graph-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)"></app-graph-property>
+            <app-graph-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)" />
         </div>
 }
         @case (gaugeDialogType.Iframe) {
 <div>
-            <app-iframe-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)"></app-iframe-property>
+            <app-iframe-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)" />
         </div>
 }
         @case (gaugeDialogType.Table) {
 <div>
-            <app-table-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)"></app-table-property>
+            <app-table-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)" />
         </div>
 }
         @case (gaugeDialogType.Panel) {
 <div>
-            <app-panel-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)"></app-panel-property>
+            <app-panel-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)" />
         </div>
 }
         @case (gaugeDialogType.Pipe) {
 <div>
-            <app-pipe-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)"></app-pipe-property>
+            <app-pipe-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)" />
         </div>
 }
         @case (gaugeDialogType.Video) {
 <div>
-            <app-video-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)"></app-video-property>
+            <app-video-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)" />
         </div>
 }
         @case (gaugeDialogType.Scheduler) {
 <div>
-            <app-scheduler-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)"></app-scheduler-property>
+            <app-scheduler-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)" />
         </div>
 }
         @case (gaugeDialogType.Recipe) {
 <div>
-            <app-recipe-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)"></app-recipe-property>
+            <app-recipe-property [data]="gaugeDialog.data" [reload]="reloadGaugeDialog" (onPropChanged)="onGaugeDialogChanged($event)" />
         </div>
 }
     }
@@ -102,8 +101,7 @@
                                                [select]="currentView"
                                                (selected)="onSelectView($event, false)"
                                                (viewPropertyChanged)="onViewPropertyChanged($event)"
-                                               (cloneView)="onCloneView($event)">
-                        </app-editor-views-list>
+                                               (cloneView)="onCloneView($event)" />
                     </div>
                 </mat-expansion-panel>
                 @if (editorMode === editorModeType.SVG) {
@@ -296,8 +294,7 @@
                             <mat-icon class="leftbar-edit-btn" (click)="onWidgetKiosk();$event.stopPropagation()">widgets</mat-icon>
                         </mat-expansion-panel-header>
                         <ng-template matExpansionPanelContent>
-                            <app-lib-widgets>
-                            </app-lib-widgets>
+                            <app-lib-widgets />
                         </ng-template>
                     </mat-expansion-panel>
                     <!-- RESOURCES -->
@@ -738,7 +735,7 @@
                         </mat-expansion-panel-header>
                         <div class="rightbar_panel">
                             @if (selectedElement) {
-<gauge-base #gaugepanel [settings]="getGaugeSettings(selectedElement)" (edit)="onGaugeEdit($event)"></gauge-base>
+<gauge-base #gaugepanel [settings]="getGaugeSettings(selectedElement)" (edit)="onGaugeEdit($event)" />
 }
                         </div>
                     </mat-expansion-panel>
@@ -967,7 +964,7 @@
                     </div>
                     <div style="position: absolute; top: 37px; left: 0px;right: 0px; bottom: 0px; background-color: rgba(247, 247, 247, 1);">
                         <app-cards-view #cardsview [edit]="true" [view]="currentView" [hmi]="hmi" [gaugesManager]="gaugesManager"
-                                    (editCard)="editCardsWidget($event)" (save)="onSaveProject()"></app-cards-view>
+                                    (editCard)="editCardsWidget($event)" (save)="onSaveProject()" />
                         <!-- <div class="grid-stack"></div> -->
                         <button mat-fab color="primary" (click)="addCard()" class="fab-add">
                             <mat-icon class="">add</mat-icon>
@@ -977,7 +974,7 @@
 }
                 @if (editorMode === editorModeType.MAPS) {
 
-                    <app-maps-view #mapsView [view]="currentView" [hmi]="hmi" [gaugesManager]="gaugesManager" [editMode]="true"></app-maps-view>
+                    <app-maps-view #mapsView [view]="currentView" [hmi]="hmi" [gaugesManager]="gaugesManager" [editMode]="true" />
 
 }
             </div>

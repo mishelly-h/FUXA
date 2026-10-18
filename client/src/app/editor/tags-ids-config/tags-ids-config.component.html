@@ -8,15 +8,13 @@
                            [variableId]="tagIdRef.srcId" 
                            [withStaticValue]="false" 
                            [withBitmask]="false" 
-                           [readonly]="true">
-            </flex-variable>
+                           [readonly]="true" />
             <span> - </span>
             <flex-variable (onchange)="setVariable(tagIdRef, $event)"
                            [data]="data" 
                            [variableId]="tagIdRef.destId" 
                            [withStaticValue]="false" 
-                           [withBitmask]="false">
-            </flex-variable>
+                           [withBitmask]="false" />
         </div>
 }
     </div>

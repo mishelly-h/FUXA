@@ -32,10 +32,10 @@
             </mat-header-cell>
             <mat-cell *matCellDef="let element" [style.color]="element.color"> {{element.text}} </mat-cell>
         </ng-container>
-        <mat-header-row *matHeaderRowDef="displayColumns; sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let element; columns: displayColumns;" class="my-mat-row" [style.background-color]="element.bkcolor"></mat-row>
+        <mat-header-row *matHeaderRowDef="displayColumns; sticky: true" />
+        <mat-row *matRowDef="let element; columns: displayColumns;" class="my-mat-row" [style.background-color]="element.bkcolor" />
     </mat-table>
-    <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="table-pagination"></mat-paginator>
+    <mat-paginator [pageSizeOptions]="[10, 25, 100]" [pageSize]="25" class="table-pagination" />
 </div>
 }
  @if (!tableView) {

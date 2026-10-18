@@ -65,14 +65,14 @@
                                 @if (item.type === itemTextType) {
 <button mat-menu-item [matMenuTriggerFor]="menualign">{{'report.content-alignitem' | translate}}</button>
 }
-                                <mat-divider class="menu-separator"></mat-divider>
+                                <mat-divider class="menu-separator" />
                                 <button mat-menu-item (click)="onAddItem(itemTextType, i, false)">{{'report.content-addtext' | translate}}</button>
                                 <button mat-menu-item (click)="onAddItem(itemTableType, i, false)">{{'report.content-addtable' | translate}}</button>
                                 <button mat-menu-item (click)="onAddItem(itemAlarmsType, i, false)">{{'report.content-addalarms' | translate}}</button>
                                 @if (chartImageAvailable$ | async) {
 <button mat-menu-item (click)="onAddItem(itemChartType, i, false)">{{'report.content-addchart' | translate}}</button>
 }
-                                <mat-divider class="menu-separator"></mat-divider>
+                                <mat-divider class="menu-separator" />
                                 <button mat-menu-item (click)="onDeleteItem(i)">{{'report.content-delete' | translate}}</button>
                             </mat-menu>
                             <mat-menu #menualign="matMenu">

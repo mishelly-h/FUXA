@@ -87,7 +87,7 @@
             @if (cardDestination === item.action) {
 <div class="my-form-field lbk ml10 mt5 tac" style="max-width: 70px">
                 <span>{{'gauges.property-event-single-card' | translate}}</span>
-                <mat-slide-toggle color="primary" [(ngModel)]="item.actoptions.singleCard"></mat-slide-toggle>
+                <mat-slide-toggle color="primary" [(ngModel)]="item.actoptions.singleCard" />
             </div>
 }
             <div class="my-form-field lbk mt5" style="width: 240px">
@@ -105,7 +105,7 @@
         <div class="my-form-field lbk mt5" style="width: 240px;">
             <span>{{'gauges.property-event-destination-target-device' | translate}}</span>
             <mat-select [(value)]="item.actoptions.sourceDeviceId">
-                <mat-option [value]=""></mat-option>
+                <mat-option [value]="" />
                 @for (device of getDevices(); track device) {
 <mat-option [value]="device.id">{{ device.name }}</mat-option>
 }
@@ -116,12 +116,12 @@
     @if (destinationWithHideClose(item.action)) {
 <div class="my-form-field lbk ml10 tac" style="max-width: 60px; vertical-align: top;">
         <span>{{'gauges.property-event-destination-hide-close' | translate}}</span>
-        <mat-slide-toggle color="primary" [(ngModel)]="item.actoptions.hideClose"></mat-slide-toggle>
+        <mat-slide-toggle color="primary" [(ngModel)]="item.actoptions.hideClose" />
     </div>
 }
     @if (withDestination(item.action)) {
 <div style="padding-left: 25px;">
-        <flex-variables-mapping [(mapping)]="item.actoptions['variablesMapping']" [view]="getView(item.actparam)" [data]="data()"></flex-variables-mapping>
+        <flex-variables-mapping [(mapping)]="item.actoptions['variablesMapping']" [view]="getView(item.actparam)" [data]="data()" />
     </div>
 }
     @if (withSetInput(item.action)) {
@@ -157,7 +157,7 @@
     @if (withSetValue(item.action) || withSetInput(item.action)) {
 <div style="display: block; padding-top: 5px;padding-left: 25px;"
        >
-        <flex-variable style="display: block" [data]="data()" [(value)]="item.actoptions.variable" [withStaticValue]="false"></flex-variable>
+        <flex-variable style="display: block" [data]="data()" [(value)]="item.actoptions.variable" [withStaticValue]="false" />
     </div>
 }
     @if (withToggleValue(item.action)) {
@@ -168,8 +168,7 @@
                        [(value)]="item.actoptions.variable"
                        [withBitmask]="true"
                        [bitmask]="item.actoptions.variable?.bitmask"
-                       [withStaticValue]="false">
-        </flex-variable>
+                       [withStaticValue]="false" />
     </div>
 }
     @if (withAddress(item.action)) {
@@ -181,7 +180,7 @@
         @if (eventOnOpenTab === item.action) {
 <div class="my-form-field lbk ml20 tac" style="max-width: 70px">
             <span>{{'gauges.property-event-newtab' | translate}}</span>
-            <mat-slide-toggle color="primary" [(ngModel)]="item.actoptions.newTab"></mat-slide-toggle>
+            <mat-slide-toggle color="primary" [(ngModel)]="item.actoptions.newTab" />
         </div>
 }
         @if (withAddress(item.action)) {
@@ -258,7 +257,7 @@
 }
                     @if (scriptParam.type === 'tagid') {
 <div class="my-form-field">
-                        <flex-variable style="display: block" (onchange)="setScriptParam(scriptParam, $event)" [data]="data()" [variableId]="scriptParam.value" [withStaticValue]="false"></flex-variable>
+                        <flex-variable style="display: block" (onchange)="setScriptParam(scriptParam, $event)" [data]="data()" [variableId]="scriptParam.value" [withStaticValue]="false" />
                     </div>
 }
                 </div>

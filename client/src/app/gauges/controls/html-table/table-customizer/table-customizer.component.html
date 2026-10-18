@@ -64,9 +64,8 @@
                 </mat-cell>
             </ng-container>
 }
-            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="data-table-header"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;">
-            </mat-row>
+            <mat-header-row *matHeaderRowDef="displayedColumns; sticky: true" class="data-table-header" />
+            <mat-row *matRowDef="let row; columns: displayedColumns;" />
         </mat-table>
         <div class="toolbox-column">
             <button mat-icon-button (click)="onAddColumn()" matTooltip="{{'table.customize-column-add' | translate}}">

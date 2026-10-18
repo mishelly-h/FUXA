@@ -17,7 +17,7 @@
 }
                         @if (discoveryWait) {
 <div style="display:inline-block; margin-left: 10px;width: 30px; vertical-align: middle;">
-                            <mat-spinner diameter="20"></mat-spinner>
+                            <mat-spinner diameter="20" />
                         </div>
 }
                         <button mat-icon-button (click)="onClearDiscovery()" style="display:inline-block;vertical-align: middle;" [disabled]="isSubscriptionEdit()">
@@ -86,7 +86,7 @@
                                         {{tcontent.value}}
                                     </div>
                                     <div class="topic-check">
-                                        <mat-checkbox [(ngModel)]="tcontent.checked" style="height: 18px; width: 18px;" (change)="isSubscriptionValid()" value="true" [disabled]="editSubscription"></mat-checkbox>
+                                        <mat-checkbox [(ngModel)]="tcontent.checked" style="height: 18px; width: 18px;" (change)="isSubscriptionValid()" value="true" [disabled]="editSubscription" />
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@
                         </div>
                         <div class="my-form-field" style="display:inline-block; margin-right: 10px;margin-bottom: 10px; vertical-align: middle;">
                             <span>{{'device.topic-publish-retain' | translate}}</span>
-                            <mat-checkbox [(ngModel)]="retainEnabled" [disabled]="isSubscriptionEdit()"></mat-checkbox>
+                            <mat-checkbox [(ngModel)]="retainEnabled" [disabled]="isSubscriptionEdit()" />
                         </div>
                         <mat-button-toggle-group class="toggle-group" [(ngModel)]="topicSelectedPubType" (change)="onPubTopicValChange($event.value)">
                             <mat-button-toggle value="raw" [disabled]="!isPublishTypeToEnable('raw')">{{'device.topic-raw' | translate}}</mat-button-toggle>
@@ -142,7 +142,7 @@
                                         @case (itemTag) {
 <div>
                                             <flex-variable style="display: block" [data]="data" (onchange)="onSetPublishItemTag(item, $event)" [variableId]="item.value"
-                                                [withStaticValue]="false"></flex-variable>
+                                                [withStaticValue]="false" />
                                         </div>
 }
                                         @case (itemTimestamp) {
