@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject, input } from '@angular/core';
+import { Component, Input, OnInit, inject, input, output } from '@angular/core';
 import { GaugeAction, GaugeVideoProperty } from '../../../../_models/hmi';
 import { FlexAuthValues } from '../../../gauge-property/flex-auth/flex-auth.component';
 import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
@@ -22,7 +22,7 @@ export class VideoPropertyComponent implements OnInit {
 
 
     readonly data = input<any>(undefined);
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }

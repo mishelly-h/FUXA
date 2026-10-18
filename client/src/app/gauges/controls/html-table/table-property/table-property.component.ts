@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output, OnDestroy, inject, viewChild } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, inject, viewChild, output } from '@angular/core';
 import { Observable, Subject, of, takeUntil } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
 import { MatTabGroup as MatTabGroup } from '@angular/material/tabs';
@@ -30,7 +30,7 @@ export class TablePropertyComponent implements OnInit, OnDestroy {
 
 
     @Input() data: any;
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }

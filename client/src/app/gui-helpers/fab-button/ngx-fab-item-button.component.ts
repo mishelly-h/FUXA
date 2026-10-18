@@ -1,12 +1,11 @@
 import {
   Component,
   Input,
-  Output,
-  EventEmitter,
   ElementRef,
   ChangeDetectionStrategy,
   input,
-  viewChild
+  viewChild,
+  output
 } from '@angular/core';
 
 @Component({
@@ -111,8 +110,8 @@ export class NgxFabItemButtonComponent {
     readonly svgiconex = input<string>(undefined);
     readonly content = input<string>(undefined);
     readonly color = input('white');
-    @Output() clicked: EventEmitter<any> = new EventEmitter();
-    @Output() exclicked: EventEmitter<any> = new EventEmitter();
+    readonly clicked = output<any>();
+    readonly exclicked = output<any>();
     readonly disabled = input(false);
     readonly elementref = viewChild<ElementRef<HTMLElement>>('elementref');
     readonly contentref = viewChild<ElementRef<HTMLElement>>('contentref');

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewContainerRef, inject, input, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ComponentFactoryResolver, ElementRef, HostListener, Input, OnDestroy, OnInit, ViewContainerRef, inject, input, viewChild, output } from '@angular/core';
 import { Subject, Subscription, take } from 'rxjs';
 import { ChangeDetectorRef } from '@angular/core';
 
@@ -49,8 +49,8 @@ export class FuxaViewComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() gaugesManager: GaugesManager;        // gauges.component
     readonly parentcards = input<CardModel[]>(undefined);
     @Input() sourceDeviceId: string;
-    @Output() onclose = new EventEmitter();
-    @Output() ongoto: EventEmitter<string> = new EventEmitter();
+    readonly onclose = output();
+    readonly ongoto = output<string>();
 
     readonly dataContainer = viewChild<ElementRef>('dataContainer');
     readonly inputDialogRef = viewChild<ElementRef>('inputDialogRef');

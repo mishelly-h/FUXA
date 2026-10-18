@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit, output } from '@angular/core';
 import { GaugePanelProperty, PropertyScaleModeType } from '../../../../_models/hmi';
 import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/flex-device-tag.component';
 
@@ -11,7 +11,7 @@ import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/
 export class PanelPropertyComponent implements OnInit {
 
     @Input() data: any;
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }

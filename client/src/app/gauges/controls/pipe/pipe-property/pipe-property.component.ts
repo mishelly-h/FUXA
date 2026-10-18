@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, inject, input, viewChild } from '@angular/core';
+import { Component, OnInit, Input, inject, input, viewChild, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { GaugeAction, GaugeProperty, View } from '../../../../_models/hmi';
@@ -29,7 +29,7 @@ export class PipePropertyComponent implements OnInit  {
     private actionPropertyService = inject(ActionPropertyService);
 
     readonly data = input<PipePropertyData>(undefined);
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }

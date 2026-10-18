@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, inject, input } from '@angular/core';
+import { Component, Input, inject, input, output } from '@angular/core';
 import { View, ViewType } from '../../_models/hmi';
 import { TranslateService } from '@ngx-translate/core';
 import { ConfirmDialogComponent, ConfirmDialogData } from '../../gui-helpers/confirm-dialog/confirm-dialog.component';
@@ -24,9 +24,9 @@ export class EditorViewsListComponent {
     @Input('select') set select(view: View) {
         this.currentView = view;
     };
-    @Output() selected: EventEmitter<View> = new EventEmitter<View>();
-    @Output() viewPropertyChanged: EventEmitter<View> = new EventEmitter<View>();
-    @Output() cloneView: EventEmitter<View> = new EventEmitter<View>();
+    readonly selected = output<View>();
+    readonly viewPropertyChanged = output<View>();
+    readonly cloneView = output<View>();
 
     currentView: View = null;
 

@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/component-selector */
-import { Component, OnInit, Output, ElementRef, EventEmitter, input, viewChild } from '@angular/core';
+import { Component, OnInit, ElementRef, input, viewChild, output } from '@angular/core';
 
 @Component({
     selector: 'ngx-treetable',
@@ -10,7 +10,7 @@ import { Component, OnInit, Output, ElementRef, EventEmitter, input, viewChild }
 export class TreetableComponent implements OnInit {
 
     readonly config = input<any>(undefined);
-    @Output() expand = new EventEmitter();
+    readonly expand = output<Node>();
     readonly treetable = viewChild<ElementRef>('treetable');
 
 

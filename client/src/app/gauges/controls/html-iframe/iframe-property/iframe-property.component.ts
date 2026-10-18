@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output, inject } from '@angular/core';
+import { Component, OnInit, Input, inject, output } from '@angular/core';
 
 import { TranslateService } from '@ngx-translate/core';
 import { GaugeIframeProperty } from '../../../../_models/hmi';
@@ -15,7 +15,7 @@ export class IframePropertyComponent implements OnInit {
 
 
     @Input() data: any;
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }

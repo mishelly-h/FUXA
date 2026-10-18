@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, OnInit, Output, inject, input, viewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, inject, input, viewChild, output } from '@angular/core';
 import Player from 'xgplayer';
 import LivePreset from 'xgplayer/es/presets/live';
 import FlvJsPlugin from 'xgplayer-flv.js';
@@ -18,7 +18,7 @@ export class WebcamPlayerComponent implements OnInit {
 
     readonly xgplayerRef = viewChild<ElementRef>('xgplayer');
     readonly data = input<WebcamPlayerDialogData>(undefined);
-    @Output() onclose = new EventEmitter();
+    readonly onclose = output();
     player: Player;
 
     ngOnInit(): void {

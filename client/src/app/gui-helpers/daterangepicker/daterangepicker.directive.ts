@@ -1,5 +1,5 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
-import { Directive, ViewContainerRef, ComponentFactoryResolver, ElementRef, HostListener, forwardRef, ChangeDetectorRef, OnInit, OnChanges, SimpleChanges, Input, DoCheck, KeyValueDiffer, KeyValueDiffers, Output, EventEmitter, Renderer2, inject, input } from '@angular/core';
+import { Directive, ViewContainerRef, ComponentFactoryResolver, ElementRef, HostListener, forwardRef, ChangeDetectorRef, OnInit, OnChanges, SimpleChanges, Input, DoCheck, KeyValueDiffer, KeyValueDiffers, Renderer2, inject, input, output } from '@angular/core';
 import { DaterangepickerComponent } from './daterangepicker.component';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import * as _moment from 'moment';
@@ -107,9 +107,9 @@ export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
     this._onChange(val);
     this._changeDetectorRef.markForCheck();
   }
-  @Output('change') onChange: EventEmitter<Object> = new EventEmitter();
-  @Output('rangeClicked') rangeClicked: EventEmitter<Object> = new EventEmitter();
-  @Output('datesUpdated') datesUpdated: EventEmitter<Object> = new EventEmitter();
+  readonly onChange = output<Object>({ alias: 'change' });
+  readonly rangeClicked = output<Object>({ alias: 'rangeClicked' });
+  readonly datesUpdated = output<Object>({ alias: 'datesUpdated' });
 
   constructor() {
     const viewContainerRef = this.viewContainerRef;

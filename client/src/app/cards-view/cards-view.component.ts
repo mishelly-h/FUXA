@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, Input, Output, EventEmitter, Renderer2, inject, input, viewChildren } from '@angular/core';
+import { Component, OnInit, AfterViewInit, Input, Renderer2, inject, input, viewChildren, output } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 
 import { GaugesManager } from '../gauges/gauges.component';
@@ -25,8 +25,8 @@ export class CardsViewComponent implements OnInit, AfterViewInit {
     @Input() view: View;
     readonly hmi = input<Hmi>(undefined);
     readonly gaugesManager = input<GaugesManager>(undefined);        // gauges.component
-    @Output() editCard: EventEmitter<CardWidget> = new EventEmitter();
-    @Output() onGoTo: EventEmitter<string> = new EventEmitter<string>();
+    readonly editCard = output<CardWidget>();
+    readonly onGoTo = output<string>();
     readonly fuxaViews = viewChildren(FuxaViewComponent);
 
     gridOptions: GridsterConfig;

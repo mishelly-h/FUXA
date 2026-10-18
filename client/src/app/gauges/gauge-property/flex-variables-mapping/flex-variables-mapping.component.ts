@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, input, output } from '@angular/core';
 
 import { View } from '../../../_models/hmi';
 import { VariableMapItemType } from '../flex-variable-map/flex-variable-map.component';
@@ -13,7 +13,7 @@ export class FlexVariablesMappingComponent implements OnInit, OnChanges {
     readonly view = input<View>(undefined);
     @Input() mapping: any;
     readonly data = input<any>(undefined);
-    @Output() mappingChange: EventEmitter<any> = new EventEmitter();
+    readonly mappingChange = output<any>();
 
     public placeholders;
 

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output, inject, input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, inject, input, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { PermissionData, PermissionDialogComponent, PermissionMode } from '../permission-dialog/permission-dialog.component';
@@ -21,7 +21,7 @@ export class FlexAuthComponent {
     @Input() permission: number;
     @Input() permissionRoles: PermissionRoles;
     readonly permissionMode = input<PermissionMode>(undefined);
-    @Output() onChanged: EventEmitter<FlexAuthValues> = new EventEmitter();
+    readonly onChanged = output<FlexAuthValues>();
 
     onEditPermission() {
         let permission = this.permission;

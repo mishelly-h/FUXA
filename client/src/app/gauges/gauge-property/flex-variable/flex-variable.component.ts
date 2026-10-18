@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, inject, input } from '@angular/core';
+import { Component, Input, OnInit, inject, input, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 
 import { Tag, DevicesUtils, Device, PlaceholderDevice } from '../../../_models/device';
@@ -46,8 +46,8 @@ export class FlexVariableComponent implements OnInit {
     readonly placeholders = input([]);
     readonly devicesOnly = input(false);
 
-    @Output() onchange: EventEmitter<any> = new EventEmitter();
-    @Output() valueChange: EventEmitter<any> = new EventEmitter();
+    readonly onchange = output<any>();
+    readonly valueChange = output<any>();
 
     public manualEdit = false;
     defaultColor = Utils.defaultColor;

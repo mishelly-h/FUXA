@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Input, Output, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, inject, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { UntypedFormControl } from '@angular/forms';
 import { takeUntil } from 'rxjs/operators';
@@ -26,7 +26,7 @@ export class GraphPropertyComponent implements OnInit, OnDestroy {
 
 
     @Input() data: any;
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }

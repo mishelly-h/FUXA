@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, Output, EventEmitter, ElementRef, Input, inject, input, viewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, ElementRef, Input, inject, input, viewChild, output } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -29,7 +29,7 @@ export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
     private projectService = inject(ProjectService);
 
 
-    @Output() goto: EventEmitter<Device> = new EventEmitter();
+    readonly goto = output<Device>();
     readonly mode = input<string>(undefined);
     @Input() readonly = false;
     private subscriptionPluginsChange: Subscription;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, inject, input } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, SimpleChanges, inject, input, output } from '@angular/core';
 import { UntypedFormControl } from '@angular/forms';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { Observable, map, startWith } from 'rxjs';
@@ -28,7 +28,7 @@ export class FlexDeviceTagComponent implements OnInit, OnChanges {
     @Input() variableId: string;
     @Input() deviceTagValue: FlexDeviceTagValueType;
 
-    @Output() onchange: EventEmitter<FlexDeviceTagValueType> = new EventEmitter();
+    readonly onchange = output<FlexDeviceTagValueType>();
 
     devicesGroups: DeviceGroup[] = [];
     devicesTags$: Observable<DeviceGroup[]>;

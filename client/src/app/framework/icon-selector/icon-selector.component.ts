@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, input } from '@angular/core';
+import { Component, Input, OnInit, input, output } from '@angular/core';
 import { BehaviorSubject, Observable, combineLatest, map, of } from 'rxjs';
 import { Define } from '../../_helpers/define';
 
@@ -10,8 +10,8 @@ import { Define } from '../../_helpers/define';
 })
 export class IconSelectorComponent implements OnInit {
     @Input() value: string;
-    @Output() valueChange = new EventEmitter<string>();
-    @Output() selected = new EventEmitter<string>();
+    readonly valueChange = output<string>();
+    readonly selected = output<string>();
 
     readonly panelWidth = input('310px');
     readonly panelClass = input('icon-selector-panel');
@@ -23,7 +23,7 @@ export class IconSelectorComponent implements OnInit {
     readonly allowClear = input(true);
     readonly imageLabel = input('dlg.menuitem-image');
     readonly clearLabel = input('gauges.property-icon-none');
-    @Output() imageSelected = new EventEmitter<Event>();
+    readonly imageSelected = output<Event>();
 
     icons$: Observable<string[]>;
     filteredIcons$: Observable<string[]>;

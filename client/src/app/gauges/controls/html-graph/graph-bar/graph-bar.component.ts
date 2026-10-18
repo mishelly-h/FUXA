@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, EventEmitter, viewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, viewChild, output } from '@angular/core';
 
 import { GraphBaseComponent, GraphOptions, GraphThemeType } from '../graph-base/graph-base.component';
 import { GraphBarProperty, GraphBarXType, GraphSource, GraphRangeType, GraphBarFunction, GraphBarDateFunctionType, GraphDateGroupType } from '../../../../_models/graph';
@@ -19,7 +19,7 @@ export class GraphBarComponent extends GraphBaseComponent implements OnInit, Aft
     public readonly chart = viewChild(BaseChartDirective);
     @Input() height = 240;
     @Input() width = 380;
-    @Output() onReload: EventEmitter<DaqQuery> = new EventEmitter();
+    readonly onReload = output<DaqQuery>();
 
     public barChartOptions: GraphOptions = {
         responsive: true,

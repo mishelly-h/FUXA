@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, EventEmitter, ElementRef, inject, viewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, ElementRef, inject, viewChild, output } from '@angular/core';
 
 import { ChartLegendMode, ChartRangeType, ChartRangeConverter, ChartLine, ChartViewType, ChartLineZone, Chart } from '../../../../_models/chart';
 import { NgxUplotComponent, NgxSeries, ChartOptions } from '../../../../gui-helpers/ngx-uplot/ngx-uplot.component';
@@ -33,7 +33,7 @@ export class ChartUplotComponent implements OnInit, AfterViewInit, OnDestroy {
     public readonly nguplot = viewChild<NgxUplotComponent>('nguplot');
 
     @Input() options: ChartOptions;
-    @Output() onTimeRange: EventEmitter<DaqQuery> = new EventEmitter();
+    readonly onTimeRange = output<DaqQuery>();
 
     loading = false;
     id: string;

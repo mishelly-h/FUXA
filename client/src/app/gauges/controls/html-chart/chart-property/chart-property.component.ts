@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, inject } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, inject, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { Observable, ReplaySubject, of } from 'rxjs';
 import { UntypedFormControl } from '@angular/forms';
@@ -33,7 +33,7 @@ export class ChartPropertyComponent implements OnInit, OnDestroy {
 
 
     @Input() data: any;
-    @Output() onPropChanged: EventEmitter<any> = new EventEmitter();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }

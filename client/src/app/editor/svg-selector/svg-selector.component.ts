@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, output } from '@angular/core';
 import { ISvgElement } from '../../_models/hmi';
 
 @Component({
@@ -9,9 +9,9 @@ import { ISvgElement } from '../../_models/hmi';
 })
 export class SvgSelectorComponent {
 
-    @Output() onEdit: EventEmitter<ISvgElement> = new EventEmitter();
-    @Output() onSelect: EventEmitter<ISvgElement> = new EventEmitter();
-    @Output() onPreview: EventEmitter<IElementPreview> = new EventEmitter();
+    readonly onEdit = output<ISvgElement>();
+    readonly onSelect = output<ISvgElement>();
+    readonly onPreview = output<IElementPreview>();
     @Input('selected') set selected(element: ISvgElement) {
         this.svgElementSelected = element;
     }

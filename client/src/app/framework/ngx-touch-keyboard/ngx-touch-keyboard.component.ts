@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, HostListener, LOCALE_ID, Output, ViewEncapsulation, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, HostListener, LOCALE_ID, ViewEncapsulation, inject, output as output_1 } from '@angular/core';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 import { fnButton } from './Locale/constants';
@@ -24,7 +24,7 @@ export class NgxTouchKeyboardComponent {
   debug = false;
   fullScreen = false;
 
-  @Output() closePanel = new EventEmitter<void>();
+  readonly closePanel = output_1<void>();
 
   private _activeButtonClass = 'active';
   private _caretPosition: number | null = null;

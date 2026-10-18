@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, inject } from '@angular/core';
+import { Component, OnInit, Input, inject, output } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { PermissionData, PermissionDialogComponent } from '../../../gauge-property/permission-dialog/permission-dialog.component';
 import { GaugeEventActionType, GaugeSchedulerProperty, SchedulerDevice, SchedulerDeviceAction, View } from '../../../../_models/hmi';
@@ -20,7 +20,7 @@ export class SchedulerPropertyComponent implements OnInit {
     private translateService = inject(TranslateService);
 
     @Input() data: any;
-    @Output() onPropChanged = new EventEmitter<any>();
+    readonly onPropChanged = output<any>();
     @Input('reload') set reload(b: any) {
         this._reload();
     }

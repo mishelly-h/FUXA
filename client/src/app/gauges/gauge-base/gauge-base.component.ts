@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, input } from '@angular/core';
+import { Component, Input, input, output as output_1 } from '@angular/core';
 import { GaugeSettings, GaugeProperty, GaugeEvent, GaugeEventType, GaugeStatus, GaugeActionStatus, GaugePropertyColor, GaugeAction } from '../../_models/hmi';
 
 import { Utils } from '../../_helpers/utils';
@@ -16,7 +16,7 @@ export class GaugeBaseComponent {
 
     readonly data = input<any>(undefined);
     @Input() settings: GaugeSettings;
-    @Output() edit: EventEmitter<any> = new EventEmitter();
+    readonly edit = output_1<any>();
 
     static GAUGE_TEXT = 'text';
 

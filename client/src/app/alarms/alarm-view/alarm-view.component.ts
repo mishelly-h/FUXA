@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, Input, Output, EventEmitter, inject, input, viewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, Input, inject, input, viewChild, output } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatPaginator as MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -46,7 +46,7 @@ export class AlarmViewComponent implements OnInit, AfterViewInit, OnDestroy {
     readonly autostart = input(false);
     @Input() showInContainer = false;
     readonly fullview = input(true);
-    @Output() showMode: EventEmitter<string> = new EventEmitter();
+    readonly showMode = output<string>();
 
     dataSource = new MatTableDataSource([]);
     readonly table = viewChild(MatTable);

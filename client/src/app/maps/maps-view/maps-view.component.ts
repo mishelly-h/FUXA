@@ -1,4 +1,4 @@
-import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, EventEmitter, Injector, Input, OnDestroy, Output, inject, input, viewChild } from '@angular/core';
+import { AfterViewInit, ApplicationRef, Component, ComponentFactoryResolver, ElementRef, Injector, Input, OnDestroy, inject, input, viewChild, output } from '@angular/core';
 import * as L from 'leaflet';
 import { GaugesManager } from '../../gauges/gauges.component';
 import { FuxaViewComponent } from '../../fuxa-view/fuxa-view.component';
@@ -47,7 +47,7 @@ export class MapsViewComponent implements AfterViewInit, OnDestroy {
     @Input() hmi: Hmi;
     readonly gaugesManager = input<GaugesManager>(undefined);        // gauges.component
     readonly editMode = input<boolean>(undefined);
-    @Output() onGoTo: EventEmitter<string> = new EventEmitter<string>();
+    readonly onGoTo = output<string>();
 
     readonly menuTrigger = viewChild.required(MatMenuTrigger);
     readonly menuTriggerButton = viewChild.required('menuTrigger', { read: ElementRef });
