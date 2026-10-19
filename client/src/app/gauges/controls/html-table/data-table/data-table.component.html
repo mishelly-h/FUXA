@@ -39,7 +39,7 @@
 <div class="data-table-scroll" [style.height]="withToolbar ? 'calc(100% - 42px)' : '100%'">
     <mat-table #table [dataSource]="dataSource" [style.backgroundColor]="tableOptions.row.background"
         [style.--mat-table-row-item-outline-color]="tableOptions.gridColor"
-        [style.--mdc-data-table-row-divider-color]="tableOptions.gridColor"
+        [style.--mat-data-table-row-divider-color]="tableOptions.gridColor"
         [trackBy]="trackByRow"
         matSort>
         <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">

@@ -110,7 +110,7 @@ export class GraphPieComponent extends GraphBaseComponent implements OnInit, Aft
 
     setValue(sigid: string, timestamp: any, sigvalue: any) {
         this.pieData[this.sourceMap[sigid]] = sigvalue;
-        this.chart.update(400);
+        this.chart.update();
     }
 
     setOptions(options: GraphOptions): void {
