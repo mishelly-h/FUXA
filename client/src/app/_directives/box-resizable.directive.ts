@@ -20,6 +20,9 @@ export class BoxResizableDirective implements OnInit, OnDestroy {
     private startY = 0;
     private startWidth = 0;
     private startHeight = 0;
+    private scaleX = 1;
+    private scaleY = 1;
+    private activePointerId: number | null = null;
     private lastEvent: BoxResizeEvent;
 
     constructor(private el: ElementRef<HTMLElement>, private renderer: Renderer2) { }
@@ -36,37 +39,64 @@ export class BoxResizableDirective implements OnInit, OnDestroy {
     private onPointerDown(event: PointerEvent) {
         event.preventDefault();
         event.stopPropagation();
-        const bounds = this.el.nativeElement.getBoundingClientRect();
+        const element = this.el.nativeElement;
+        const bounds = element.getBoundingClientRect();
+        this.activePointerId = event.pointerId;
         this.startX = event.clientX;
         this.startY = event.clientY;
-        this.startWidth = bounds.width;
-        this.startHeight = bounds.height;
-        this.renderer.addClass(this.el.nativeElement, 'box-resizing');
+        this.startWidth = element.offsetWidth;
+        this.startHeight = element.offsetHeight;
+        const scaleX = bounds.width / element.offsetWidth;
+        const scaleY = bounds.height / element.offsetHeight;
+        this.scaleX = Number.isFinite(scaleX) && scaleX !== 0 ? scaleX : 1;
+        this.scaleY = Number.isFinite(scaleY) && scaleY !== 0 ? scaleY : 1;
+        this.renderer.addClass(element, 'box-resizing');
         window.addEventListener('pointermove', this.onPointerMove);
         window.addEventListener('pointerup', this.onPointerUp);
+        window.addEventListener('pointercancel', this.onPointerCancel);
     }
 
     private onPointerMove = (event: PointerEvent) => {
+        if (event.pointerId !== this.activePointerId) {
+            return;
+        }
         this.lastEvent = {
             size: {
-                width: Math.max(this.minWidth, this.startWidth + event.clientX - this.startX),
-                height: Math.max(this.minHeight, this.startHeight + event.clientY - this.startY)
+                width: Math.max(this.minWidth, this.startWidth + (event.clientX - this.startX) / this.scaleX),
+                height: Math.max(this.minHeight, this.startHeight + (event.clientY - this.startY) / this.scaleY)
             }
         };
         this.resizing.emit(this.lastEvent);
     };
 
-    private onPointerUp = () => {
+    private onPointerUp = (event: PointerEvent) => {
+        if (event.pointerId !== this.activePointerId) {
+            return;
+        }
         this.detachWindowListeners();
         if (this.lastEvent) {
             this.resizeEnd.emit(this.lastEvent);
             this.lastEvent = null;
         }
+        this.activePointerId = null;
+    };
+
+    private onPointerCancel = (event: PointerEvent) => {
+        if (event.pointerId !== this.activePointerId) {
+            return;
+        }
+        if (this.lastEvent) {
+            this.resizing.emit({ size: { width: this.startWidth, height: this.startHeight } });
+        }
+        this.lastEvent = null;
+        this.activePointerId = null;
+        this.detachWindowListeners();
     };
 
     private detachWindowListeners() {
         window.removeEventListener('pointermove', this.onPointerMove);
         window.removeEventListener('pointerup', this.onPointerUp);
+        window.removeEventListener('pointercancel', this.onPointerCancel);
         this.renderer.removeClass(this.el.nativeElement, 'box-resizing');
     }
 
