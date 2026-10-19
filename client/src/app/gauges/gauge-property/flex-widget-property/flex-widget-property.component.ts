@@ -6,7 +6,8 @@ import { SvgUtils } from '../../../_helpers/svg-utils';
 @Component({
     selector: 'flex-widget-property',
     templateUrl: './flex-widget-property.component.html',
-    styleUrls: ['./flex-widget-property.component.scss']
+    styleUrls: ['./flex-widget-property.component.scss'],
+    standalone: false
 })
 export class FlexWidgetPropertyComponent implements OnInit {
 

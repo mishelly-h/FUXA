@@ -9,7 +9,8 @@ import { SchedulerComponent } from '../../../gauges/controls/html-scheduler/sche
 @Component({
     selector: 'html-scheduler',
     templateUrl: './html-scheduler.component.html',
-    styleUrls: ['./html-scheduler.component.css']
+    styleUrls: ['./html-scheduler.component.css'],
+    standalone: false
 })
 export class HtmlSchedulerComponent extends GaugeBaseComponent {
     static TypeTag = 'svg-ext-own_ctrl-scheduler';

@@ -19,7 +19,8 @@ function getGaugeClasses(): { Gauge: any, Donut: any } {
 @Component({
     selector: 'ngx-gauge',
     templateUrl: './ngx-gauge.component.html',
-    styleUrls: ['./ngx-gauge.component.css']
+    styleUrls: ['./ngx-gauge.component.css'],
+    standalone: false
 })
 export class NgxGaugeComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
 

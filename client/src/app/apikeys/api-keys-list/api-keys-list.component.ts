@@ -14,7 +14,8 @@ import { ApiKeysService } from '../../_services/apikeys.service';
 @Component({
     selector: 'app-api-keys-list',
     templateUrl: './api-keys-list.component.html',
-    styleUrls: ['./api-keys-list.component.scss']
+    styleUrls: ['./api-keys-list.component.scss'],
+    standalone: false
 })
 export class ApiKeysListComponent implements OnInit, AfterViewInit, OnDestroy {
 

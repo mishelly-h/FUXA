@@ -19,7 +19,8 @@ import { getJavaScriptSyntaxAnnotations } from './javascript-linter';
 @Component({
     selector: 'app-script-editor',
     templateUrl: './script-editor.component.html',
-    styleUrls: ['./script-editor.component.scss']
+    styleUrls: ['./script-editor.component.scss'],
+    standalone: false
 })
 export class ScriptEditorComponent implements OnInit, OnDestroy {
     @ViewChild(CodemirrorComponent, {static: false}) CodeMirror: CodemirrorComponent;

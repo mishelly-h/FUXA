@@ -12,7 +12,8 @@ import { ArViewService, ArVisibleMarker } from './ar-view.service';
     selector: 'app-ar',
     templateUrl: './ar-view.component.html',
     styleUrls: ['./ar-view.component.scss'],
-    providers: [ArViewService, ArMarkerScannerService]
+    providers: [ArViewService, ArMarkerScannerService],
+    standalone: false
 })
 export class ArViewComponent implements AfterViewInit, OnDestroy {
     @ViewChild('video', { static: false }) videoRef: ElementRef<HTMLVideoElement>;

@@ -8,7 +8,8 @@ interface TutorialShortcut {
 @Component({
     selector: 'app-tutorial',
     templateUrl: './tutorial.component.html',
-    styleUrls: ['./tutorial.component.css']
+    styleUrls: ['./tutorial.component.css'],
+    standalone: false
 })
 export class TutorialComponent {
 

@@ -16,9 +16,10 @@ import { ChartLineAndInterpolationsType, ChartLinePropertyComponent } from './ch
 import { EditPlaceholderComponent } from '../../gui-helpers/edit-placeholder/edit-placeholder.component';
 
 @Component({
-  selector: 'app-chart-config',
-  templateUrl: './chart-config.component.html',
-  styleUrls: ['./chart-config.component.scss']
+    selector: 'app-chart-config',
+    templateUrl: './chart-config.component.html',
+    styleUrls: ['./chart-config.component.scss'],
+    standalone: false
 })
 export class ChartConfigComponent implements OnInit {
 

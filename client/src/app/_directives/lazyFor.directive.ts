@@ -5,7 +5,8 @@ import {
 } from '@angular/core';
 
 @Directive({
-    selector: '[lazyFor]'
+    selector: '[lazyFor]',
+    standalone: false
 })
 export class LazyForDirective implements DoCheck, OnInit {
 

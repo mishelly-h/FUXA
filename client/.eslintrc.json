@@ -19,6 +19,7 @@
             ],
             "rules": {
                 "max-len": "off",
+                "@angular-eslint/prefer-standalone": "off",
                 "@angular-eslint/no-output-on-prefix": "off",
                 "@typescript-eslint/member-ordering": "off",
                 "@typescript-eslint/member-delimiter-style": "off",

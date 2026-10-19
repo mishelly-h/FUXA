@@ -13,7 +13,8 @@ import { DeviceTagSelectionComponent, DeviceTagSelectionData } from '../../devic
 @Component({
     selector: 'app-recipe-editor',
     templateUrl: './recipe-editor.component.html',
-    styleUrls: ['./recipe-editor.component.scss']
+    styleUrls: ['./recipe-editor.component.scss'],
+    standalone: false
 })
 export class RecipeEditorComponent implements OnInit {
     myForm: UntypedFormGroup;

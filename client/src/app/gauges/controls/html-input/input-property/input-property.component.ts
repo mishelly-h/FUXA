@@ -17,6 +17,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
     selector: 'app-input-property',
     templateUrl: './input-property.component.html',
     styleUrls: ['./input-property.component.scss'],
+    standalone: false
 })
 export class InputPropertyComponent implements AfterViewInit {
     @ViewChild('flexhead', { static: false }) flexHead: FlexHeadComponent;

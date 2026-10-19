@@ -8,7 +8,8 @@ import { GridsterItem } from 'angular-gridster2';
 @Component({
     selector: 'app-card-config',
     templateUrl: './card-config.component.html',
-    styleUrls: ['./card-config.component.scss']
+    styleUrls: ['./card-config.component.scss'],
+    standalone: false
 })
 export class CardConfigComponent implements OnInit {
 

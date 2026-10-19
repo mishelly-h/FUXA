@@ -22,7 +22,8 @@ import { LayoutHeaderItemPropertyComponent } from './layout-header-item-property
 @Component({
     selector: 'app-layout-property',
     templateUrl: './layout-property.component.html',
-    styleUrls: ['./layout-property.component.scss']
+    styleUrls: ['./layout-property.component.scss'],
+    standalone: false
 })
 export class LayoutPropertyComponent implements OnInit, OnDestroy {
 

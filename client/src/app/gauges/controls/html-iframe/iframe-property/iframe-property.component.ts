@@ -7,7 +7,8 @@ import { FlexDeviceTagValueType } from '../../../gauge-property/flex-device-tag/
 @Component({
     selector: 'app-iframe-property',
     templateUrl: './iframe-property.component.html',
-    styleUrls: ['./iframe-property.component.scss']
+    styleUrls: ['./iframe-property.component.scss'],
+    standalone: false
 })
 export class IframePropertyComponent implements OnInit {
 

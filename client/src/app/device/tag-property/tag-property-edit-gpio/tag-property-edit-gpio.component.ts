@@ -7,7 +7,8 @@ import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from
 @Component({
     selector: 'app-tag-property-edit-gpio',
     templateUrl: './tag-property-edit-gpio.component.html',
-    styleUrls: ['./tag-property-edit-gpio.component.scss']
+    styleUrls: ['./tag-property-edit-gpio.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditGpioComponent implements OnInit {
     @Output() result = new EventEmitter<any>();

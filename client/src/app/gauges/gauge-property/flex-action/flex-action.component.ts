@@ -8,7 +8,8 @@ import { GaugeProperty, GaugeAction, GaugeRangeProperty, GaugeActionsType, Gauge
 @Component({
     selector: 'flex-action',
     templateUrl: './flex-action.component.html',
-    styleUrls: ['./flex-action.component.css']
+    styleUrls: ['./flex-action.component.css'],
+    standalone: false
 })
 export class FlexActionComponent implements OnInit {
 

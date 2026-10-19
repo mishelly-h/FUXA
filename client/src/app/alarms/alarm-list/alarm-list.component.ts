@@ -14,7 +14,8 @@ import { AlarmImportDialogComponent, AlarmImportMode } from './alarm-import-dial
 @Component({
     selector: 'app-alarm-list',
     templateUrl: './alarm-list.component.html',
-    styleUrls: ['./alarm-list.component.scss']
+    styleUrls: ['./alarm-list.component.scss'],
+    standalone: false
 })
 export class AlarmListComponent implements OnInit, AfterViewInit, OnDestroy {
 

@@ -1,5 +1,4 @@
 /* eslint-disable @angular-eslint/no-conflicting-lifecycle */
-/* eslint @angular-eslint/no-host-metadata-property: off */
 import {
   Directive,
   ViewContainerRef,
@@ -27,18 +26,19 @@ import { LocaleService } from './locale.service';
 const moment = _moment;
 
 @Directive({
-  selector: 'input[ngxDaterangepickerMd]',
-  host: {
-    '(keyup.esc)': 'hide()',
-    '(blur)': 'onBlur()',
-    '(click)': 'open()'
-  },
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DaterangepickerDirective), multi: true
-    }
-]
+    selector: 'input[ngxDaterangepickerMd]',
+    host: {
+        '(keyup.esc)': 'hide()',
+        '(blur)': 'onBlur()',
+        '(click)': 'open()'
+    },
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DaterangepickerDirective), multi: true
+        }
+    ],
+    standalone: false
 })
 export class DaterangepickerDirective implements OnInit, OnChanges, DoCheck {
   public picker: DaterangepickerComponent;
