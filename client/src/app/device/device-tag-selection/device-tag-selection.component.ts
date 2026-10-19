@@ -13,7 +13,8 @@ import { TagPropertyService } from '../tag-property/tag-property.service';
 @Component({
     selector: 'app-device-tag-selection',
     templateUrl: './device-tag-selection.component.html',
-    styleUrls: ['./device-tag-selection.component.scss']
+    styleUrls: ['./device-tag-selection.component.scss'],
+    standalone: false
 })
 export class DeviceTagSelectionComponent implements OnInit, AfterViewInit, OnDestroy {
 

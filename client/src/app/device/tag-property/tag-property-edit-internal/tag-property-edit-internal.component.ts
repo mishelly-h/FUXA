@@ -7,7 +7,8 @@ import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialogRef as MatDialogRef } from
 @Component({
     selector: 'app-tag-property-edit-internal',
     templateUrl: './tag-property-edit-internal.component.html',
-    styleUrls: ['./tag-property-edit-internal.component.scss']
+    styleUrls: ['./tag-property-edit-internal.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditInternalComponent implements OnInit {
     @Output() result = new EventEmitter<any>();

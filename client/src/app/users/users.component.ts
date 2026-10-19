@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, OnInit, AfterViewInit, ViewChild, OnDestroy } from '@angular/core';
 import { MatTable as MatTable, MatTableDataSource as MatTableDataSource } from '@angular/material/table';
 import { MatSort } from '@angular/material/sort';
@@ -14,9 +13,10 @@ import { SettingsService } from '../_services/settings.service';
 import { Subject, takeUntil } from 'rxjs';
 
 @Component({
-	selector: 'app-users',
-	templateUrl: './users.component.html',
-	styleUrls: ['./users.component.scss']
+    selector: 'app-users',
+    templateUrl: './users.component.html',
+    styleUrls: ['./users.component.scss'],
+    standalone: false
 })
 export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -151,4 +151,3 @@ export class UsersComponent implements OnInit, AfterViewInit, OnDestroy {
 		this.dataSource.data = users;
 	}
 }
-

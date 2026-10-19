@@ -11,7 +11,8 @@ import { Chart } from '../../../_models/chart';
 @Component({
     selector: 'app-report-item-chart',
     templateUrl: './report-item-chart.component.html',
-    styleUrls: ['./report-item-chart.component.scss']
+    styleUrls: ['./report-item-chart.component.scss'],
+    standalone: false
 })
 export class ReportItemChartComponent implements OnInit, OnDestroy {
 

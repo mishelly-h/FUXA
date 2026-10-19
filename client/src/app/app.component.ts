@@ -1,5 +1,5 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, Inject } from '@angular/core';
-import { DOCUMENT, Location } from '@angular/common';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, Inject, DOCUMENT } from '@angular/core';
+import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Observable, Subject, Subscription, combineLatest, fromEvent, map, merge, of, startWith, switchMap, takeUntil, timer } from 'rxjs';
@@ -15,9 +15,10 @@ import { AuthService } from './_services/auth.service';
 import { HmiService } from './_services/hmi.service';
 
 @Component({
-	selector: 'app-root',
-	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.scss'],
+    standalone: false
 })
 
 export class AppComponent implements OnInit, AfterViewInit, OnDestroy {

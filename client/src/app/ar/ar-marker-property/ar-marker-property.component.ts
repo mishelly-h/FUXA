@@ -18,7 +18,8 @@ export interface ArMarkerPropertyData {
 @Component({
     selector: 'app-ar-marker-property',
     templateUrl: './ar-marker-property.component.html',
-    styleUrls: ['./ar-marker-property.component.scss']
+    styleUrls: ['./ar-marker-property.component.scss'],
+    standalone: false
 })
 export class ArMarkerPropertyComponent implements OnInit, OnDestroy {
     formGroup: UntypedFormGroup;

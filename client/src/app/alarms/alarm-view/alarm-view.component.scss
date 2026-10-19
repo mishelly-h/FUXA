@@ -222,8 +222,8 @@
         justify-content: center;
 
         /* Angular Material (MDC) icon-button sizing */
-        --mdc-icon-button-size: 30px;
-        --mdc-icon-button-state-layer-size: 30px;
+        --mat-icon-button-size: 30px;
+        --mat-icon-button-state-layer-size: 30px;
     }
 
     ::ng-deep button.header-tools-options .mat-mdc-button-touch-target {

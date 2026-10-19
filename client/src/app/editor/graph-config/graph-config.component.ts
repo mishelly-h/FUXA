@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -17,7 +16,8 @@ import { EditPlaceholderComponent } from '../../gui-helpers/edit-placeholder/edi
 @Component({
     selector: 'app-graph-config',
     templateUrl: './graph-config.component.html',
-    styleUrls: ['./graph-config.component.scss']
+    styleUrls: ['./graph-config.component.scss'],
+    standalone: false
 })
 export class GraphConfigComponent implements OnInit {
 

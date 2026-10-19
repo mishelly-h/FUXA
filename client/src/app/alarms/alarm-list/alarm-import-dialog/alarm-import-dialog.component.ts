@@ -11,7 +11,8 @@ export interface AlarmImportDialogData {
 @Component({
     selector: 'app-alarm-import-dialog',
     templateUrl: './alarm-import-dialog.component.html',
-    styleUrls: ['./alarm-import-dialog.component.scss']
+    styleUrls: ['./alarm-import-dialog.component.scss'],
+    standalone: false
 })
 export class AlarmImportDialogComponent {
 

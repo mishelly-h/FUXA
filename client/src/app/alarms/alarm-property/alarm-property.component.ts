@@ -12,7 +12,8 @@ import { ProjectService } from '../../_services/project.service';
 @Component({
     selector: 'app-alarm-property',
     templateUrl: './alarm-property.component.html',
-    styleUrls: ['./alarm-property.component.scss']
+    styleUrls: ['./alarm-property.component.scss'],
+    standalone: false
 })
 export class AlarmPropertyComponent implements OnInit {
 

@@ -8,7 +8,8 @@ import { Subject } from 'rxjs';
 @Component({
     selector: 'app-tag-property-edit-adsclient',
     templateUrl: './tag-property-edit-adsclient.component.html',
-    styleUrls: ['./tag-property-edit-adsclient.component.scss']
+    styleUrls: ['./tag-property-edit-adsclient.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditADSclientComponent implements OnInit, OnDestroy {
     @Output() result = new EventEmitter<any>();

@@ -1,5 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-/* eslint-disable @angular-eslint/component-selector */
 import { Component, Inject, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter, Subscription } from 'rxjs';
@@ -23,7 +21,8 @@ const saveFromEditorRouteKey = ['/device', '/messages', '/language', '/users', '
 @Component({
     selector: 'app-header',
     templateUrl: 'header.component.html',
-    styleUrls: ['header.component.scss']
+    styleUrls: ['header.component.scss'],
+    standalone: false
 })
 export class HeaderComponent implements AfterViewInit, OnDestroy {
 
@@ -236,6 +235,7 @@ export class HeaderComponent implements AfterViewInit, OnDestroy {
 @Component({
     selector: 'dialog-info',
     templateUrl: 'info.dialog.html',
+    standalone: false
 })
 export class DialogInfo {
     constructor(

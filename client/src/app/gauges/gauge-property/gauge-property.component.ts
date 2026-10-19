@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, Inject, Input, AfterViewInit, ViewChild, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { FlexHeadComponent } from './flex-head/flex-head.component';
@@ -16,7 +15,8 @@ import { HtmlButtonComponent } from '../controls/html-button/html-button.compone
     selector: 'gauge-property',
     templateUrl: './gauge-property.component.html',
     styleUrls: ['./gauge-property.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class GaugePropertyComponent implements AfterViewInit {
 

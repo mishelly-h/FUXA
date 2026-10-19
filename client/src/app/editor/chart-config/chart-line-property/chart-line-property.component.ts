@@ -7,7 +7,8 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
     selector: 'app-chart-line-property',
     templateUrl: './chart-line-property.component.html',
-    styleUrls: ['./chart-line-property.component.scss']
+    styleUrls: ['./chart-line-property.component.scss'],
+    standalone: false
 })
 export class ChartLinePropertyComponent implements OnInit {
     defaultColor = Utils.defaultColor;

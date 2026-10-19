@@ -17,7 +17,8 @@ import { DeviceWebapiPropertyDialogComponent } from './device-webapi-property-di
 @Component({
     selector: 'app-device-map',
     templateUrl: './device-map.component.html',
-    styleUrls: ['./device-map.component.scss']
+    styleUrls: ['./device-map.component.scss'],
+    standalone: false
 })
 export class DeviceMapComponent implements OnInit, OnDestroy, AfterViewInit {
 

@@ -9,7 +9,8 @@ import { Utils } from '../../../_helpers/utils';
 @Component({
     selector: 'app-tag-property-edit-webapi',
     templateUrl: './tag-property-edit-webapi.component.html',
-    styleUrls: ['./tag-property-edit-webapi.component.css']
+    styleUrls: ['./tag-property-edit-webapi.component.css'],
+    standalone: false
 })
 export class TagPropertyEditWebapiComponent implements OnInit, OnDestroy {
 

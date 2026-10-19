@@ -1,4 +1,3 @@
-﻿/* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, Inject, OnInit, OnDestroy, AfterViewInit, ViewChild, ViewContainerRef, ComponentFactoryResolver, ElementRef } from '@angular/core';
 import { ChangeDetectorRef } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA} from '@angular/material/dialog';
@@ -27,7 +26,7 @@ import { GaugeProgressComponent } from '../gauges/controls/gauge-progress/gauge-
 import { GaugeSemaphoreComponent } from '../gauges/controls/gauge-semaphore/gauge-semaphore.component';
 import { HtmlSwitchPropertyComponent } from '../gauges/controls/html-switch/html-switch-property/html-switch-property.component';
 
-import { GridsterItem } from 'angular-gridster2';
+import { GridsterItemConfig } from 'angular-gridster2';
 import { CardConfigComponent, CardConfigType } from './card-config/card-config.component';
 import { CardsViewComponent } from '../cards-view/cards-view.component';
 import { IElementPreview } from './svg-selector/svg-selector.component';
@@ -58,7 +57,8 @@ declare var mysvgeditor: any;
 
 @Component({
     templateUrl: 'editor.component.html',
-    styleUrls: ['editor.component.css']
+    styleUrls: ['editor.component.css'],
+    standalone: false
 })
 
 export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -115,7 +115,7 @@ export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
     gaugeSettingsHide: boolean = false;
     gaugeSettingsLock: boolean = false;
 
-    dashboard: Array<GridsterItem>;
+    dashboard: Array<GridsterItemConfig>;
     cardViewType = ViewType.cards;
     svgViewType = ViewType.svg;
     mapsViewType = ViewType.maps;
@@ -1751,6 +1751,7 @@ interface CopiedAndPasted {
 @Component({
     selector: 'dialog-link-property',
     templateUrl: 'linkproperty.dialog.html',
+    standalone: false
 })
 export class DialogLinkProperty {
     constructor(

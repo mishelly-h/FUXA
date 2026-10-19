@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { MatSelectionList as MatSelectionList } from '@angular/material/list';
@@ -16,9 +15,10 @@ import { ChartLineAndInterpolationsType, ChartLinePropertyComponent } from './ch
 import { EditPlaceholderComponent } from '../../gui-helpers/edit-placeholder/edit-placeholder.component';
 
 @Component({
-  selector: 'app-chart-config',
-  templateUrl: './chart-config.component.html',
-  styleUrls: ['./chart-config.component.scss']
+    selector: 'app-chart-config',
+    templateUrl: './chart-config.component.html',
+    styleUrls: ['./chart-config.component.scss'],
+    standalone: false
 })
 export class ChartConfigComponent implements OnInit {
 

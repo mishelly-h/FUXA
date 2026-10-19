@@ -23,7 +23,8 @@ export const _filter = (opt: DeviceTagOption[], value: string): DeviceTagOption[
 @Component({
     selector: 'flex-variable',
     templateUrl: './flex-variable.component.html',
-    styleUrls: ['./flex-variable.component.scss']
+    styleUrls: ['./flex-variable.component.scss'],
+    standalone: false
 })
 export class FlexVariableComponent implements OnInit {
     @Input() data: any;

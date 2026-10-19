@@ -13,7 +13,8 @@ export interface SchedulerConfirmDialogData {
     selector: 'app-scheduler-confirm-dialog.component',
     templateUrl: './scheduler-confirm-dialog.component.html',
     styleUrls: ['./scheduler-confirm-dialog.component.scss'],
-    encapsulation: ViewEncapsulation.None
+    encapsulation: ViewEncapsulation.None,
+    standalone: false
 })
 export class SchedulerConfirmDialogComponent {
 

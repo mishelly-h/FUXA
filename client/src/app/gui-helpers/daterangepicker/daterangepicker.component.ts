@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/no-host-metadata-property */
 import {
     Component, OnInit, ElementRef, ViewChild, EventEmitter, Output, Input, forwardRef, ViewEncapsulation, ChangeDetectorRef
 } from '@angular/core';
@@ -20,14 +19,15 @@ export enum SideEnum {
     styleUrls: ['./daterangepicker.component.scss'],
     templateUrl: './daterangepicker.component.html',
     host: {
-    '(click)': 'handleInternalClick($event)',
+        '(click)': 'handleInternalClick($event)',
     },
     encapsulation: ViewEncapsulation.None,
     providers: [{
-        provide: NG_VALUE_ACCESSOR,
-        useExisting: forwardRef(() => DaterangepickerComponent),
-        multi: true
-    }]
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => DaterangepickerComponent),
+            multi: true
+        }],
+    standalone: false
 })
 export class DaterangepickerComponent implements OnInit {
     private _old: {start: any; end: any} = {start: null, end: null};

@@ -5,7 +5,8 @@
 // If you don't need the default component typographies but still want the hierarchy styles,
 // you can delete this line and instead use:
 // `@include mat.legacy-typography-hierarchy(mat.define-legacy-typography-config());`
-@include mat.core();
+@include mat.elevation-classes();
+@include mat.app-background();
 
 // tipografie
 $app-font-family: '"Segoe UI","Helvetica Neue","Arial",sans-serif';
@@ -149,11 +150,11 @@ $dark-theme: mat.m2-define-dark-theme((
   color: #fff;
 
   /* Tabs */
-  --mat-tab-header-label-text-color: #fff;
-  --mat-tab-header-label-text-color-hover: #fff;
-  --mat-tab-header-active-label-text-color: #fff;
-  --mat-tab-header-inactive-label-text-color: #fff;
-  --mat-tab-header-disabled-label-text-color: rgba(255,255,255,0.5);
+  --mat-tab-label-text-color: #fff;
+  --mat-tab-label-text-color-hover: #fff;
+  --mat-tab-active-label-text-color: #fff;
+  --mat-tab-inactive-label-text-color: #fff;
+  --mat-tab-disabled-label-text-color: rgba(255,255,255,0.5);
 
   /* Form field / helper */
   --mat-form-field-label-text-color: #fff;
@@ -173,11 +174,11 @@ $dark-theme: mat.m2-define-dark-theme((
 :root {
   color: #111;
 
-  --mat-tab-header-label-text-color: #111;
-  --mat-tab-header-label-text-color-hover: #111;
-  --mat-tab-header-active-label-text-color: #111;
-  --mat-tab-header-inactive-label-text-color: #444;
-  --mat-tab-header-disabled-label-text-color: rgba(0,0,0,0.38);
+  --mat-tab-label-text-color: #111;
+  --mat-tab-label-text-color-hover: #111;
+  --mat-tab-active-label-text-color: #111;
+  --mat-tab-inactive-label-text-color: #444;
+  --mat-tab-disabled-label-text-color: rgba(0,0,0,0.38);
 
   --mat-form-field-label-text-color: #111;
   --mat-form-field-focus-label-text-color: #111;
@@ -192,7 +193,7 @@ $dark-theme: mat.m2-define-dark-theme((
 }
 
 .dark-theme .mat-mdc-tab .mdc-tab__text-label { color: #fff !important; opacity: 1; }
-.dark-theme .mat-mdc-tab-header { --mdc-tab-indicator-active-indicator-color: #fff; }
+.dark-theme .mat-mdc-tab-header { --mat-tab-active-indicator-color: #fff; }
 .dark-theme .mat-mdc-dialog-container .mat-mdc-dialog-title,
 .dark-theme .mat-mdc-dialog-container [mat-dialog-title] {
   color: #fff;
@@ -201,14 +202,14 @@ $dark-theme: mat.m2-define-dark-theme((
 
 .dark-theme .mat-mdc-dialog-container {
   /* Dialog content text (Angular Material v17 / MDC) */
-  --mdc-dialog-supporting-text-color: rgba(255, 255, 255, 0.87);
-  --mdc-dialog-subhead-color: #fff;
+  --mat-dialog-supporting-text-color: rgba(255, 255, 255, 0.87);
+  --mat-dialog-subhead-color: #fff;
   color: rgba(255, 255, 255, 0.87);
 }
 
 .dark-theme .mat-mdc-dialog-container .mat-mdc-icon-button {
-  --mdc-icon-button-icon-color: #fff;
-  --mdc-icon-button-disabled-icon-color: rgba(255, 255, 255, 0.28);
+  --mat-icon-button-icon-color: #fff;
+  --mat-icon-button-disabled-icon-color: rgba(255, 255, 255, 0.28);
   color: #fff;
 }
 
@@ -221,7 +222,7 @@ $dark-theme: mat.m2-define-dark-theme((
 }
 
 .dark-theme .mat-mdc-icon-button {
-  // --mdc-icon-button-icon-color: #fff;
-  // --mdc-icon-button-disabled-icon-color: rgba(255,255,255,0.38);
+  // --mat-icon-button-icon-color: #fff;
+  // --mat-icon-button-disabled-icon-color: rgba(255,255,255,0.38);
   // color: #fff;
 }

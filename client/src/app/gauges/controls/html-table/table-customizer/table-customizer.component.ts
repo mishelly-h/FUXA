@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA as MAT_DIALOG_DATA, MatDialog as MatDialog, MatDialogRef as MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource as MatTableDataSource } from '@angular/material/table';
@@ -10,7 +9,8 @@ import { TableCustomizerCellEditComponent, TableCustomizerCellRowType, TableCust
 @Component({
     selector: 'app-table-customizer',
     templateUrl: './table-customizer.component.html',
-    styleUrls: ['./table-customizer.component.scss']
+    styleUrls: ['./table-customizer.component.scss'],
+    standalone: false
 })
 export class TableCustomizerComponent implements OnInit {
 

@@ -5,7 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 import { Position } from './modal-position.cache';
 
 @Directive({
-    selector: '[mat-dialog-draggable]'
+    selector: '[mat-dialog-draggable]',
+    standalone: false
 })
 export class DialogDraggableDirective implements AfterViewInit {
 

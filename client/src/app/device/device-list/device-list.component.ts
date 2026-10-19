@@ -1,4 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
 import { Component, OnInit, AfterViewInit, ViewChild, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog as MatDialog } from '@angular/material/dialog';
 import { ChangeDetectorRef } from '@angular/core';
@@ -21,7 +20,8 @@ import { TagPropertyService } from '../tag-property/tag-property.service';
     selector: 'app-device-list',
     templateUrl: './device-list.component.html',
     styleUrls: ['./device-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class DeviceListComponent implements OnInit, AfterViewInit {
 

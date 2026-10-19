@@ -1,5 +1,3 @@
-/* eslint-disable @angular-eslint/component-class-suffix */
-/* eslint-disable @angular-eslint/component-selector */
 import { Component, Inject, OnInit, AfterViewInit, OnDestroy, ViewChild, ChangeDetectorRef, ElementRef } from '@angular/core';
 import { MatDialog as MatDialog, MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { interval, Observable, Subject, Subscription } from 'rxjs';
@@ -41,7 +39,8 @@ import { Language } from '../_models/language';
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss']
+    styleUrls: ['./home.component.scss'],
+    standalone: false
 })
 export class HomeComponent implements OnInit, AfterViewInit, OnDestroy {
 
@@ -622,6 +621,7 @@ export interface IiFrame {
 @Component({
     selector: 'user-info',
     templateUrl: 'userinfo.dialog.html',
+    standalone: false
 })
 export class DialogUserInfo {
     constructor(

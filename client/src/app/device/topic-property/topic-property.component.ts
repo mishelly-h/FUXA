@@ -12,7 +12,8 @@ import { JsonUtils } from '../../_helpers/json-utils';
 @Component({
     selector: 'app-topic-property',
     templateUrl: './topic-property.component.html',
-    styleUrls: ['./topic-property.component.scss']
+    styleUrls: ['./topic-property.component.scss'],
+    standalone: false
 })
 export class TopicPropertyComponent implements OnInit, OnDestroy {
 
@@ -24,7 +25,7 @@ export class TopicPropertyComponent implements OnInit, OnDestroy {
 
     editMode = false;
     topicSource = '#';
-    topicsList = {};
+    topicsList: { [topic: string]: any } = {};
     topicContent: TopicContent[] = [];
     topicSelectedSubType = 'raw';
     discoveryError = '';

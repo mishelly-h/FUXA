@@ -1,10 +1,10 @@
-/* eslint-disable @angular-eslint/component-selector */
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
     selector: 'range-number',
     templateUrl: './range-number.component.html',
-    styleUrls: ['./range-number.component.css']
+    styleUrls: ['./range-number.component.css'],
+    standalone: false
 })
 export class RangeNumberComponent implements OnInit {
     @Input() range: IItemRange = { min: 0, max: 100 };
