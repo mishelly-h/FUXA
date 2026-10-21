@@ -1,8 +1,9 @@
 import {
     AfterViewInit,
+    afterNextRender,
     ChangeDetectionStrategy, ChangeDetectorRef,
     Component, ElementRef, EventEmitter, forwardRef, Inject, Input, OnDestroy, OnInit, QueryList,
-    ViewChild
+    Injector, ViewChild
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatSelect as MatSelect } from '@angular/material/select';
@@ -139,7 +140,8 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
 
     constructor(@Inject(MatSelect) public matSelect: MatSelect,
         private translateService: TranslateService,
-        private changeDetectorRef: ChangeDetectorRef) {
+        private changeDetectorRef: ChangeDetectorRef,
+        private injector: Injector) {
     }
 
     ngOnInit() {
@@ -163,7 +165,7 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
             .subscribe((opened) => {
                 if (opened) {
                     // focus the search field when opening
-                    this._focus();
+                    this.afterPanelRender(() => this._focus());
                 } else {
                     // clear it when closing
                     this._reset();
@@ -206,8 +208,14 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
 
     ngAfterViewInit() {
         this.setOverlayClass();
-        this.translateService.get('general.search').subscribe((txt: string) => { this.placeholderLabel = txt; });
-        this.translateService.get('general.search-notfound').subscribe((txt: string) => { this.noEntriesFoundLabel = txt; });
+        this.translateService.get('general.search').subscribe((txt: string) => {
+            this.placeholderLabel = txt;
+            this.changeDetectorRef.markForCheck();
+        });
+        this.translateService.get('general.search-notfound').subscribe((txt: string) => {
+            this.noEntriesFoundLabel = txt;
+            this.changeDetectorRef.markForCheck();
+        });
     }
 
     /**
@@ -265,7 +273,11 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
         }
         // save and restore scrollTop of panel, since it will be reset by focus()
         // note: this is hacky
-        const panel = this.matSelect.panel.nativeElement;
+        const panel = this.matSelect.panel?.nativeElement;
+        if (!panel) {
+            this.searchSelectInput.nativeElement.focus();
+            return;
+        }
         const scrollTop = panel.scrollTop;
 
         // focus
@@ -305,24 +317,35 @@ export class MatSelectSearchComponent implements OnInit, OnDestroy, AfterViewIni
             .pipe(takeUntil(this._onDestroy))
             .subscribe((opened: boolean) => {
                 if (opened) {
-                // note: this is hacky, but currently there is no better way to do this
-                let element: HTMLElement = this.searchSelectInput.nativeElement;
-                let overlayElement: HTMLElement;
-                while (element = element.parentElement) {
-                    if (element.classList.contains('cdk-overlay-pane')) {
-                    overlayElement = element;
-                    break;
-                    }
-                }
-                if (overlayElement) {
-                    overlayElement.classList.add(overlayClass);
-                }
+                    this.afterPanelRender(() => {
+                        // note: this is hacky, but currently there is no better way to do this
+                        let element: HTMLElement = this.searchSelectInput.nativeElement;
+                        let overlayElement: HTMLElement;
+                        while (element = element.parentElement) {
+                            if (element.classList.contains('cdk-overlay-pane')) {
+                                overlayElement = element;
+                                break;
+                            }
+                        }
+                        if (overlayElement) {
+                            overlayElement.classList.add(overlayClass);
+                        }
+                    });
                 }
             });
 
         this.overlayClassSet = true;
     }
 
+    private afterPanelRender(callback: () => void) {
+        afterNextRender(() => {
+            if (this.matSelect.panel) {
+                callback();
+            } else {
+                setTimeout(callback, 0);
+            }
+        }, { injector: this.injector });
+    }
 
     /**
      * Initializes handling <mat-select [multiple]="true">
