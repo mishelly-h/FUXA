@@ -18,7 +18,8 @@ const clientOnlyToDisable = ['messages', 'users', 'userRoles', 'plugins', 'notif
 @Component({
     selector: 'app-setup',
     templateUrl: './setup.component.html',
-    styleUrls: ['./setup.component.scss']
+    styleUrls: ['./setup.component.scss'],
+    standalone: false
 })
 export class SetupComponent {
 

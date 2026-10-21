@@ -8,9 +8,10 @@ import { UserInfo } from '../../users/user-edit/user-edit.component';
 import { MatDialogRef as MatDialogRef, MAT_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-script-permission',
-  templateUrl: './script-permission.component.html',
-  styleUrls: ['./script-permission.component.css']
+    selector: 'app-script-permission',
+    templateUrl: './script-permission.component.html',
+    styleUrls: ['./script-permission.component.css'],
+    standalone: false
 })
 export class ScriptPermissionComponent implements OnInit, OnDestroy {
 

@@ -20,7 +20,8 @@ declare var SVG: any;
 @Component({
     selector: 'app-pipe-property',
     templateUrl: './pipe-property.component.html',
-    styleUrls: ['./pipe-property.component.scss']
+    styleUrls: ['./pipe-property.component.scss'],
+    standalone: false
 })
 export class PipePropertyComponent implements OnInit  {
     @Input() data: PipePropertyData;

@@ -13,7 +13,8 @@ declare var Raphael: any;
 
 @Component({
     templateUrl: 'lab.component.html',
-    styleUrls: ['lab.component.css']
+    styleUrls: ['lab.component.css'],
+    standalone: false
 })
 
 export class LabComponent implements OnInit, OnDestroy {

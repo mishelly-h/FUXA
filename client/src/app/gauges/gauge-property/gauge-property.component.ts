@@ -16,7 +16,8 @@ import { HtmlButtonComponent } from '../controls/html-button/html-button.compone
     selector: 'gauge-property',
     templateUrl: './gauge-property.component.html',
     styleUrls: ['./gauge-property.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class GaugePropertyComponent implements AfterViewInit {
 

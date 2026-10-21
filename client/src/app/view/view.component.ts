@@ -10,9 +10,10 @@ import { FuxaViewComponent } from '../fuxa-view/fuxa-view.component';
 import panzoom from 'panzoom';
 
 @Component({
-  selector: 'app-view',
-  templateUrl: './view.component.html',
-  styleUrls: ['./view.component.scss']
+    selector: 'app-view',
+    templateUrl: './view.component.html',
+    styleUrls: ['./view.component.scss'],
+    standalone: false
 })
 export class ViewComponent implements OnInit, AfterViewInit, OnDestroy {
 

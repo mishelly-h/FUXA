@@ -7,7 +7,8 @@ import { Utils } from '../../_helpers/utils';
 @Component({
     selector: 'app-api-key-property',
     templateUrl: './api-key-property.component.html',
-    styleUrls: ['./api-key-property.component.scss']
+    styleUrls: ['./api-key-property.component.scss'],
+    standalone: false
 })
 export class ApiKeyPropertyComponent implements OnInit {
 

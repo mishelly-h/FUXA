@@ -11,7 +11,8 @@ import { ProjectService } from '../_services/project.service';
 @Component({
     selector: 'app-cards-view',
     templateUrl: './cards-view.component.html',
-    styleUrls: ['./cards-view.component.scss']
+    styleUrls: ['./cards-view.component.scss'],
+    standalone: false
 })
 export class CardsViewComponent implements OnInit, AfterViewInit {
 

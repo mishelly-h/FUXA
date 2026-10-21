@@ -23,7 +23,8 @@ import { ConfirmDialogComponent, ConfirmDialogData } from '../../../../gui-helpe
 @Component({
     selector: 'app-chart-property',
     templateUrl: './chart-property.component.html',
-    styleUrls: ['./chart-property.component.scss']
+    styleUrls: ['./chart-property.component.scss'],
+    standalone: false
 })
 export class ChartPropertyComponent implements OnInit, OnDestroy {
 

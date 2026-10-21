@@ -58,7 +58,8 @@ declare var mysvgeditor: any;
 
 @Component({
     templateUrl: 'editor.component.html',
-    styleUrls: ['editor.component.css']
+    styleUrls: ['editor.component.css'],
+    standalone: false
 })
 
 export class EditorComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -1751,6 +1752,7 @@ interface CopiedAndPasted {
 @Component({
     selector: 'dialog-link-property',
     templateUrl: 'linkproperty.dialog.html',
+    standalone: false
 })
 export class DialogLinkProperty {
     constructor(

@@ -5,7 +5,8 @@ import { ReportItemText } from '../../../_models/report';
 @Component({
     selector: 'app-report-item-text',
     templateUrl: './report-item-text.component.html',
-    styleUrls: ['./report-item-text.component.css']
+    styleUrls: ['./report-item-text.component.css'],
+    standalone: false
 })
 export class ReportItemTextComponent {
 

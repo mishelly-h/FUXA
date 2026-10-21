@@ -26,6 +26,9 @@ $multiple-check-width: 33px;
     transform: none !important;
     max-height: 350px;
 }
+::ng-deep div.mat-mdc-select-panel.mat-select-search-panel {
+    position: static;
+}
 
 .mat-select-search-input {
     padding: 16px;
@@ -52,4 +55,7 @@ $multiple-check-width: 33px;
     /* correct offsetY so that the selected option is at the position of the select box when opening */
     // margin-top: -50px;
     margin-top: 40px;
+}
+::ng-deep .cdk-overlay-pane-select-search[style*="position: static"] {
+    position: relative !important;
 }

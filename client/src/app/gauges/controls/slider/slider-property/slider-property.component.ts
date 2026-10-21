@@ -14,7 +14,8 @@ import { Define } from '../../../../_helpers/define';
 @Component({
     selector: 'app-slider-property',
     templateUrl: './slider-property.component.html',
-    styleUrls: ['./slider-property.component.scss']
+    styleUrls: ['./slider-property.component.scss'],
+    standalone: false
 })
 export class SliderPropertyComponent implements OnInit, AfterViewInit {
 

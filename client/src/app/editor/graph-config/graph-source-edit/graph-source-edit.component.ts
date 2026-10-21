@@ -7,7 +7,8 @@ import { GraphSource } from '../../../_models/graph';
 @Component({
     selector: 'app-graph-source-edit',
     templateUrl: './graph-source-edit.component.html',
-    styleUrls: ['./graph-source-edit.component.css']
+    styleUrls: ['./graph-source-edit.component.css'],
+    standalone: false
 })
 export class GraphSourceEditComponent {
     defaultColor = Utils.defaultColor;

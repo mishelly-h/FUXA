@@ -3,14 +3,14 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { HttpClient, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { MaterialModule } from './material.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerDirective } from 'ngx-color-picker';
 
 import { ToastrModule } from 'ngx-toastr';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { TranslateModule, provideTranslateService } from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { AngularDraggableModule } from 'angular2-draggable';
 import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 import { NgxDaterangepickerMd } from './gui-helpers/daterangepicker';
@@ -144,7 +144,7 @@ import { GraphBarComponent } from './gauges/controls/html-graph/graph-bar/graph-
 import { GraphPieComponent } from './gauges/controls/html-graph/graph-pie/graph-pie.component';
 import { GraphPropertyComponent } from './gauges/controls/html-graph/graph-property/graph-property.component';
 import { GraphBaseComponent } from './gauges/controls/html-graph/graph-base/graph-base.component';
-import { NgChartsModule } from 'ng2-charts';
+import { BaseChartDirective, provideCharts, withDefaultRegisterables } from 'ng2-charts';
 import { IframePropertyComponent } from './gauges/controls/html-iframe/iframe-property/iframe-property.component';
 import { TablePropertyComponent } from './gauges/controls/html-table/table-property/table-property.component';
 import { TableCustomizerComponent } from './gauges/controls/html-table/table-customizer/table-customizer.component';
@@ -247,10 +247,6 @@ import { RecipeProgressComponent } from './recipes/recipe-progress/recipe-progre
 import { HtmlRecipeViewComponent, HtmlRecipeComponent } from './gauges/controls/html-recipe/html-recipe.component';
 import { HtmlRecipeNewDialogComponent } from './gauges/controls/html-recipe/html-recipe-new-dialog/html-recipe-new-dialog.component';
 import { RecipePropertyComponent } from './gauges/controls/html-recipe/recipe-property/recipe-property.component';
-
-export function createTranslateLoader(http: HttpClient) {
-    return new TranslateHttpLoader(http, './assets/i18n/', '.json');
-}
 
 export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
     showDelay: 2000,
@@ -452,7 +448,7 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
         routing,
         MaterialModule,
         BrowserAnimationsModule,
-        ColorPickerModule,
+        ColorPickerDirective,
         AngularDraggableModule,
         MatSelectSearchModule,
         ToastrModule.forRoot({
@@ -460,18 +456,16 @@ export const myCustomTooltipDefaults: MatTooltipDefaultOptions = {
             positionClass: 'toast-bottom-right',
             preventDuplicates: false
         }),
-        TranslateModule.forRoot({
-            loader: {
-                provide: TranslateLoader,
-                useFactory: createTranslateLoader,
-                deps: [HttpClient]
-            }
-        }),
+        TranslateModule,
         GridsterModule,
-        NgChartsModule,
+        BaseChartDirective,
         CodemirrorModule,
         NgxDaterangepickerMd.forRoot(),
         FrameworkModule], providers: [
+        provideTranslateService({
+            loader: provideTranslateHttpLoader({ prefix: './assets/i18n/', suffix: '.json' })
+        }),
+        provideCharts(withDefaultRegisterables()),
         // providersResourceService,
         ResClientService,
         ResWebApiService,

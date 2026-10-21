@@ -3,9 +3,10 @@ import { MyFileService, TransferResult } from '../../_services/my-file.service';
 import { ToastNotifierService } from '../../_services/toast-notifier.service';
 
 @Component({
-  selector: 'app-file-upload',
-  templateUrl: './file-upload.component.html',
-  styleUrls: ['./file-upload.component.scss']
+    selector: 'app-file-upload',
+    templateUrl: './file-upload.component.html',
+    styleUrls: ['./file-upload.component.scss'],
+    standalone: false
 })
 export class FileUploadComponent {
 

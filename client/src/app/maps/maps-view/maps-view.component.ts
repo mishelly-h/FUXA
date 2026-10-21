@@ -29,7 +29,8 @@ interface MarkerBinding {
 @Component({
     selector: 'app-maps-view',
     templateUrl: './maps-view.component.html',
-    styleUrls: ['./maps-view.component.scss']
+    styleUrls: ['./maps-view.component.scss'],
+    standalone: false
 })
 export class MapsViewComponent implements AfterViewInit, OnDestroy {
 

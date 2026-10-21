@@ -31,6 +31,7 @@ declare const numeral: any;
     selector: 'app-data-table',
     templateUrl: './data-table.component.html',
     styleUrls: ['./data-table.component.scss'],
+    standalone: false
 })
 export class DataTableComponent implements OnInit, AfterViewInit, OnDestroy {
 

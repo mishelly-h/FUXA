@@ -79,7 +79,8 @@ import {
         </a>
         <ng-content></ng-content>
     </div>
-  `
+  `,
+    standalone: false
 })
 
 export class NgxFabButtonComponent implements AfterContentInit, OnDestroy, OnChanges {

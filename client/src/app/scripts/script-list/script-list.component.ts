@@ -16,7 +16,8 @@ import { ScriptModeComponent, ScriptModeType } from '../script-mode/script-mode.
 @Component({
     selector: 'app-script-list',
     templateUrl: './script-list.component.html',
-    styleUrls: ['./script-list.component.scss']
+    styleUrls: ['./script-list.component.scss'],
+    standalone: false
 })
 export class ScriptListComponent implements OnInit, AfterViewInit, OnDestroy {
 

@@ -9,7 +9,8 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 @Component({
     selector: 'app-tag-property-edit-opcua',
     templateUrl: './tag-property-edit-opcua.component.html',
-    styleUrls: ['./tag-property-edit-opcua.component.scss']
+    styleUrls: ['./tag-property-edit-opcua.component.scss'],
+    standalone: false
 })
 export class TagPropertyEditOpcuaComponent implements OnInit, OnDestroy {
 

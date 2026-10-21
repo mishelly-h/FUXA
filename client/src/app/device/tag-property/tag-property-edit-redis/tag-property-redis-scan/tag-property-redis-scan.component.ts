@@ -11,7 +11,8 @@ import { Device } from '../../../../_models/device';
 @Component({
     selector: 'app-tag-property-redis-scan',
     templateUrl: './tag-property-redis-scan.component.html',
-    styleUrls: ['./tag-property-redis-scan.component.scss']
+    styleUrls: ['./tag-property-redis-scan.component.scss'],
+    standalone: false
 })
 export class TagPropertyRedisScanComponent implements OnInit, OnDestroy {
     @Output() result = new EventEmitter<TagPropertyRedisResult>();

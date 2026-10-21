@@ -16,7 +16,8 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
     selector: 'app-language-text-list',
     templateUrl: './language-text-list.component.html',
-    styleUrls: ['./language-text-list.component.scss']
+    styleUrls: ['./language-text-list.component.scss'],
+    standalone: false
 })
 export class LanguageTextListComponent implements OnInit, AfterViewInit, OnDestroy {
 
